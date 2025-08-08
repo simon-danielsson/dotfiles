@@ -1,0 +1,36 @@
+/* Example markdown.css */
+
+body {
+  font-family: "Helvetica", monospace;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #262626;
+}
+li.task-list-item input[type="checkbox"] {
+  transform: scale(1.2);
+  margin-right: 0.5em;
+}
+div.markdown-alert {
+  border-left: 4px solid #0366d6;
+  background-color: #f1f8ff;
+  padding: 0.8em 1em;
+  margin: 1em 0;
+  border-radius: 6px;
+  font-family: sans-serif;
+}
+/* Hide bullets for checkboxes */
+li.task-list-item {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 1.4em;
+  position: relative;
+}
+
+li.task-list-item input[type="checkbox"] {
+  position: absolute;
+  left: 0;
+}
+pre, code {
+  white-space: pre;
+  tab-size: 4;
+}
