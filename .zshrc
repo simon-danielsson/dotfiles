@@ -1,5 +1,5 @@
+# powerlevel10k and oh-my-zsh
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
         source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -15,11 +15,14 @@ source $ZSH/oh-my-zsh.sh
 # fzf
 source <(fzf --zsh)
 
-# folders and files
-alias mkcd='mkdir -p "$1" && cd "$1"'
+# -------
+# aliases
+# -------
+
+# clean empty directories
 alias cleanempty='find . -type d -empty -delete'
 
-# kill all nvim and tmux processes
+# kill all nvim and tmux processes, and exit ghostty
 alias q="/Users/simondanielsson/dev/bash-scripts/kill-nvim-and-tmux.sh"
 
 # rust and cargo aliases
@@ -28,11 +31,11 @@ alias rc="cargo check"
 alias rb="cargo build --release"
 alias rd="cargo doc --open"
 
-# python aliases
+# python aliases (be careful if cwd has more than one py file)
 alias p="python3 *.py"
 
-# vi to nvim
-alias vi="nvim"
+# nvim
+alias v="nvim"
 
 # start nvim with godotpipe
 alias gvim="/Users/simondanielsson/dev/bash-scripts/start-nvim-with-godotpipe.sh"
