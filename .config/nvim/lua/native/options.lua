@@ -1,64 +1,60 @@
 -- Basic options
-vim.opt.number = true                               -- Line numbers
-vim.opt.relativenumber = true                       -- Relative line numbers
-vim.opt.cursorline = true                           -- Highlight current line
-vim.opt.wrap = true                                 -- Wrap lines
-vim.opt.linebreak = true                            -- Don't wrap in the middle of a word
-vim.opt.showbreak = '󱞩 '                            -- Symbol at beginning of wrapped line
-vim.opt.scrolloff = 10                              -- Keep 10 lines above/below cursor
-vim.opt.sidescrolloff = 8                           -- Keep 8 columns left/right of cursor
--- vim.opt.colorcolumn = "85"                          -- Highlight column 100
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.cursorline = true
+vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.opt.showbreak = '󱞩 '
+vim.opt.scrolloff = 10
+vim.opt.sidescrolloff = 8
+-- vim.opt.colorcolumn = "85"
 
 -- Behavior settings
-vim.opt.clipboard = 'unnamedplus'                   -- Use system clipboard
-vim.opt.inccommand = 'split'                        -- Show results in split window
-vim.opt.hidden = true                               -- Allow hidden buffers
-vim.opt.mouse = "a"                                 -- Enable mouse support
-vim.opt.iskeyword:append({"-", "_", })                       -- Treat dash as part of word
-vim.opt.modifiable = true                           -- Allow buffer modifications
-vim.opt.backspace = "indent,eol,start"              -- Better backspace behavior
-vim.opt.autochdir = false                           -- Don't auto change directory
-vim.opt.iskeyword:append("-")                       -- Treat dash as part of word
-vim.opt.path:append("**")                           -- include subdirectories in search
-vim.opt.splitbelow = true                           -- Horizontal splits go below
-vim.opt.splitright = true                           -- Vertical splits go right
-vim.o.expandtab = true                              -- Use spaces instead of tabs
-vim.o.tabstop = 8                                   -- Number of visual spaces per tab
-vim.o.shiftwidth = 8                                -- Number of spaces for each autoindent
-vim.o.softtabstop = 8                               -- Number of spaces when pressing <Tab>
-vim.o.smartindent = true                            -- Enable smart indenting
-vim.o.autoindent = true                             -- Keep indent from past line
-vim.o.laststatus = 3                                -- Set global statusline
+vim.opt.clipboard = 'unnamedplus'
+vim.opt.inccommand = 'split'
+vim.opt.hidden = true
+vim.opt.mouse = "a"
+vim.opt.iskeyword:append({"-", "_", })
+vim.opt.modifiable = true
+vim.opt.backspace = "indent,eol,start"
+vim.opt.autochdir = false
+vim.opt.iskeyword:append("-")
+vim.opt.path:append("**")
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.o.expandtab = true
+vim.o.tabstop = 8
+vim.o.shiftwidth = 8
+vim.o.softtabstop = 8
+vim.o.smartindent = true
+vim.o.autoindent = true
+vim.o.laststatus = 3
 vim.o.mouse = 'a'
 vim.o.showmode = false
-vim.o.cmdheight = 0
 
 -- Search options
-vim.opt.hlsearch = true                             -- Highlight search results
-vim.opt.ignorecase = true                           -- Case insensitive search
-vim.opt.smartcase = true                            -- Case sensitive if uppercase in search
-vim.opt.incsearch = true                            -- Show matches as you type
+vim.opt.hlsearch = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.incsearch = true
 
 -- Aesthetic options
-vim.opt.termguicolors = true                        -- Enable 24-bit colors
-vim.opt.background = "dark"                         -- Optimize text for dark theme
-vim.opt.list = true                                 -- Special characters
-vim.opt.listchars:append({
-        tab = "│ ",
-        trail = "•",
-})
+vim.opt.termguicolors = true
+-- vim.opt.background = "dark"
+vim.opt.list = true
+vim.opt.listchars = { tab = "│ ", trail = "•" }
 
 -- File handling
-vim.opt.backup = false                              -- Don't create backup files
-vim.opt.writebackup = false                         -- Don't create backup before writing
-vim.opt.swapfile = false                            -- Don't create swap files
-vim.opt.undofile = true                             -- Persistent undo
-vim.opt.undodir = vim.fn.expand("~/.vim/undodir")   -- Undo directory
-vim.opt.updatetime = 300                            -- Faster completion
-vim.opt.timeoutlen = 500                            -- Key timeout duration
-vim.opt.ttimeoutlen = 0                             -- Key code timeout
-vim.opt.autoread = true                             -- Auto reload files changed outside vim
-vim.opt.autowrite = false                           -- Don't auto save
+vim.opt.backup = false
+vim.opt.writebackup = false
+vim.opt.swapfile = false
+vim.opt.undofile = true
+vim.opt.undodir = vim.fn.expand("~/.vim/undodir")
+vim.opt.updatetime = 300
+vim.opt.timeoutlen = 500
+vim.opt.ttimeoutlen = 0
+vim.opt.autoread = true
+vim.opt.autowrite = false
 
 -- Performance improvements
 vim.opt.redrawtime = 10000
@@ -75,10 +71,10 @@ vim.api.nvim_create_autocmd("FileType", {
                 vim.bo.tabstop = 8
                 vim.bo.shiftwidth = 8
                 vim.bo.expandtab = true
-                vim.o.tabstop = 8                                   -- Number of visual spaces per tab
-                vim.o.shiftwidth = 8                                -- Number of spaces for each autoindent
-                vim.o.softtabstop = 8                               -- Number of spaces when pressing <Tab>
-                vim.o.smartindent = true                            -- Enable smart indenting
-                vim.o.autoindent = true                             -- Keep indent from past line
+                vim.o.tabstop = 8
+                vim.o.shiftwidth = 8
+                vim.o.softtabstop = 8
+                vim.o.smartindent = true
+                vim.o.autoindent = true
         end,
 })
