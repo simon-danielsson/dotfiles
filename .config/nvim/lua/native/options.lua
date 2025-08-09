@@ -1,53 +1,110 @@
--- Basic options
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.cursorline = true
-vim.opt.wrap = true
-vim.opt.linebreak = true
-vim.opt.showbreak = '󱞩 '
-vim.opt.scrolloff = 10
-vim.opt.sidescrolloff = 8
+local opt = vim.opt
+local g = vim.g
+local o = vim.o
 
--- Behavior settings
-vim.opt.clipboard = 'unnamedplus'
-vim.opt.inccommand = 'split'
-vim.opt.hidden = true
-vim.opt.mouse = "a"
-vim.opt.iskeyword:append({"-", "_", })
-vim.opt.modifiable = true
-vim.opt.backspace = "indent,eol,start"
-vim.opt.autochdir = false
-vim.opt.iskeyword:append("-")
-vim.opt.path:append("**")
-vim.opt.splitbelow = true
-vim.opt.splitright = true
-vim.o.expandtab = true
-vim.o.tabstop = 8
-vim.o.shiftwidth = 8
-vim.o.softtabstop = 8
-vim.o.smartindent = true
-vim.o.autoindent = true
-vim.o.laststatus = 3
-vim.o.mouse = 'a'
-vim.o.showmode = false
+-- ======================================================
+-- Line Numbers
+-- ======================================================
 
--- Search options
-vim.opt.hlsearch = true
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.incsearch = true
-vim.opt.wildmenu = true
-vim.opt.wildmode = "longest:full,full"
-vim.opt.wildoptions = "pum,fuzzy"
-vim.opt.wildignore:append({ "*.o", "*.obj", "*.pyc", "*.class", "*.jar" })
+opt.number = true
+opt.relativenumber = true
 
--- Aesthetic options
-vim.opt.guicursor = "n-v-c:block-blinkon1,i-ci-ve:ver25-blinkon1,r-cr:hor20-blinkon1"
-vim.opt.termguicolors = true
-vim.opt.numberwidth = 4
-vim.opt.list = true
-vim.opt.listchars = { tab = "│ ", trail = "•" }
-vim.opt.fillchars = {
+-- ======================================================
+-- Wrapping & Linebreaks
+-- ======================================================
+
+opt.wrap = true
+opt.linebreak = true
+opt.showbreak = '󱞩 '
+opt.scrolloff = 10
+opt.sidescrolloff = 8
+
+-- ======================================================
+-- Clipboard
+-- ======================================================
+
+opt.clipboard = 'unnamedplus'
+
+-- ======================================================
+-- Editing
+-- ======================================================
+
+opt.iskeyword:append({"-", "_", })
+opt.backspace = "indent,eol,start"
+opt.modifiable = true
+opt.completeopt = { "menu", "menuone" }
+
+-- ======================================================
+-- Windows, Splits & Buffers
+-- ======================================================
+
+opt.splitbelow = true
+opt.autochdir = false
+opt.splitright = true
+opt.inccommand = 'split'
+opt.hidden = true
+
+-- ======================================================
+-- Cursor & Statusline
+-- ======================================================
+
+o.mouse = 'a'
+opt.mouse = "a"
+opt.cursorline = true
+o.showmode = false
+o.laststatus = 3
+opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,"
+.. "a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,"
+.. "sm:block-blinkwait175-blinkoff150-blinkon175"
+
+-- ======================================================
+-- Indenting & Tabs
+-- ======================================================
+
+o.expandtab = true
+o.tabstop = 8
+o.shiftwidth = 8
+o.softtabstop = 8
+o.smartindent = true
+o.autoindent = true
+
+vim.api.nvim_create_autocmd("FileType", {
+        pattern = "*",
+        callback = function()
+                vim.bo.tabstop = 8
+                vim.bo.shiftwidth = 8
+                vim.bo.expandtab = true
+                o.tabstop = 8
+                o.shiftwidth = 8
+                o.softtabstop = 8
+                o.smartindent = true
+                o.autoindent = true
+        end,
+})
+
+-- ======================================================
+-- Search
+-- ======================================================
+
+opt.path:append("**")
+opt.hlsearch = true
+opt.ignorecase = true
+opt.smartcase = true
+opt.incsearch = true
+opt.wildmenu = true
+opt.wildmode = "longest:full,full"
+opt.wildoptions = "pum,fuzzy"
+opt.wildignore:append({ "*.o", "*.obj", "*.pyc", "*.class", "*.jar" })
+
+-- ======================================================
+-- Appearance
+-- ======================================================
+
+opt.termguicolors = true
+opt.numberwidth = 4
+opt.list = true
+opt.listchars = { tab = "│ ", trail = "•" }
+opt.fillchars = {
         horiz = "━",
         horizup = "┻",
         horizdown = "┳",
@@ -63,56 +120,48 @@ vim.opt.fillchars = {
         foldclose = "▶",
         foldopen = "▼",
 }
--- File handling
-vim.opt.backup = false
-vim.opt.writebackup = false
-vim.opt.swapfile = false
-vim.opt.undofile = true
-vim.opt.undodir = vim.fn.expand("~/.vim/undodir")
-vim.opt.updatetime = 250
-vim.opt.timeoutlen = 300
-vim.opt.ttimeoutlen = 0
-vim.opt.autoread = true
-vim.opt.autowrite = false
-vim.opt.confirm = false
 
--- Performance improvements
-vim.opt.redrawtime = 10000
-vim.opt.maxmempattern = 20000
+-- ======================================================
+-- File Handling
+-- ======================================================
 
-vim.api.nvim_create_autocmd("FileType", {
-        pattern = "*",
-        callback = function()
-                vim.bo.tabstop = 8
-                vim.bo.shiftwidth = 8
-                vim.bo.expandtab = true
-                vim.o.tabstop = 8
-                vim.o.shiftwidth = 8
-                vim.o.softtabstop = 8
-                vim.o.smartindent = true
-                vim.o.autoindent = true
-        end,
-})
+opt.backup = false
+opt.writebackup = false
+opt.swapfile = false
+opt.undofile = true
+opt.undodir = vim.fn.expand("~/.vim/undodir")
+opt.updatetime = 250
+opt.timeoutlen = 300
+opt.ttimeoutlen = 0
+opt.autoread = true
+opt.autowrite = false
+opt.confirm = false
 
--- Don't load
-vim.g.loaded_gzip = 1
-vim.g.loaded_netrwPlugin = 1
-vim.g.loaded_tarPlugin = 1
-vim.g.loaded_tutor = 1
-vim.g.loaded_zipPlugin = 1
-vim.g.loaded_2html_plugin = 1
-vim.g.loaded_osc52 = 1
-vim.g.loaded_tohtml = 1
-vim.g.loaded_getscript = 1
-vim.g.loaded_getscriptPlugin = 1
-vim.g.loaded_logipat = 1
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwSettings = 1
-vim.g.loaded_netrwFileHandlers = 1
-vim.g.loaded_tar = 1
-vim.g.loaded_rrhelper = 1
-vim.g.loaded_zip = 1
-vim.g.loaded_synmenu = 1
-vim.g.loaded_bugreport = 1
-vim.g.loaded_vimball = 1
-vim.g.loaded_vimballPlugin = 1
+-- ======================================================
+-- Performance Improvements
+-- ======================================================
+
+opt.redrawtime = 10000
+opt.maxmempattern = 20000
+
+g.loaded_gzip = 1
+g.loaded_netrwPlugin = 1
+g.loaded_tarPlugin = 1
+g.loaded_tutor = 1
+g.loaded_zipPlugin = 1
+g.loaded_2html_plugin = 1
+g.loaded_osc52 = 1
+g.loaded_tohtml = 1
+g.loaded_getscript = 1
+g.loaded_getscriptPlugin = 1
+g.loaded_logipat = 1
+g.loaded_netrw = 1
+g.loaded_netrwSettings = 1
+g.loaded_netrwFileHandlers = 1
+g.loaded_tar = 1
+g.loaded_rrhelper = 1
+g.loaded_zip = 1
+g.loaded_synmenu = 1
+g.loaded_bugreport = 1
+g.loaded_vimball = 1
+g.loaded_vimballPlugin = 1

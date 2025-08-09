@@ -1,6 +1,9 @@
 local keymap = vim.keymap.set
 
+-- ======================================================
 -- Leader
+-- ======================================================
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -8,7 +11,6 @@ vim.g.maplocalleader = " "
 -- Local Navigation
 -- ======================================================
 
--- "Delete" stock insert mode keybinds and remap movement keys
 keymap("n", "i", "<Nop>")
 keymap("n", "I", "<Nop>")
 keymap("n", "o", "<Nop>")
@@ -18,11 +20,65 @@ keymap({ "n", "v" }, "e", "j", { desc = "Move down" })
 keymap({ "n", "v" }, "o", "k", { desc = "Move up" })
 keymap({ "n", "v" }, "i", "l", { desc = "Move right" })
 
--- Center screen when jumping
 keymap("n", ">", "nzzzv", { desc = "Next search result (centered)" })
 keymap("n", "<", "Nzzzv", { desc = "Previous search result (centered)" })
 keymap("n", "}", "}zz", { desc = "Next empty line (centered)" })
 keymap("n", "{", "{zz", { desc = "Previous empty line (centered)" })
+
+keymap("n", "<C-e>", function()
+        vim.diagnostic.goto_prev()
+        vim.cmd("normal! zz")
+end, { desc = "Go to previous diagnostic" })
+keymap("n", "<C-o>", function()
+        vim.diagnostic.goto_next()
+        vim.cmd("normal! zz")
+end, { desc = "Go to next diagnostic" })
+
+-- ======================================================
+-- Global Navigation
+-- ======================================================
+
+-- Cycle through open buffers
+keymap("n", "_", function()
+        local bufs = vim.api.nvim_list_bufs()
+        -- Filter only listed and loaded buffers
+        local open_bufs = {}
+        for _, bufnr in ipairs(bufs) do
+                if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_option(bufnr, "buflisted") then
+                        table.insert(open_bufs, bufnr)
+                end
+        end
+        if #open_bufs == 0 then return end
+        local current = vim.api.nvim_get_current_buf()
+        local idx = nil
+        for i, bufnr in ipairs(open_bufs) do
+                if bufnr == current then
+                        idx = i
+                        break
+                end
+        end
+        local next_idx = (idx % #open_bufs) + 1
+        vim.api.nvim_set_current_buf(open_bufs[next_idx])
+end, { desc = "Cycle through open buffers with _" })
+
+keymap("n", "-", function()
+        vim.cmd("wincmd w")
+end, { desc = "Cycle through splits" })
+
+-- ======================================================
+-- General
+-- ======================================================
+
+keymap("n", "<Esc>", "<cmd>nohlsearch<CR>",
+        { desc = "Clear search highlights" })
+
+-- Write
+keymap("n", "<Leader>w", "<cmd>w<CR>",
+        { desc = "Write" })
+
+-- Quit
+keymap("n", "<Leader>q", "<cmd>q<CR>",
+        { desc = "Quit" })
 
 -- ======================================================
 -- Editing
@@ -69,59 +125,16 @@ keymap("v", "<S-e>", ":m '>+2<CR>gv=gv", { desc = "Move selection down" })
 keymap("v", "<S-o>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 -- ======================================================
--- Global Navigation
--- ======================================================
-
--- Cycle through open buffers
-keymap("n", "_", function()
-        local bufs = vim.api.nvim_list_bufs()
-        -- Filter only listed and loaded buffers
-        local open_bufs = {}
-        for _, bufnr in ipairs(bufs) do
-                if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_option(bufnr, "buflisted") then
-                        table.insert(open_bufs, bufnr)
-                end
-        end
-        if #open_bufs == 0 then return end
-        local current = vim.api.nvim_get_current_buf()
-        local idx = nil
-        for i, bufnr in ipairs(open_bufs) do
-                if bufnr == current then
-                        idx = i
-                        break
-                end
-        end
-        local next_idx = (idx % #open_bufs) + 1
-        vim.api.nvim_set_current_buf(open_bufs[next_idx])
-end, { desc = "Cycle through open buffers with _" })
-
--- Cycle through splits
-keymap("n", "-", function()
-        vim.cmd("wincmd w")
-end, { desc = "Cycle to next window" })
-
--- Diagnostics navigation
-keymap("n", "<C-e>", function()
-        vim.diagnostic.goto_prev()
-        vim.cmd("normal! zz")
-end, { desc = "Go to previous diagnostic" })
-keymap("n", "<C-o>", function()
-        vim.diagnostic.goto_next()
-        vim.cmd("normal! zz")
-end, { desc = "Go to next diagnostic" })
-
--- Clear search highlights by pressing <Esc> in normal mode
-keymap("n", "<Esc>", "<cmd>nohlsearch<CR>")
-
--- ======================================================
 -- Plugins & LSP
 -- ======================================================
 
 -- Enter Lazy
-keymap("n", "<leader>l", "<cmd>Lazy<CR>")
+keymap("n", "<leader>l", "<cmd>Lazy<CR>",
+        { desc = "Open Lazy" })
 
 -- Map <leader>f to open Oil file explorer
-keymap("n", "<leader>f", ":Oil --float<CR>", { noremap = true, silent = true })
+keymap("n", "<leader>f", ":Oil --float<CR>",
+        { desc = "Open Oil", noremap = true, silent = true })
 
 -- LSP
 keymap("n", "K", function() vim.lsp.buf.hover({ border = "rounded"}) end, opts)
