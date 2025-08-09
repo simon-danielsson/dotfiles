@@ -18,8 +18,11 @@ if not vim.loop.fs_stat(lazypath) then
         })
 end
 vim.opt.rtp:prepend(lazypath)
-require("lazy").setup("plugins")
-
+require("lazy").setup("plugins", {
+        defaults = { lazy = true },
+        ui = { size = { width = 0.9, height = 0.9 }, border = require("native.icons").border },
+        change_detection = { notify = false },
+})
 -- Load LSP
 require("lsp")
 

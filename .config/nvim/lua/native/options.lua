@@ -100,6 +100,7 @@ opt.wildignore:append({ "*.o", "*.obj", "*.pyc", "*.class", "*.jar" })
 -- Appearance
 -- ======================================================
 
+vim.opt.winborder = "rounded"
 opt.termguicolors = true
 opt.numberwidth = 4
 opt.list = true

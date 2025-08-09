@@ -6,33 +6,8 @@ end
 _G.git_branch = git_branch
 
 -- Define filetype icons with colors
-local filetype_icons = {
-        lua = { icon = "", color = "#51A1FF" },
-        python = { icon = "", color = "#FFD43B" },
-        javascript = { icon = "", color = "#F7DF1E" },
-        html = { icon = "", color = "#E34C26" },
-        css = { icon = "", color = "#264de4" },
-        json = { icon = "", color = "#cbcb41" },
-        markdown = { icon = "", color = "#519aba" },
-        vim = { icon = "", color = "#019833" },
-        sh = { icon = "", color = "#89e051" },
-        gd = { icon = "", color = "#478cbf" },
-        gdscript = { icon = "", color = "#478cbf" },
-        toml = { icon = "", color = "#6e6e6e" },
-        xml = { icon = "謹", color = "#e37933" },
-        yaml = { icon = "", color = "#6e6e6e" },
-        dockerfile = { icon = "", color = "#0db7ed" },
-        go = { icon = "󰊠", color = "#00ADD8" },
-        rust = { icon = "", color = "#dea584" },
-        c = { icon = "", color = "#555555" },
-        cpp = { icon = "", color = "#00599C" },
-        java = { icon = "", color = "#b07219" },
-        php = { icon = "", color = "#8892be" },
-        ruby = { icon = "", color = "#701516" },
-        swift = { icon = "", color = "#ffac45" },
-        tsx = { icon = "", color = "#2b7489" },
-        jsx = { icon = "", color = "#61dafb" },
-}
+local filetype_icons = require("native.icons").lang
+
 
 -- Setup highlight groups for all filetype icons once
 for ft, entry in pairs(filetype_icons) do
@@ -52,6 +27,7 @@ local function file_type_icon()
 end
 _G.file_type_icon = file_type_icon
 
+
 -- File size
 local function file_size()
         local size = vim.fn.getfsize(vim.fn.expand('%'))
@@ -69,19 +45,19 @@ _G.file_size = file_size
 -- Diagnostics
 function _G.diagnostics_error()
         local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-        return count > 0 and ("󰯈 " .. count .. " ") or ""
+        return count > 0 and (require("native.icons").diagn.error .. " " .. count .. " ") or ""
 end
 function _G.diagnostics_warn()
         local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
-        return count > 0 and (" " .. count .. " ") or ""
+        return count > 0 and (require("native.icons").diagn.warning .. " " .. count .. " ") or ""
 end
 function _G.diagnostics_info()
         local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
-        return count > 0 and (" " .. count .. " ") or ""
+        return count > 0 and (require("native.icons").diagn.information .. " " .. count .. " ") or ""
 end
 function _G.diagnostics_hint()
         local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
-        return count > 0 and (" " .. count .. " ") or ""
+        return count > 0 and (require("native.icons").diagn.hint .. " " .. count .. " ") or ""
 end
 function _G.diagnostics_summary()
         for _, level in ipairs({

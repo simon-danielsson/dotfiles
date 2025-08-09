@@ -8,10 +8,8 @@ return {
                 { "<leader>g", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
                 { "<leader>b", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
                 { "<leader>d", "<cmd>Telescope diagnostics<cr>", desc = "Diagnostics" },
-                -- { "<leader>th", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
                 { "<leader>r", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
                 { "<leader>k", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
-                { "<leader>s", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
 
 -- { "<leader>fc", "<cmd>Telescope commands<cr>", desc = "Commands" },
         },
@@ -49,8 +47,7 @@ return {
         config = function(_, opts)
                 require("telescope").setup(opts)
 
--- Optional: Make Telescope background fully transparent
-                vim.cmd([[
+vim.cmd([[
       highlight TelescopeNormal guibg=NONE ctermbg=NONE
       highlight TelescopeBorder guibg=NONE ctermbg=NONE
       ]])

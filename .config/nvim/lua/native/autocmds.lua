@@ -1,15 +1,11 @@
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 
-local general_group = augroup("GeneralCommands", { clear = true })
-local write_group = augroup("WriteCommands", { clear = true })
-local terminal_group = augroup("TerminalCommands", { clear = true })
-
 -- ======================================================
 -- Write
 -- ======================================================
+local write_group = augroup("WriteCommands", { clear = true })
 
--- Autosave every 8th time normal mode is entered
 _G.autosave_counter = 0
 autocmd("ModeChanged", {
         group = write_group,
@@ -21,9 +17,9 @@ autocmd("ModeChanged", {
                         vim.cmd("silent! write")
                 end
         end,
+        desc = "Autosave every 8th time normal mode is entered",
 })
 
--- Fix indents
 autocmd("BufWritePre", {
         group = write_group,
         pattern = "*",
@@ -34,9 +30,9 @@ autocmd("BufWritePre", {
                 vim.cmd("normal! gg=G")
                 vim.api.nvim_win_set_cursor(0, pos)
         end,
+        desc = "Format indenting on write",
 })
 
--- Remove trailing empty lines and collapse multiple empty lines
 autocmd("BufWritePre", {
         group = write_group,
         pattern = "*",
@@ -49,21 +45,9 @@ autocmd("BufWritePre", {
                 vim.cmd([[%s/\(\n\s*\)\{2,}/\r\r/e]])
                 vim.api.nvim_win_set_cursor(0, pos)
         end,
+        desc = "Remove trailing empty lines and collapse multiple empty lines on write",
 })
 
--- Auto create directories before save
-autocmd("BufWritePre", {
-        group = write_group,
-        pattern = "*",
-        callback = function()
-                local dir = vim.fn.expand("%:p:h")
-                if vim.fn.isdirectory(dir) == 0 then
-                        vim.fn.mkdir(dir, "p")
-                end
-        end,
-})
-
--- Remove trailing whitespace at ends of lines
 autocmd("BufWritePre", {
         group = write_group,
         pattern = "*",
@@ -72,90 +56,25 @@ autocmd("BufWritePre", {
                 vim.cmd([[ %s/\s\+$//e ]])
                 vim.api.nvim_win_set_cursor(0, save_cursor)
         end,
+        desc = "Remove trailing whitespace at ends of lines on write",
 })
 
--- Make scripts executable
+-- ======================================================
+-- Directories & Files
+-- ======================================================
+local files_group = augroup("FileCommands", { clear = true })
+
 autocmd("BufWritePost", {
-        group = write_group,
+        group = files_group,
         pattern = { "*.sh" },
         callback = function()
                 vim.fn.system({ "chmod", "+x", vim.fn.expand("%:p") })
         end,
+        desc = "Make scripts executable",
 })
 
--- ======================================================
--- Cursor
--- ======================================================
-
--- Restore cursor position
-autocmd("BufReadPost", {
-        group = cursor_group,
-        callback = function()
-                local mark = vim.api.nvim_buf_get_mark(0, '"')
-                local lcount = vim.api.nvim_buf_line_count(0)
-                if mark[1] > 0 and mark[1] <= lcount then
-                        pcall(vim.api.nvim_win_set_cursor, 0, mark)
-                end
-        end,
-})
-
--- Return to last edit position when opening files
-autocmd("BufRead", {
-        group = cursor_group,
-        callback = function()
-                local last_pos = vim.fn.line("'\"")
-                if last_pos > 0 and last_pos <= vim.fn.line("$") and vim.bo.filetype ~= "commit" then
-                        vim.cmd("normal! g'\"")
-                end
-        end,
-})
-
--- Highlight yanked text
-autocmd("TextYankPost", {
-        group = cursor_group,
-        callback = function()
-                vim.highlight.on_yank()
-        end,
-})
-
--- ======================================================
--- Terminal
--- ======================================================
-
--- Auto-enter insert mode when switching to a terminal
-autocmd({ "WinEnter", "BufWinEnter", "TermOpen" }, {
-        group = terminal_group,
-        pattern = "term://*",
-        callback = function()
-                vim.cmd("startinsert")
-        end,
-})
-
--- Close terminal buffer on process exit
-autocmd("TermClose", {
-        group = terminal_group,
-        callback = function()
-                vim.cmd("bdelete!")
-        end,
-})
-
--- ======================================================
--- General
--- ======================================================
-
--- Enable spell checking for certain file types
-autocmd({ "BufRead", "BufNewFile" }, {
-        group = general_group,
-        pattern = { "*.txt", "*.md" },
-        callback = function()
-                vim.opt.spell = true
-                vim.opt.spelllang = "en_us"
-        end,
-})
-
--- Auto-change cwd to current file's folder
 autocmd("BufEnter", {
-        group = general_group,
+        group = files_group,
         pattern = "*",
         callback = function()
                 local dir = vim.fn.expand("%:p:h")
@@ -163,25 +82,126 @@ autocmd("BufEnter", {
                         vim.cmd("lcd " .. dir)
                 end
         end,
+        desc = "Auto-change cwd to current file's folder",
 })
 
--- Auto-resize splits when window is resized
-autocmd("VimResized", {
-        group = general_group,
+autocmd("BufWritePre", {
+        group = files_group,
+        pattern = "*",
         callback = function()
-                vim.cmd("tabdo wincmd =")
+                local dir = vim.fn.expand("%:p:h")
+                if vim.fn.isdirectory(dir) == 0 then
+                        vim.fn.mkdir(dir, "p")
+                end
         end,
+        desc = "Auto create directories before save",
 })
-
--- ======================================================
--- Miscellaneous
--- ======================================================
 
 -- Create undo directory if it doesn't exist
 local undodir = vim.fn.expand("~/.vim/undodir")
 if vim.fn.isdirectory(undodir) == 0 then
         vim.fn.mkdir(undodir, "p")
 end
+
+-- ======================================================
+-- Cursor
+-- ======================================================
+local cursor_group = augroup("CursorCommands", { clear = true })
+
+autocmd("BufReadPost", {
+        group = cursor_group,
+        callback = function()
+                -- Skip commit messages
+                if vim.bo.filetype == "commit" then
+                        return
+                end
+                local mark = vim.api.nvim_buf_get_mark(0, '"') -- { line, col }
+                local lcount = vim.api.nvim_buf_line_count(0)
+                if mark[1] > 0 and mark[1] <= lcount then
+                        pcall(vim.api.nvim_win_set_cursor, 0, mark) -- preserves column
+                end
+        end,
+        desc = "Restore cursor location when opening a buffer",
+})
+
+autocmd("TextYankPost", {
+        group = cursor_group,
+        callback = function()
+                vim.highlight.on_yank()
+        end,
+        desc = "Highlight yanked text",
+})
+
+-- ======================================================
+-- Terminal
+-- ======================================================
+local terminal_group = augroup("TerminalCommands", { clear = true })
+
+autocmd({ "WinEnter", "BufWinEnter", "TermOpen" }, {
+        group = terminal_group,
+        pattern = "term://*",
+        callback = function()
+                vim.cmd("startinsert")
+        end,
+        desc = "Auto-enter insert mode when switching to a terminal",
+})
+
+autocmd("TermClose", {
+        group = terminal_group,
+        callback = function()
+                vim.cmd("bdelete!")
+        end,
+        desc = "Close terminal buffer on process exit",
+})
+
+-- ======================================================
+-- Miscellaneous
+-- ======================================================
+local misc_group = augroup("MiscCommands", { clear = true })
+
+vim.api.nvim_create_autocmd("BufEnter", {
+        group = misc_group,
+        callback = function()
+                vim.opt.formatoptions:remove { "c", "r", "o" }
+        end,
+        desc = "Disable new line comment",
+})
+
+autocmd({ "BufRead", "BufNewFile" }, {
+        group = misc_group,
+        pattern = { "*.txt", "*.md" },
+        callback = function()
+                vim.opt.spell = true
+                vim.opt.spelllang = "en_us"
+        end,
+        desc = "Enable spell checking for certain file types",
+})
+
+vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter" }, {
+        group = misc_group,
+        pattern = { "oil://*" },
+        callback = function()
+                vim.opt.laststatus = 0
+        end,
+        desc = "Hide statusline on Oil",
+})
+
+vim.api.nvim_create_autocmd("BufLeave", {
+        group = misc_group,
+        pattern = { "oil://*" },
+        callback = function()
+                vim.opt.laststatus = 3
+        end,
+        desc = "Restore statusline after Oil",
+})
+
+autocmd("VimResized", {
+        group = misc_group,
+        callback = function()
+                vim.cmd("tabdo wincmd =")
+        end,
+        desc = "Auto-resize splits when window is resized"
+})
 
 -- Suppress notify inside Oil buffers
 local original_notify = vim.notify
