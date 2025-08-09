@@ -1,23 +1,21 @@
 -- Leader
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+        vim.g.mapleader = " "
+        vim.g.maplocalleader = " "
 
 -- Global keymaps
-local keymap = vim.keymap.set
+        local keymap = vim.keymap.set
 
--- "Delete" stock insert mode keybinds
-keymap("n", "i", "<Nop>")
-keymap("n", "I", "<Nop>")
-keymap("n", "o", "<Nop>")
-keymap("n", "O", "<Nop>")
-
--- Remap movement keys (normal + visual modes)
-keymap({ "n", "v" }, "n", "h", { desc = "Move left" })
+-- "Delete" stock insert mode keybinds and remap movement keys
+        keymap("n", "i", "<Nop>")
+        keymap("n", "I", "<Nop>")
+        keymap("n", "o", "<Nop>")
+        keymap("n", "O", "<Nop>")
+        keymap({ "n", "v" }, "n", "h", { desc = "Move left" })
 keymap({ "n", "v" }, "e", "j", { desc = "Move down" })
 keymap({ "n", "v" }, "o", "k", { desc = "Move up" })
 keymap({ "n", "v" }, "i", "l", { desc = "Move right" })
 
--- "vip" to select entire paragraph
+-- "vip" to select entire paragraph (had to be fixed here since it broke when when I remapped the movement keys?)
 keymap("n", "vip", function()
         local cur_line = vim.api.nvim_win_get_cursor(0)[1]
         local total_lines = vim.api.nvim_buf_line_count(0)
@@ -33,8 +31,6 @@ keymap("n", "vip", function()
         vim.cmd("normal! V")
         vim.api.nvim_win_set_cursor(0, { bottom, 0 })
 end, { desc = "Smart select paragraph" })
-keymap("n", "K", function() vim.lsp.buf.hover({ border = "rounded"}) end, opts)
-keymap("n", "<C-k>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end, opts)
 
 -- Cycle through open buffers
 keymap("n", "_", function()
@@ -59,7 +55,7 @@ keymap("n", "_", function()
         vim.api.nvim_set_current_buf(open_bufs[next_idx])
 end, { desc = "Cycle through open buffers with _" })
 
--- Cycle through windows
+-- Cycle through splits
 keymap("n", "-", function()
         vim.cmd("wincmd w")
 end, { desc = "Cycle to next window" })
@@ -110,11 +106,14 @@ keymap("n", "<leader>l", "<cmd>Lazy<CR>")
 -- Map <leader>f to open Oil file explorer
 keymap("n", "<leader>f", ":Oil --float<CR>", { noremap = true, silent = true })
 
--- LSP-specific keymaps
+-- LSP
+                        keymap("n", "K", function() vim.lsp.buf.hover({ border = "rounded"}) end, opts)
+                keymap("n", "<C-k>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end, opts)
+
 local M = {}
-function M.setup_lsp_keymaps(bufnr)
-        local opts = { noremap = true, silent = true, buffer = bufnr }
-        keymap("n", "gd", vim.lsp.buf.definition, opts)
-        keymap("n", "gr", vim.lsp.buf.references, opts)
-end
-return M
+                function M.setup_lsp_keymaps(bufnr)
+                local opts = { noremap = true, silent = true, buffer = bufnr }
+                keymap("n", "gd", vim.lsp.buf.definition, opts)
+                keymap("n", "gr", vim.lsp.buf.references, opts)
+        end
+                return M

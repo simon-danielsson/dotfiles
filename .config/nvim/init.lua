@@ -5,7 +5,6 @@ require("native.keymaps")
 require("native.comment")
 require("native.netrw")
 require("native.autocmds")
-require("native.write")
 require("native.colorscheme")
 require("native.statusline")
 
