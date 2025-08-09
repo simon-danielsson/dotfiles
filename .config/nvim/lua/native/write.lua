@@ -1,6 +1,8 @@
+local autocmd = vim.api.nvim_create_autocmd
+
 -- Autosave
 _G.autosave_counter = 0
-vim.api.nvim_create_autocmd("ModeChanged", {
+autocmd("ModeChanged", {
         pattern = "*:n",
         callback = function()
                 _G.autosave_counter = _G.autosave_counter + 1
@@ -12,7 +14,7 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 })
 
 -- Fix indents
-vim.api.nvim_create_autocmd("BufWritePre", {
+autocmd("BufWritePre", {
         pattern = "*",
         callback = function()
                 local ignore = { "markdown", "make", "oil", "txt" }
@@ -24,7 +26,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 -- Remove trailing empty lines and collapse multiple empty lines
-vim.api.nvim_create_autocmd("BufWritePre", {
+autocmd("BufWritePre", {
         pattern = "*",
         callback = function()
                 local pos = vim.api.nvim_win_get_cursor(0)
@@ -38,7 +40,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 -- Create directory for file if it does not exist
-vim.api.nvim_create_autocmd("BufWritePre", {
+autocmd("BufWritePre", {
         pattern = "*",
         callback = function()
                 local dir = vim.fn.expand("%:p:h")
@@ -49,7 +51,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 -- Remove trailing whitespace at ends of lines
-vim.api.nvim_create_autocmd("BufWritePre", {
+autocmd("BufWritePre", {
         pattern = "*",
         callback = function()
                 local save_cursor = vim.api.nvim_win_get_cursor(0)
@@ -59,7 +61,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 -- Make scripts executable
-vim.api.nvim_create_autocmd("BufWritePost", {
+autocmd("BufWritePost", {
         pattern = { "*.sh" },
         callback = function()
                 vim.fn.system({ "chmod", "+x", vim.fn.expand("%:p") })

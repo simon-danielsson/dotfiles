@@ -6,10 +6,10 @@ vim.g.maplocalleader = " "
 local keymap = vim.keymap.set
 
 -- "Delete" stock insert mode keybinds
-vim.keymap.set("n", "i", "<Nop>")
-vim.keymap.set("n", "I", "<Nop>")
-vim.keymap.set("n", "o", "<Nop>")
-vim.keymap.set("n", "O", "<Nop>")
+keymap("n", "i", "<Nop>")
+keymap("n", "I", "<Nop>")
+keymap("n", "o", "<Nop>")
+keymap("n", "O", "<Nop>")
 
 -- Remap movement keys (normal + visual modes)
 keymap({ "n", "v" }, "n", "h", { desc = "Move left" })
@@ -18,7 +18,7 @@ keymap({ "n", "v" }, "o", "k", { desc = "Move up" })
 keymap({ "n", "v" }, "i", "l", { desc = "Move right" })
 
 -- "vip" to select entire paragraph
-vim.keymap.set("n", "vip", function()
+keymap("n", "vip", function()
         local cur_line = vim.api.nvim_win_get_cursor(0)[1]
         local total_lines = vim.api.nvim_buf_line_count(0)
         local top = cur_line
@@ -37,7 +37,7 @@ keymap("n", "K", function() vim.lsp.buf.hover({ border = "rounded"}) end, opts)
 keymap("n", "<C-k>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end, opts)
 
 -- Cycle through open buffers
-vim.keymap.set("n", "_", function()
+keymap("n", "_", function()
         local bufs = vim.api.nvim_list_bufs()
         -- Filter only listed and loaded buffers
         local open_bufs = {}
@@ -60,19 +60,19 @@ vim.keymap.set("n", "_", function()
 end, { desc = "Cycle through open buffers with _" })
 
 -- Cycle through windows
-vim.keymap.set("n", "-", function()
+keymap("n", "-", function()
         vim.cmd("wincmd w")
 end, { desc = "Cycle to next window" })
 
 -- New insert mode bindings
-vim.keymap.set("n", "<leader>i", "i", { desc = "Insert before cursor" })
-vim.keymap.set("n", "<leader>I", "I", { desc = "Insert at line start" })
-vim.keymap.set("n", "<leader>o", "o", { desc = "Open new line below" })
-vim.keymap.set("n", "<leader>O", "O", { desc = "Open new line above" })
+keymap("n", "<leader>i", "i", { desc = "Insert before cursor" })
+keymap("n", "<leader>I", "I", { desc = "Insert at line start" })
+keymap("n", "<leader>o", "o", { desc = "Open new line below" })
+keymap("n", "<leader>O", "O", { desc = "Open new line above" })
 
 -- Center screen when jumping
-vim.keymap.set("n", ">", "nzzzv", { desc = "Next search result (centered)" })
-vim.keymap.set("n", "<", "Nzzzv", { desc = "Previous search result (centered)" })
+keymap("n", ">", "nzzzv", { desc = "Next search result (centered)" })
+keymap("n", "<", "Nzzzv", { desc = "Previous search result (centered)" })
 
 -- Indentation using Tab and Shift+Tab in visual mode and normal mode
 keymap("v", "<Tab>", ">gv", { desc = "Indent selection" })
@@ -82,33 +82,33 @@ keymap("n", "<S-Tab>", "<<", { desc = "Outdent line" })
 
 -- Toggle comment
 local comment = require("native.comment")
-vim.keymap.set("n", "gcc", comment.toggle_line_comment, { desc = "Toggle line comment" })
-vim.keymap.set("x", "gc", comment.toggle_visual, { desc = "Toggle visual line comments" })
-vim.keymap.set("n", "gbc", comment.toggle_block_comment, { desc = "Toggle block comment" })
-vim.keymap.set("v", "gb", comment.toggle_visual, { desc = "Toggle visual block comments" })
+keymap("n", "gcc", comment.toggle_line_comment, { desc = "Toggle line comment" })
+keymap("x", "gc", comment.toggle_visual, { desc = "Toggle visual line comments" })
+keymap("n", "gbc", comment.toggle_block_comment, { desc = "Toggle block comment" })
+keymap("v", "gb", comment.toggle_visual, { desc = "Toggle visual block comments" })
 
 -- Move selected lines up/down in visual mode using Shift and navigation keys
-vim.keymap.set("v", "<S-e>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
-vim.keymap.set("v", "<S-o>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+keymap("v", "<S-e>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+keymap("v", "<S-o>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 -- Diagnostics navigation
-vim.keymap.set("n", "<C-e>", function()
+keymap("n", "<C-e>", function()
         vim.diagnostic.goto_prev()
         vim.cmd("normal! zz")
 end, { desc = "Go to previous diagnostic" })
-vim.keymap.set("n", "<C-o>", function()
+keymap("n", "<C-o>", function()
         vim.diagnostic.goto_next()
         vim.cmd("normal! zz")
 end, { desc = "Go to next diagnostic" })
 
 -- Clear search highlights by pressing <Esc> in normal mode
-vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+keymap("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Enter Lazy
-vim.keymap.set("n", "<leader>l", "<cmd>Lazy<CR>")
+keymap("n", "<leader>l", "<cmd>Lazy<CR>")
 
 -- Map <leader>f to open Oil file explorer
-vim.keymap.set("n", "<leader>f", ":Oil --float<CR>", { noremap = true, silent = true })
+keymap("n", "<leader>f", ":Oil --float<CR>", { noremap = true, silent = true })
 
 -- LSP-specific keymaps
 local M = {}

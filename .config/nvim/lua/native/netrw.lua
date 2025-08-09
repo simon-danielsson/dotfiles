@@ -6,10 +6,11 @@ vim.api.nvim_create_autocmd("FileType", {
         pattern = "netrw",
         callback = function()
                 local opts = { buffer = true, noremap = true, silent = true }
-                vim.keymap.set("n", "n", "h", opts)
-                vim.keymap.set("n", "e", "j", opts)
-                vim.keymap.set("n", "o", "k", opts)
-                vim.keymap.set("n", "i", "l", opts)
+                local keymap = vim.keymap.set
+                keymap("n", "n", "h", opts)
+                keymap("n", "e", "j", opts)
+                keymap("n", "o", "k", opts)
+                keymap("n", "i", "l", opts)
                 vim.wo.relativenumber = true
                 vim.wo.number = true
         end,

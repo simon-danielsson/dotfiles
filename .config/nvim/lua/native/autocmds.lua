@@ -1,5 +1,7 @@
+local autocmd = vim.api.nvim_create_autocmd
+
 -- Highlight yanked text
-vim.api.nvim_create_autocmd("TextYankPost", {
+autocmd("TextYankPost", {
         group = augroup,
         callback = function()
                 vim.highlight.on_yank()
@@ -7,7 +9,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Auto-change cwd to current file's folder
-vim.api.nvim_create_autocmd("BufEnter", {
+autocmd("BufEnter", {
         pattern = "*",
         callback = function()
                 local dir = vim.fn.expand("%:p:h")
@@ -18,7 +20,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 -- Auto-resize splits when window is resized
-vim.api.nvim_create_autocmd("VimResized", {
+autocmd("VimResized", {
         group = augroup,
         callback = function()
                 vim.cmd("tabdo wincmd =")
@@ -33,7 +35,7 @@ end
 
 -- Suppress notify inside Oil buffers
 local original_notify = vim.notify
-vim.api.nvim_create_autocmd("FileType", {
+autocmd("FileType", {
         pattern = "oil",
         callback = function()
                 vim.notify = function(msg, level, notify_opts)
@@ -44,7 +46,7 @@ vim.api.nvim_create_autocmd("FileType", {
                 end
         end,
 })
-vim.api.nvim_create_autocmd("BufLeave", {
+autocmd("BufLeave", {
         callback = function()
                 if vim.bo.filetype == "oil" then
                         vim.notify = original_notify

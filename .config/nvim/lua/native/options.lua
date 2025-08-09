@@ -7,7 +7,6 @@ vim.opt.linebreak = true
 vim.opt.showbreak = '󱞩 '
 vim.opt.scrolloff = 10
 vim.opt.sidescrolloff = 8
--- vim.opt.colorcolumn = "85"
 
 -- Behavior settings
 vim.opt.clipboard = 'unnamedplus'
@@ -40,7 +39,6 @@ vim.opt.incsearch = true
 
 -- Aesthetic options
 vim.opt.termguicolors = true
--- vim.opt.background = "dark"
 vim.opt.list = true
 vim.opt.listchars = { tab = "│ ", trail = "•" }
 
