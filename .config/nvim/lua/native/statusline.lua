@@ -54,10 +54,18 @@ end
 -- ======================================================
 
 local diagnostics_levels = {
-        { name = "Error",  icon = icons.diagn.error,      severity = vim.diagnostic.severity.ERROR },
-        { name = "Warn",   icon = icons.diagn.warning,    severity = vim.diagnostic.severity.WARN },
-        { name = "Info",   icon = icons.diagn.information, severity = vim.diagnostic.severity.INFO },
-        { name = "Hint",   icon = icons.diagn.hint,       severity = vim.diagnostic.severity.HINT },
+        { name = "Error",
+                icon = icons.diagn.error,
+                severity = vim.diagnostic.severity.ERROR },
+        { name = "Warn",
+                icon = icons.diagn.warning,
+                severity = vim.diagnostic.severity.WARN },
+        { name = "Info",
+                icon = icons.diagn.information,
+                severity = vim.diagnostic.severity.INFO },
+        { name = "Hint",
+                icon = icons.diagn.hint,
+                severity = vim.diagnostic.severity.HINT },
 }
 
 local function diagnostics_component(name, icon, severity)
@@ -88,7 +96,7 @@ local fg_white = "#ffffff"
 
 -- Base highlights
 local base_groups = {
-        "StatusFilename", "StatusGit", "StatusFileType", "StatusLine",
+        "StatusFilename", "StatusGit", "StatusFileType",   "StatusLine",
         "StatusFileSize", "StatusLSP", "ColumnPercentage", "StatusModified"
 }
 for _, group in ipairs(base_groups) do
