@@ -1,3 +1,5 @@
+# Dotfiles
+
 This **TMUX/Neovim config** is set up with **Rust** and **Python** development in mind, but I also play around with some **GDScript**, **Javascript** and **CSS** once in a while. My goal with this config is to be lightweight, and do things natively wherever it makes sense to do so.
 > Note that this is **not** intended to be installed as a complete config - instead, I recommend that you sift through these files and take inspiration. Feel free to copy/paste into your own config as you see fit!
 
