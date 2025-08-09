@@ -22,9 +22,6 @@ source <(fzf --zsh)
 # clean empty directories
 alias cleanempty='find . -type d -empty -delete'
 
-# kill all nvim and tmux processes, and exit ghostty
-alias q="/Users/simondanielsson/dev/bash-scripts/kill-nvim-and-tmux.sh"
-
 # rust and cargo aliases
 alias r="cargo run --release"
 alias rc="cargo check"
@@ -37,11 +34,14 @@ alias p="python3 *.py"
 # nvim
 alias v="nvim"
 
+# kill all nvim and tmux processes, and exit ghostty
+alias q="/Users/simondanielsson/dotfiles/scripts/kill-nvim-and-tmux.sh"
+
 # start nvim with godotpipe
-alias gvim="/Users/simondanielsson/dev/bash-scripts/start-nvim-with-godotpipe.sh"
+alias gvim="/Users/simondanielsson/dotfiles/scripts/start-nvim-with-godotpipe.sh"
 
 # start godot and nvim with godotpipe
-alias godot="/Users/simondanielsson/dev/bash-scripts/start-godot-and-nvim-together.sh"
+alias godot="/Users/simondanielsson/dotfiles/scripts/start-godot-and-nvim-together.sh"
 
 # eza (better ls)
 alias ls="eza --color=always --icons --group-directories-first --git --no-time --no-permissions"
