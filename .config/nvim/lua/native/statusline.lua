@@ -1,134 +1,139 @@
 local icons = require("native.icons")
 
--- Git branch
+-- ======================================================
+-- Utility Functions
+-- ======================================================
+
 local function git_branch()
         local branch = vim.fn.system("git branch --show-current 2>/dev/null | tr -d '\n'")
         return branch ~= "" and "│  " .. branch or ""
 end
-_G.git_branch = git_branch
 
--- Define filetype icons with colors
-local filetype_icons = icons.lang
-
--- Setup highlight groups for all filetype icons once
-for ft, entry in pairs(filetype_icons) do
-        local hl_group = "FileIcon_" .. ft
-        vim.api.nvim_set_hl(0, hl_group, { fg = entry.color, bg = "#262626" })
-end
-
--- Function to get the file icon with color highlight codes embedded for statusline
-local function file_type_icon()
-        local ft = vim.bo.filetype
-        local entry = filetype_icons[ft]
-        if not entry then
-                return ft or ""
-        end
-        local hl_group = "FileIcon_" .. ft
-        return entry.icon
-end
-_G.file_type_icon = file_type_icon
-
--- File size
 local function file_size()
         local size = vim.fn.getfsize(vim.fn.expand('%'))
         if size < 0 then return "" end
         if size < 1024 then
-                return size .. "B "
+                return size .. "B"
         elseif size < 1024 * 1024 then
                 return string.format("%.1fK", size / 1024)
         else
                 return string.format("%.1fM", size / 1024 / 1024)
         end
 end
-_G.file_size = file_size
 
+local function short_filepath()
+        local path = vim.fn.expand("%:p")
+        local parts = vim.split(path, "/", { trimempty = true })
+        local count = #parts
+        return table.concat({
+                parts[count - 2] or "",
+                parts[count - 1] or "",
+                parts[count] or ""
+        }, "/")
+end
+
+local function mode_icon()
+        return icons.modes[vim.fn.mode()] or (" " .. vim.fn.mode():upper())
+end
+
+-- ======================================================
+-- Filetype Icons Setup
+-- ======================================================
+local filetype_icons = icons.lang
+for ft, entry in pairs(filetype_icons) do
+        vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = "#262626" })
+end
+
+local function file_type_icon()
+        local entry = filetype_icons[vim.bo.filetype]
+        return entry and entry.icon or (vim.bo.filetype or "")
+end
+
+-- ======================================================
 -- Diagnostics
-function _G.diagnostics_error()
-        local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-        return count > 0 and (icons.diagn.error .. " " .. count .. " ") or ""
+-- ======================================================
+
+local diagnostics_levels = {
+        { name = "Error",  icon = icons.diagn.error,      severity = vim.diagnostic.severity.ERROR },
+        { name = "Warn",   icon = icons.diagn.warning,    severity = vim.diagnostic.severity.WARN },
+        { name = "Info",   icon = icons.diagn.information, severity = vim.diagnostic.severity.INFO },
+        { name = "Hint",   icon = icons.diagn.hint,       severity = vim.diagnostic.severity.HINT },
+}
+
+local function diagnostics_component(name, icon, severity)
+        local count = #vim.diagnostic.get(0, { severity = severity })
+        return count > 0 and (icon .. " " .. count .. " ") or ""
 end
-function _G.diagnostics_warn()
-        local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
-        return count > 0 and (icons.diagn.warning .. " " .. count .. " ") or ""
-end
-function _G.diagnostics_info()
-        local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
-        return count > 0 and (icons.diagn.information .. " " .. count .. " ") or ""
-end
-function _G.diagnostics_hint()
-        local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
-        return count > 0 and (icons.diagn.hint .. " " .. count .. " ") or ""
-end
-function _G.diagnostics_summary()
-        for _, level in ipairs({
-                vim.diagnostic.severity.ERROR,
-                vim.diagnostic.severity.WARN,
-                vim.diagnostic.severity.INFO,
-                vim.diagnostic.severity.HINT,
-        }) do
-                if #vim.diagnostic.get(0, { severity = level }) > 0 then
+
+local function diagnostics_summary()
+        for _, level in ipairs(diagnostics_levels) do
+                if #vim.diagnostic.get(0, { severity = level.severity }) > 0 then
                         return "│ "
                 end
         end
         return ""
 end
 
--- Mode indicator
-function _G.mode_icon()
-        local mode = vim.fn.mode()
-        local modes = icons.modes
-        return modes[mode] or " " .. mode:upper()
-end
-
--- Short filepath (last 3 parts)
-function _G.short_filepath()
-        local path = vim.fn.expand("%:p")
-        local parts = {}
-        for part in string.gmatch(path, "[^/]+") do
-                table.insert(parts, part)
-        end
-        local count = #parts
-        return table.concat({ parts[count - 2] or "", parts[count - 1] or "", parts[count] or "" }, "/")
-end
-
+-- ======================================================
 -- Highlights
-local function fg_bg(background, bold)
-        return { fg = "#ffffff", bg = background or "#262626", bold = bold }
+-- ======================================================
+
+local function set_hl(group, fg, bg, bold)
+        vim.api.nvim_set_hl(0, group, { fg = fg, bg = bg, bold = bold })
 end
+
+local bg_dark = "#262626"
+local bg_dim = "#444444"
+local fg_white = "#ffffff"
 
 -- Base highlights
-for _, group in ipairs({
+local base_groups = {
         "StatusFilename", "StatusGit", "StatusFileType", "StatusLine",
         "StatusFileSize", "StatusLSP", "ColumnPercentage", "StatusModified"
-}) do
-        vim.api.nvim_set_hl(0, group, fg_bg("#262626", false))
+}
+for _, group in ipairs(base_groups) do
+        set_hl(group, fg_white, bg_dark, false)
 end
 
 -- Special highlights
-vim.api.nvim_set_hl(0, "ColumnPercentage", fg_bg("#262626", true))
-vim.api.nvim_set_hl(0, "StatusMode",       fg_bg("#444444", true))
-vim.api.nvim_set_hl(0, "StatusPosition",   fg_bg("#444444", true))
-vim.api.nvim_set_hl(0, "StatusModified",   { fg = "#e06c75", bg = "#262626", bold = true })
+set_hl("ColumnPercentage", fg_white, bg_dark, true)
+set_hl("StatusMode", fg_white, bg_dim, true)
+set_hl("StatusPosition", fg_white, bg_dim, true)
+set_hl("StatusModified", "#e06c75", bg_dark, true)
 
--- Diagnostic highlights linked to theme
-vim.api.nvim_set_hl(0, "StatusDiagnosticsError", { link = "DiagnosticError" })
-vim.api.nvim_set_hl(0, "StatusDiagnosticsWarn",  { link = "DiagnosticWarn" })
-vim.api.nvim_set_hl(0, "StatusDiagnosticsInfo",  { link = "DiagnosticInfo" })
-vim.api.nvim_set_hl(0, "StatusDiagnosticsHint",  { link = "DiagnosticHint" })
+-- Link diagnostic highlights
+for _, level in ipairs(diagnostics_levels) do
+        vim.api.nvim_set_hl(0, "StatusDiagnostics" .. level.name, { link = "Diagnostic" .. level.name })
+end
 
-vim.opt.statusline = table.concat({
-        "%#StatusMode#",                                "  %{v:lua.mode_icon()} ",
-        "%#StatusLine#",
-        "%#StatusFileType#",                            " %{v:lua.file_type_icon()}",
-        "%#StatusFilename#",                            " %{v:lua.short_filepath()}",
-        "%#StatusGit#",                                 " %{v:lua.git_branch()}",
-        "%=",
-        "%#StatusDiagnosticsError#",                    "%{v:lua.diagnostics_error()}",
-        "%#StatusDiagnosticsWarn#",                     "%{v:lua.diagnostics_warn()}",
-        "%#StatusDiagnosticsInfo#",                     "%{v:lua.diagnostics_info()}",
-        "%#StatusDiagnosticsHint#",                     "%{v:lua.diagnostics_hint()}",
-        "%#StatusDiagnosticsSummary#",                  "%{v:lua.diagnostics_summary()}",
-        "%#StatusFileSize#",       icons.ui.memory,     " %{v:lua.file_size()} ",
-        "%#StatusFileSize#",       icons.ui.file,       " %L ",
-        "%#StatusPosition# ",      icons.ui.location,   " %l:%c ",
-})
+-- ======================================================
+-- Statusline Assembly
+-- ======================================================
+
+_G.Statusline = function()
+        local parts = {
+                "%#StatusMode#  " .. mode_icon() .. " ",
+                "%#StatusFileType# " .. file_type_icon(),
+                "%#StatusFilename# " .. short_filepath(),
+                "%#StatusGit# " .. git_branch(),
+                "%=",
+        }
+
+-- Diagnostics
+        for _, level in ipairs(diagnostics_levels) do
+                table.insert(parts, "%#StatusDiagnostics" .. level.name .. "#")
+                table.insert(parts, diagnostics_component(level.name, level.icon, level.severity))
+        end
+
+-- Summary
+        table.insert(parts, "%#StatusDiagnosticsSummary#" .. diagnostics_summary())
+
+-- File size, lines, cursor pos
+        table.insert(parts, "%#StatusFileSize#"  .. icons.ui.memory .. " " .. file_size() .. " ")
+        table.insert(parts, "%#StatusFileSize#"  .. icons.ui.file .. " %L ")
+        table.insert(parts, "%#StatusPosition# " .. icons.ui.location .. " %l:%c ")
+
+return table.concat(parts)
+end
+
+vim.opt.statusline = "%!v:lua.Statusline()"
