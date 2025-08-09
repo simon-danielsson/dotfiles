@@ -58,12 +58,12 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 local override_groups = {
         -- UI elements
+        CursorLine       = { bg = "#262626" },
         NoiceCmdlinePopup = { fg = "#ffffff", bg = "NONE" },
         NoiceCmdlinePopupBorder = { fg = "#ffffff", bg = "NONE" },
         StatusLineNC     = { bg = "#444444" },
         Normal           = { bg = "#262626" },
         NormalNC         = { bg = "#262626" },
-        CursorLine       = { bg = "#444444" },
         TabLine          = { bg = "#262626" },
         TabLineFill      = { bg = "#262626" },
         TabLineSel       = { bg = "#bababa", bold = true },

@@ -1,3 +1,5 @@
+local icons = require("native.icons")
+
 -- Git branch
 local function git_branch()
         local branch = vim.fn.system("git branch --show-current 2>/dev/null | tr -d '\n'")
@@ -6,8 +8,7 @@ end
 _G.git_branch = git_branch
 
 -- Define filetype icons with colors
-local filetype_icons = require("native.icons").lang
-
+local filetype_icons = icons.lang
 
 -- Setup highlight groups for all filetype icons once
 for ft, entry in pairs(filetype_icons) do
@@ -27,7 +28,6 @@ local function file_type_icon()
 end
 _G.file_type_icon = file_type_icon
 
-
 -- File size
 local function file_size()
         local size = vim.fn.getfsize(vim.fn.expand('%'))
@@ -45,19 +45,19 @@ _G.file_size = file_size
 -- Diagnostics
 function _G.diagnostics_error()
         local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-        return count > 0 and (require("native.icons").diagn.error .. " " .. count .. " ") or ""
+        return count > 0 and (icons.diagn.error .. " " .. count .. " ") or ""
 end
 function _G.diagnostics_warn()
         local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
-        return count > 0 and (require("native.icons").diagn.warning .. " " .. count .. " ") or ""
+        return count > 0 and (icons.diagn.warning .. " " .. count .. " ") or ""
 end
 function _G.diagnostics_info()
         local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
-        return count > 0 and (require("native.icons").diagn.information .. " " .. count .. " ") or ""
+        return count > 0 and (icons.diagn.information .. " " .. count .. " ") or ""
 end
 function _G.diagnostics_hint()
         local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
-        return count > 0 and (require("native.icons").diagn.hint .. " " .. count .. " ") or ""
+        return count > 0 and (icons.diagn.hint .. " " .. count .. " ") or ""
 end
 function _G.diagnostics_summary()
         for _, level in ipairs({
@@ -76,12 +76,7 @@ end
 -- Mode indicator
 function _G.mode_icon()
         local mode = vim.fn.mode()
-        local modes = {
-                n = " ", i = " ", v = " ", V = " ",
-                ["\22"] = "󰈚 ", c = " ", s = " ",
-                S = " ", ["\19"] = "󰈚 ", R = " ",
-                r = " ", ["!"] = " ", t = " ",
-        }
+        local modes = icons.modes
         return modes[mode] or " " .. mode:upper()
 end
 
@@ -122,18 +117,18 @@ vim.api.nvim_set_hl(0, "StatusDiagnosticsInfo",  { link = "DiagnosticInfo" })
 vim.api.nvim_set_hl(0, "StatusDiagnosticsHint",  { link = "DiagnosticHint" })
 
 vim.opt.statusline = table.concat({
-        "%#StatusMode#",       "  %{v:lua.mode_icon()} ",
+        "%#StatusMode#",                                "  %{v:lua.mode_icon()} ",
         "%#StatusLine#",
-        "%#StatusFileType#",   " %{v:lua.file_type_icon()}",
-        "%#StatusFilename#",   " %{v:lua.short_filepath()}",
-        "%#StatusGit#",        " %{v:lua.git_branch()}",
+        "%#StatusFileType#",                            " %{v:lua.file_type_icon()}",
+        "%#StatusFilename#",                            " %{v:lua.short_filepath()}",
+        "%#StatusGit#",                                 " %{v:lua.git_branch()}",
         "%=",
-        "%#StatusDiagnosticsError#", "%{v:lua.diagnostics_error()}",
-        "%#StatusDiagnosticsWarn#",  "%{v:lua.diagnostics_warn()}",
-        "%#StatusDiagnosticsInfo#",  "%{v:lua.diagnostics_info()}",
-        "%#StatusDiagnosticsHint#",  "%{v:lua.diagnostics_hint()}",
-        "%#StatusDiagnosticsSummary#", "%{v:lua.diagnostics_summary()}",
-        "%#StatusFileSize#",         " %{v:lua.file_size()} ",
-        "%#StatusFileSize#",         " %L ",
-        "%#StatusPosition#",         " 󰟙 %l:%c ",
+        "%#StatusDiagnosticsError#",                    "%{v:lua.diagnostics_error()}",
+        "%#StatusDiagnosticsWarn#",                     "%{v:lua.diagnostics_warn()}",
+        "%#StatusDiagnosticsInfo#",                     "%{v:lua.diagnostics_info()}",
+        "%#StatusDiagnosticsHint#",                     "%{v:lua.diagnostics_hint()}",
+        "%#StatusDiagnosticsSummary#",                  "%{v:lua.diagnostics_summary()}",
+        "%#StatusFileSize#",       icons.ui.memory,     " %{v:lua.file_size()} ",
+        "%#StatusFileSize#",       icons.ui.file,       " %L ",
+        "%#StatusPosition# ",      icons.ui.location,   " %l:%c ",
 })
