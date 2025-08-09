@@ -1,6 +1,6 @@
 # The ultimate swedish development environment
 
-This **TMUX/Neovim config** was set up with **Rust** and **Python** development in mind, although I also play around with some **GDScript**, **Javascript** and **CSS** once in a while. My goal with this config was to have a lightweight development experience that's easy to maintain - to achieve this, I put focus on using the native features of Neovim as much as possible, only resorting to plugins wherever I felt something was missing.
+This **TMUX/Neovim config** was set up with **Rust** and **Python** development in mind, although I also play around with some **GDScript**, **Javascript** and **CSS** once in a while. My goal with this config was to create a lightweight and minimalist development development environment that's easy to maintain - to achieve this, I put focus on using the native features of Neovim as much as possible, only resorting to plugins wherever I felt something was missing.
 > Note that this is **not** intended to be installed as a complete config - instead, I recommend that you sift through these files and take inspiration. Feel free to copy/paste into your own config as you see fit!
 
 ![Screenshot](screenshots/example.png)
