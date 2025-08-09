@@ -94,7 +94,7 @@ vim.api.nvim_create_autocmd("FileType", {
         end,
 })
 
--- Don't load at startup
+-- Don't load
 vim.g.loaded_gzip = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_tarPlugin = 1

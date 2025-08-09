@@ -9,7 +9,7 @@ local terminal_group = augroup("TerminalCommands", { clear = true })
 -- Write
 -- ======================================================
 
--- Autosave
+-- Autosave every 8th time normal mode is entered
 _G.autosave_counter = 0
 autocmd("ModeChanged", {
         group = write_group,
@@ -87,17 +87,26 @@ autocmd("BufWritePost", {
 -- Cursor
 -- ======================================================
 
--- Highlight current line only in active window
-autocmd({ "BufEnter", "WinEnter" }, {
+-- Restore cursor position
+autocmd("BufReadPost", {
         group = cursor_group,
         callback = function()
-                vim.opt_local.cursorline = true
+                local mark = vim.api.nvim_buf_get_mark(0, '"')
+                local lcount = vim.api.nvim_buf_line_count(0)
+                if mark[1] > 0 and mark[1] <= lcount then
+                        pcall(vim.api.nvim_win_set_cursor, 0, mark)
+                end
         end,
 })
-autocmd("WinLeave", {
+
+-- Return to last edit position when opening files
+autocmd("BufRead", {
         group = cursor_group,
         callback = function()
-                vim.opt_local.cursorline = false
+                local last_pos = vim.fn.line("'\"")
+                if last_pos > 0 and last_pos <= vim.fn.line("$") and vim.bo.filetype ~= "commit" then
+                        vim.cmd("normal! g'\"")
+                end
         end,
 })
 

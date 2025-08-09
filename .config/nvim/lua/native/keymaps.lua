@@ -1,21 +1,32 @@
--- Leader
-        vim.g.mapleader = " "
-        vim.g.maplocalleader = " "
+local keymap = vim.keymap.set
 
--- Global keymaps
-        local keymap = vim.keymap.set
+-- Leader
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+-- ======================================================
+-- Local Navigation
+-- ======================================================
 
 -- "Delete" stock insert mode keybinds and remap movement keys
-        keymap("n", "i", "<Nop>")
-        keymap("n", "I", "<Nop>")
-        keymap("n", "o", "<Nop>")
-        keymap("n", "O", "<Nop>")
-        keymap({ "n", "v" }, "n", "h", { desc = "Move left" })
+keymap("n", "i", "<Nop>")
+keymap("n", "I", "<Nop>")
+keymap("n", "o", "<Nop>")
+keymap("n", "O", "<Nop>")
+keymap({ "n", "v" }, "n", "h", { desc = "Move left" })
 keymap({ "n", "v" }, "e", "j", { desc = "Move down" })
 keymap({ "n", "v" }, "o", "k", { desc = "Move up" })
 keymap({ "n", "v" }, "i", "l", { desc = "Move right" })
 
--- "vip" to select entire paragraph (had to be fixed here since it broke when when I remapped the movement keys?)
+-- Center screen when jumping
+keymap("n", ">", "nzzzv", { desc = "Next search result (centered)" })
+keymap("n", "<", "Nzzzv", { desc = "Previous search result (centered)" })
+
+-- ======================================================
+-- Editing
+-- ======================================================
+
+-- "vip" to select entire paragraph (had to be fixed since it broke when I remapped the movement keys)
 keymap("n", "vip", function()
         local cur_line = vim.api.nvim_win_get_cursor(0)[1]
         local total_lines = vim.api.nvim_buf_line_count(0)
@@ -31,6 +42,33 @@ keymap("n", "vip", function()
         vim.cmd("normal! V")
         vim.api.nvim_win_set_cursor(0, { bottom, 0 })
 end, { desc = "Smart select paragraph" })
+
+-- New insert mode bindings
+keymap("n", "<leader>i", "i", { desc = "Insert before cursor" })
+keymap("n", "<leader>I", "I", { desc = "Insert at line start" })
+keymap("n", "<leader>o", "o", { desc = "Open new line below" })
+keymap("n", "<leader>O", "O", { desc = "Open new line above" })
+
+-- Indentation using Tab and Shift+Tab in visual mode and normal mode
+keymap("v", "<Tab>", ">gv", { desc = "Indent selection" })
+keymap("v", "<S-Tab>", "<gv", { desc = "Outdent selection" })
+keymap("n", "<Tab>", ">>", { desc = "Indent line" })
+keymap("n", "<S-Tab>", "<<", { desc = "Outdent line" })
+
+-- Toggle comment
+local comment = require("native.comment")
+keymap("n", "gcc", comment.toggle_line_comment, { desc = "Toggle line comment" })
+keymap("x", "gc", comment.toggle_visual, { desc = "Toggle visual line comments" })
+keymap("n", "gbc", comment.toggle_block_comment, { desc = "Toggle block comment" })
+keymap("v", "gb", comment.toggle_visual, { desc = "Toggle visual block comments" })
+
+-- Move selected lines up/down in visual mode using Shift and navigation keys
+keymap("v", "<S-e>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+keymap("v", "<S-o>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+
+-- ======================================================
+-- Global Navigation
+-- ======================================================
 
 -- Cycle through open buffers
 keymap("n", "_", function()
@@ -60,33 +98,6 @@ keymap("n", "-", function()
         vim.cmd("wincmd w")
 end, { desc = "Cycle to next window" })
 
--- New insert mode bindings
-keymap("n", "<leader>i", "i", { desc = "Insert before cursor" })
-keymap("n", "<leader>I", "I", { desc = "Insert at line start" })
-keymap("n", "<leader>o", "o", { desc = "Open new line below" })
-keymap("n", "<leader>O", "O", { desc = "Open new line above" })
-
--- Center screen when jumping
-keymap("n", ">", "nzzzv", { desc = "Next search result (centered)" })
-keymap("n", "<", "Nzzzv", { desc = "Previous search result (centered)" })
-
--- Indentation using Tab and Shift+Tab in visual mode and normal mode
-keymap("v", "<Tab>", ">gv", { desc = "Indent selection" })
-keymap("v", "<S-Tab>", "<gv", { desc = "Outdent selection" })
-keymap("n", "<Tab>", ">>", { desc = "Indent line" })
-keymap("n", "<S-Tab>", "<<", { desc = "Outdent line" })
-
--- Toggle comment
-local comment = require("native.comment")
-keymap("n", "gcc", comment.toggle_line_comment, { desc = "Toggle line comment" })
-keymap("x", "gc", comment.toggle_visual, { desc = "Toggle visual line comments" })
-keymap("n", "gbc", comment.toggle_block_comment, { desc = "Toggle block comment" })
-keymap("v", "gb", comment.toggle_visual, { desc = "Toggle visual block comments" })
-
--- Move selected lines up/down in visual mode using Shift and navigation keys
-keymap("v", "<S-e>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
-keymap("v", "<S-o>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
-
 -- Diagnostics navigation
 keymap("n", "<C-e>", function()
         vim.diagnostic.goto_prev()
@@ -100,6 +111,10 @@ end, { desc = "Go to next diagnostic" })
 -- Clear search highlights by pressing <Esc> in normal mode
 keymap("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
+-- ======================================================
+-- Plugins & LSP
+-- ======================================================
+
 -- Enter Lazy
 keymap("n", "<leader>l", "<cmd>Lazy<CR>")
 
@@ -107,13 +122,13 @@ keymap("n", "<leader>l", "<cmd>Lazy<CR>")
 keymap("n", "<leader>f", ":Oil --float<CR>", { noremap = true, silent = true })
 
 -- LSP
-                        keymap("n", "K", function() vim.lsp.buf.hover({ border = "rounded"}) end, opts)
-                keymap("n", "<C-k>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end, opts)
+keymap("n", "K", function() vim.lsp.buf.hover({ border = "rounded"}) end, opts)
+keymap("n", "<C-k>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end, opts)
 
 local M = {}
-                function M.setup_lsp_keymaps(bufnr)
-                local opts = { noremap = true, silent = true, buffer = bufnr }
-                keymap("n", "gd", vim.lsp.buf.definition, opts)
-                keymap("n", "gr", vim.lsp.buf.references, opts)
-        end
-                return M
+function M.setup_lsp_keymaps(bufnr)
+        local opts = { noremap = true, silent = true, buffer = bufnr }
+        keymap("n", "gd", vim.lsp.buf.definition, opts)
+        keymap("n", "gr", vim.lsp.buf.references, opts)
+end
+return M
