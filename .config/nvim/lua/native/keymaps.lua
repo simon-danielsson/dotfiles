@@ -26,6 +26,10 @@ keymap("n", "<", "Nzzzv", { desc = "Previous search result (centered)" })
 -- Editing
 -- ======================================================
 
+-- Increment/decrement
+keymap("n", "+", "<C-a>")
+keymap("n", "-", "<C-x>")
+
 -- "vip" to select entire paragraph (had to be fixed since it broke when I remapped the movement keys)
 keymap("n", "vip", function()
         local cur_line = vim.api.nvim_win_get_cursor(0)[1]
