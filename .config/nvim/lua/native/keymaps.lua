@@ -21,14 +21,12 @@ keymap({ "n", "v" }, "i", "l", { desc = "Move right" })
 -- Center screen when jumping
 keymap("n", ">", "nzzzv", { desc = "Next search result (centered)" })
 keymap("n", "<", "Nzzzv", { desc = "Previous search result (centered)" })
+keymap("n", "}", "}zz", { desc = "Next empty line (centered)" })
+keymap("n", "{", "{zz", { desc = "Previous empty line (centered)" })
 
 -- ======================================================
 -- Editing
 -- ======================================================
-
--- Increment/decrement
-keymap("n", "+", "<C-a>")
-keymap("n", "-", "<C-x>")
 
 -- "vip" to select entire paragraph (had to be fixed since it broke when I remapped the movement keys)
 keymap("n", "vip", function()
@@ -67,7 +65,7 @@ keymap("n", "gbc", comment.toggle_block_comment, { desc = "Toggle block comment"
 keymap("v", "gb", comment.toggle_visual, { desc = "Toggle visual block comments" })
 
 -- Move selected lines up/down in visual mode using Shift and navigation keys
-keymap("v", "<S-e>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+keymap("v", "<S-e>", ":m '>+2<CR>gv=gv", { desc = "Move selection down" })
 keymap("v", "<S-o>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 -- ======================================================
