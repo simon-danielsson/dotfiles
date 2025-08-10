@@ -48,8 +48,8 @@ local function set_hl(group, opts)
 end
 
 -- Fold colors
-set_hl("Folded",     { bg = "none", fg = "#A7E22F" })
-set_hl("FoldColumn", { bg = "none", fg = "#A7E22F" })
+set_hl("Folded",     { bg = "none", fg = "#8E7F70" })
+set_hl("FoldColumn", { bg = "none", fg = "#8E7F70" })
 
 -- Transparent UI elements on VimEnter
 vim.api.nvim_create_autocmd("VimEnter", {

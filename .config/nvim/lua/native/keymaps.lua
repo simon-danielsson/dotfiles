@@ -81,6 +81,17 @@ keymap("n", "<Leader>q", "<cmd>q<CR>",
         { desc = "Quit" })
 
 -- ======================================================
+-- Folds
+-- ======================================================
+
+vim.keymap.set('n', 'za', 'za',
+        { desc = "Toggle fold under cursor" })
+vim.keymap.set('n', 'zo', 'zR',
+        { desc = "Open all folds" })
+vim.keymap.set('n', 'zc', 'zM',
+        { desc = "Close all folds" })
+
+-- ======================================================
 -- Editing
 -- ======================================================
 

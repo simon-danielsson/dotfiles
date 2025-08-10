@@ -29,17 +29,18 @@ return {
                                 disable = { "python" },
                         },
                 })
-                vim.api.nvim_create_autocmd({ "FileType" }, {
-                        pattern = { "*" },
-                        callback = function()
-                                vim.o.foldmethod = 'expr'
-                                vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
-                                vim.o.foldlevel = 99
-                                vim.o.foldenable = true
-                                vim.keymap.set('n', 'zo', 'zR', { desc = 'Open all folds' })
-                                vim.keymap.set('n', 'zc', 'zM', { desc = 'Close all folds' })
-                                vim.keymap.set('n', 'zt', 'za', { desc = 'Toggle fold' })
-                        end,
-                })
+                -- vim.api.nvim_create_autocmd({ "FileType" }, {
+                -- pattern = { "*" },
+                -- callback = function()
+                -- vim.o.foldmethod = 'expr'
+                -- vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
+                -- vim.o.foldlevelstart = 99
+                -- vim.o.foldenable = false
+                -- vim.o.foldcolumn = "6"
+                -- vim.keymap.set('n', 'zo', 'zR', { desc = 'Open all folds' })
+                -- vim.keymap.set('n', 'zc', 'zM', { desc = 'Close all folds' })
+                -- vim.keymap.set('n', 'zt', 'za', { desc = 'Toggle fold' })
+                -- end,
+                -- })
         end,
 }

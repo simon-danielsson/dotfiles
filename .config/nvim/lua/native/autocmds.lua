@@ -177,13 +177,25 @@ autocmd({ "BufRead", "BufNewFile" }, {
         desc = "Enable spell checking for certain file types",
 })
 
+vim.api.nvim_create_autocmd("BufEnter", {
+        group = misc_group,
+        callback = function()
+                vim.cmd([[
+            setlocal foldmethod=expr
+            setlocal foldexpr=getline(v:lnum)=~'^\\s*$'?0:1
+            setlocal foldlevelstart=99
+            setlocal foldenable
+            ]])
+        end,
+        desc = "Add folds for paragraphs separated by empty lines",
+})
 vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter" }, {
         group = misc_group,
         pattern = { "oil://*" },
         callback = function()
                 vim.opt.laststatus = 0
         end,
-        desc = "Hide statusline on Oil",
+        desc = "Hide statusline on oil",
 })
 
 vim.api.nvim_create_autocmd("BufLeave", {

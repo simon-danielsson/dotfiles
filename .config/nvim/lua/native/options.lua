@@ -83,6 +83,15 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- ======================================================
+-- Folds
+-- ======================================================
+
+opt.foldcolumn = "2"
+o.foldmethod = "expr"
+o.foldlevelstart = 99
+o.foldenable = false
+
+-- ======================================================
 -- Search
 -- ======================================================
 
@@ -100,27 +109,31 @@ opt.wildignore:append({ "*.o", "*.obj", "*.pyc", "*.class", "*.jar" })
 -- Appearance
 -- ======================================================
 
-vim.opt.winborder = "rounded"
+opt.winborder = "rounded"
 opt.termguicolors = true
 opt.numberwidth = 4
 opt.list = true
 opt.listchars = { tab = "│ ", trail = "•" }
 opt.fillchars = {
-        horiz = "━",
-        horizup = "┻",
-        horizdown = "┳",
-        vert = "┃",
-        vertleft = "┨",
-        vertright = "┣",
-        verthoriz = "╋",
-        fold = "⠀",
+        horiz = " ",
+        horizup = " ",
+        horizdown = " ",
+        vert = " ",
+        vertleft = " ",
+        vertright = " ",
+        verthoriz = " ",
+        fold = "─",
         eob = " ",
-        diff = "┃",
-        msgsep = "‾",
+        diff = " ",
+        msgsep = " ",
         foldsep = "│",
-        foldclose = "▶",
-        foldopen = "▼",
+        foldclose = "",
+        foldopen = "",
 }
+
+-- ======================================================
+-- Folding
+-- ======================================================
 
 -- ======================================================
 -- File Handling
