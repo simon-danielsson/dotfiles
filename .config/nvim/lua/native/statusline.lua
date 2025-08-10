@@ -1,13 +1,48 @@
 local icons = require("native.icons")
 
 -- ======================================================
--- Utility Functions
+-- Git Setup
 -- ======================================================
 
-local function git_branch()
-        local branch = vim.fn.system("git branch --show-current 2>/dev/null | tr -d '\n'")
-        return branch ~= "" and "│  " .. branch or ""
+local function git_info()
+        local branch = vim.fn.system("git branch --show-current 2>/dev/null"):gsub("\n", "")
+        if branch == "" then
+                return ""
+        end
+
+-- git status info
+        local status = vim.fn.systemlist("git status --porcelain=v2 --branch 2>/dev/null")
+        local ahead, behind, added, modified, deleted = 0, 0, 0, 0, 0
+
+for _, line in ipairs(status) do
+                -- ahead/behind counts
+                local a, b = line:match("^# branch%.ab%s+([%+%-]?%d+)%s+([%+%-]?%d+)")
+                if a and b then
+                        ahead, behind = tonumber(a) or 0, tonumber(b) or 0
+                end
+
+-- file changes
+                if line:match("^1 ") or line:match("^2 ") then
+                        local xy = line:sub(3, 4)
+                        if xy:match("A") then added = added + 1 end
+                        if xy:match("M") then modified = modified + 1 end
+                        if xy:match("D") then deleted = deleted + 1 end
+                end
+        end
+
+local parts = { icons.git.branch .. " " .. branch }
+        if ahead > 0 then table.insert(parts, "↑" .. " " .. ahead) end
+        if behind > 0 then table.insert(parts, "↓" .. " " .. behind) end
+        if added > 0 then table.insert(parts, icons.git.add .. " " .. added) end
+        if modified > 0 then table.insert(parts, icons.git.mod_alt .. " " .. modified) end
+        if deleted > 0 then table.insert(parts, icons.git.remove .. " " .. deleted) end
+
+return "│ " .. table.concat(parts, " ")
 end
+
+-- ======================================================
+-- Utilities
+-- ======================================================
 
 local function file_size()
         local size = vim.fn.getfsize(vim.fn.expand('%'))
@@ -33,7 +68,7 @@ local function short_filepath()
 end
 
 local function mode_icon()
-        return icons.modes[vim.fn.mode()] or (" " .. vim.fn.mode():upper())
+        return (icons.modes[vim.fn.mode()] .. " ") or (" " .. vim.fn.mode():upper())
 end
 
 -- ======================================================
@@ -50,22 +85,14 @@ local function file_type_icon()
 end
 
 -- ======================================================
--- Diagnostics
+-- Diagnostics Setup
 -- ======================================================
 
 local diagnostics_levels = {
-        { name = "Error",
-                icon = icons.diagn.error,
-                severity = vim.diagnostic.severity.ERROR },
-        { name = "Warn",
-                icon = icons.diagn.warning,
-                severity = vim.diagnostic.severity.WARN },
-        { name = "Info",
-                icon = icons.diagn.information,
-                severity = vim.diagnostic.severity.INFO },
-        { name = "Hint",
-                icon = icons.diagn.hint,
-                severity = vim.diagnostic.severity.HINT },
+        { name = "Error", icon = icons.diagn.error, severity = vim.diagnostic.severity.ERROR },
+        { name = "Warn",  icon = icons.diagn.warning, severity = vim.diagnostic.severity.WARN },
+        { name = "Info",  icon = icons.diagn.information, severity = vim.diagnostic.severity.INFO },
+        { name = "Hint",  icon = icons.diagn.hint, severity = vim.diagnostic.severity.HINT },
 }
 
 local function diagnostics_component(name, icon, severity)
@@ -94,22 +121,19 @@ local bg_dark = "#262626"
 local bg_dim = "#444444"
 local fg_white = "#ffffff"
 
--- Base highlights
 local base_groups = {
-        "StatusFilename", "StatusGit", "StatusFileType",   "StatusLine",
+        "StatusFilename", "StatusGit", "StatusFileType", "StatusLine",
         "StatusFileSize", "StatusLSP", "ColumnPercentage", "StatusModified"
 }
 for _, group in ipairs(base_groups) do
         set_hl(group, fg_white, bg_dark, false)
 end
 
--- Special highlights
 set_hl("ColumnPercentage", fg_white, bg_dark, true)
 set_hl("StatusMode", fg_white, bg_dim, true)
 set_hl("StatusPosition", fg_white, bg_dim, true)
 set_hl("StatusModified", "#e06c75", bg_dark, true)
 
--- Link diagnostic highlights
 for _, level in ipairs(diagnostics_levels) do
         vim.api.nvim_set_hl(0, "StatusDiagnostics" .. level.name, { link = "Diagnostic" .. level.name })
 end
@@ -123,22 +147,18 @@ _G.Statusline = function()
                 "%#StatusMode#  " .. mode_icon() .. " ",
                 "%#StatusFileType# " .. file_type_icon(),
                 "%#StatusFilename# " .. short_filepath(),
-                "%#StatusGit# " .. git_branch(),
+                "%#StatusGit# " .. git_info(),
                 "%=",
         }
 
--- Diagnostics
-        for _, level in ipairs(diagnostics_levels) do
+for _, level in ipairs(diagnostics_levels) do
                 table.insert(parts, "%#StatusDiagnostics" .. level.name .. "#")
                 table.insert(parts, diagnostics_component(level.name, level.icon, level.severity))
         end
 
--- Summary
-        table.insert(parts, "%#StatusDiagnosticsSummary#" .. diagnostics_summary())
-
--- File size, lines, cursor pos
-        table.insert(parts, "%#StatusFileSize#"  .. icons.ui.memory .. " " .. file_size() .. " ")
-        table.insert(parts, "%#StatusFileSize#"  .. icons.ui.file .. " %L ")
+table.insert(parts, "%#StatusDiagnosticsSummary#" .. diagnostics_summary())
+        table.insert(parts, "%#StatusFileSize#" .. icons.ui.memory .. " " .. file_size() .. " ")
+        table.insert(parts, "%#StatusFileSize#" .. icons.ui.file .. " %L ")
         table.insert(parts, "%#StatusPosition# " .. icons.ui.location .. " %l:%c ")
 
 return table.concat(parts)
