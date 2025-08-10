@@ -38,7 +38,6 @@ end, { desc = "Go to next diagnostic" })
 -- Global Navigation
 -- ======================================================
 
--- Cycle through open buffers
 keymap("n", "_", function()
         local bufs = vim.api.nvim_list_bufs()
         -- Filter only listed and loaded buffers
@@ -65,6 +64,10 @@ keymap("n", "-", function()
         vim.cmd("wincmd w")
 end, { desc = "Cycle through splits" })
 
+keymap('n', '<Left>', '<cmd>vertical resize +4<cr>',
+        { desc = 'Increase Window Width' })
+keymap('n', '<Right>', '<cmd>vertical resize -4<cr>',
+        { desc = 'Decrease Window Width' })
 -- ======================================================
 -- General
 -- ======================================================
@@ -94,6 +97,9 @@ vim.keymap.set('n', 'zc', 'zM',
 -- ======================================================
 -- Editing
 -- ======================================================
+
+vim.keymap.set("n", "<leader><CR>", "i<CR><Esc>",
+        { desc = "Insert newline at cursor" })
 
 -- "vip" to select entire paragraph (had to be fixed since it broke when I remapped the movement keys)
 keymap("n", "vip", function()
