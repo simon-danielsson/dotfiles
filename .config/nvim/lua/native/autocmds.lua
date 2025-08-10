@@ -111,17 +111,31 @@ local cursor_group = augroup("CursorCommands", { clear = true })
 autocmd("BufReadPost", {
         group = cursor_group,
         callback = function()
-                -- Skip commit messages
                 if vim.bo.filetype == "commit" then
                         return
                 end
-                local mark = vim.api.nvim_buf_get_mark(0, '"') -- { line, col }
+                local mark = vim.api.nvim_buf_get_mark(0, '"')
                 local lcount = vim.api.nvim_buf_line_count(0)
                 if mark[1] > 0 and mark[1] <= lcount then
                         pcall(vim.api.nvim_win_set_cursor, 0, mark) -- preserves column
                 end
         end,
         desc = "Restore cursor location when opening a buffer",
+})
+
+autocmd({ "BufEnter", "WinEnter" }, {
+        group = cursor_group,
+        callback = function()
+                vim.opt_local.cursorline = true
+        end,
+        desc = "Highlight cursorline in active window",
+})
+autocmd("WinLeave", {
+        group = cursor_group,
+        callback = function()
+                vim.opt_local.cursorline = false
+        end,
+        desc = "Do no highlight cursorline in inactive windows",
 })
 
 autocmd("TextYankPost", {
