@@ -1,0 +1,40 @@
+# erase all keyboard shortcuts
+keybind = clear
+
+# behaviour
+
+window-save-state = never
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = true
+quit-after-last-window-closed = true
+shell-integration = zsh
+auto-update = download
+mouse-hide-while-typing = true
+
+# font
+
+font-size = 16
+font-family = 0xProto Nerd Font Mono
+
+# window
+
+window-padding-x = 20,20
+window-padding-y = 20,20
+window-padding-balance = true
+
+window-inherit-font-size = true
+window-subtitle = false
+# macos-titlebar-style = hidden
+macos-window-shadow = true
+
+# background
+
+background = #262626
+background-opacity = 0.5
+background-blur = 50
+
+# quick terminal
+
+quick-terminal-position = left
+quick-terminal-autohide = true
