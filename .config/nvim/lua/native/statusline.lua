@@ -74,6 +74,7 @@ end
 -- ======================================================
 -- Filetype Icons Setup
 -- ======================================================
+
 local filetype_icons = icons.lang
 for ft, entry in pairs(filetype_icons) do
         vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = "#262626" })
