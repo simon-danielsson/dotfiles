@@ -16,8 +16,8 @@ opt.relativenumber = true
 opt.wrap = true
 opt.linebreak = true
 opt.showbreak = '󱞩 '
-opt.scrolloff = 10
-opt.sidescrolloff = 8
+opt.scrolloff = 25
+opt.sidescrolloff = 6
 
 -- ======================================================
 -- Clipboard
@@ -130,10 +130,6 @@ opt.fillchars = {
         foldclose = "",
         foldopen = "",
 }
-
--- ======================================================
--- Folding
--- ======================================================
 
 -- ======================================================
 -- File Handling

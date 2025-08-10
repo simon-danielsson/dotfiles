@@ -155,12 +155,12 @@ autocmd("TermClose", {
 })
 
 -- ======================================================
--- Miscellaneous
+-- User Interface
 -- ======================================================
-local misc_group = augroup("MiscCommands", { clear = true })
+local ui_group = augroup("UiCommands", { clear = true })
 
 vim.api.nvim_create_autocmd("BufEnter", {
-        group = misc_group,
+        group = ui_group,
         callback = function()
                 vim.opt.formatoptions:remove { "c", "r", "o" }
         end,
@@ -168,7 +168,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 autocmd({ "BufRead", "BufNewFile" }, {
-        group = misc_group,
+        group = ui_group,
         pattern = { "*.txt", "*.md" },
         callback = function()
                 vim.opt.spell = true
@@ -178,7 +178,7 @@ autocmd({ "BufRead", "BufNewFile" }, {
 })
 
 vim.api.nvim_create_autocmd("BufEnter", {
-        group = misc_group,
+        group = ui_group,
         callback = function()
                 vim.cmd([[
             setlocal foldmethod=expr
@@ -189,8 +189,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
         end,
         desc = "Add folds for paragraphs separated by empty lines",
 })
+
 vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter" }, {
-        group = misc_group,
+        group = ui_group,
         pattern = { "oil://*" },
         callback = function()
                 vim.opt.laststatus = 0
@@ -199,7 +200,7 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter" }, {
 })
 
 vim.api.nvim_create_autocmd("BufLeave", {
-        group = misc_group,
+        group = ui_group,
         pattern = { "oil://*" },
         callback = function()
                 vim.opt.laststatus = 3
@@ -208,12 +209,16 @@ vim.api.nvim_create_autocmd("BufLeave", {
 })
 
 autocmd("VimResized", {
-        group = misc_group,
+        group = ui_group,
         callback = function()
                 vim.cmd("tabdo wincmd =")
         end,
         desc = "Auto-resize splits when window is resized"
 })
+
+-- ======================================================
+-- Miscellaneous
+-- ======================================================
 
 -- Suppress notify inside Oil buffers
 local original_notify = vim.notify
