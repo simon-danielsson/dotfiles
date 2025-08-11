@@ -195,11 +195,11 @@ vim.api.nvim_create_autocmd("BufEnter", {
         group = ui_group,
         callback = function()
                 vim.cmd([[
-            setlocal foldmethod=expr
-            setlocal foldexpr=getline(v:lnum)=~'^\\s*$'?0:1
-            setlocal foldlevelstart=99
-            setlocal foldenable
-            ]])
+                setlocal foldmethod=expr
+                setlocal foldexpr=getline(v:lnum)=~'^\\s*$'?0:1
+                setlocal foldlevelstart=99
+                setlocal foldenable
+                ]])
         end,
         desc = "Add folds for paragraphs separated by empty lines",
 })

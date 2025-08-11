@@ -121,7 +121,7 @@ opt.wildmenu            = true
 opt.wildmode            = "longest:full,full"
 opt.wildoptions         = "pum,fuzzy"
 opt.wildignore          :append({ "*.o", "*.obj",
-        "*.pyc", "*.class", "*.jar" })
+"*.pyc", "*.class", "*.jar" })
 
 -- ======================================================
 -- Appearance
@@ -130,8 +130,9 @@ opt.wildignore          :append({ "*.o", "*.obj",
 opt.winborder           = "rounded"
 opt.termguicolors       = true
 opt.numberwidth         = 4
+opt.showmatch           = true
 opt.list                = true
-opt.listchars           = { tab = "│ ", trail = "•" }
+opt.listchars           = { tab = "║ ", trail = "•" }
 opt.fillchars = {
         horiz           = " ",
         horizup         = " ",
