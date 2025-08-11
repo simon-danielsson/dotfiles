@@ -83,6 +83,22 @@ vim.api.nvim_create_autocmd("FileType", {
         end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+        pattern = "python",
+        callback = function()
+                vim.bo.tabstop          = 4
+                vim.bo.shiftwidth       = 4
+                vim.bo.expandtab        = true
+                o.tabstop               = 4
+                o.shiftwidth            = 4
+                o.softtabstop           = 4
+                o.smartindent           = false
+                o.autoindent            = false
+                vim.bo.indentexpr       = ""
+                vim.bo.cindent          = false
+        end,
+})
+
 -- ======================================================
 -- Folds
 -- ======================================================

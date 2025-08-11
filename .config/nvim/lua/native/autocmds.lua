@@ -24,7 +24,7 @@ autocmd("BufWritePre", {
         group = write_group,
         pattern = "*",
         callback = function()
-                local ignore = { "markdown", "make", "oil", "txt" }
+                local ignore = { "python", "markdown", "make", "oil", "txt" }
                 if vim.tbl_contains(ignore, vim.bo.filetype) then return end
                 local pos = vim.api.nvim_win_get_cursor(0)
                 vim.cmd("normal! gg=G")
