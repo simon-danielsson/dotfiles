@@ -15,9 +15,11 @@ opt.relativenumber      = true
 
 opt.wrap                = true
 opt.linebreak           = true
+vim.o.breakindent       = true
 opt.showbreak           = '󱞩 '
 opt.scrolloff           = 99
 opt.sidescrolloff       = 6
+vim.o.smoothscroll      = true
 
 -- ======================================================
 -- Clipboard
@@ -29,10 +31,11 @@ opt.clipboard           = 'unnamedplus'
 -- Editing
 -- ======================================================
 
-opt.iskeyword           :append({"-", "_", })
+opt.iskeyword           :append({"-", "_" })
 opt.backspace           = "indent,eol,start"
 opt.modifiable          = true
 opt.completeopt         = { "menu","menuone","preview" }
+vim.o.inccommand        = 'nosplit'
 
 -- ======================================================
 -- Windows, Splits & Buffers

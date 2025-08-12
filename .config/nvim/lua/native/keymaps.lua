@@ -60,46 +60,55 @@ keymap("n", "_", function()
         vim.api.nvim_set_current_buf(open_bufs[next_idx])
 end, { desc = "Cycle through open buffers with _" })
 
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>',
+{ desc = 'Exit terminal mode' })
+
 keymap("n", "-", function()
         vim.cmd("wincmd w")
 end, { desc = "Cycle through splits" })
 
 keymap('n', '<Left>', '<cmd>vertical resize +4<cr>',
-        { desc = 'Increase Window Width' })
+{ desc = 'Increase Window Width' })
 keymap('n', '<Right>', '<cmd>vertical resize -4<cr>',
-        { desc = 'Decrease Window Width' })
+{ desc = 'Decrease Window Width' })
 -- ======================================================
 -- General
 -- ======================================================
 
 keymap("n", "<Esc>", "<cmd>nohlsearch<CR>",
-        { desc = "Clear search highlights" })
+{ desc = "Clear search highlights" })
 
 -- Write
 keymap("n", "<Leader>w", "<cmd>w<CR>",
-        { desc = "Write" })
+{ desc = "Write" })
 
 -- Quit
 keymap("n", "<Leader>q", "<cmd>q<CR>",
-        { desc = "Quit" })
+{ desc = "Quit" })
+
+vim.keymap.set('n', 'q', '<nop>')
+vim.keymap.set('n', 'Q', 'q',
+{ desc = 'Record macro' })
+vim.keymap.set('n', '<C-q>', 'Q',
+{ desc = 'Replay last recorded macro' })
 
 -- ======================================================
 -- Folds
 -- ======================================================
 
 vim.keymap.set('n', 'za', 'za',
-        { desc = "Toggle fold under cursor" })
+{ desc = "Toggle fold under cursor" })
 vim.keymap.set('n', 'zo', 'zR',
-        { desc = "Open all folds" })
+{ desc = "Open all folds" })
 vim.keymap.set('n', 'zc', 'zM',
-        { desc = "Close all folds" })
+{ desc = "Close all folds" })
 
 -- ======================================================
 -- Editing
 -- ======================================================
 
 vim.keymap.set("n", "<leader><CR>", "i<CR><Esc>",
-        { desc = "Insert newline at cursor" })
+{ desc = "Insert newline at cursor" })
 
 -- "vip" to select entire paragraph (had to be fixed since it broke when I remapped the movement keys)
 keymap("n", "vip", function()
@@ -147,11 +156,11 @@ keymap("v", "<S-o>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 -- Enter Lazy
 keymap("n", "<leader>l", "<cmd>Lazy<CR>",
-        { desc = "Open Lazy" })
+{ desc = "Open Lazy" })
 
 -- Map <leader>f to open Oil file explorer
 keymap("n", "<leader>f", ":Oil --float<CR>",
-        { desc = "Open Oil", noremap = true, silent = true })
+{ desc = "Open Oil", noremap = true, silent = true })
 
 -- LSP
 keymap("n", "K", function() vim.lsp.buf.hover({ border = "rounded"}) end, opts)
