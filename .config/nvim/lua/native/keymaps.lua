@@ -15,10 +15,17 @@ keymap("n", "i", "<Nop>")
 keymap("n", "I", "<Nop>")
 keymap("n", "o", "<Nop>")
 keymap("n", "O", "<Nop>")
-keymap({ "n", "v" }, "n", "h", { desc = "Move left" })
-keymap({ "n", "v" }, "e", "j", { desc = "Move down" })
-keymap({ "n", "v" }, "o", "k", { desc = "Move up" })
-keymap({ "n", "v" }, "i", "l", { desc = "Move right" })
+
+keymap({ "n", "v" }, "n", "h",
+{ desc = "Move left" })
+keymap({ "n", "v" }, "i", "l",
+{ desc = "Move right" })
+vim.keymap.set({'n', 'v' }, 'o', "v:count == 0 ? 'gk' : 'k'",
+{ expr = true, silent = true,
+desc = "Move up (through wrapped lines)" })
+vim.keymap.set({'n', 'v' }, 'e', "v:count == 0 ? 'gj' : 'j'",
+{ expr = true, silent = true,
+desc = "Move down (through wrapped lines)" })
 
 keymap("n", ">", "nzzzv", { desc = "Next search result (centered)" })
 keymap("n", "<", "Nzzzv", { desc = "Previous search result (centered)" })
