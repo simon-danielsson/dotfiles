@@ -18,24 +18,35 @@ keymap("n", "O", "<Nop>")
 
 keymap({ "n", "v" }, "n", "h",
 { desc = "Move left" })
+
 keymap({ "n", "v" }, "i", "l",
 { desc = "Move right" })
-vim.keymap.set({'n', 'v' }, 'o', "v:count == 0 ? 'gk' : 'k'",
+
+keymap({'n', 'v' }, 'o', "v:count == 0 ? 'gk' : 'k'",
 { expr = true, silent = true,
 desc = "Move up (through wrapped lines)" })
-vim.keymap.set({'n', 'v' }, 'e', "v:count == 0 ? 'gj' : 'j'",
+
+keymap({'n', 'v' }, 'e', "v:count == 0 ? 'gj' : 'j'",
 { expr = true, silent = true,
 desc = "Move down (through wrapped lines)" })
 
-keymap("n", ">", "nzzzv", { desc = "Next search result (centered)" })
-keymap("n", "<", "Nzzzv", { desc = "Previous search result (centered)" })
-keymap("n", "}", "}zz", { desc = "Next empty line (centered)" })
-keymap("n", "{", "{zz", { desc = "Previous empty line (centered)" })
+keymap("n", ">", "nzzzv",
+{ desc = "Next search result (centered)" })
+
+keymap("n", "<", "Nzzzv",
+{ desc = "Previous search result (centered)" })
+
+keymap("n", "}", "}zz",
+{ desc = "Next empty line (centered)" })
+
+keymap("n", "{", "{zz",
+{ desc = "Previous empty line (centered)" })
 
 keymap("n", "<C-e>", function()
         vim.diagnostic.goto_prev()
         vim.cmd("normal! zz")
 end, { desc = "Go to previous diagnostic" })
+
 keymap("n", "<C-o>", function()
         vim.diagnostic.goto_next()
         vim.cmd("normal! zz")
@@ -76,8 +87,10 @@ end, { desc = "Cycle through splits" })
 
 keymap('n', '<Left>', '<cmd>vertical resize +4<cr>',
 { desc = 'Increase Window Width' })
+
 keymap('n', '<Right>', '<cmd>vertical resize -4<cr>',
 { desc = 'Decrease Window Width' })
+
 -- ======================================================
 -- General
 -- ======================================================
@@ -93,31 +106,37 @@ keymap("n", "<Leader>w", "<cmd>w<CR>",
 keymap("n", "<Leader>q", "<cmd>q<CR>",
 { desc = "Quit" })
 
-vim.keymap.set('n', 'q', '<nop>')
-vim.keymap.set('n', 'Q', 'q',
+keymap('n', 'q', '<nop>')
+keymap('n', 'Q', 'q',
 { desc = 'Record macro' })
-vim.keymap.set('n', '<C-q>', 'Q',
+
+keymap('n', '<C-q>', 'Q',
 { desc = 'Replay last recorded macro' })
 
 -- ======================================================
 -- Folds
 -- ======================================================
 
-vim.keymap.set('n', 'za', 'za',
+keymap('n', 'za', 'za',
 { desc = "Toggle fold under cursor" })
-vim.keymap.set('n', 'zo', 'zR',
+
+keymap('n', 'zo', 'zR',
 { desc = "Open all folds" })
-vim.keymap.set('n', 'zc', 'zM',
+
+keymap('n', 'zc', 'zM',
 { desc = "Close all folds" })
 
 -- ======================================================
 -- Editing
 -- ======================================================
 
-vim.keymap.set("n", "<leader><CR>", "i<CR><Esc>",
+keymap('n', 'x', '"_x',
+{ desc = "Delete single character without yanking to register" })
+
+keymap("n", "<leader><CR>", "i<CR><Esc>",
 { desc = "Insert newline at cursor" })
 
--- "vip" to select entire paragraph (had to be fixed since it broke when I remapped the movement keys)
+-- "vip" to go visual inside paragraph (had to be fixed since it broke when I remapped the movement keys)
 keymap("n", "vip", function()
         local cur_line = vim.api.nvim_win_get_cursor(0)[1]
         local total_lines = vim.api.nvim_buf_line_count(0)
@@ -140,13 +159,11 @@ keymap("n", "<leader>I", "I", { desc = "Insert at line start" })
 keymap("n", "<leader>o", "o", { desc = "Open new line below" })
 keymap("n", "<leader>O", "O", { desc = "Open new line above" })
 
--- Indentation using Tab and Shift+Tab in visual mode and normal mode
 keymap("v", "<Tab>", ">gv", { desc = "Indent selection" })
 keymap("v", "<S-Tab>", "<gv", { desc = "Outdent selection" })
 keymap("n", "<Tab>", ">>", { desc = "Indent line" })
 keymap("n", "<S-Tab>", "<<", { desc = "Outdent line" })
 
--- Toggle comment
 local comment = require("native.comment")
 keymap("n", "gcc", comment.toggle_line_comment, { desc = "Toggle line comment" })
 keymap("x", "gc", comment.toggle_visual, { desc = "Toggle visual line comments" })
