@@ -16,7 +16,7 @@ opt.relativenumber      = true
 opt.wrap                = true
 opt.linebreak           = true
 opt.showbreak           = '󱞩 '
-opt.scrolloff           = 25
+opt.scrolloff           = 99
 opt.sidescrolloff       = 6
 
 -- ======================================================
