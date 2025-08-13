@@ -56,6 +56,9 @@ end, { desc = "Go to next diagnostic" })
 -- Global Navigation
 -- ======================================================
 
+keymap("n", "<leader>f", "<cmd>Ex<CR>",
+{ desc = "Launch netrw", noremap = true, silent = true })
+
 keymap("n", "_", function()
         local bufs = vim.api.nvim_list_bufs()
         -- Filter only listed and loaded buffers
@@ -177,14 +180,6 @@ keymap("v", "<S-o>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 -- ======================================================
 -- Plugins & LSP
 -- ======================================================
-
--- Enter Lazy
-keymap("n", "<leader>l", "<cmd>Lazy<CR>",
-{ desc = "Open Lazy" })
-
--- Map <leader>f to open Oil file explorer
-keymap("n", "<leader>f", ":Oil --float<CR>",
-{ desc = "Open Oil", noremap = true, silent = true })
 
 -- LSP
 keymap("n", "K", function() vim.lsp.buf.hover({ border = "rounded"}) end, opts)

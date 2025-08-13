@@ -1,32 +1,41 @@
 -- ~/.config/nvim/init.lua
 
+-- ======================================================
+-- Native config setup
+-- ======================================================
+
 require("native.options")
-require("native.keymaps")
 require("native.comment")
-require("native.netrw")
 require("native.autocmds")
 require("native.colorscheme")
 require("native.statusline")
+require("native.netrw")
 
--- Setup lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-        vim.fn.system({
-                "git", "clone", "--filter=blob:none",
-                "https://github.com/folke/lazy.nvim.git", "--branch=stable",
-                lazypath,
-        })
-end
-vim.opt.rtp:prepend(lazypath)
-require("lazy").setup("plugins", {
-        defaults = { lazy = true },
-        ui = { size = { width = 0.9, height = 0.9 }, border = require("native.icons").border },
-        change_detection = { notify = false },
-})
--- Load LSP
+require("native.keymaps")
+
+-- ======================================================
+-- Plugins
+-- ======================================================
+
+require("plugins.nvim-treesitter")
+require("plugins.nvim-telescope")
+require("plugins.undotree")
+require("plugins.noice")
+require("plugins.indent-blankline")
+require("plugins.cmp")
+
+require("plugins.keymaps")
+
+-- ======================================================
+-- Lsp
+-- ======================================================
+
 require("lsp")
 
--- tmux
+-- ======================================================
+-- TMUX
+-- ======================================================
+
 if os.getenv("TMUX") then
         vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
                 callback = function()
@@ -37,7 +46,10 @@ if os.getenv("TMUX") then
         })
 end
 
--- notify
+-- ======================================================
+-- Notify
+-- ======================================================
+
 _G.last_notify_message = ""
 vim.notify = function(msg, level, opts)
         _G.last_notify_message = msg

@@ -1,16 +1,16 @@
-return {
-        "lukas-reineke/indent-blankline.nvim",
-        main = "ibl",
-        event = { "BufReadPost", "BufNewFile" },
-        config = function()
-                require("ibl").setup({
-                        indent = {
-                                char = "║",
-                        },
-                        scope = {
-                                enabled = true,
-                        },
-                        enabled = true,
-                })
-        end,
-}
+vim.pack.add({
+        {
+                src = "https://github.com/lukas-reineke/indent-blankline.nvim",
+                version = "master",
+        },
+})
+
+require("ibl").setup({
+        indent = {
+                char = "║",
+        },
+        scope = {
+                enabled = true,
+        },
+        enabled = true,
+})

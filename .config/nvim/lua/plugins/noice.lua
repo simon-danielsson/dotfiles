@@ -1,36 +1,35 @@
-return {
-        "folke/noice.nvim",
-        event = "VeryLazy",
-        dependencies = {
-                "MunifTanjim/nui.nvim",
-                {
-                        "rcarriga/nvim-notify",
-                        config = function()
-                                local notify = require("notify")
-                                local original_notify = notify
-                                vim.notify = function(msg, level, opts2)
-                                        if type(msg) == "string" and msg:lower():find("cursor") then
-                                                return
-                                        end
-                                        return original_notify(msg, level, opts2)
-                                end
-                                notify.setup({
-                                        background_colour = "#1e1e2e",
-                                })
-                        end,
-                },
-        },
-        opts = {
-                notify = {
-                        enabled = false, -- keep enabled globally
-                        -- Optional: you can filter specific filetypes here
-                        filter = {
-                                event = "notify",
-                                cond = function()
-                                        return vim.bo.filetype ~= "oil"
-                                end,
-                        },
-                },
+local plugins = {
+        { src = "https://github.com/rcarriga/nvim-notify", version = "master" },
+        { src = "https://github.com/MunifTanjim/nui.nvim", version = "master" },
+        { src = "https://github.com/folke/noice.nvim", version = "v4.10" },
+}
+for _, plugin in ipairs(plugins) do
+        vim.pack.add({ plugin })
+end
+
+local highlights = {
+        "NoiceCmdlinePopupBorder",
+        "NoiceCmdlinePopup",
+        "NoicePopupmenuBorder",
+        "NoicePopupmenu"
+}
+for _, group in ipairs(highlights) do
+        vim.cmd(string.format("highlight %s guibg=NONE", group))
+end
+
+local has_notify, notify = pcall(require, "notify")
+if has_notify then
+        vim.notify = notify.setup({
+                -- options, e.g.,
+                stages = "fade",
+                timeout = 3000,
+                background_colour = "#000000",
+        })
+end
+
+local has_noice, noice = pcall(require, "noice")
+if has_noice then
+        noice.setup({
                 cmdline = {
                         format = {
                                 cmdline = { icon = "", title = "" },
@@ -91,20 +90,10 @@ return {
                                         winblend = 0,
                                 },
                         },
+                        routes = {
+                                filter = { event = "msg_show" },
+                                view = "mini",
+                        },
                 },
-                popupmenu = {
-                        backend = "nui",
-                },
-        },
-        config = function(_, opts)
-                require("noice").setup(opts)
-
--- Optional: transparent UI highlights
-                vim.cmd([[
-      highlight NoiceCmdlinePopupBorder guibg=NONE
-      highlight NoiceCmdlinePopup guibg=NONE
-      highlight NoicePopupmenuBorder guibg=NONE
-      highlight NoicePopupmenu guibg=NONE
-      ]])
-        end,
-}
+        })
+end

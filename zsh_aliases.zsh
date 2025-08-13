@@ -24,8 +24,8 @@ alias p="python3 *.py"
 # Neovim
 # ======================================================
 
-alias nvim="/Users/simondanielsson/dotfiles/scripts/nvim-stable.sh"
-alias nvim-nightly="/Users/simondanielsson/dotfiles/scripts/nvim-nightly.sh"
+#alias nvim="/Users/simondanielsson/dotfiles/scripts/nvim-stable.sh"
+#alias nvim-nightly="/Users/simondanielsson/dotfiles/scripts/nvim-nightly.sh"
 # start nvim with godotpipe
 alias gvim="/Users/simondanielsson/dotfiles/scripts/start-nvim-with-godotpipe.sh"
 # start godot and nvim with godotpipe

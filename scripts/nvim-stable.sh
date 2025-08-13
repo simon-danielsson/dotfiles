@@ -1,2 +1,2 @@
-bob use stable
+
 nvim
