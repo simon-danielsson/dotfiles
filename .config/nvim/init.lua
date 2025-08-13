@@ -17,21 +17,20 @@ require("native.keymaps")
 -- Plugins
 -- ======================================================
 
+require("plugins.indent-blankline")
 require("plugins.nvim-treesitter")
 require("plugins.nvim-telescope")
 require("plugins.undotree")
 require("plugins.noice")
-require("plugins.indent-blankline")
 require("plugins.cmp")
 
 require("plugins.keymaps")
 
 -- ======================================================
--- Lsp
+-- LSP
 -- ======================================================
 
 require("lsp")
-
 -- ======================================================
 -- TMUX
 -- ======================================================
@@ -50,9 +49,9 @@ end
 -- Notify
 -- ======================================================
 
-_G.last_notify_message = ""
-vim.notify = function(msg, level, opts)
-        _G.last_notify_message = msg
-        vim.fn.setreg("6", msg)
-        return vim.notify_orig and vim.notify_orig(msg, level, opts) or vim.api.nvim_echo({{msg}}, true, {})
-end
+-- _G.last_notify_message = ""
+-- vim.notify = function(msg, level, opts)
+        -- _G.last_notify_message = msg
+        -- vim.fn.setreg("6", msg)
+        -- return vim.notify_orig and vim.notify_orig(msg, level, opts) or vim.api.nvim_echo({{msg}}, true, {})
+        -- end

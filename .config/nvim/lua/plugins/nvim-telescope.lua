@@ -2,6 +2,8 @@ vim.pack.add({
         {
                 src = "https://github.com/nvim-lua/plenary.nvim",
                 version = "master",
+                sync = true,
+                silent = true
         },
 })
 
@@ -9,6 +11,8 @@ vim.pack.add({
         {
                 src = "https://github.com/nvim-telescope/telescope.nvim",
                 version = "master",
+                sync = true,
+                silent = true
         },
 })
 

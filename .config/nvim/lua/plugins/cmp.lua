@@ -6,7 +6,7 @@ local cmp_plugins = {
         "https://github.com/hrsh7th/cmp-cmdline",
 }
 for _, plugin in ipairs(cmp_plugins) do
-        vim.pack.add({ { src = plugin } })
+        vim.pack.add({ { src = plugin, sync = true, silent = true } })
 end
 
 local has_cmp, cmp = pcall(require, "cmp")
