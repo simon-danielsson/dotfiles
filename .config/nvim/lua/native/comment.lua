@@ -6,6 +6,7 @@ local comment_strings = {
         python     = { line = "#",   block = { '"""', '"""' } },
         gdscript   = { line = "#",   block = { '"""', '"""' } },
         javascript = { line = "//",  block = { "/*", "*/" } },
+        typst      = { line = "//",  block = { "/*", "*/" } },
         typescript = { line = "//",  block = { "/*", "*/" } },
         c          = { line = "//",  block = { "/*", "*/" } },
         cpp        = { line = "//",  block = { "/*", "*/" } },

@@ -43,6 +43,7 @@ M.lang = {
         dockerfile =    { icon = "", color = "#0db7ed" },
         go =            { icon = "󰊠", color = "#00ADD8" },
         rust =          { icon = "", color = "#dea584" },
+        typst =         { icon = "", color = "#dea584" },
         c =             { icon = "", color = "#555555" },
         cpp =           { icon = "", color = "#00599C" },
         java =          { icon = "", color = "#b07219" },
