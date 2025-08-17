@@ -23,6 +23,7 @@ M.git = {
 M.ui = {
         location =      "󰟙",
         file =          "",
+        wordcount =     "󰆙",
         memory =        "",
 }
 

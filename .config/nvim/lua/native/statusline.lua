@@ -44,6 +44,18 @@ end
 -- Utilities
 -- ======================================================
 
+local function word_count()
+        -- Get current file extension
+        local ext = vim.fn.expand("%:e")  -- gets file extension
+
+-- Only show word count for md, typ, or txt
+        if ext ~= "md" and ext ~= "typ" and ext ~= "txt" then
+                return ""
+        end
+
+local wc = vim.fn.wordcount()
+        return wc.words > 0 and (icons.ui.wordcount .. " " .. wc.words .. " words ") or ""
+end
 local function file_size()
         local size = vim.fn.getfsize(vim.fn.expand('%'))
         if size < 0 then return "" end
@@ -158,6 +170,7 @@ for _, level in ipairs(diagnostics_levels) do
         end
 
 table.insert(parts, "%#StatusDiagnosticsSummary#" .. diagnostics_summary())
+        table.insert(parts, "%#StatusFileSize#" .. word_count())
         table.insert(parts, "%#StatusFileSize#" .. icons.ui.memory .. " " .. file_size() .. " ")
         table.insert(parts, "%#StatusFileSize#" .. icons.ui.file .. " %L ")
         table.insert(parts, "%#StatusPosition# " .. icons.ui.location .. " %l:%c ")
