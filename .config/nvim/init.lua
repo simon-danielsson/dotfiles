@@ -1,7 +1,5 @@
--- ~/.config/nvim/init.lua
-
 -- ======================================================
--- Native config setup
+-- Native config
 -- ======================================================
 
 require("native.options")
@@ -14,7 +12,7 @@ require("native.netrw")
 require("native.keymaps")
 
 -- ======================================================
--- Plugins
+-- Plugin config
 -- ======================================================
 
 require("plugins.indent-blankline")
@@ -44,14 +42,3 @@ if os.getenv("TMUX") then
                 end,
         })
 end
-
--- ======================================================
--- Notify
--- ======================================================
-
--- _G.last_notify_message = ""
--- vim.notify = function(msg, level, opts)
-        -- _G.last_notify_message = msg
-        -- vim.fn.setreg("6", msg)
-        -- return vim.notify_orig and vim.notify_orig(msg, level, opts) or vim.api.nvim_echo({{msg}}, true, {})
-        -- end
