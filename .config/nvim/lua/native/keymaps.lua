@@ -101,11 +101,9 @@ keymap('n', '<Right>', '<cmd>vertical resize -4<cr>',
 keymap("n", "<Esc>", "<cmd>nohlsearch<CR>",
 { desc = "Clear search highlights" })
 
--- Write
 keymap("n", "<Leader>w", "<cmd>w<CR>",
 { desc = "Write" })
 
--- Quit
 keymap("n", "<Leader>q", "<cmd>q<CR>",
 { desc = "Quit" })
 
@@ -115,6 +113,12 @@ keymap('n', 'Q', 'q',
 
 keymap('n', '<C-q>', 'Q',
 { desc = 'Replay last recorded macro' })
+
+keymap('n', '<leader>å', function()
+        vim.cmd('source $MYVIMRC')
+        vim.cmd('restart')
+end,
+{ desc = 'Source and restart config' })
 
 -- ======================================================
 -- Folds
