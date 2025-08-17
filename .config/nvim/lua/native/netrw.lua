@@ -6,6 +6,7 @@ local g = vim.g
 g.netrw_liststyle = 1
 g.netrw_banner = 0
 g.netrw_preview = 1
+g.netrw_list_hide = [[\v(^|/)\.DS_Store$]]
 vim.api.nvim_create_autocmd({"FileType", "BufWinEnter" }, {
         pattern = "netrw",
         callback = function()
