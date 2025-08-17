@@ -24,7 +24,7 @@ autocmd("BufWritePre", {
         group = write_group,
         pattern = "*",
         callback = function()
-                local ignore = { "python", "markdown", "make", "oil", "txt" }
+                local ignore = { "python", "markdown", "make", "oil", "txt", "typ" }
                 if vim.tbl_contains(ignore, vim.bo.filetype) then return end
                 local pos = vim.api.nvim_win_get_cursor(0)
                 vim.cmd("normal! gg=G")
@@ -67,19 +67,20 @@ vim.api.nvim_create_autocmd("BufWritePost", {
         end,
         desc = "Export Typst to PDF on write",
 })
--- ======================================================
--- Directories & Files
--- ======================================================
-local files_group = augroup("FileCommands", { clear = true })
 
 autocmd("BufWritePost", {
-        group = files_group,
+        group = write_group,
         pattern = { "*.sh" },
         callback = function()
                 vim.fn.system({ "chmod", "+x", vim.fn.expand("%:p") })
         end,
-        desc = "Make scripts executable",
+        desc = "Make shell scripts executable",
 })
+
+-- ======================================================
+-- Directories & Files
+-- ======================================================
+local files_group = augroup("FileCommands", { clear = true })
 
 autocmd("BufEnter", {
         group = files_group,
@@ -90,7 +91,7 @@ autocmd("BufEnter", {
                         vim.cmd("lcd " .. dir)
                 end
         end,
-        desc = "Auto-change cwd to current file's folder",
+        desc = "Auto-change cwd to folder of current buffer",
 })
 
 autocmd("BufWritePre", {
@@ -125,7 +126,7 @@ autocmd("BufReadPost", {
                 local mark = vim.api.nvim_buf_get_mark(0, '"')
                 local lcount = vim.api.nvim_buf_line_count(0)
                 if mark[1] > 0 and mark[1] <= lcount then
-                        pcall(vim.api.nvim_win_set_cursor, 0, mark) -- preserves column
+                        pcall(vim.api.nvim_win_set_cursor, 0, mark)
                 end
         end,
         desc = "Restore cursor location when opening a buffer",
@@ -135,7 +136,6 @@ local ignore_filetypes = { "TelescopePrompt", "oil" }
 local function should_ignore()
         return vim.tbl_contains(ignore_filetypes, vim.bo.filetype)
 end
-
 autocmd({ "BufEnter", "WinEnter" }, {
         group = cursor_group,
         callback = function()
@@ -204,7 +204,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 
 autocmd({ "BufRead", "BufNewFile" }, {
         group = ui_group,
-        pattern = { "*.txt", "*.md" },
+        pattern = { "*.txt", "*.md", "*.typ" },
         callback = function()
                 vim.opt.spell = true
                 vim.opt.spelllang = "en_us"
