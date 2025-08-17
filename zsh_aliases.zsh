@@ -32,6 +32,29 @@ alias gvim="/Users/simondanielsson/dotfiles/scripts/start-nvim-with-godotpipe.sh
 alias godot="/Users/simondanielsson/dotfiles/scripts/start-godot-and-nvim-together.sh"
 
 # ======================================================
+# Typst
+# ======================================================
+
+journal() {
+        local today=$(date +"%Y-%m-%d")
+        local dir="$HOME/journal"
+        local file="$dir/${today}.typ"
+        local template="$dir/template.typ"
+
+mkdir -p "$dir"
+
+# Only copy template if the file doesn't already exist
+        if [ ! -f "$file" ]; then
+                if [ -f "$template" ]; then
+                        cp "$template" "$file"
+                else
+                        touch "$file"
+                fi
+        fi
+
+nvim "$file"
+}
+# ======================================================
 # Directories & Search
 # ======================================================
 

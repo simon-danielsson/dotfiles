@@ -59,6 +59,14 @@ autocmd("BufWritePre", {
         desc = "Remove trailing whitespace at ends of lines on write",
 })
 
+vim.api.nvim_create_autocmd("BufWritePost", {
+        group = write_group,
+        pattern = "*.typ",
+        callback = function()
+                vim.cmd("LspTinymistExportPdf")
+        end,
+        desc = "Export Typst to PDF on write",
+})
 -- ======================================================
 -- Directories & Files
 -- ======================================================
