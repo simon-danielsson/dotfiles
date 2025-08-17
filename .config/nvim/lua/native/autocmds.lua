@@ -161,6 +161,7 @@ autocmd("TextYankPost", {
 -- ======================================================
 -- Terminal
 -- ======================================================
+
 local terminal_group = augroup("TerminalCommands", { clear = true })
 
 autocmd({ "WinEnter", "BufWinEnter", "TermOpen" }, {
