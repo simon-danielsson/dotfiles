@@ -44,8 +44,15 @@ vim.o.inccommand        = 'nosplit'
 opt.splitbelow          = true
 opt.autochdir           = false
 opt.splitright          = true
+o.equalalways           = true
 opt.inccommand          = 'split'
 opt.hidden              = true
+opt.diffopt = {
+        "filler",
+        "indent-heuristic",
+        "linematch:60",
+        "vertical",
+}
 
 -- ======================================================
 -- Cursor & Statusline
@@ -130,7 +137,7 @@ opt.wildignore          :append({ "*.o", "*.obj",
 -- Appearance
 -- ======================================================
 
-o.signcolumn            = 'yes'
+o.signcolumn            = 'yes:1'
 opt.winborder           = "rounded"
 opt.termguicolors       = true
 opt.numberwidth         = 4
