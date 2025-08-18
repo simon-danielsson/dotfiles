@@ -19,6 +19,11 @@ vim.pack.add({
 require("telescope").setup({
         cmd = "Telescope",
         defaults = {
+                path_display = {
+                        filename_first = {
+                                reverse_directories = false,
+                        },
+                },
                 prompt_prefix = " ",
                 selection_caret = " ",
                 entry_prefix = "  ",
