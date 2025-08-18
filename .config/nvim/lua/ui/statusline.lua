@@ -1,11 +1,9 @@
 local icons = require("ui.icons")
-local bg_deep = require("ui.colors").bg_deep
-local bg_mid = require("ui.colors").bg_mid
-local fg_main = require("ui.colors").fg_main
-local fg_mid = require("ui.colors").fg_mid
+
+local colors = require("ui.colors")
 
 -- ======================================================
--- Git Setup
+-- Git
 -- ======================================================
 
 local git_cache = { status = "", last_update = 0 }
@@ -87,7 +85,7 @@ end
 -- ======================================================
 
 for ft, entry in pairs(icons.lang) do
-        vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = bg_deep })
+        vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = colors.bg_deep })
 end
 local function file_type_icon()
         local ft = vim.bo.filetype
@@ -108,7 +106,7 @@ local function file_type_filename()
 end
 
 -- ======================================================
--- Diagnostics Setup
+-- Diagnostics
 -- ======================================================
 
 local diagnostics_levels = {
@@ -133,6 +131,20 @@ local function diagnostics_summary()
 end
 
 -- ======================================================
+-- Scrollbar
+-- ======================================================
+
+local SBAR = { "▔", "🮂", "🬂", "🮃", "▀", "▄", "▃", "🬭", "▂", "▁" }
+local function scrollbar()
+        local cur = vim.api.nvim_win_get_cursor(0)[1]
+        local total = vim.api.nvim_buf_line_count(0)
+        if total == 0 then return "" end
+        local idx = math.floor((cur - 1) / total * #SBAR) + 1
+        idx = math.max(1, math.min(idx, #SBAR))
+        return "%#StatusPosition#" .. SBAR[idx]:rep(2) .. "%*"
+end
+
+-- ======================================================
 -- Highlights
 -- ======================================================
 
@@ -145,13 +157,13 @@ local base_groups = {
         "StatusFileSize", "StatusLSP", "ColumnPercentage", "StatusModified"
 }
 for _, group in ipairs(base_groups) do
-        set_hl(group, fg_main, bg_deep, false)
+        set_hl(group, colors.fg_main, colors.bg_deep, false)
 end
 
-set_hl("ColumnPercentage", fg_main, bg_deep, true)
-set_hl("StatusPosition", fg_main, bg_mid, true)
-set_hl("StatusMode", fg_main, bg_mid, true)
-set_hl("StatusModified", "#e06c75", bg_deep, true)
+set_hl("ColumnPercentage", colors.fg_main, colors.bg_deep, true)
+set_hl("StatusPosition", colors.fg_main, colors.bg_mid, true)
+set_hl("StatusMode", colors.fg_main, colors.bg_mid, true)
+set_hl("StatusModified", "#e06c75", colors.bg_deep, true)
 
 for _, level in ipairs(diagnostics_levels) do
         vim.api.nvim_set_hl(0, "StatusDiagnostics" .. level.name, { link = "Diagnostic" .. level.name })
@@ -179,6 +191,7 @@ table.insert(parts, "%#StatusDiagnosticsSummary#" .. diagnostics_summary())
         table.insert(parts, "%#StatusFileSize#" .. icons.ui.memory .. " " .. file_size() .. " ")
         table.insert(parts, "%#StatusFileSize#" .. icons.ui.file .. " %L ")
         table.insert(parts, "%#StatusPosition# " .. icons.ui.location .. " %l:%c ")
+        table.insert(parts, scrollbar())
 
 return table.concat(parts)
 end

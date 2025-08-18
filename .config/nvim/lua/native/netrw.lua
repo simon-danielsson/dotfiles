@@ -24,26 +24,6 @@ vim.api.nvim_create_autocmd({"FileType", "BufWinEnter" }, {
 -- Preview
 -- ======================================================
 
-local grp = vim.api.nvim_create_augroup("netrw_layout", { clear = true })
-vim.api.nvim_create_autocmd("FileType", {
-        group = grp,
-        pattern = "netrw",
-        callback = function()
-                vim.cmd("wincmd H")
-                vim.cmd("vertical resize 30")
-        end,
-})
-
-vim.api.nvim_create_autocmd("BufWinEnter", {
-        group = grp,
-        callback = function()
-                if vim.wo.previewwindow then
-                        vim.cmd("wincmd L")
-                        vim.cmd("vertical resize 80")
-                end
-        end,
-})
-
 vim.api.nvim_create_autocmd("BufEnter", {
         callback = function()
                 vim.cmd("pclose")
