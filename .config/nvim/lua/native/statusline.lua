@@ -4,42 +4,45 @@ local icons = require("native.icons")
 -- Git Setup
 -- ======================================================
 
+-- cache table
+local git_cache = { status = "", last_update = 0 }
+
 local function git_info()
-        local branch = vim.fn.system("git branch --show-current 2>/dev/null"):gsub("\n", "")
-        if branch == "" then
-                return ""
+        -- update every 2 seconds
+        local now = vim.loop.hrtime() / 1e9
+        if now - git_cache.last_update > 2 then
+                git_cache.last_update = now
+
+local branch = vim.fn.system("git branch --show-current 2>/dev/null"):gsub("\n", "")
+                if branch == "" then
+                        git_cache.status = ""
+                else
+                        local status = vim.fn.systemlist("git status --porcelain=v2 --branch 2>/dev/null")
+                        local ahead, behind, added, modified, deleted = 0, 0, 0, 0, 0
+                        for _, line in ipairs(status) do
+                                local a, b = line:match("^# branch%.ab%s+([%+%-]?%d+)%s+([%+%-]?%d+)")
+                                if a and b then
+                                        ahead, behind = tonumber(a) or 0, tonumber(b) or 0
+                                end
+                                if line:match("^1 ") or line:match("^2 ") then
+                                        local xy = line:sub(3, 4)
+                                        if xy:match("A") then added = added + 1 end
+                                        if xy:match("M") then modified = modified + 1 end
+                                        if xy:match("D") then deleted = deleted + 1 end
+                                end
+                        end
+                        local parts = { icons.git.branch .. " " .. branch }
+                        if ahead > 0 then table.insert(parts, "↑" .. ahead) end
+                        if behind > 0 then table.insert(parts, "↓" .. behind) end
+                        if added > 0 then table.insert(parts, icons.git.add .. " " .. added) end
+                        if modified > 0 then table.insert(parts, icons.git.mod_alt .. " " .. modified) end
+                        if deleted > 0 then table.insert(parts, icons.git.remove .. " " .. deleted) end
+                        git_cache.status = "│ " .. table.concat(parts, " ")
+                end
         end
 
--- git status info
-        local status = vim.fn.systemlist("git status --porcelain=v2 --branch 2>/dev/null")
-        local ahead, behind, added, modified, deleted = 0, 0, 0, 0, 0
-
-for _, line in ipairs(status) do
-                -- ahead/behind counts
-                local a, b = line:match("^# branch%.ab%s+([%+%-]?%d+)%s+([%+%-]?%d+)")
-                if a and b then
-                        ahead, behind = tonumber(a) or 0, tonumber(b) or 0
-                end
-
--- file changes
-                if line:match("^1 ") or line:match("^2 ") then
-                        local xy = line:sub(3, 4)
-                        if xy:match("A") then added = added + 1 end
-                        if xy:match("M") then modified = modified + 1 end
-                        if xy:match("D") then deleted = deleted + 1 end
-                end
-        end
-
-local parts = { icons.git.branch .. " " .. branch }
-        if ahead > 0 then table.insert(parts, "↑" .. " " .. ahead) end
-        if behind > 0 then table.insert(parts, "↓" .. " " .. behind) end
-        if added > 0 then table.insert(parts, icons.git.add .. " " .. added) end
-        if modified > 0 then table.insert(parts, icons.git.mod_alt .. " " .. modified) end
-        if deleted > 0 then table.insert(parts, icons.git.remove .. " " .. deleted) end
-
-return "│ " .. table.concat(parts, " ")
+return git_cache.status
 end
-
 -- ======================================================
 -- Utilities
 -- ======================================================
