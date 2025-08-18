@@ -13,11 +13,12 @@ This **TMUX/Neovim config** was set up for **Rust** development, although I also
 ### Shell
 + Zsh ([Oh-My-Zsh](https://ohmyz.sh/))
 
-### Neovim plugins
+### Neovim plugins installed: 12
 + [hrsh7th/nvim-cmp](https://dotfyle.com/plugins/hrsh7th/nvim-cmp)
 + [nvim-telescope/telescope.nvim](https://dotfyle.com/plugins/nvim-telescope/telescope.nvim)
 + [lukas-reineke/indent-blankline.nvim](https://dotfyle.com/plugins/lukas-reineke/indent-blankline.nvim)
 + [neovim/nvim-lspconfig](https://dotfyle.com/plugins/neovim/nvim-lspconfig)
++ [echasnovski/mini.surround](https://dotfyle.com/plugins/echasnovski/mini.surround)
 + [folke/flash.nvim](https://dotfyle.com/plugins/folke/flash.nvim)
 + [williamboman/mason.nvim](https://dotfyle.com/plugins/williamboman/mason.nvim)
 + [nvim-lua/plenary.nvim](https://dotfyle.com/plugins/nvim-lua/plenary.nvim)
