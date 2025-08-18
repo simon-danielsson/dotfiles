@@ -24,6 +24,7 @@ require("plugins.nvim-treesitter")
 require("plugins.nvim-telescope")
 require("plugins.undotree")
 require("plugins.noice")
+require("plugins.flash")
 require("plugins.cmp")
 
 require("plugins.keymaps")
