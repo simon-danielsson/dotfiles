@@ -82,6 +82,14 @@ autocmd("BufWritePost", {
 -- ======================================================
 local files_group = augroup("FileCommands", { clear = true })
 
+autocmd("BufNewFile", {
+        group = files_group,
+        command = "silent! 0r "
+        .. vim.fn.stdpath("config")
+        .. "/templates/template.%:e",
+        desc = "If one exists, use a template when opening a new file",
+})
+
 autocmd("BufEnter", {
         group = files_group,
         pattern = "*",
