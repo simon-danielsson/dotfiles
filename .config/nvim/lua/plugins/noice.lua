@@ -1,3 +1,5 @@
+local icons = require("ui.icons").noice
+
 local plugins = {
         { src = "https://github.com/rcarriga/nvim-notify", version = "master", sync = true, silent = true },
         { src = "https://github.com/MunifTanjim/nui.nvim", version = "master", sync = true, silent = true },
@@ -31,12 +33,12 @@ if has_noice then
         noice.setup({
                 cmdline = {
                         format = {
-                                cmdline = { icon = "", title = "" },
-                                search_down = { icon = " " },
-                                search_up = { icon = " " },
-                                filter = { icon = " " },
-                                lua = { icon = " " },
-                                help = { icon = " " },
+                                cmdline = { icon = icons.cmdline, title = "" },
+                                search_down = { icon = icons.search_down},
+                                search_up = { icon = icons.search_up},
+                                filter = { icon = icons.filter},
+                                lua = { icon = icons.lua},
+                                help = { icon = icons.help},
                         },
                 },
                 lsp = {

@@ -1,4 +1,8 @@
-local icons = require("native.icons")
+local icons = require("ui.icons")
+local bg_deep = require("ui.colors").bg_deep
+local bg_mid = require("ui.colors").bg_mid
+local fg_main = require("ui.colors").fg_main
+local fg_mid = require("ui.colors").fg_mid
 
 -- ======================================================
 -- Set Colorscheme
@@ -31,16 +35,12 @@ for name, icon in pairs({
         DiagnosticSignInfo  = diag_icons[vim.diagnostic.severity.INFO],
         DiagnosticSignHint  = diag_icons[vim.diagnostic.severity.HINT],
 }) do
-        vim.fn.sign_define(name, { text = icon, texthl = name })
+vim.fn.sign_define(name, { text = icon, texthl = name })
 end
 
 -- ======================================================
 -- Colour Overrides
 -- ======================================================
-
-local bg_dark   =       "#262626"
-local bg_dim    =       "#444444"
-local fg_white  =       "#ffffff"
 
 -- Helper function for setting highlights
 local function set_hl(group, opts)
@@ -48,8 +48,8 @@ local function set_hl(group, opts)
 end
 
 -- Fold colors
-set_hl("Folded",     { bg = "none", fg = "#8E7F70" })
-set_hl("FoldColumn", { bg = "none", fg = "#8E7F70" })
+set_hl("Folded",     { bg = "none", fg = fg_mid })
+set_hl("FoldColumn", { bg = "none", fg = fg_mid })
 
 -- Transparent UI elements on VimEnter
 vim.api.nvim_create_autocmd("VimEnter", {
@@ -67,24 +67,32 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 -- Override groups with custom colors and styles
 local override_groups = {
-        CursorLine            = { bg = bg_dark },
-        NoiceCmdlinePopup     = { fg = fg_white, bg = "none" },
-        NoiceCmdlinePopupBorder = { fg = fg_white, bg = "none" },
-        StatusLineNC          = { bg = bg_dim },
-        Normal                = { bg = bg_dark },
-        NormalNC              = { bg = bg_dark },
-        TabLine               = { bg = bg_dark },
-        TabLineFill           = { bg = bg_dark },
-        TabLineSel            = { bg = "#bababa", bold = true },
-        WinSeparator          = { bg = bg_dark },
-        ToolbarButton         = { bg = "#f8f8f2", bold = true, reverse = true },
+        CursorLine            = { bg = bg_deep },
+        NoiceCmdlinePopup     = { fg = fg_mid, bg = "none" },
+        NoiceCmdlinePopupBorder = { fg = fg_mid, bg = "none" },
+        StatusLineNC          = { bg = bg_mid },
+        LineNr                = { fg = fg_mid },
+        Normal                = { bg = bg_deep },
+        Comment               = { fg = fg_mid },
+        NormalFloat           = { fg = fg_mid },
+        FloatBorder           = { fg = fg_mid },
+        TelescopeBorder           = { fg = fg_mid, bg = "none" },
+        TelescopePromptBorder           = { fg = fg_mid, bg = "none" },
+        TelescopeResultsBorder           = { fg = fg_mid },
+        TelescopePreviewBorder           = { fg = fg_mid },
+        NormalNC              = { bg = bg_deep },
+        TabLine               = { bg = bg_deep },
+        TabLineFill           = { bg = bg_deep },
+        TabLineSel            = { bg = fg_mid, bold = true },
+        WinSeparator          = { bg = bg_deep },
+        ToolbarButton         = { bg = fg_main, bold = true, reverse = true },
         EndOfBuffer           = { bg = "none" },
-        ColorColumn           = { ctermbg = 0, bg = bg_dark },
+        ColorColumn           = { ctermbg = 0, bg = bg_deep },
         VertSplit             = { ctermbg = 0, bg = "none", fg = "none" },
-        Pmenu                 = { bg = bg_dark, fg = "#cccccc" },
-        PmenuSel              = { bg = bg_dim, fg = fg_white },
-        PmenuSbar             = { bg = bg_dark },
-        PmenuThumb            = { bg = bg_dim },
+        Pmenu                 = { bg = bg_deep, fg = fg_mid },
+        PmenuSel              = { bg = bg_mid, fg = fg_main },
+        PmenuSbar             = { bg = bg_deep },
+        PmenuThumb            = { bg = bg_mid },
 }
 
 -- Apply overrides

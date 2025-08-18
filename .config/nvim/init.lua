@@ -1,18 +1,22 @@
 -- ======================================================
--- Native config
+-- Native
 -- ======================================================
 
 require("native.options")
 require("native.comment")
 require("native.autocmds")
-require("native.colorscheme")
-require("native.statusline")
 require("native.netrw")
-
 require("native.keymaps")
 
 -- ======================================================
--- Plugin config
+-- User Interface
+-- ======================================================
+
+require("ui.colorscheme")
+require("ui.statusline")
+
+-- ======================================================
+-- Plugin
 -- ======================================================
 
 require("plugins.indent-blankline")
@@ -29,6 +33,7 @@ require("plugins.keymaps")
 -- ======================================================
 
 require("lsp")
+
 -- ======================================================
 -- TMUX
 -- ======================================================

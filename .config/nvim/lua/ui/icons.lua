@@ -56,6 +56,15 @@ M.lang = {
         jsx =           { icon = "", color = "#61dafb" },
 }
 
+M.noice = {
+        cmdline =       "",
+        search_down =   " ",
+        search_up =     " ",
+        filter =        "󰈳",
+        lua =           "",
+        help =          "",
+}
+
 M.diagn = {
         error =         "󰯈",
         warning =       "",

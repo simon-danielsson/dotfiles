@@ -1,8 +1,8 @@
-local icons = require("native.icons")
-
-local bg_dark = "#262626"
-local bg_dim = "#444444"
-local fg_white = "#ffffff"
+local icons = require("ui.icons")
+local bg_deep = require("ui.colors").bg_deep
+local bg_mid = require("ui.colors").bg_mid
+local fg_main = require("ui.colors").fg_main
+local fg_mid = require("ui.colors").fg_mid
 
 -- ======================================================
 -- Git Setup
@@ -37,7 +37,7 @@ local function git_info()
                         if added > 0 then table.insert(parts, icons.git.add .. " " .. added) end
                         if modified > 0 then table.insert(parts, icons.git.mod_alt .. " " .. modified) end
                         if deleted > 0 then table.insert(parts, icons.git.remove .. " " .. deleted) end
-                        git_cache.status = "│ " .. table.concat(parts, " ")
+                        git_cache.status = "" .. table.concat(parts, " ")
                 end
         end
         return git_cache.status
@@ -87,7 +87,7 @@ end
 -- ======================================================
 
 for ft, entry in pairs(icons.lang) do
-        vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = bg_dark })
+        vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = bg_deep })
 end
 local function file_type_icon()
         local ft = vim.bo.filetype
@@ -145,13 +145,13 @@ local base_groups = {
         "StatusFileSize", "StatusLSP", "ColumnPercentage", "StatusModified"
 }
 for _, group in ipairs(base_groups) do
-        set_hl(group, fg_white, bg_dark, false)
+        set_hl(group, fg_main, bg_deep, false)
 end
 
-set_hl("ColumnPercentage", fg_white, bg_dark, true)
-set_hl("StatusPosition", fg_white, bg_dim, true)
-set_hl("StatusMode", fg_white, bg_dim, true)
-set_hl("StatusModified", "#e06c75", bg_dark, true)
+set_hl("ColumnPercentage", fg_main, bg_deep, true)
+set_hl("StatusPosition", fg_main, bg_mid, true)
+set_hl("StatusMode", fg_main, bg_mid, true)
+set_hl("StatusModified", "#e06c75", bg_deep, true)
 
 for _, level in ipairs(diagnostics_levels) do
         vim.api.nvim_set_hl(0, "StatusDiagnostics" .. level.name, { link = "Diagnostic" .. level.name })
