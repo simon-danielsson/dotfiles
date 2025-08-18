@@ -1,5 +1,9 @@
 local icons = require("native.icons")
 
+local bg_dark = "#262626"
+local bg_dim = "#444444"
+local fg_white = "#ffffff"
+
 -- ======================================================
 -- Git Setup
 -- ======================================================
@@ -36,9 +40,9 @@ local function git_info()
                         git_cache.status = "│ " .. table.concat(parts, " ")
                 end
         end
-
-return git_cache.status
+        return git_cache.status
 end
+
 -- ======================================================
 -- Utilities
 -- ======================================================
@@ -51,7 +55,6 @@ local function word_count()
         local wc = vim.fn.wordcount()
         return wc.words > 0 and (icons.ui.wordcount .. " " .. wc.words .. " words ") or ""
 end
-
 local function file_size()
         local size = vim.fn.getfsize(vim.fn.expand('%'))
         if size < 0 then return "" end
@@ -80,17 +83,28 @@ local function mode_icon()
 end
 
 -- ======================================================
--- Filetype Icons Setup
+-- Filetype & Filename
 -- ======================================================
 
-local filetype_icons = icons.lang
-for ft, entry in pairs(filetype_icons) do
-        vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = "#262626" })
+for ft, entry in pairs(icons.lang) do
+        vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = bg_dark })
+end
+local function file_type_icon()
+        local ft = vim.bo.filetype
+        local entry = icons.lang[ft]
+        if entry then
+                local hl = "%#FileIcon_" .. ft .. "#"
+                return hl .. entry.icon .. "%*"
+        else
+                return icons.ui.unrec_file
+        end
 end
 
-local function file_type_icon()
-        local entry = filetype_icons[vim.bo.filetype]
-        return entry and entry.icon or (vim.bo.filetype or "")
+local function file_type_filename()
+        local ft = vim.bo.filetype
+        local entry = icons.lang[ft]
+        local hl = entry and "%#FileIcon_" .. ft .. "#" or "%#StatusFilename#"
+        return hl .. short_filepath() .. "%*"
 end
 
 -- ======================================================
@@ -126,10 +140,6 @@ local function set_hl(group, fg, bg, bold)
         vim.api.nvim_set_hl(0, group, { fg = fg, bg = bg, bold = bold })
 end
 
-local bg_dark = "#262626"
-local bg_dim = "#444444"
-local fg_white = "#ffffff"
-
 local base_groups = {
         "StatusFilename", "StatusGit", "StatusFileType", "StatusLine",
         "StatusFileSize", "StatusLSP", "ColumnPercentage", "StatusModified"
@@ -139,8 +149,8 @@ for _, group in ipairs(base_groups) do
 end
 
 set_hl("ColumnPercentage", fg_white, bg_dark, true)
-set_hl("StatusMode", fg_white, bg_dim, true)
 set_hl("StatusPosition", fg_white, bg_dim, true)
+set_hl("StatusMode", fg_white, bg_dim, true)
 set_hl("StatusModified", "#e06c75", bg_dark, true)
 
 for _, level in ipairs(diagnostics_levels) do
@@ -154,13 +164,12 @@ end
 _G.Statusline = function()
         local parts = {
                 "%#StatusMode#  " .. mode_icon() .. " ",
-                "%#StatusFileType# " .. file_type_icon(),
-                "%#StatusFilename# " .. short_filepath(),
+                "%#StatusFileType# " .. file_type_icon() .. " ",
+                file_type_filename(),
                 "%#StatusGit# " .. git_info(),
                 "%=",
         }
-
-for _, level in ipairs(diagnostics_levels) do
+        for _, level in ipairs(diagnostics_levels) do
                 table.insert(parts, "%#StatusDiagnostics" .. level.name .. "#")
                 table.insert(parts, diagnostics_component(level.name, level.icon, level.severity))
         end
