@@ -81,7 +81,7 @@ map("n", "_", function()
         vim.api.nvim_set_current_buf(open_bufs[next_idx])
 end, { desc = "Cycle through open buffers with _" })
 
-mapet('t', '<Esc><Esc>', '<C-\\><C-n>',
+map('t', '<Esc><Esc>', '<C-\\><C-n>',
 { desc = 'Exit terminal mode' })
 
 map("n", "-", function()
@@ -115,10 +115,9 @@ map('n', '<C-q>', 'Q',
 { desc = 'Replay last recorded macro' })
 
 map('n', '<leader>å', function()
-        vim.cmd('source $MYVIMRC')
         vim.cmd('restart')
 end,
-{ desc = 'Source and restart config' })
+{ desc = 'Restart Neovim' })
 
 -- ======================================================
 -- Folds
