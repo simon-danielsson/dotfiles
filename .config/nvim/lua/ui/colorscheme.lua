@@ -74,7 +74,7 @@ local override_groups = {
         LineNr                        = { fg = fg_mid },
         Normal                        = { bg = bg_deep },
         Comment                       = { fg = fg_mid },
-        NormalFloat                   = { fg = fg_mid },
+        NormalFloat                   = { fg = fg_main },
         FloatBorder                   = { fg = fg_mid },
         TelescopeNormal               = { bg = "none" },
         TelescopePromptNormal         = { guibg = NONE },
