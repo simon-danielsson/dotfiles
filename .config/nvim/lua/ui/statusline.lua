@@ -16,31 +16,39 @@ local function git_info()
                         git_cache.status = ""
                 else
                         local status = vim.fn.systemlist("git status --porcelain=v2 --branch 2>/dev/null")
-                        local ahead, behind, added, modified, deleted = 0, 0, 0, 0, 0
+                        local ahead, behind = 0, 0
+                        local added, modified, deleted, conflict = 0, 0, 0, 0
                         for _, line in ipairs(status) do
                                 local a, b = line:match("^# branch%.ab%s+([%+%-]?%d+)%s+([%+%-]?%d+)")
                                 if a and b then
                                         ahead, behind = tonumber(a) or 0, tonumber(b) or 0
                                 end
-                                if line:match("^1 ") or line:match("^2 ") then
-                                        local xy = line:sub(3, 4)
-                                        if xy:match("A") then added = added + 1 end
-                                        if xy:match("M") then modified = modified + 1 end
-                                        if xy:match("D") then deleted = deleted + 1 end
+                                local first_char = line:sub(1,1)
+                                if first_char == "1" or first_char == "2" then
+                                        local parts_line = vim.split(line, "%s+")
+                                        local xy = parts_line[2] or ""
+                                        local x, y = xy:sub(1,1), xy:sub(2,2)
+                                        if x == "A" or y == "A" then added = added + 1 end
+                                        if x == "M" or y == "M" then modified = modified + 1 end
+                                        if x == "D" or y == "D" then deleted = deleted + 1 end
+                                elseif first_char == "?" then
+                                        added = added + 1
+                                elseif first_char == "u" then
+                                        conflict = conflict + 1
                                 end
                         end
-                        local parts = { icons.git.branch .. " " .. branch }
+                        local parts = { (icons.git.branch or "") .. " " .. branch }
                         if ahead > 0 then table.insert(parts, "↑" .. ahead) end
                         if behind > 0 then table.insert(parts, "↓" .. behind) end
-                        if added > 0 then table.insert(parts, icons.git.add .. " " .. added) end
-                        if modified > 0 then table.insert(parts, icons.git.mod_alt .. " " .. modified) end
-                        if deleted > 0 then table.insert(parts, icons.git.remove .. " " .. deleted) end
-                        git_cache.status = "" .. table.concat(parts, " ")
+                        if added > 0 then table.insert(parts, (icons.git.add or "+") .. " " .. added) end
+                        if modified > 0 then table.insert(parts, (icons.git.modify or "~") .. " " .. modified) end
+                        if deleted > 0 then table.insert(parts, (icons.git.delete or "-") .. " " .. deleted) end
+                        if conflict > 0 then table.insert(parts, (icons.git.conflict or "!") .. " " .. conflict) end
+                        git_cache.status = table.concat(parts, " ")
                 end
         end
         return git_cache.status
 end
-
 -- ======================================================
 -- Utilities
 -- ======================================================
@@ -124,7 +132,7 @@ end
 local function diagnostics_summary()
         for _, level in ipairs(diagnostics_levels) do
                 if #vim.diagnostic.get(0, { severity = level.severity }) > 0 then
-                        return "│ "
+                        return ""
                 end
         end
         return ""
@@ -135,13 +143,14 @@ end
 -- ======================================================
 
 local SBAR = { "▔", "🮂", "🬂", "🮃", "▀", "▄", "▃", "🬭", "▂", "▁" }
+
 local function scrollbar()
         local cur = vim.api.nvim_win_get_cursor(0)[1]
         local total = vim.api.nvim_buf_line_count(0)
         if total == 0 then return "" end
         local idx = math.floor((cur - 1) / total * #SBAR) + 1
         idx = math.max(1, math.min(idx, #SBAR))
-        return "%#StatusPosition#" .. SBAR[idx]:rep(2) .. "%*"
+        return "%#StatusScrollbar#" .. SBAR[idx]:rep(2) .. "%*"
 end
 
 -- ======================================================
@@ -153,8 +162,8 @@ local function set_hl(group, fg, bg, bold)
 end
 
 local base_groups = {
-        "StatusFilename", "StatusGit", "StatusFileType", "StatusLine",
-        "StatusFileSize", "StatusLSP", "ColumnPercentage", "StatusModified"
+        "StatusFilename",  "StatusFileType", "StatusLine",
+        "StatusFileSize", "StatusLSP", "ColumnPercentage",
 }
 for _, group in ipairs(base_groups) do
         set_hl(group, colors.fg_main, colors.bg_deep, false)
@@ -163,7 +172,8 @@ end
 set_hl("ColumnPercentage", colors.fg_main, colors.bg_deep, true)
 set_hl("StatusPosition", colors.fg_main, colors.bg_mid, true)
 set_hl("StatusMode", colors.fg_main, colors.bg_mid, true)
-set_hl("StatusModified", "#e06c75", colors.bg_deep, true)
+set_hl("StatusScrollbar", colors.fg_main, colors.fg_mid, true)
+set_hl("StatusGit", colors.fg_mid, colors.bg_deep, true)
 
 for _, level in ipairs(diagnostics_levels) do
         vim.api.nvim_set_hl(0, "StatusDiagnostics" .. level.name, { link = "Diagnostic" .. level.name })
@@ -178,7 +188,7 @@ _G.Statusline = function()
                 "%#StatusMode#  " .. mode_icon() .. " ",
                 "%#StatusFileType# " .. file_type_icon() .. " ",
                 file_type_filename(),
-                "%#StatusGit# " .. git_info(),
+                " %#StatusGit#" .. git_info() .. " ",
                 "%=",
         }
         for _, level in ipairs(diagnostics_levels) do
@@ -188,9 +198,9 @@ _G.Statusline = function()
 
 table.insert(parts, "%#StatusDiagnosticsSummary#" .. diagnostics_summary())
         table.insert(parts, "%#StatusFileSize#" .. word_count())
-        table.insert(parts, "%#StatusFileSize#" .. icons.ui.memory .. " " .. file_size() .. " ")
-        table.insert(parts, "%#StatusFileSize#" .. icons.ui.file .. " %L ")
-        table.insert(parts, "%#StatusPosition# " .. icons.ui.location .. " %l:%c ")
+        -- table.insert(parts, "%#StatusFileSize#" .. icons.ui.memory .. " " .. file_size() .. " ")
+        -- table.insert(parts, "%#StatusFileSize#" .. icons.ui.file .. " %L ")
+        table.insert(parts, "%#StatusPosition# " .. "%l:%c ")
         table.insert(parts, scrollbar())
 
 return table.concat(parts)

@@ -54,7 +54,9 @@ require("telescope").setup({
         },
 })
 
--- vim.cmd([[
--- highlight TelescopeNormal guibg=NONE ctermbg=NONE
--- highlight TelescopeBorder guibg=NONE ctermbg=NONE
--- ]])
+vim.cmd([[
+highlight TelescopeNormal guibg=NONE ctermbg=NONE
+highlight TelescopeBorder guibg=NONE ctermbg=NONE
+highlight TelescopePromptNormal guibg=NONE ctermbg=NONE
+highlight TelescopePreviewNormal guibg=NONE ctermbg=NONE
+]])
