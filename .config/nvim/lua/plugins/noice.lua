@@ -1,7 +1,7 @@
 local plugins = {
         { src = "https://github.com/rcarriga/nvim-notify", version = "master", sync = true, silent = true },
         { src = "https://github.com/MunifTanjim/nui.nvim", version = "master", sync = true, silent = true },
-        { src = "https://github.com/folke/noice.nvim", version = "v4.10", sync = true, silent = true },
+        { src = "https://github.com/folke/noice.nvim", version = "v4.10.0", sync = true, silent = true },
 }
 for _, plugin in ipairs(plugins) do
         vim.pack.add({ plugin })
