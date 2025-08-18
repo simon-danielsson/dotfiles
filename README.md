@@ -18,6 +18,7 @@ This **TMUX/Neovim config** was set up for **Rust** development, although I also
 + [nvim-telescope/telescope.nvim](https://dotfyle.com/plugins/nvim-telescope/telescope.nvim)
 + [lukas-reineke/indent-blankline.nvim](https://dotfyle.com/plugins/lukas-reineke/indent-blankline.nvim)
 + [neovim/nvim-lspconfig](https://dotfyle.com/plugins/neovim/nvim-lspconfig)
++ [folke/flash.nvim](https://dotfyle.com/plugins/folke/flash.nvim)
 + [williamboman/mason.nvim](https://dotfyle.com/plugins/williamboman/mason.nvim)
 + [nvim-lua/plenary.nvim](https://dotfyle.com/plugins/nvim-lua/plenary.nvim)
 + [MunifTanjim/nui.nvim](https://dotfyle.com/plugins/MunifTanjim/nui.nvim)
