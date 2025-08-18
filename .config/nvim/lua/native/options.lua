@@ -34,7 +34,7 @@ opt.clipboard           = 'unnamedplus'
 opt.iskeyword           :append({"-", "_" })
 opt.backspace           = "indent,eol,start"
 opt.modifiable          = true
-opt.completeopt         = { "menu","menuone","preview" }
+opt.completeopt         = { "noselect", "menu","menuone","preview" }
 vim.o.inccommand        = 'nosplit'
 
 -- ======================================================
@@ -130,6 +130,7 @@ opt.wildignore          :append({ "*.o", "*.obj",
 -- Appearance
 -- ======================================================
 
+o.signcolumn            = 'yes'
 opt.winborder           = "rounded"
 opt.termguicolors       = true
 opt.numberwidth         = 4
