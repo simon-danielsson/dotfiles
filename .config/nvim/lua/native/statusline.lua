@@ -4,16 +4,12 @@ local icons = require("native.icons")
 -- Git Setup
 -- ======================================================
 
--- cache table
 local git_cache = { status = "", last_update = 0 }
-
 local function git_info()
-        -- update every 2 seconds
         local now = vim.loop.hrtime() / 1e9
         if now - git_cache.last_update > 2 then
                 git_cache.last_update = now
-
-local branch = vim.fn.system("git branch --show-current 2>/dev/null"):gsub("\n", "")
+                local branch = vim.fn.system("git branch --show-current 2>/dev/null"):gsub("\n", "")
                 if branch == "" then
                         git_cache.status = ""
                 else
@@ -48,17 +44,14 @@ end
 -- ======================================================
 
 local function word_count()
-        -- Get current file extension
-        local ext = vim.fn.expand("%:e")  -- gets file extension
-
--- Only show word count for md, typ, or txt
+        local ext = vim.fn.expand("%:e")
         if ext ~= "md" and ext ~= "typ" and ext ~= "txt" then
                 return ""
         end
-
-local wc = vim.fn.wordcount()
+        local wc = vim.fn.wordcount()
         return wc.words > 0 and (icons.ui.wordcount .. " " .. wc.words .. " words ") or ""
 end
+
 local function file_size()
         local size = vim.fn.getfsize(vim.fn.expand('%'))
         if size < 0 then return "" end
