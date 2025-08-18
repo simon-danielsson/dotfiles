@@ -2,6 +2,16 @@ local M = {}
 
 M.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
 
+M.indent = {
+        big_thick =     "█",
+        med_thick =     "▊",
+        sma_thick =     "▐",
+        double =        "║",
+        thin =          "│",
+        dotted =        "┊",
+        dotted_alt =    "⋮",
+}
+
 M.git = {
         add =           "",
         branch =        "",
