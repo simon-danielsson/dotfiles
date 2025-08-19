@@ -2,4 +2,4 @@
 
 source ~/.zshrc
 open -a "Godot"
-gvim
+gv

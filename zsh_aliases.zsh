@@ -10,8 +10,6 @@ alias q="/Users/simondanielsson/dotfiles/scripts/kill-nvim-and-tmux.sh"
 # ======================================================
 
 alias r="cargo run --release"
-alias rc="cargo check"
-alias rb="cargo build --release"
 alias rd="cargo doc --open"
 
 # ======================================================
@@ -24,12 +22,8 @@ alias p="python3 *.py"
 # Neovim
 # ======================================================
 
-#alias nvim="/Users/simondanielsson/dotfiles/scripts/nvim-stable.sh"
-#alias nvim-nightly="/Users/simondanielsson/dotfiles/scripts/nvim-nightly.sh"
-# start nvim with godotpipe
-alias gvim="/Users/simondanielsson/dotfiles/scripts/start-nvim-with-godotpipe.sh"
-# start godot and nvim with godotpipe
-alias godot="/Users/simondanielsson/dotfiles/scripts/start-godot-and-nvim-together.sh"
+alias gv="/Users/simondanielsson/dotfiles/scripts/start-nvim-with-godotpipe.sh"
+alias gd="/Users/simondanielsson/dotfiles/scripts/start-godot-and-nvim-together.sh"
 
 # ======================================================
 # Typst
@@ -40,10 +34,8 @@ journal() {
         local dir="$HOME/journal"
         local file="$dir/${today}.typ"
         local template="$dir/template.typ"
-
-mkdir -p "$dir"
-
-# Only copy template if the file doesn't already exist
+        mkdir -p "$dir"
+        # Only copy template if the file doesn't already exist
         if [ ! -f "$file" ]; then
                 if [ -f "$template" ]; then
                         cp "$template" "$file"
@@ -51,8 +43,7 @@ mkdir -p "$dir"
                         touch "$file"
                 fi
         fi
-
-nvim "$file"
+        nvim "$file"
 }
 # ======================================================
 # Directories & Search

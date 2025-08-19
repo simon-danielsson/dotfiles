@@ -1,2 +1,0 @@
-bob use nightly
-nvim "$@"
