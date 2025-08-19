@@ -5,6 +5,10 @@ What makes this config unique is its Swedish flair—optimized for Swedish keybo
 
 > Note that this is **not** intended to be installed as a complete config - instead, I recommend that you sift through these files and take inspiration; copy-paste what you like into your own setup.
 
+![1](screenshots/1.png)
+![2](screenshots/2.png)
+![3](screenshots/3.png)
+
 ## TMUX Configuration (.tmux.conf)
 
 This file sets up TMUX for efficient session management.
