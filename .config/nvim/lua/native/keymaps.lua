@@ -107,6 +107,29 @@ end,
 { desc = 'Restart Neovim' })
 
 -- ======================================================
+-- Macros (dumbed down, no registers)
+-- ======================================================
+
+map("n", "ä", function()
+        local reg = vim.fn.reg_recording()
+        if reg == "q" then
+                -- Stop recording
+                vim.cmd("normal! q")
+                print(" ⏹ Stopped recording macro ")
+        else
+                -- Overwrite previous recording
+                vim.cmd("normal! qq")
+                print(" ⏺ Recording macro ")
+        end
+end,
+{ desc = "Start/stop recording macro in @q" })
+
+map("n", "Ä", function()
+        vim.cmd("normal! @q")
+end,
+{ desc = "Play macro in @q once" })
+
+-- ======================================================
 -- Folds
 -- ======================================================
 

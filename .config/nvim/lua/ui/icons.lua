@@ -35,7 +35,11 @@ M.ui = {
         wordcount =     "󰆙",
         memory =        "",
         unrec_file =    "",
-        rec_macro =     "",
+        rec_macro =     "󰻂",
+        arrow_left =    "",
+        arrow_right =   "",
+        arrow_up =      "",
+        arrow_down =    "",
 }
 
 M.lang = {

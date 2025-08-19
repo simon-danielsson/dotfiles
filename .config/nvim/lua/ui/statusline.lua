@@ -1,6 +1,7 @@
 local icons = require("ui.icons")
-
 local colors = require("ui.theme").colors
+local aux_colors = require("ui.theme").aux_colors
+
 local autocmd = vim.api.nvim_create_autocmd
 
 -- ======================================================
@@ -59,11 +60,11 @@ autocmd("RecordingEnter", {
         callback = function()
                 local reg = vim.fn.reg_recording()
                 if reg ~= "" then
-                        _G.macro_recording = icons.ui.rec_macro .. " @" .. reg .. " "
+                        -- _G.macro_recording = " " .. icons.ui.rec_macro .. " @" .. reg .. " "
+                        _G.macro_recording = "    " .. icons.ui.rec_macro .. "    "
                 end
         end,
 })
-
 autocmd("RecordingLeave", {
         callback = function()
                 _G.macro_recording = ""
@@ -191,6 +192,7 @@ set_hl("StatusPosition", colors.fg_main, colors.bg_mid, true)
 set_hl("StatusMode", colors.fg_main, colors.bg_mid, true)
 set_hl("StatusScrollbar", colors.fg_main, colors.fg_mid, true)
 set_hl("StatusGit", colors.fg_mid, colors.bg_deep, true)
+set_hl("MarcoRec", colors.fg_main, aux_colors.macro_statusline, true)
 
 for _, level in ipairs(diagnostics_levels) do
         vim.api.nvim_set_hl(0, "StatusDiagnostics" .. level.name, { link = "Diagnostic" .. level.name })
@@ -216,11 +218,11 @@ _G.Statusline = function()
         table.insert(parts, "%#StatusFileSize#" .. word_count())
         -- table.insert(parts, "%#StatusFileSize#" .. icons.ui.memory .. " " .. file_size() .. " ")
         -- table.insert(parts, "%#StatusFileSize#" .. icons.ui.file .. " %L ")
-        if _G.macro_recording ~= "" then
-                table.insert(parts, "%#StatusMode#" .. _G.macro_recording)
-        end
         table.insert(parts, "%#StatusPosition# " .. "%l:%c ")
         table.insert(parts, scrollbar())
+        if _G.macro_recording ~= "" then
+                table.insert(parts, "%#MarcoRec#" .. _G.macro_recording)
+        end
 
 return table.concat(parts)
 end

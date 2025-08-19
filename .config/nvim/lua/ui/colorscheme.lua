@@ -54,7 +54,8 @@ vim.api.nvim_create_autocmd("VimEnter", {
                 local transparent_groups = {
                         "VertSplit", "SignColumn",
                         "LineNr", "NormalNC", "WinSeparator", "CursorLineNr",
-                        "EndOfBuffer", "Normal", "NormalFloat"
+                        "EndOfBuffer",
+                        "Normal", "NormalFloat"
                 }
                 for _, group in ipairs(transparent_groups) do
                         vim.cmd(("highlight %s guibg=NONE ctermbg=NONE"):format(group))
