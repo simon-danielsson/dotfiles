@@ -6,35 +6,8 @@ What makes this config unique is its Swedish flair—optimized for Swedish keybo
 > Note that this is **not** intended to be installed as a complete config - instead, I recommend that you sift through these files and take inspiration; copy-paste what you like into your own setup.
 
 ## Screenshots
-<style>
-.tabs { display: flex; gap: 10px; margin-bottom: 10px; }
-.tab { padding: 5px 10px; border: 1px solid #ccc; cursor: pointer; }
-.tab.active { background: #eee; }
-.tab-content { display: none; }
-.tab-content.active { display: block; }
-</style>
-<div class="tabs">
-  <div class="tab active" onclick="showTab(1)">1</div>
-  <div class="tab" onclick="showTab(2)">2</div>
-  <div class="tab" onclick="showTab(3)">3</div>
-</div>
-<div id="tab1" class="tab-content active">
-  <img src="screenshots/1.png" alt="">
-</div>
-<div id="tab2" class="tab-content">
-  <img src="screenshots/2.png" alt="">
-</div>
-<div id="tab3" class="tab-content">
-  <img src="screenshots/3.png" alt="">
-</div>
-
-<script>
-function showTab(n) {
-  document.querySelectorAll('.tab, .tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.tab')[n-1].classList.add('active');
-  document.getElementById('tab'+n).classList.add('active');
-}
-</script>
+![2](screenshots/2.png)
+![3](screenshots/3.png)
 
 ## TMUX Configuration (.tmux.conf)
 
