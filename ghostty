@@ -1,6 +1,9 @@
 # erase all keyboard shortcuts
 keybind = clear
 
+# keep pasting as a keybind
+keybind = performable:cmd+v=paste_from_clipboard
+
 # behaviour
 
 window-save-state = always
