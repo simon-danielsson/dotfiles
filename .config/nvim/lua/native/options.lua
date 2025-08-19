@@ -1,6 +1,7 @@
 local opt = vim.opt
 local g = vim.g
 local o = vim.o
+local bo = vim.bo
 
 -- ======================================================
 -- Line Numbers
@@ -73,39 +74,29 @@ opt.guicursor           =
 -- ======================================================
 
 o.expandtab             = true
-o.tabstop               = 8
-o.shiftwidth            = 8
-o.softtabstop           = 8
 o.smartindent           = true
 o.autoindent            = true
 
 vim.api.nvim_create_autocmd("FileType", {
         pattern = "*",
         callback = function()
-                vim.bo.tabstop          = 8
-                vim.bo.shiftwidth       = 8
-                vim.bo.expandtab        = true
-                o.tabstop               = 8
-                o.shiftwidth            = 8
-                o.softtabstop           = 8
-                o.smartindent           = true
-                o.autoindent            = true
+                bo.tabstop      = 8
+                bo.shiftwidth   = 8
+                o.tabstop       = 8
+                o.shiftwidth    = 8
+                o.softtabstop   = 8
         end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {
         pattern = "python",
         callback = function()
-                vim.bo.tabstop          = 4
-                vim.bo.shiftwidth       = 4
-                vim.bo.expandtab        = true
-                o.tabstop               = 4
-                o.shiftwidth            = 4
-                o.softtabstop           = 4
-                o.smartindent           = false
-                o.autoindent            = false
-                vim.bo.indentexpr       = ""
-                vim.bo.cindent          = false
+                bo.tabstop      = 4
+                bo.shiftwidth   = 4
+                o.tabstop       = 4
+                o.shiftwidth    = 4
+                o.softtabstop   = 4
+                bo.indentexpr   = ""
         end,
 })
 

@@ -20,17 +20,24 @@ autocmd("ModeChanged", {
         desc = "Autosave every 8th time normal mode is entered",
 })
 
-autocmd("BufWritePre", {
+vim.api.nvim_create_autocmd("BufWritePre", {
         group = write_group,
         pattern = "*",
         callback = function()
-                local ignore = { "python", "markdown", "make", "oil", "txt", "typ" }
+                local ignore = { "markdown", "make", "oil", "txt", "typ" }
                 if vim.tbl_contains(ignore, vim.bo.filetype) then return end
                 local pos = vim.api.nvim_win_get_cursor(0)
-                vim.cmd("normal! gg=G")
+                -- Check if any LSP client is attached
+                local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+                if #clients > 0 then
+                        vim.lsp.buf.format({ async = false })
+                else
+                        -- fallback: use Tree-sitter aware '=' operator
+                        vim.cmd("normal! gg=G")
+                end
                 vim.api.nvim_win_set_cursor(0, pos)
         end,
-        desc = "Format indenting on write",
+        desc = "Format buffer on save using LSP/Tree-sitter",
 })
 
 autocmd("BufWritePre", {
@@ -233,7 +240,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
         desc = "Add folds for paragraphs separated by empty lines",
 })
 
-vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter" }, {
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
         group = ui_group,
         pattern = { "oil://*" },
         callback = function()

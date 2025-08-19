@@ -20,6 +20,7 @@ require("native.keymaps")
 -- ======================================================
 
 require("plugins.indent-blankline")
+require("plugins.luasnip")
 require("plugins.nvim-treesitter")
 require("plugins.nvim-telescope")
 require("plugins.undotree")
