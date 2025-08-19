@@ -1,3 +1,5 @@
+icon = require("ui.icons").telescope
+
 vim.pack.add({
         {
                 src = "https://github.com/nvim-lua/plenary.nvim",
@@ -24,8 +26,8 @@ require("telescope").setup({
                                 reverse_directories = false,
                         },
                 },
-                prompt_prefix = " ",
-                selection_caret = " ",
+                prompt_prefix = icon.prompt_prefix,
+                selection_caret = icon.selection_caret,
                 entry_prefix = "  ",
                 initial_mode = "insert",
                 selection_strategy = "reset",

@@ -79,6 +79,11 @@ M.noice = {
         help =          "",
 }
 
+M.telescope = {
+        prompt_prefix = " ",
+        selection_caret = " ",
+}
+
 M.diagn = {
         error =         "󰯈",
         warning =       "",
