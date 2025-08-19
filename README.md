@@ -28,7 +28,7 @@ Zsh is my shell of choice. I've set it up so that a new zsh instance will automa
 - **`gd`**: Launches a script that starts Godot and neovim ( through **gv** ) together.
 - **`gv`**: Launches a script that starts godot piped to the local godot LSP server.
 - **`journal`**: Starts neovim with a new typst file using a template - this is automatically titled to the current date and saved in `~/journal`. This makes for effortless journaling, so that I can focus on writing down my thoughts without friction.
-- **`q`**: Launches a script that kills all neovim sessions, and then all tmux sessions, which ultimately also ends up closing down the Ghostty instance.
+- **`q`**: Launches a script that kills all neovim sessions, and then all tmux sessions, which ultimately also ends up exiting the Ghostty instance.
 - **`ls`**: `eza --color=always --icons --group-directories-first --git --no-time --no-permissions`
 - **`ss`**: Launches fzf with preview window - built-in logic so that if a directory is selected you cd into it, but if a file is selected you open it in neovim. Searches from the global directory regardless of `cwd`.
 - **`s`**: The same logic as `ss`, but it only searches through the current directory.
@@ -50,27 +50,27 @@ v0.12 nightly build. Configured in Lua modules for modularity. Uses vim.pack as 
 
 ### Plugins (lua/plugins/)
 
-- [**nvim-cmp**](https://dotfyle.com/plugins/hrsh7th/nvim-cmp): Completion engine.
-- [**flash.nvim**](https://dotfyle.com/plugins/folke/flash.nvim): Like `/` but quicker and flashier.
-- [**indent-blankline.nvim**](https://dotfyle.com/plugins/lukas-reineke/indent-blankline.nvim): Indent guides.
-- [**noice.nvim**](https://dotfyle.com/plugins/folke/noice.nvim): Prettier notifications, cmdline and popupmenu.
-- [**telescope.nvim**](https://dotfyle.com/plugins/nvim-telescope/telescope.nvim): Fuzzy finder for files, grep, buffers.
-- [**nvim-lspconfig**](https://dotfyle.com/plugins/neovim/nvim-lspconfig): LSP!
-- [**nvim-treesitter**](https://dotfyle.com/plugins/nvim-treesitter/nvim-treesitter): Syntax highlighting and parsing.
-- [**mini.surround**](https://dotfyle.com/plugins/echasnovski/mini.surround): Quick surround with ys/cs/ds for quotes, tags, etc.
-- [**undotree**](https://github.com/mbbill/undotree): Visual undo tree.
-- [**mason.nvim**](https://dotfyle.com/plugins/williamboman/mason.nvim): Package manager for LSP, formatters, linters etc.
-- [**plenary.nvim**](https://dotfyle.com/plugins/nvim-lua/plenary.nvim): Utility.
-- [**nui.nvim**](https://dotfyle.com/plugins/MunifTanjim/nui.nvim): Utility.
-- [**nvim-notify**](https://dotfyle.com/plugins/rcarriga/nvim-notify): Utility.
-- **keymaps.lua**: Keymaps specific to plugins.
+- [**nvim-cmp**](https://dotfyle.com/plugins/hrsh7th/nvim-cmp)
+- [**flash.nvim**](https://dotfyle.com/plugins/folke/flash.nvim)
+- [**indent-blankline.nvim**](https://dotfyle.com/plugins/lukas-reineke/indent-blankline.nvim)
+- [**noice.nvim**](https://dotfyle.com/plugins/folke/noice.nvim)
+- [**telescope.nvim**](https://dotfyle.com/plugins/nvim-telescope/telescope.nvim)
+- [**nvim-lspconfig**](https://dotfyle.com/plugins/neovim/nvim-lspconfig)
+- [**nvim-treesitter**](https://dotfyle.com/plugins/nvim-treesitter/nvim-treesitter)
+- [**mini.surround**](https://dotfyle.com/plugins/echasnovski/mini.surround)
+- [**undotree**](https://github.com/mbbill/undotree)
+- [**mason.nvim**](https://dotfyle.com/plugins/williamboman/mason.nvim)
+- [**plenary.nvim**](https://dotfyle.com/plugins/nvim-lua/plenary.nvim)
+- [**nui.nvim**](https://dotfyle.com/plugins/MunifTanjim/nui.nvim)
+- [**nvim-notify**](https://dotfyle.com/plugins/rcarriga/nvim-notify)
+- **keymaps.lua**
 
 ### UI Customizations (lua/ui/)
 
 - **colors.lua**: Defines custom color palette, configuring these colours allow you to change the colour style globally across neovim.
-- **colorscheme.lua**: Applies a custom theme based on hl-groups, using the neovim built-in theme `retrobox` as a foundation.
+- **colorscheme.lua**: Applies color overrides using the colors set in colors.lua, using the built-in theme `retrobox` as a foundation.
 - **icons.lua**: Defines icons for statusline, telescope, etc., using Nerd Fonts.
-- **statusline.lua**: Custom statusline showing mode, file name, LSP diagnostics, git branch, wordcount etc.
+- **statusline.lua**: Custom statusline displaying mode, file name, diagnostics, git branch, wordcount etc.
 
 ### Templates (templates/)
 

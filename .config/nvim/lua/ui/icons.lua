@@ -35,6 +35,7 @@ M.ui = {
         wordcount =     "󰆙",
         memory =        "",
         unrec_file =    "",
+        rec_macro =     "",
 }
 
 M.lang = {

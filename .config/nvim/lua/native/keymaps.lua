@@ -101,19 +101,6 @@ map('n', '<Right>', '<cmd>vertical resize -4<cr>',
 map("n", "<Esc>", "<cmd>nohlsearch<CR>",
 { desc = "Clear search highlights" })
 
-map("n", "<Leader>w", "<cmd>w<CR>",
-{ desc = "Write" })
-
-map("n", "<Leader>q", "<cmd>q<CR>",
-{ desc = "Quit" })
-
-map('n', 'q', '<nop>')
-map('n', 'Q', 'q',
-{ desc = 'Record macro' })
-
-map('n', '<C-q>', 'Q',
-{ desc = 'Replay last recorded macro' })
-
 map('n', '<leader>å', function()
         vim.cmd('restart')
 end,
