@@ -1,6 +1,6 @@
 local icons = require("ui.icons")
 
-local colors = require("ui.colors")
+local colors = require("ui.theme").colors
 
 -- ======================================================
 -- Git

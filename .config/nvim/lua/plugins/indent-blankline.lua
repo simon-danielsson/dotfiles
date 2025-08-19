@@ -8,7 +8,7 @@ vim.pack.add({
 })
 
 local indent_icon = require("ui.icons").indent
-local base_color = require("ui.colors").fg_mid
+local base_color = require("ui.theme").colors.fg_mid
 
 local function darken_hex(hex, factor)
         local r = tonumber(hex:sub(2,3),16)
