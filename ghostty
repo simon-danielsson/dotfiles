@@ -3,7 +3,7 @@ keybind = clear
 
 # behaviour
 
-window-save-state = never
+window-save-state = always
 clipboard-read = allow
 clipboard-write = allow
 copy-on-select = true
@@ -29,10 +29,10 @@ window-subtitle = false
 macos-window-shadow = true
 
 # background
-
 background = #262626
-background-opacity = 0.5
-background-blur = 50
+#background = #333333
+background-opacity = 0.8
+background-blur = 40
 
 # quick terminal
 
