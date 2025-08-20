@@ -9,10 +9,9 @@ What makes this config unique is its Swedish flair—optimized for Swedish keybo
 ![3](screenshots/3.png)
 
 ## TMUX Configuration (.tmux.conf)
-- 🔹 Split panes, resize, and navigate
 - ⌨️ Prefix: `Ctrl-a`
-- 🖱️ Mouse support for when you're feeling treacherous
-- 📊 Status bar: session name, time, load average
+- 🖱️ Mouse support for when you're feeling treacherous.
+- 📊 Status bar: session name, time, load average.
 
 ## 🐚 Zsh (.zshrc)
 Zsh is my shell of choice. I've set it up so that a new zsh instance will automatically attach to a TMUX session called `main` - if there is none already running, a new `main` TMUX session will be created. This ensures I am always inside TMUX when I start my terminal emulator.
@@ -33,8 +32,10 @@ Zsh is my shell of choice. I've set it up so that a new zsh instance will automa
 Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the plugin manager.
 
 ### Core Init (init.lua)
-- Loads native settings, UI, plugins, LSP
-- Dynamically renames TMUX windows based on buffer 📌
+- ⚙️ Loads native settings, UI, plugins, LSP.
+- 🎨 Switch from standard theme to `pink_explosion` theme with a true/false variable.
+- 🌗 Toggle background transparency with a true/false variable.
+- 📌 Dynamically renames TMUX windows based on buffer.
 
 ### Native Features (lua/native/)
 - 🚀 **autocmds.lua**: Loads and loads of autocommands.
