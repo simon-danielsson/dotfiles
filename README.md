@@ -42,7 +42,7 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 <img src="media/trident.gif" width="500" />
 
 - 🔱 **trident.lua**: A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harpoon/tree/harpoon2).
-    - Buffers are not added manually like in harpoon, but are instead added and subtracted from the list automatically.
+    - Buffers can not be added manually like in harpoon, but are instead added and subtracted from the list automatically.
     - A maximum of 6 buffers are allowed on the list at once (to minimize visual noise).
     - The list automatically rotates sequentially when any listed buffers are closed or deleted.
     - Uses **nvim-web-devicons** to get filetype icons in the list - if **nvim-web-devicons** is malfunctioning or isn't installed, Trident defaults to a fallback in order to avoid errors.
