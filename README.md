@@ -30,6 +30,7 @@ Zsh is my shell of choice. I've set it up so that a new zsh instance will automa
 
 ## 📝 Neovim `.config/nvim/`
 Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the plugin manager.
+3026 lines of Lua.
 
 ### Core Init `init.lua`
 - ⚙️ Loads native settings, UI, plugins, LSP.
