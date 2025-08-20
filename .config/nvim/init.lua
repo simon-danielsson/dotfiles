@@ -3,7 +3,7 @@
 -- ======================================================
 
 local colors = require("ui.theme")
-colors.pink_explosion(false) -- Good when working in sunlight
+colors.pink_explosion(false)
 colors.background_transparency(false)
 
 require("ui.colorscheme")
