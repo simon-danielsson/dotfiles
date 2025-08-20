@@ -8,7 +8,7 @@ What makes this config unique is its Swedish flair—optimized for Swedish keybo
 ![2](screenshots/2.png)
 ![3](screenshots/3.png)
 
-## TMUX Configuration (.tmux.conf)
+## 🖥️ TMUX Configuration (.tmux.conf)
 - ⌨️ Prefix: `Ctrl-a`
 - 🖱️ Mouse support for when you're feeling treacherous.
 - 📊 Status bar: session name, time, load average.
