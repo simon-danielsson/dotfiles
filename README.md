@@ -5,8 +5,8 @@ What makes this config unique is its Swedish flair—optimized for Swedish keybo
 > ⚠️ This is **not** intended to be installed as a complete config - instead, I recommend that you sift through these files and take inspiration; copy-paste what you like into your own setup.
 
 ## 📸 Screenshots
-![2](screenshots/2.png)
-![3](screenshots/3.png)
+![2](media/2.png)
+![3](media/3.png)
 
 ## 🖥️ TMUX `.tmux.conf`
 - ⌨️ Prefix: `Ctrl-a`
@@ -30,7 +30,6 @@ Zsh is my shell of choice. I've set it up so that a new zsh instance will automa
 
 ## 📝 Neovim `.config/nvim/`
 Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the plugin manager.
-3026 lines of Lua.
 
 ### Core Init `init.lua`
 - ⚙️ Loads native settings, UI, plugins, LSP.
@@ -39,6 +38,7 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 - 🌗 Toggle background transparency with a true/false variable.
 
 ### Native `lua/native/`
+![Trident](media/trident.gif)
 - 🔱 **trident.lua**: A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harpoon/tree/harpoon2).
     - Buffers are not added manually like in harpoon, but are instead added and subtracted from the list automatically.
     - A maximum of 6 buffers are allowed to exist on the list at once to reduce visual noise.
