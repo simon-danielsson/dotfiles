@@ -2,6 +2,10 @@
 -- User Interface
 -- ======================================================
 
+local colors = require("ui.theme")
+colors.pink_explosion(false)
+colors.background_transparency(false)
+
 require("ui.colorscheme")
 require("ui.statusline")
 

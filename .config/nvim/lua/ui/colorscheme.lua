@@ -5,7 +5,6 @@ local colors = require("ui.theme").colors
 -- Set Colorscheme
 -- ======================================================
 
-vim.cmd.colorscheme("retrobox")
 vim.g.border = icons.border
 
 -- ======================================================
@@ -55,7 +54,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
                         "VertSplit", "SignColumn",
                         "LineNr", "NormalNC", "WinSeparator", "CursorLineNr",
                         "EndOfBuffer",
-                        "Normal", "NormalFloat"
+                        "NormalFloat"
                 }
                 for _, group in ipairs(transparent_groups) do
                         vim.cmd(("highlight %s guibg=NONE ctermbg=NONE"):format(group))
@@ -72,15 +71,13 @@ local override_groups = {
         LineNr                      = { fg = colors.fg_mid },
         Normal                      = { bg = colors.bg_deep },
         Comment                     = { fg = colors.fg_mid },
-        NormalFloat                 = { fg = colors.fg_main },
+        NormalFloat                 = { fg = colors.fg_main, bg = "none" },
         FloatBorder                 = { fg = colors.fg_mid },
-        TelescopeNormal             = { bg = "none" },
-        TelescopePromptNormal       = { fg = "none", bg = "none" },
         TelescopePromptBorder       = { fg = colors.fg_mid, bg = "none" },
-        TelescopePromptTitle        = { bg = "none" },
         TelescopePromptPrefix       = { bg = "none" },
         TelescopePromptCounter      = { bg = "none" },
         TelescopeBorder             = { fg = colors.fg_mid, bg = "none" },
+        TelescopeNormal             = { fg = "none", bg = "none" },
         TelescopeResultsBorder      = { fg = colors.fg_mid },
         TelescopePreviewBorder      = { fg = colors.fg_mid },
         TelescopeSelection          = { fg = colors.fg_main, bg = colors.bg_deep },

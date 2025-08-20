@@ -33,22 +33,22 @@ opt.clipboard      = 'unnamedplus'
 -- ======================================================
 
 opt.iskeyword:append({ "-", "_" })
-opt.backspace    = "indent,eol,start"
-opt.modifiable   = true
-opt.completeopt  = { "noselect", "menu", "menuone", "preview" }
-vim.o.inccommand = 'nosplit'
+opt.backspace     = "indent,eol,start"
+opt.modifiable    = true
+opt.completeopt   = { "noselect", "menu", "menuone", "preview" }
+vim.o.inccommand  = 'nosplit'
 
 -- ======================================================
 -- Windows, Splits & Buffers
 -- ======================================================
 
-opt.splitbelow   = true
-opt.autochdir    = false
-opt.splitright   = true
-o.equalalways    = true
-opt.inccommand   = 'split'
-opt.hidden       = true
-opt.diffopt      = {
+opt.splitbelow    = true
+opt.autochdir     = false
+opt.splitright    = true
+o.equalalways     = true
+opt.inccommand    = 'split'
+opt.hidden        = true
+opt.diffopt       = {
         "filler",
         "indent-heuristic",
         "linematch:60",
@@ -59,23 +59,20 @@ opt.diffopt      = {
 -- Cursor & Statusline
 -- ======================================================
 
-o.mouse          = 'a'
-opt.mouse        = "a"
-opt.cursorline   = true
-o.showmode       = false
-o.laststatus     = 3
-opt.guicursor    =
-    "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,"
-    .. "a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,"
-    .. "sm:block-blinkwait175-blinkoff150-blinkon175"
+o.mouse           = 'a'
+opt.mouse         = "a"
+opt.cursorline    = true
+o.showmode        = false
+o.laststatus      = 3
+vim.opt.guicursor = "a:blinkwait700-blinkoff400-blinkon250"
 
 -- ======================================================
 -- Indenting & Tabs
 -- ======================================================
 
-o.expandtab      = true
-o.smartindent    = true
-o.autoindent     = true
+o.expandtab       = true
+o.smartindent     = true
+o.autoindent      = true
 
 vim.api.nvim_create_autocmd("FileType", {
         pattern = "*",
