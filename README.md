@@ -66,12 +66,12 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 
 ### UI `lua/ui/`
 - 🎨 **theme.lua**: Defines custom color palette - configuring these colours allow you to change the colour style globally across Neovim.
-- 🖌️ **colorscheme.lua**: Applies color overrides using the colors set in `colors.lua`, using the built-in theme `retrobox` as a foundation.
+- 🖌️ **colorscheme.lua**: Applies color overrides to `retrobox` using the colors set in **theme.lua**.
 - 🌟 **icons.lua**: Defines icons for statusline, telescope, etc., using Nerd Fonts.
 - 📊 **statusline.lua**: Custom statusline displaying mode, file name, diagnostics, git branch, wordcount etc.
 
 ### Templates `templates/`
-Template files for new buffers ( defined in `autocmds.lua` ).
+Template files for new buffers ( template application is defined in **autocmds.lua** ).
 - 🐚 C
 - 🔵 C++
 - 🟨 Javascript
