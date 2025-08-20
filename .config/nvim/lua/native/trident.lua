@@ -22,7 +22,7 @@ end
 
 local function format_buf_line(i, buf)
         if not buf then
-                return string.format(" %d %s -", i, icons.separator)
+                return string.format(" %d %s -", i, icons.fallback)
         end
 
 local name = vim.api.nvim_buf_get_name(buf)
@@ -46,9 +46,9 @@ local icon, hl_group = "", nil
         end
 
 if hl_group and icon ~= "" then
-                return { line = string.format(" %d %s %s %s", i, icons.separator, icon, display_name), hl = { icon = icon, hl_group = hl_group } }
+                return { line = string.format(" %d %s %s", i, icon, display_name), hl = { icon = icon, hl_group = hl_group } }
         else
-                return { line = string.format(" %d %s %s %s", i, icons.separator, icon, display_name) }
+                return { line = string.format(" %d %s %s", i, icons.fallback, display_name) }
         end
 end
 
@@ -64,8 +64,8 @@ for i, b in ipairs(M.buffers) do
                         table.insert(highlights,
                                 {
                                         lnum = i - 1,
-                                        col = #string.format(" %d %s ", i, icons.separator),
-                                        icon_len = #formatted.hl.icon,
+                                        col = #string.format(" %d %s ", i, icons.fallback),
+                                        icon_len = #formatted.hl.icon - 3,
                                         hl_group = formatted.hl.hl_group
                                 })
                 end
@@ -85,7 +85,7 @@ local buf = vim.api.nvim_create_buf(false, true)
 
 if ok_devicons then
                 for _, h in ipairs(highlights) do
-                        vim.api.nvim_buf_add_highlight(buf, -1, h.hl_group, h.lnum, h.col, h.col + h.icon_len)
+                        vim.api.nvim_buf_add_highlight(buf, -1, h.hl_group, h.lnum, h.col - 5, h.col + h.icon_len)
                 end
         end
 

@@ -86,7 +86,7 @@ M.telescope = {
 
 M.trident = {
         main_icon = "󰆹",
-        separator = "",
+        fallback = "",
 }
 
 M.diagn = {
