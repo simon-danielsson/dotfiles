@@ -33,9 +33,9 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 
 ### Core Init (init.lua)
 - ⚙️ Loads native settings, UI, plugins, LSP.
+- 📌 Dynamically renames TMUX windows based on buffer.
 - 🎨 Switch from standard theme to `pink_explosion` theme with a true/false variable.
 - 🌗 Toggle background transparency with a true/false variable.
-- 📌 Dynamically renames TMUX windows based on buffer.
 
 ### Native Features (lua/native/)
 - 🚀 **autocmds.lua**: Loads and loads of autocommands.
