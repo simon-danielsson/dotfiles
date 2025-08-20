@@ -89,7 +89,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-        pattern = "python",
+        pattern = { "python", "markdown" },
         callback = function()
                 bo.tabstop    = 4
                 bo.shiftwidth = 4
