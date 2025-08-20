@@ -39,7 +39,7 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 
 ### Native `lua/native/`
 
-<img src="media/trident.gif" width="300" />
+<img src="media/trident.gif" width="500" />
 
 - 🔱 **trident.lua**: A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harpoon/tree/harpoon2).
     - Buffers are not added manually like in harpoon, but are instead added and subtracted from the list automatically.
