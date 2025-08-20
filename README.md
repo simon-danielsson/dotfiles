@@ -77,10 +77,14 @@ v0.12 nightly build. Configured in Lua modules for modularity. Uses vim.pack as 
 - **statusline.lua**: Custom statusline displaying mode, file name, diagnostics, git branch, wordcount etc.
 
 ### Templates (templates/)
-
-Skeleton files for new buffers (defined in autocmds.lua):
-- **template.py**: Basic Python script with `if __name__ == "__main__"`.
-- **template.typ**: Typst template for writing simple text documents.
+Template files for new buffers (defined in autocmds.lua):
+- 🐚 C
+- 🔵 C++
+- 🟨 Javascript
+- 🌙 Lua
+- 🐍 Python
+- 🦀 Rust
+- 🖋️ Typst
 
 ## Scripts (scripts/)
 
