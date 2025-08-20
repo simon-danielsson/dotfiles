@@ -18,7 +18,6 @@ require("native.comment")
 require("native.autocmds")
 require("native.netrw")
 require("native.keymaps")
-require("native.trident").setup_keymaps()
 
 -- ======================================================
 -- Plugin
@@ -33,6 +32,7 @@ require("plugins.noice")
 require("plugins.flash")
 require("plugins.cmp")
 require("plugins.netrw")
+require("native.trident").setup_keymaps()
 
 require("plugins.keymaps")
 
