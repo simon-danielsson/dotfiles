@@ -63,11 +63,15 @@ v0.12 nightly build. Configured in Lua modules for modularity. Uses vim.pack as 
 - [**plenary.nvim**](https://dotfyle.com/plugins/nvim-lua/plenary.nvim)
 - [**nui.nvim**](https://dotfyle.com/plugins/MunifTanjim/nui.nvim)
 - [**nvim-notify**](https://dotfyle.com/plugins/rcarriga/nvim-notify)
+- [**netrw.nvim**](https://dotfyle.com/plugins/prichrd/netrw.nvim)
+- [**nvim-web-devicons**](https://dotfyle.com/plugins/nvim-tree/nvim-web-devicons)
+- [**friendly-snippets**](https://dotfyle.com/plugins/rafamadriz/friendly-snippets)
+- [**LuaSnip**](https://dotfyle.com/plugins/L3MON4D3/LuaSnip)
 - **keymaps.lua**
 
 ### UI Customizations (lua/ui/)
 
-- **colors.lua**: Defines custom color palette, configuring these colours allow you to change the colour style globally across neovim.
+- **theme.lua**: Defines custom color palette, configuring these colours allow you to change the colour style globally across neovim.
 - **colorscheme.lua**: Applies color overrides using the colors set in colors.lua, using the built-in theme `retrobox` as a foundation.
 - **icons.lua**: Defines icons for statusline, telescope, etc., using Nerd Fonts.
 - **statusline.lua**: Custom statusline displaying mode, file name, diagnostics, git branch, wordcount etc.
