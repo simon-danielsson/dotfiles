@@ -43,7 +43,7 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
     - Buffers are not added manually like in harpoon, but are instead added and subtracted from the list automatically.
     - A maximum of 6 buffers are allowed to exist on the list at once to reduce visual noise.
     - The list automatically rotates sequentially when any listed buffers are closed or deleted.
-    - Integration for **nvim-web-devicons** to get filetype icons in the list, with a fallback in case it isn't installed.
+    - Integration for **nvim-web-devicons** to get filetype icons in the list, with a fallback in case it isn't installed or working correctly.
     - Hit the prefix `"` to initiate Trident, then hit the number corresponding to the buffer you wish to open. The prefix is easily altered within **trident.lua**.
 - 🚀 **autocmds.lua**: Loads and loads of autocommands.
 - 📝 **comment.lua**: Native commenting logic.
