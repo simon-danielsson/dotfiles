@@ -32,7 +32,7 @@ Zsh is my shell of choice. I've set it up so that a new zsh instance will automa
 Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the plugin manager.
 
 ### Core Init `init.lua`
-- ⚙️ Loads native settings, UI, plugins, LSP.
+- ⚙️ Sets the load-order of native settings, UI, plugins and LSP.
 - 📌 Dynamically renames TMUX windows based on buffer.
 - 🎨 Switch from standard theme to `pink_explosion` theme with a true/false variable.
 - 🌗 Toggle background transparency with a true/false variable.
