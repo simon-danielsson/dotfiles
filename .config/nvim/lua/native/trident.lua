@@ -1,3 +1,4 @@
+local icons = require("ui.icons").trident
 local M = {}
 
 M.buffers = {}
@@ -47,14 +48,14 @@ function M.show()
                         else
                                 local parts = vim.split(name, "/")
                                 if #parts >= 2 then
-                                        name = parts[#parts-1] .. "/" .. parts[#parts]
+                                        name = parts[#parts - 1] .. "/" .. parts[#parts]
                                 else
                                         name = parts[#parts]
                                 end
                         end
-                        table.insert(lines, string.format(" %d │ %s", i, name))
+                        table.insert(lines, string.format(" %d %s %s", i, icons.separator, name))
                 else
-                        table.insert(lines, string.format(" %d │ -", i))
+                        table.insert(lines, string.format(" %d %s -", i, icons.separator))
                 end
         end
         local width = 0
@@ -79,6 +80,8 @@ function M.show()
                 style = "minimal",
                 border = "rounded",
                 focusable = false,
+                title = " " .. icons.main_icon .. " ",
+                title_pos = "center",
         })
 end
 
@@ -100,7 +103,11 @@ function M.setup_keymaps()
                                 M.jump(i)
                         end, { buffer = true, nowait = true })
                 end
-        end, { noremap = true, silent = true })
+        end, {
+                noremap = true,
+                silent = true,
+                desc = "Launch Trident"
+        })
 end
 
 return M

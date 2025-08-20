@@ -84,6 +84,11 @@ M.telescope = {
         selection_caret = " ",
 }
 
+M.trident = {
+        main_icon = "󰆹",
+        separator = "",
+}
+
 M.diagn = {
         error = "󰯈",
         warning = "",
