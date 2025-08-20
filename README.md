@@ -8,7 +8,7 @@ What makes this config unique is its Swedish flair—optimized for Swedish keybo
 ![2](screenshots/2.png)
 ![3](screenshots/3.png)
 
-## 🖥️ TMUX Configuration (.tmux.conf)
+## 🖥️ TMUX (.tmux.conf)
 - ⌨️ Prefix: `Ctrl-a`
 - 🖱️ Mouse support for when you're feeling treacherous.
 - 📊 Status bar: session name, time, load average.
@@ -28,7 +28,7 @@ Zsh is my shell of choice. I've set it up so that a new zsh instance will automa
 - 🔍 **`ss`**: Launches fzf with preview window - built-in logic so that if a *directory* is selected you cd into it, but if a *file* is selected you open it in Neovim. Searches from the global directory regardless of `cwd`.
 - 🔍 **`s`**: The same logic as `ss`, but only searches through the current directory.
 
-## 📝 Neovim Configuration (.config/nvim/)
+## 📝 Neovim (.config/nvim/)
 Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the plugin manager.
 
 ### Core Init (init.lua)
@@ -37,7 +37,7 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 - 🎨 Switch from standard theme to `pink_explosion` theme with a true/false variable.
 - 🌗 Toggle background transparency with a true/false variable.
 
-### Native Features (lua/native/)
+### Native (lua/native/)
 - 🚀 **autocmds.lua**: Loads and loads of autocommands.
 - 📝 **comment.lua**: Native commenting logic.
 - ⌨️ **keymaps.lua**: Keymaps.
@@ -64,7 +64,7 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 - ✂️ [**LuaSnip**](https://dotfyle.com/plugins/L3MON4D3/LuaSnip)
 - 🗝️ **keymaps.lua**
 
-### UI Customizations (lua/ui/)
+### UI (lua/ui/)
 - 🎨 **theme.lua**: Defines custom color palette - configuring these colours allow you to change the colour style globally across Neovim.
 - 🖌️ **colorscheme.lua**: Applies color overrides using the colors set in `colors.lua`, using the built-in theme `retrobox` as a foundation.
 - 🌟 **icons.lua**: Defines icons for statusline, telescope, etc., using Nerd Fonts.
