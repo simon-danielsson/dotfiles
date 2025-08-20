@@ -8,7 +8,7 @@ M.colors = {
         bg_deep = "#262626",
 }
 
-M.colors_light_mode = {
+M.colors_pink_explosion = {
         fg_main = "#4B0082",
         fg_mid  = "#6A0DAD",
         bg_mid  = "#9B59B6",
@@ -30,7 +30,7 @@ function M.pink_explosion(enable)
         if enable then
                 vim.o.background = "light"
                 vim.cmd.colorscheme("peachpuff")
-                M.colors = vim.deepcopy(M.colors_light_mode)
+                M.colors = vim.deepcopy(M.colors_pink_explosion)
                 return true
         else
                 vim.o.background = "dark"
