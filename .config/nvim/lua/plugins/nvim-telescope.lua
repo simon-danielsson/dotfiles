@@ -8,7 +8,9 @@ vim.pack.add({
                 silent = true
         },
 })
-
+vim.pack.add({
+        { src = "https://github.com/nvim-tree/nvim-web-devicons", name = "nvim-web-devicons" },
+})
 vim.pack.add({
         {
                 src = "https://github.com/nvim-telescope/telescope.nvim",
@@ -42,23 +44,19 @@ require("telescope").setup({
                         height = 0.80,
                         preview_cutoff = 120,
                 },
-                winblend = 0, -- transparency
+                winblend = 0,
                 border = true,
-                borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }, -- rounded borders
+                borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
                 color_devicons = true,
                 file_ignore_patterns = { "node_modules", ".git/" },
                 set_env = { ["COLORTERM"] = "truecolor" },
         },
         pickers = {
+                colorscheme = {
+                        enable_preview = true,
+                },
                 find_files = {
                         hidden = true,
                 },
         },
 })
-
-vim.cmd([[
-highlight TelescopeNormal guibg=NONE ctermbg=NONE
-highlight TelescopeBorder guibg=NONE ctermbg=NONE
-highlight TelescopePromptNormal guibg=NONE ctermbg=NONE
-highlight TelescopePreviewNormal guibg=NONE ctermbg=NONE
-]])

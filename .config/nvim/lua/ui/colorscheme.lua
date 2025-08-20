@@ -32,7 +32,7 @@ for name, icon in pairs({
         DiagnosticSignInfo  = diag_icons[vim.diagnostic.severity.INFO],
         DiagnosticSignHint  = diag_icons[vim.diagnostic.severity.HINT],
 }) do
-vim.fn.sign_define(name, { text = icon, texthl = name })
+        vim.fn.sign_define(name, { text = icon, texthl = name })
 end
 
 -- ======================================================
@@ -45,7 +45,7 @@ local function set_hl(group, opts)
 end
 
 -- Fold colors
-set_hl("Folded",     { bg = "none", fg = colors.fg_mid })
+set_hl("Folded", { bg = "none", fg = colors.fg_mid })
 set_hl("FoldColumn", { bg = "none", fg = colors.fg_mid })
 
 -- Transparent UI elements on VimEnter
@@ -65,41 +65,43 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 -- Override groups with custom colors and styles
 local override_groups = {
-        CursorLine                    = { bg = colors.bg_deep },
-        NoiceCmdlinePopup             = { fg = colors.fg_mid, bg = "none" },
-        NoiceCmdlinePopupBorder       = { fg = colors.fg_mid, bg = "none" },
-        StatusLineNC                  = { bg = colors.bg_mid },
-        LineNr                        = { fg = colors.fg_mid },
-        Normal                        = { bg = colors.bg_deep },
-        Comment                       = { fg = colors.fg_mid },
-        NormalFloat                   = { fg = colors.fg_main },
-        FloatBorder                   = { fg = colors.fg_mid },
-        TelescopeNormal               = { bg = "none" },
-        TelescopePromptNormal         = { bg = "none" },
-        TelescopePromptBorder         = { fg = colors.fg_mid, bg = "none" },
-        TelescopePromptTitle          = { bg = "none" },
-        TelescopePromptPrefix         = { bg = "none" },
-        TelescopePromptCounter        = { bg = "none" },
-        TelescopeBorder               = { fg = colors.fg_mid, bg = "none" },
-        TelescopeResultsBorder        = { fg = colors.fg_mid },
-        TelescopePreviewBorder        = { fg = colors.fg_mid },
-        IndentBlanklineChar           = { fg = colors.fg_mid },
-        IndentBlanklineContextChar    = { fg = colors.fg_mid },
-        IndentBlanklineSpaceChar      = { fg = colors.fg_mid },
-        IndentBlanklineContextStart   = { fg = colors.fg_mid },
-        NormalNC                      = { bg = colors.bg_deep },
-        TabLine                       = { bg = colors.bg_deep },
-        TabLineFill                   = { bg = colors.bg_deep },
-        TabLineSel                    = { bg = colors.fg_mid, bold = true },
-        WinSeparator                  = { bg = colors.bg_deep },
-        ToolbarButton                 = { bg = colors.fg_main, bold = true, reverse = true },
-        EndOfBuffer                   = { bg = "none" },
-        ColorColumn                   = { ctermbg = 0, bg = colors.bg_deep },
-        VertSplit                     = { ctermbg = 0, bg = "none", fg = "none" },
-        Pmenu                         = { bg = colors.bg_deep, fg = colors.fg_mid },
-        PmenuSel                      = { bg = colors.bg_mid, fg = colors.fg_main },
-        PmenuSbar                     = { bg = colors.bg_deep },
-        PmenuThumb                    = { bg = colors.bg_mid },
+        CursorLine                  = { bg = colors.bg_deep },
+        NoiceCmdlinePopup           = { fg = colors.fg_mid, bg = "none" },
+        NoiceCmdlinePopupBorder     = { fg = colors.fg_mid, bg = "none" },
+        StatusLineNC                = { bg = colors.bg_mid },
+        LineNr                      = { fg = colors.fg_mid },
+        Normal                      = { bg = colors.bg_deep },
+        Comment                     = { fg = colors.fg_mid },
+        NormalFloat                 = { fg = colors.fg_main },
+        FloatBorder                 = { fg = colors.fg_mid },
+        TelescopeNormal             = { bg = "none" },
+        TelescopePromptNormal       = { fg = "none", bg = "none" },
+        TelescopePromptBorder       = { fg = colors.fg_mid, bg = "none" },
+        TelescopePromptTitle        = { bg = "none" },
+        TelescopePromptPrefix       = { bg = "none" },
+        TelescopePromptCounter      = { bg = "none" },
+        TelescopeBorder             = { fg = colors.fg_mid, bg = "none" },
+        TelescopeResultsBorder      = { fg = colors.fg_mid },
+        TelescopePreviewBorder      = { fg = colors.fg_mid },
+        TelescopeSelection          = { fg = colors.fg_main, bg = colors.bg_deep },
+        TelescopeResultsNormal      = { fg = colors.fg_main },
+        IndentBlanklineChar         = { fg = colors.fg_mid },
+        IndentBlanklineContextChar  = { fg = colors.fg_mid },
+        IndentBlanklineSpaceChar    = { fg = colors.fg_mid },
+        IndentBlanklineContextStart = { fg = colors.fg_mid },
+        NormalNC                    = { bg = colors.bg_deep },
+        TabLine                     = { bg = colors.bg_deep },
+        TabLineFill                 = { bg = colors.bg_deep },
+        TabLineSel                  = { bg = colors.fg_mid, bold = true },
+        WinSeparator                = { bg = colors.bg_deep },
+        ToolbarButton               = { bg = colors.fg_main, bold = true, reverse = true },
+        EndOfBuffer                 = { bg = "none" },
+        ColorColumn                 = { ctermbg = 0, bg = colors.bg_deep },
+        VertSplit                   = { ctermbg = 0, bg = "none", fg = "none" },
+        Pmenu                       = { bg = colors.bg_deep, fg = colors.fg_mid },
+        PmenuSel                    = { bg = colors.bg_mid, fg = colors.fg_main },
+        PmenuSbar                   = { bg = colors.bg_deep },
+        PmenuThumb                  = { bg = colors.bg_mid },
 }
 
 -- Apply overrides

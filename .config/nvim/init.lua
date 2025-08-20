@@ -27,6 +27,7 @@ require("plugins.surround")
 require("plugins.noice")
 require("plugins.flash")
 require("plugins.cmp")
+require("plugins.netrw")
 
 require("plugins.keymaps")
 
