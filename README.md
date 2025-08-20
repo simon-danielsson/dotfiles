@@ -39,7 +39,12 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 - 🌗 Toggle background transparency with a true/false variable.
 
 ### Native `lua/native/`
-- 🔱 **trident.lua**: A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harpoon/tree/harpoon2). Buffers are not added manually like in harpoon, but are instead added and subtracted from the list automatically. A maximum of 6 buffers are allowed to exist on the list at once to limit visual noise. The list automatically rotates when a listed buffer is closed.
+- 🔱 **trident.lua**: A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harpoon/tree/harpoon2).
+        - Buffers are not added manually like in harpoon, but are instead added and subtracted from the list automatically.
+        - A maximum of 6 buffers are allowed to exist on the list at once to reduce visual noise.
+        - The list automatically rotates sequentially when any listed buffers are closed or deleted.
+        - Integration for **nvim-web-devicons** to get filetype icons in the list, with a fallback in case it isn't installed.
+        - Hit `"` to initiate Trident, then press the number corresponding to the buffer you wish to open.
 - 🚀 **autocmds.lua**: Loads and loads of autocommands.
 - 📝 **comment.lua**: Native commenting logic.
 - ⌨️ **keymaps.lua**: Keymaps.
