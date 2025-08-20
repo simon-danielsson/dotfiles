@@ -222,7 +222,7 @@ autocmd({ "BufRead", "BufNewFile" }, {
         pattern = { "*.txt", "*.md", "*.typ" },
         callback = function()
                 vim.opt.spell = true
-                vim.opt.spelllang = "en_us"
+                vim.opt.spelllang = { "en_us" }
         end,
         desc = "Enable spell checking for certain file types",
 })

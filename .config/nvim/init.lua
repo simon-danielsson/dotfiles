@@ -1,5 +1,5 @@
 -- ======================================================
--- User Interface
+-- UI
 -- ======================================================
 
 local colors = require("ui.theme")
@@ -20,7 +20,7 @@ require("native.netrw")
 require("native.keymaps")
 
 -- ======================================================
--- Plugin
+-- Plugins
 -- ======================================================
 
 require("plugins.indent-blankline")
@@ -32,9 +32,14 @@ require("plugins.noice")
 require("plugins.flash")
 require("plugins.cmp")
 require("plugins.netrw")
-require("native.trident").setup_keymaps()
 
 require("plugins.keymaps")
+
+-- ======================================================
+-- Neovim-native plugins
+-- ======================================================
+
+require("native.trident").setup_keymaps()
 
 -- ======================================================
 -- LSP
