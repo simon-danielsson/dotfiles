@@ -82,6 +82,6 @@ Template files for new buffers ( defined in `autocmds.lua` ).
 
 ## Scripts `scripts/`
 Utility bash scripts:
-- 💀 **kill-nvim-and-tmux.sh**: Kills all Neovim and TMUX processes cleanly.
-- 🚀 **start-godot-and-nvim-together.sh**: Opens Godot engine and Neovim, auto-loading GDScript files.
-- 🔧 **start-nvim-with-godotpipe.sh**: Starts Neovim with GodotPipe for seamless GDScript editing with Godot.
+- 💀 `kill-nvim-and-tmux.sh`: Kills all Neovim and TMUX processes cleanly.
+- 🚀 `start-godot-and-nvim-together.sh`: Opens Godot engine and Neovim, auto-loading GDScript files.
+- 🔧 `start-nvim-with-godotpipe.sh`: Starts Neovim with GodotPipe for seamless GDScript editing with Godot.
