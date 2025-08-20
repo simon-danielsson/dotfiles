@@ -18,6 +18,7 @@ require("native.comment")
 require("native.autocmds")
 require("native.netrw")
 require("native.keymaps")
+require("native.trident").setup_keymaps()
 
 -- ======================================================
 -- Plugin
