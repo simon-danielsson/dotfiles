@@ -66,7 +66,7 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 - 🚀 **autocmds.lua**: Loads and loads of autocommands.
 - 📝 **comment.lua**: Native commenting logic.
 - ⌨️ **keymaps.lua**: Keymaps.
-- 📁 **netrw.lua**: Built-in file explorer customization.
+- 📁 **netrw.lua**: Customization for the built-in file explorer.
 - 🛠️ **options.lua**: Global options.
 
 ### Plugins `lua/plugins/`
