@@ -42,7 +42,7 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 ### Core Init `init.lua`
 - ⚙️ Sets the load-order of native settings, UI, plugins and LSP.
 - 📌 Dynamically renames TMUX windows based on buffer.
-- 🎨 Switch from standard theme to `pink_explosion` theme with a true/false variable.
+- 🎨 Switch between the colorschemes defined in **ui/theme.lua** using a numbering system.
 - 🌗 Toggle background transparency with a true/false variable.
 
 ### Native `lua/native/`
