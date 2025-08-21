@@ -2,7 +2,7 @@ local icons = require("ui.icons")
 local M = {}
 
 local max_width = 60
-local max_height = 6
+local max_height = 8
 
 local opts = {
         focusable = false,
