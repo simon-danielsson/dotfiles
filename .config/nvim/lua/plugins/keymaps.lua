@@ -23,6 +23,7 @@ map("n", "<leader>u", "<cmd>UndotreeToggle<CR>", common("Toggle Undotree"))
 -- ======================================================
 -- Flash
 -- ======================================================
+
 local flash = require("flash")
 map({ "n", "x", "o" }, "s", flash.jump, { desc = "Flash" })
 map({ "n", "x", "o" }, "S", flash.treesitter, { desc = "Flash Treesitter" })

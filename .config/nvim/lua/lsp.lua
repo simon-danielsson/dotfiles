@@ -12,21 +12,19 @@ local has_mason, mason = pcall(require, "mason")
 local has_mason_lsp, mason_lspconfig = pcall(require, "mason-lspconfig")
 local has_lspconfig = pcall(require, "lspconfig")
 
-vim.schedule(function()
-        if has_mason and has_mason_lsp and has_lspconfig then
-                mason.setup({
-                        ui = {
-                                border = "rounded",
-                                icons = {
-                                        package_installed = "✓",
-                                        package_pending = "➜",
-                                        package_uninstalled = "✗"
-                                }
+if has_mason and has_mason_lsp and has_lspconfig then
+        mason.setup({
+                ui = {
+                        border = "rounded",
+                        icons = {
+                                package_installed = "✓",
+                                package_pending = "➜",
+                                package_uninstalled = "✗"
                         }
-                })
-                mason_lspconfig.setup({
-                        ensure_installed = { "lua_ls", "pyright" },
-                        automatic_installation = false,
-                })
-        end
-end)
+                }
+        })
+        mason_lspconfig.setup({
+                ensure_installed = { "lua_ls", "pyright", "rust_analyzer" },
+                automatic_installation = false,
+        })
+end

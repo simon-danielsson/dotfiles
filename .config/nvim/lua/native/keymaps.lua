@@ -17,30 +17,36 @@ map("n", "o", "<Nop>")
 map("n", "O", "<Nop>")
 
 map({ "n", "v" }, "n", "h",
-{ desc = "Move left" })
+        { desc = "Move left" })
 
 map({ "n", "v" }, "i", "l",
-{ desc = "Move right" })
+        { desc = "Move right" })
 
-map({'n', 'v' }, 'o', "v:count == 0 ? 'gk' : 'k'",
-{ expr = true, silent = true,
-desc = "Move up (through wrapped lines)" })
+map({ 'n', 'v' }, 'o', "v:count == 0 ? 'gk' : 'k'",
+        {
+                expr = true,
+                silent = true,
+                desc = "Move up (through wrapped lines)"
+        })
 
-map({'n', 'v' }, 'e', "v:count == 0 ? 'gj' : 'j'",
-{ expr = true, silent = true,
-desc = "Move down (through wrapped lines)" })
+map({ 'n', 'v' }, 'e', "v:count == 0 ? 'gj' : 'j'",
+        {
+                expr = true,
+                silent = true,
+                desc = "Move down (through wrapped lines)"
+        })
 
 map("n", ">", "nzzzv",
-{ desc = "Next search result (centered)" })
+        { desc = "Next search result (centered)" })
 
 map("n", "<", "Nzzzv",
-{ desc = "Previous search result (centered)" })
+        { desc = "Previous search result (centered)" })
 
 map("n", "}", "}zz",
-{ desc = "Next empty line (centered)" })
+        { desc = "Next empty line (centered)" })
 
 map("n", "{", "{zz",
-{ desc = "Previous empty line (centered)" })
+        { desc = "Previous empty line (centered)" })
 
 map("n", "<C-e>", function()
         vim.diagnostic.goto_prev()
@@ -57,7 +63,7 @@ end, { desc = "Go to next diagnostic" })
 -- ======================================================
 
 map("n", "<leader>f", "<cmd>Ex<CR>",
-{ desc = "Launch netrw", noremap = true, silent = true })
+        { desc = "Launch netrw", noremap = true, silent = true })
 
 map("n", "_", function()
         local bufs = vim.api.nvim_list_bufs()
@@ -82,78 +88,78 @@ map("n", "_", function()
 end, { desc = "Cycle through open buffers with _" })
 
 map('t', '<Esc><Esc>', '<C-\\><C-n>',
-{ desc = 'Exit terminal mode' })
+        { desc = 'Exit terminal mode' })
 
 map("n", "-", function()
         vim.cmd("wincmd w")
 end, { desc = "Cycle through splits" })
 
 map('n', '<Left>', '<cmd>vertical resize +4<cr>',
-{ desc = 'Increase Window Width' })
+        { desc = 'Increase Window Width' })
 
 map('n', '<Right>', '<cmd>vertical resize -4<cr>',
-{ desc = 'Decrease Window Width' })
+        { desc = 'Decrease Window Width' })
 
 -- ======================================================
 -- General
 -- ======================================================
 
 map("n", "<Esc>", "<cmd>nohlsearch<CR>",
-{ desc = "Clear search highlights" })
+        { desc = "Clear search highlights" })
 
 map('n', '<leader>å', function()
-        vim.cmd('restart')
-end,
-{ desc = 'Restart Neovim' })
+                vim.cmd('restart')
+        end,
+        { desc = 'Restart Neovim' })
 
 -- ======================================================
 -- Macros (dumbed down, no registers)
 -- ======================================================
 
 map("n", "ä", function()
-        local reg = vim.fn.reg_recording()
-        if reg == "q" then
-                -- Stop recording
-                vim.cmd("normal! q")
-                print(" ⏹ Stopped recording macro ")
-        else
-                -- Overwrite previous recording
-                vim.cmd("normal! qq")
-                print(" ⏺ Recording macro ")
-        end
-end,
-{ desc = "Start/stop recording macro in @q" })
+                local reg = vim.fn.reg_recording()
+                if reg == "q" then
+                        -- Stop recording
+                        vim.cmd("normal! q")
+                        print(" ⏹ Stopped recording macro ")
+                else
+                        -- Overwrite previous recording
+                        vim.cmd("normal! qq")
+                        print(" ⏺ Recording macro ")
+                end
+        end,
+        { desc = "Start/stop recording macro in @q" })
 
 map("n", "Ä", function()
-        vim.cmd("normal! @q")
-end,
-{ desc = "Play macro in @q once" })
+                vim.cmd("normal! @q")
+        end,
+        { desc = "Play macro in @q once" })
 
 -- ======================================================
 -- Folds
 -- ======================================================
 
 map('n', 'za', 'za',
-{ desc = "Toggle fold under cursor" })
+        { desc = "Toggle fold under cursor" })
 
 map('n', 'zo', 'zR',
-{ desc = "Open all folds" })
+        { desc = "Open all folds" })
 
 map('n', 'zc', 'zM',
-{ desc = "Close all folds" })
+        { desc = "Close all folds" })
 
 -- ======================================================
 -- Editing
 -- ======================================================
 
 map("n", "<leader>,", [[:%s/<C-r><C-w>//gI<Left><Left><Left>]],
-{ desc = "open %s//gI with cword" })
+        { desc = "open %s//gI with cword" })
 
 map('n', 'x', '"_x',
-{ desc = "Delete single character without yanking to register" })
+        { desc = "Delete single character without yanking to register" })
 
 map("n", "<leader><CR>", "i<CR><Esc>",
-{ desc = "Insert newline at cursor" })
+        { desc = "Insert newline at cursor" })
 
 -- "vip" to go visual inside paragraph (had to be fixed since it broke when I remapped the movement keys)
 map("n", "vip", function()
@@ -198,8 +204,12 @@ map("v", "<S-o>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 -- ======================================================
 
 -- LSP
-map("n", "K", function() vim.lsp.buf.hover({ border = "rounded"}) end, opts)
+map("n", "K", function() vim.lsp.buf.hover({ border = "rounded" }) end, opts)
 map("n", "<C-k>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end, opts)
+
+map("n", "å", function()
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
+end, { desc = "Toggle Inlay Hints" })
 
 local M = {}
 function M.setup_lsp_keymaps(bufnr)
@@ -207,4 +217,5 @@ function M.setup_lsp_keymaps(bufnr)
         map("n", "gd", vim.lsp.buf.definition, opts)
         map("n", "gr", vim.lsp.buf.references, opts)
 end
+
 return M
