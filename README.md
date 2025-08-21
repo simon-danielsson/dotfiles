@@ -47,7 +47,7 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 
 ### Native `lua/native/`
 
-<img src="media/trident.gif" width="500" />
+<img src="media/trident.gif" width="400" />
 
 - 🔱 **trident.lua**: A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harpoon/tree/harpoon2).
     - Buffers can not be added manually like in harpoon, but are instead added and subtracted from the list automatically.
@@ -56,7 +56,7 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
     - Uses **nvim-web-devicons** to get filetype icons in the list - if **nvim-web-devicons** is malfunctioning or isn't installed, Trident defaults to a configurable fallback icon to avoid errors.
     - Hit the prefix `"` to initiate Trident, then hit the number corresponding to the buffer you wish to open. The prefix is easily altered within **trident.lua**.
 
-<img src="media/lsp_hover_win.gif" width="500" />
+<img src="media/lsp_hover_win.gif" width="400" />
 
 - 🔍 **vim_hover_win.lua**: A Neovim-native LSP hover window.
     - Quick reference at cursor hover.
