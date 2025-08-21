@@ -24,7 +24,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         group = write_group,
         pattern = "*",
         callback = function()
-                local ignore = { "markdown", "make", "oil", "txt", "typ" }
+                local ignore = { "markdown", "make", "txt", "typ" }
                 if vim.tbl_contains(ignore, vim.bo.filetype) then return end
                 local pos = vim.api.nvim_win_get_cursor(0)
                 local clients = vim.lsp.get_clients({ bufnr = 0 })
@@ -146,7 +146,7 @@ autocmd("BufReadPost", {
         desc = "Restore cursor location when opening a buffer",
 })
 
-local ignore_filetypes = { "TelescopePrompt", "oil" }
+local ignore_filetypes = { "TelescopePrompt" }
 local function should_ignore()
         return vim.tbl_contains(ignore_filetypes, vim.bo.filetype)
 end
@@ -159,7 +159,7 @@ autocmd({ "BufEnter", "WinEnter" }, {
                         vim.opt_local.cursorline = false
                 end
         end,
-        desc = "Highlight cursorline in active window (except Telescope & Oil)",
+        desc = "Highlight cursorline in active window (except Telescope)",
 })
 
 autocmd("WinLeave", {
@@ -239,24 +239,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
         desc = "Add folds for paragraphs separated by empty lines",
 })
 
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-        group = ui_group,
-        pattern = { "oil://*" },
-        callback = function()
-                vim.opt.laststatus = 0
-        end,
-        desc = "Hide statusline on oil",
-})
-
-vim.api.nvim_create_autocmd("BufLeave", {
-        group = ui_group,
-        pattern = { "oil://*" },
-        callback = function()
-                vim.opt.laststatus = 3
-        end,
-        desc = "Restore statusline after Oil",
-})
-
 autocmd("VimResized", {
         group = ui_group,
         callback = function()
@@ -272,29 +254,4 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
                 if vim.o.filetype == 'help' then vim.cmd.wincmd('L') end
         end,
         desc = "Open help window in a vertical split to the right",
-})
-
--- ======================================================
--- Miscellaneous
--- ======================================================
-
--- Suppress notify inside Oil buffers
-local original_notify = vim.notify
-autocmd("FileType", {
-        pattern = "oil",
-        callback = function()
-                vim.notify = function(msg, level, notify_opts)
-                        if level == vim.log.levels.ERROR then
-                                return
-                        end
-                        return original_notify(msg, level, notify_opts)
-                end
-        end,
-})
-autocmd("BufLeave", {
-        callback = function()
-                if vim.bo.filetype == "oil" then
-                        vim.notify = original_notify
-                end
-        end,
 })
