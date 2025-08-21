@@ -11,9 +11,12 @@ M.win_id                    = nil
 -- Settings
 -- ======================================================
 
--- Utility
+-- Function
 M.max_slots                 = 6
-M.focusable                 = false
+
+-- Keymaps
+M.prefix_key                = '"'
+M.panic_key                 = "<Esc>"
 
 -- Appearance
 M.title                     = icons.trident.main_icon
@@ -22,10 +25,6 @@ M.border                    = icons.border
 M.use_devicons              = true
 M.style                     = "minimal"
 M.title_pos                 = "center"
-
--- Keymaps
-M.prefix_key                = '"'
-M.panic_key                 = "<Esc>"
 
 -- ======================================================
 -- Trident
@@ -134,7 +133,7 @@ function M.show()
                 col = col,
                 style = M.style,
                 border = M.border,
-                focusable = M.focusable,
+                focusable = true,
                 title = " " .. M.title .. " ",
                 title_pos = M.title_pos,
         })
