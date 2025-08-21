@@ -14,7 +14,7 @@ require("native.keymaps")
 
 local colors = require("ui.theme")
 colors.colorscheme(1) -- 1 or 2
-colors.background_transparency(true)
+colors.background_transparency(false)
 
 require("ui.colorscheme")
 require("ui.statusline")
