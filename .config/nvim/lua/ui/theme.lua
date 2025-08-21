@@ -32,17 +32,19 @@ function M.background_transparency(is_transparent)
         vim.api.nvim_set_hl(0, "Normal", { fg = colors.fg_main, bg = bg })
 end
 
-function M.pink_explosion(enable)
-        if enable then
+function M.colorscheme(option)
+        if option == 2 then
                 vim.o.background = "light"
                 vim.cmd.colorscheme("peachpuff")
                 M.colors = vim.deepcopy(M.colors_pink_explosion)
                 return true
         else
-                vim.o.background = "dark"
-                vim.cmd.colorscheme("retrobox")
-                M.background_transparency(false)
-                return false
+                if option == 1 then
+                        vim.o.background = "dark"
+                        vim.cmd.colorscheme("retrobox")
+                        M.background_transparency(false)
+                        return false
+                end
         end
 end
 
