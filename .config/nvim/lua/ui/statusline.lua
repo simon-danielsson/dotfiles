@@ -9,6 +9,7 @@ local autocmd = vim.api.nvim_create_autocmd
 -- ======================================================
 
 local git_cache = { status = "", last_update = 0 }
+local max_repo_name_length = 15
 local function git_info()
         local now = vim.loop.hrtime() / 1e9
         if now - git_cache.last_update > 2 then
@@ -17,6 +18,11 @@ local function git_info()
                 if branch == "" then
                         git_cache.status = ""
                 else
+                        local toplevel = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("\n", "")
+                        local repo = vim.fn.fnamemodify(toplevel, ":t")
+                        if #repo > max_repo_name_length then
+                                repo = repo:sub(1, max_repo_name_length) .. "..."
+                        end
                         local status = vim.fn.systemlist("git status --porcelain=v2 --branch 2>/dev/null")
                         local ahead, behind = 0, 0
                         local added, modified, deleted, conflict = 0, 0, 0, 0
@@ -39,7 +45,10 @@ local function git_info()
                                         conflict = conflict + 1
                                 end
                         end
-                        local parts = { "│ " .. (icons.git.branch or "") .. " " .. branch }
+                        local parts = {
+                                "│ " .. (icons.git.repo or "") .. " " .. repo,
+                                (icons.git.branch or "") .. " " .. branch
+                        }
                         if ahead > 0 then table.insert(parts, "↑" .. ahead) end
                         if behind > 0 then table.insert(parts, "↓" .. behind) end
                         if added > 0 then table.insert(parts, (icons.git.add or "+") .. " " .. added) end
@@ -51,6 +60,7 @@ local function git_info()
         end
         return git_cache.status
 end
+
 -- ======================================================
 -- Utilities
 -- ======================================================
