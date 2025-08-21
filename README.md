@@ -46,10 +46,10 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 
 ### Native `lua/native/`
 
-<img src="media/trident.gif" width="400" />
-
 <details>
   <summary>🔱 trident.lua</summary>
+
+<img src="media/trident.gif" width="400" />
 
 A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harpoon/tree/harpoon2).
 - Buffers can not be added manually like in harpoon, but are instead added and subtracted from the list automatically.
@@ -60,12 +60,16 @@ A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harp
 
 </details>
 
+<details>
+  <summary>🔍 vim_hover_win.lua</summary>
+
 <img src="media/lsp_hover_win.gif" width="400" />
 
-- 🔍 **vim_hover_win.lua**: A Neovim-native LSP hover window.
-    - Quick reference at cursor hover.
-    - Configurable max window size and width.
-    - No toggle, always on. To turn it off, do so manually in **init.lua**.
+- Quick reference at cursor hover.
+- Configurable max window size and width.
+- No toggle, always on. To turn it off, do so manually in **init.lua**.
+
+</details>
 
 - 🚀 **autocmds.lua**: Loads and loads of autocommands.
 - 📝 **comment.lua**: Native commenting logic.
