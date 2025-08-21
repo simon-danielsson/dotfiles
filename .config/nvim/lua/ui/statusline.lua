@@ -25,11 +25,11 @@ local function git_info()
                                 if a and b then
                                         ahead, behind = tonumber(a) or 0, tonumber(b) or 0
                                 end
-                                local first_char = line:sub(1,1)
+                                local first_char = line:sub(1, 1)
                                 if first_char == "1" or first_char == "2" then
                                         local parts_line = vim.split(line, "%s+")
                                         local xy = parts_line[2] or ""
-                                        local x, y = xy:sub(1,1), xy:sub(2,2)
+                                        local x, y = xy:sub(1, 1), xy:sub(2, 2)
                                         if x == "A" or y == "A" then added = added + 1 end
                                         if x == "M" or y == "M" then modified = modified + 1 end
                                         if x == "D" or y == "D" then deleted = deleted + 1 end
@@ -55,6 +55,16 @@ end
 -- Utilities
 -- ======================================================
 
+local function selected_lines()
+        if vim.fn.mode():find("[vV]") == nil then
+                return ""
+        end
+        local start_pos = vim.fn.getpos("v")[2]
+        local end_pos = vim.fn.getpos(".")[2]
+        local lines = math.abs(end_pos - start_pos) + 1
+        return " " .. lines .. " lines"
+end
+
 _G.macro_recording = ""
 autocmd("RecordingEnter", {
         callback = function()
@@ -79,6 +89,7 @@ local function word_count()
         local wc = vim.fn.wordcount()
         return wc.words > 0 and (icons.ui.wordcount .. " " .. wc.words .. " words ") or ""
 end
+
 local function file_size()
         local size = vim.fn.getfsize(vim.fn.expand('%'))
         if size < 0 then return "" end
@@ -136,10 +147,10 @@ end
 -- ======================================================
 
 local diagnostics_levels = {
-        { name = "Error", icon = icons.diagn.error, severity = vim.diagnostic.severity.ERROR },
-        { name = "Warn",  icon = icons.diagn.warning, severity = vim.diagnostic.severity.WARN },
+        { name = "Error", icon = icons.diagn.error,       severity = vim.diagnostic.severity.ERROR },
+        { name = "Warn",  icon = icons.diagn.warning,     severity = vim.diagnostic.severity.WARN },
         { name = "Info",  icon = icons.diagn.information, severity = vim.diagnostic.severity.INFO },
-        { name = "Hint",  icon = icons.diagn.hint, severity = vim.diagnostic.severity.HINT },
+        { name = "Hint",  icon = icons.diagn.hint,        severity = vim.diagnostic.severity.HINT },
 }
 
 local function diagnostics_component(name, icon, severity)
@@ -180,7 +191,7 @@ local function set_hl(group, fg, bg, bold)
 end
 
 local base_groups = {
-        "StatusFilename",  "StatusFileType", "StatusLine",
+        "StatusFilename", "StatusFileType", "StatusLine",
         "StatusFileSize", "StatusLSP", "ColumnPercentage",
 }
 for _, group in ipairs(base_groups) do
@@ -193,6 +204,7 @@ set_hl("StatusMode", colors.fg_main, colors.bg_mid, true)
 set_hl("StatusScrollbar", colors.fg_main, colors.fg_mid, true)
 set_hl("StatusGit", colors.fg_mid, colors.bg_deep, true)
 set_hl("MarcoRec", colors.fg_main, aux_colors.macro_statusline, true)
+set_hl("StatusSelection", colors.fg_mid, colors.bg_mid, true)
 
 for _, level in ipairs(diagnostics_levels) do
         vim.api.nvim_set_hl(0, "StatusDiagnostics" .. level.name, { link = "Diagnostic" .. level.name })
@@ -218,6 +230,7 @@ _G.Statusline = function()
         table.insert(parts, "%#StatusFileSize#" .. word_count())
         -- table.insert(parts, "%#StatusFileSize#" .. icons.ui.memory .. " " .. file_size() .. " ")
         -- table.insert(parts, "%#StatusFileSize#" .. icons.ui.file .. " %L ")
+        table.insert(parts, "%#StatusSelection#" .. selected_lines())
         table.insert(parts, "%#StatusPosition# " .. "%l:%c ")
         table.insert(parts, scrollbar())
         if _G.macro_recording ~= "" then
