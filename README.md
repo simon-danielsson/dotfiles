@@ -42,14 +42,11 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 <img src="media/trident.gif" width="500" />
 
 - 🔱 **trident.lua**: A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harpoon/tree/harpoon2).
-<details>
-<summary>Details</summary>
     - Buffers can not be added manually like in harpoon, but are instead added and subtracted from the list automatically.
     - A maximum of 6 buffers are allowed on the list at once (to minimize visual noise) - this is easily configurable if you find it limiting.
     - The list automatically rotates sequentially when any listed buffers are closed or deleted.
     - Uses **nvim-web-devicons** to get filetype icons in the list - if **nvim-web-devicons** is malfunctioning or isn't installed, Trident defaults to a fallback in order to avoid errors.
     - Hit the prefix `"` to initiate Trident, then hit the number corresponding to the buffer you wish to open. The prefix is easily altered within **trident.lua**.
-</details>
 - 🚀 **autocmds.lua**: Loads and loads of autocommands.
 - 📝 **comment.lua**: Native commenting logic.
 - ⌨️ **keymaps.lua**: Keymaps.
@@ -79,11 +76,8 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 ### UI `lua/ui/`
 - 🎉 **splash.lua**: A Neovim-native splashscreen.
 <details>
-<summary>Details</summary>
-    - Centered banner configurable in **theme.lua**.
-    - Neovim version display.
-    - Configurable quick-action buttons.
-    - Separate highlight groups for version, banner, and buttons - configurable in **theme.lua**.
+<summary>Splash: Info</summary>
+Centered banner configurable in **theme.lua**. Neovim version display. Configurable quick-action buttons. Separate highlight groups for version, banner, and buttons - configurable in **theme.lua**.
 </details>
 - 🎨 **theme.lua**: Defines custom color palette - configuring these colours allow you to change the colour style globally across Neovim.
 - 🖌️ **colorscheme.lua**: Applies color overrides to `retrobox` using the colors set in **theme.lua**.
