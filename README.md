@@ -56,7 +56,7 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
     - Uses **nvim-web-devicons** to get filetype icons in the list - if **nvim-web-devicons** is malfunctioning or isn't installed, Trident defaults to a configurable fallback icon to avoid errors.
     - Hit the prefix `"` to initiate Trident, then hit the number corresponding to the buffer you wish to open. The prefix is easily altered within **trident.lua**.
 
-<img src="vim_hover_win.gif" width="500" />
+<img src="lsp_hover_win.gif" width="500" />
 
 - 🔍 **vim_hover_win.lua**: A Neovim-native LSP hover window.
     - Quick reference at cursor hover.
