@@ -88,7 +88,7 @@ A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harp
 
 #### Cursor Management
 - Restore cursor position when reopening a buffer.
-- Highlight cursorline in active windows (ignored for certain buffers).
+- Highlight cursorline in active windows (ignored in Telescope).
 - Temporarily highlight yanked text.
 
 #### Terminal Management
@@ -99,11 +99,7 @@ A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harp
 - Disable automatic comment insertion on new lines.
 - Enable spell checking for text, markdown, and Typst files.
 - Fold paragraphs separated by empty lines.
-- Hide statusline for Oil file explorer and restore afterward.
 - Auto-resize splits when the window is resized.
-
-#### Miscellaneous
-- Suppress non-error notifications inside Oil buffers.
 
 </details>
 
