@@ -104,7 +104,7 @@ function M.jump(slot)
         end
 end
 
-function M.setup_keymaps()
+function M.setup()
         vim.keymap.set("n", '"', function()
                 M.show()
                 for i = 1, M.max_slots do

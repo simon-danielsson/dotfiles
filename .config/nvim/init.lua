@@ -1,4 +1,14 @@
 -- ======================================================
+-- Native
+-- ======================================================
+
+require("native.options")
+require("native.comment")
+require("native.autocmds")
+require("native.netrw")
+require("native.keymaps")
+
+-- ======================================================
 -- UI
 -- ======================================================
 
@@ -8,16 +18,7 @@ colors.background_transparency(false)
 
 require("ui.colorscheme")
 require("ui.statusline")
-
--- ======================================================
--- Native
--- ======================================================
-
-require("native.options")
-require("native.comment")
-require("native.autocmds")
-require("native.netrw")
-require("native.keymaps")
+require("ui.splash").setup()
 
 -- ======================================================
 -- Plugins
@@ -36,10 +37,10 @@ require("plugins.netrw")
 require("plugins.keymaps")
 
 -- ======================================================
--- Neovim-native plugins
+-- Trident
 -- ======================================================
 
-require("native.trident").setup_keymaps()
+require("native.trident").setup()
 
 -- ======================================================
 -- LSP
