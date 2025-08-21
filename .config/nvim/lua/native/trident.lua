@@ -1,10 +1,40 @@
-local ok_devicons, devicons = pcall(require, "nvim-web-devicons")
-local icons = require("ui.icons").trident
-local M = {}
+-- ======================================================
+-- Setup
+-- ======================================================
 
-M.buffers = {}
-M.max_slots = 6
-M.win_id = nil
+local icons                 = require("ui.icons")
+local M                     = {}
+M.buffers                   = {}
+M.win_id                    = nil
+
+-- ======================================================
+-- Settings
+-- ======================================================
+
+-- Utility
+M.max_slots                 = 6
+M.focusable                 = false
+
+-- Appearance
+M.title                     = icons.trident.main_icon
+M.fallback_icon             = icons.trident.fallback
+M.border                    = icons.border
+M.use_devicons              = true
+M.style                     = "minimal"
+M.title_pos                 = "center"
+
+-- Keymaps
+M.prefix_key                = '"'
+M.panic_key                 = "<Esc>"
+
+-- ======================================================
+-- Trident
+-- ======================================================
+
+local ok_devicons, devicons = nil, nil
+if M.use_devicons then
+        ok_devicons, devicons = pcall(require, "nvim-web-devicons")
+end
 
 function M.update_buffers()
         local active_buffers = vim.tbl_filter(function(b)
@@ -18,7 +48,7 @@ end
 
 local function format_buf_line(i, buf)
         if not buf then
-                return string.format(" %d %s -", i, icons.fallback)
+                return string.format(" %d %s -", i, M.fallback_icon)
         end
         local name = vim.api.nvim_buf_get_name(buf)
         local display_name
@@ -41,25 +71,39 @@ local function format_buf_line(i, buf)
         if hl_group and icon ~= "" then
                 return { line = string.format(" %d %s %s", i, icon, display_name), hl = { icon = icon, hl_group = hl_group } }
         else
-                return { line = string.format(" %d %s %s", i, icons.fallback, display_name) }
+                return { line = string.format(" %d %s %s", i, M.fallback_icon, display_name) }
         end
+end
+
+local saved_opts = {
+        cursorline = vim.wo.cursorline,
+        cursor = vim.opt.guicursor
+}
+
+function M.plugin_override_opts()
+        vim.wo.cursorline = false
+        vim.opt.guicursor = "a:None"
+end
+
+function M.plugin_restore_opts()
+        vim.wo.cursorline = saved_opts.cursorline
+        vim.opt.guicursor = saved_opts.cursor
 end
 
 function M.show()
         M.update_buffers()
-        local lines = {}
-        local highlights = {}
+        local lines, highlights = {}, {}
+        M.plugin_override_opts()
         for i, b in ipairs(M.buffers) do
                 local formatted = format_buf_line(i, b)
                 table.insert(lines, formatted.line)
                 if formatted.hl then
-                        table.insert(highlights,
-                                {
-                                        lnum = i - 1,
-                                        col = #string.format(" %d %s ", i, icons.fallback),
-                                        icon_len = #formatted.hl.icon - 3,
-                                        hl_group = formatted.hl.hl_group
-                                })
+                        table.insert(highlights, {
+                                lnum = i - 1,
+                                col = #string.format(" %d %s ", i, M.fallback_icon),
+                                icon_len = #formatted.hl.icon - 3,
+                                hl_group = formatted.hl.hl_group,
+                        })
                 end
         end
         local width = 0
@@ -79,39 +123,60 @@ function M.show()
         end
         if M.win_id and vim.api.nvim_win_is_valid(M.win_id) then
                 vim.api.nvim_win_close(M.win_id, true)
+                M.plugin_restore_opts()
         end
-        M.win_id = vim.api.nvim_open_win(buf, false, {
+        local current_win = vim.api.nvim_get_current_win()
+        M.win_id = vim.api.nvim_open_win(buf, true, {
                 relative = "editor",
                 width = width,
                 height = height,
                 row = row,
                 col = col,
-                style = "minimal",
-                border = "rounded",
-                focusable = false,
-                title = " " .. icons.main_icon .. " ",
-                title_pos = "center",
+                style = M.style,
+                border = M.border,
+                focusable = M.focusable,
+                title = " " .. M.title .. " ",
+                title_pos = M.title_pos,
         })
+        for i = 1, M.max_slots do
+                vim.keymap.set("n", tostring(i), function()
+                        local target_buf = M.buffers[i]
+                        if target_buf and vim.api.nvim_buf_is_valid(target_buf) then
+                                vim.api.nvim_set_current_win(current_win)
+                                vim.api.nvim_set_current_buf(target_buf)
+                        end
+                        if M.win_id and vim.api.nvim_win_is_valid(M.win_id) then
+                                vim.api.nvim_win_close(M.win_id, true)
+                                M.plugin_restore_opts()
+                        end
+                end, { buffer = buf, nowait = true })
+        end
+        vim.keymap.set("n", M.panic_key, function()
+                if M.win_id and vim.api.nvim_win_is_valid(M.win_id) then
+                        vim.api.nvim_win_close(M.win_id, true)
+                        M.plugin_restore_opts()
+                end
+        end, { buffer = buf, nowait = true })
 end
 
 function M.jump(slot)
         local buf = M.buffers[slot]
         if buf and vim.api.nvim_buf_is_valid(buf) then
                 vim.api.nvim_set_current_buf(buf)
-                if M.win_id and vim.api.nvim_win_is_valid(M.win_id) then
-                        vim.api.nvim_win_close(M.win_id, true)
-                end
+                M.plugin_restore_opts()
+        else
+                vim.notify("No buffer in slot " .. slot, vim.log.levels.WARN)
+                M.plugin_restore_opts()
+        end
+        if M.win_id and vim.api.nvim_win_is_valid(M.win_id) then
+                vim.api.nvim_win_close(M.win_id, true)
+                M.plugin_restore_opts()
         end
 end
 
 function M.setup()
-        vim.keymap.set("n", '"', function()
+        vim.keymap.set("n", M.prefix_key, function()
                 M.show()
-                for i = 1, M.max_slots do
-                        vim.keymap.set("n", tostring(i), function()
-                                M.jump(i)
-                        end, { buffer = true, nowait = true })
-                end
         end, {
                 noremap = true,
                 silent = true,
