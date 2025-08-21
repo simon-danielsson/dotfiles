@@ -3,7 +3,6 @@
 </p>
 
 **SIMVIM** is my personal development environment tailored for Rust and Python, as well as GDScript. My focus lies on leveraging the native features of Neovim and TMUX before resorting to plugins, ensuring a relatively lightweight setup.
-Note that I'm using my own Swedish version of Workman on a 42-key split keyboard, so my keymaps may not make sense for someone with (for example) a qwerty US-layout.
 
 > ⚠️ This is **not** intended to be installed as a complete config - instead, I recommend that you sift through these files and take inspiration; copy-paste what you like into your own setup.
 
@@ -71,11 +70,40 @@ A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harp
 
 </details>
 
-- 🚀 **autocmds.lua**: Loads and loads of autocommands.
-- 📝 **comment.lua**: Native commenting logic.
-- ⌨️ **keymaps.lua**: Keymaps.
-- 📁 **netrw.lua**: Customization for the built-in file explorer.
-- 🛠️ **options.lua**: Global options.
+<details>
+  <summary>🚀 autocmds.lua</summary>
+
+Loads and loads of autocommands.
+
+</details>
+
+<details>
+  <summary>📝 comment.lua</summary>
+
+Native commenting logic.
+
+</details>
+
+<details>
+  <summary>⌨️ keymaps.lua</summary>
+
+Note that I'm using my own Swedish version of Workman on a 42-key split keyboard, so my keymaps may not make sense for someone with (for example) a qwerty US-layout.
+
+</details>
+
+<details>
+  <summary>📁 netrw.lua</summary>
+
+Customization for the built-in file explorer, including keymaps.
+
+</details>
+
+<details>
+  <summary>🛠️ options.lua</summary>
+
+Global Neovim options.
+
+</details>
 
 ### Plugins `lua/plugins/`
 - 🕹️ [**nvim-cmp**](https://dotfyle.com/plugins/hrsh7th/nvim-cmp)
