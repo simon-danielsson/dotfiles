@@ -60,5 +60,6 @@ if os.getenv("TMUX") then
                         if name == "" then name = "[No Name]" end
                         vim.fn.system({ "tmux", "rename-window", name })
                 end,
+                desc = "Rename TMUX windows dynamically",
         })
 end
