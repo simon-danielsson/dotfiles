@@ -64,7 +64,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 -- Override groups with custom colors and styles
 local override_groups = {
-        CursorLine                  = { bg = colors.bg_deep },
+        CursorLine                  = { bg = colors.bg_mid2 },
         NoiceCmdlinePopup           = { fg = colors.fg_mid, bg = "none" },
         NoiceCmdlinePopupBorder     = { fg = colors.fg_mid, bg = "none" },
         StatusLineNC                = { bg = colors.bg_mid },
