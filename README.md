@@ -3,7 +3,7 @@
 </p>
 
 **SIMVIM** is my personal development environment tailored for Rust and Python, as well as GDScript. My focus lies on leveraging the native features of Neovim and TMUX before resorting to plugins, ensuring a relatively lightweight setup.
-What makes this config unique is its Swedish flair—optimized for Swedish keyboard layouts (e.g., some things have been mapped to å, ä, ö). But note that I'm using my own modified version of the Workman keyboard layout on a 42-key split keyboard, so my keymaps may not make sense for someone with a qwerty US-layout.
+What makes this config unique is its Swedish flair—optimized for Swedish keyboard layouts (e.g., some things have been mapped to å, ä, ö). But note that I'm using my own modified version of the Workman keyboard layout on a 42-key split keyboard, so my keymaps may not make sense for someone with (for example) a qwerty US-layout.
 
 > ⚠️ This is **not** intended to be installed as a complete config - instead, I recommend that you sift through these files and take inspiration; copy-paste what you like into your own setup.
 
