@@ -155,6 +155,10 @@ local function diagnostics_summary()
         return ""
 end
 
+for _, level in ipairs(diagnostics_levels) do
+        vim.api.nvim_set_hl(0, "StatusDiagnostics" .. level.name, { link = "Diagnostic" .. level.name })
+end
+
 -- ======================================================
 -- Scrollbar
 -- ======================================================
@@ -188,10 +192,6 @@ local statusline_highlights = {
 }
 for group, opts in pairs(statusline_highlights) do
         vim.api.nvim_set_hl(0, group, opts)
-end
-
-for _, level in ipairs(diagnostics_levels) do
-        vim.api.nvim_set_hl(0, "StatusDiagnostics" .. level.name, { link = "Diagnostic" .. level.name })
 end
 
 -- ======================================================
