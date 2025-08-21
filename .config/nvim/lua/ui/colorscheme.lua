@@ -62,21 +62,30 @@ vim.api.nvim_create_autocmd("VimEnter", {
         end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+        pattern = "TelescopePrompt",
+        callback = function()
+                vim.opt_local.cursorline = false
+        end,
+})
+
 -- Override groups with custom colors and styles
 local override_groups = {
         CursorLine                  = { bg = colors.bg_mid2 },
         NoiceCmdlinePopup           = { fg = colors.fg_mid, bg = "none" },
         NoiceCmdlinePopupBorder     = { fg = colors.fg_mid, bg = "none" },
         StatusLineNC                = { bg = colors.bg_mid },
+        StatusLineNormal            = { bg = colors.bg_mid },
         LineNr                      = { fg = colors.fg_mid },
         Comment                     = { fg = colors.fg_mid },
-        NormalFloat                 = { fg = colors.fg_main, bg = "none" },
-        FloatBorder                 = { fg = colors.fg_mid },
         TelescopePromptBorder       = { fg = colors.fg_mid, bg = "none" },
-        TelescopePromptPrefix       = { bg = "none" },
+        TelescopePromptNormal       = { bg = colors.bg_deep },
+        TelescopePromptPrefix       = { bg = colors.bg_deep },
         TelescopePromptCounter      = { bg = "none" },
         TelescopeBorder             = { fg = colors.fg_mid, bg = "none" },
         TelescopeNormal             = { fg = "none", bg = "none" },
+        NormalFloat                 = { fg = colors.fg_main, bg = "none" },
+        FloatBorder                 = { fg = colors.fg_mid, bg = "none" },
         TelescopeResultsBorder      = { fg = colors.fg_mid },
         TelescopePreviewBorder      = { fg = colors.fg_mid },
         TelescopeSelection          = { fg = colors.fg_main, bg = colors.bg_deep },
@@ -85,7 +94,7 @@ local override_groups = {
         IndentBlanklineContextChar  = { fg = colors.fg_mid },
         IndentBlanklineSpaceChar    = { fg = colors.fg_mid },
         IndentBlanklineContextStart = { fg = colors.fg_mid },
-        NormalNC                    = { bg = colors.bg_deep },
+        -- NormalNC                    = { bg = colors.bg_deep },
         TabLine                     = { bg = colors.bg_deep },
         TabLineFill                 = { bg = colors.bg_deep },
         TabLineSel                  = { bg = colors.fg_mid, bold = true },

@@ -25,8 +25,8 @@ require("ui.splash").setup()
 -- ======================================================
 
 require("plugins.indent-blankline")
-require("plugins.nvim-treesitter")
 require("plugins.nvim-telescope")
+require("plugins.nvim-treesitter")
 require("plugins.undotree")
 require("plugins.surround")
 require("plugins.noice")

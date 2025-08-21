@@ -14,7 +14,7 @@ vim.pack.add({
 vim.pack.add({
         {
                 src = "https://github.com/nvim-telescope/telescope.nvim",
-                version = "master",
+                version = "0.1.*",
                 sync = true,
                 silent = true
         },
