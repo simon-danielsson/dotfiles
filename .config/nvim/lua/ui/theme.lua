@@ -28,8 +28,11 @@ M.aux_colors = {
 
 function M.background_transparency(is_transparent)
         local colors = M.colors
-        local bg = is_transparent and nil or colors.bg_deep
-        vim.api.nvim_set_hl(0, "Normal", { fg = colors.fg_main, bg = bg })
+        local bg_color = colors.bg_deep
+        if is_transparent then
+                bg_color = "NONE"
+        end
+        vim.api.nvim_set_hl(0, "Normal", { bg = bg_color })
 end
 
 function M.colorscheme(option)

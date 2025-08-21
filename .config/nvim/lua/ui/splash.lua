@@ -19,9 +19,9 @@ end
 
 local buttons = {
         " [n]ew",
-        " [f]ind",
-        "   [r]ecent",
-        "󰈆 [q]uit",
+        "  [f]ind",
+        "    [r]ecent",
+        " 󰈆 [q]uit",
 }
 
 local function build_content()

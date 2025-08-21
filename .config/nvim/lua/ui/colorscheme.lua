@@ -69,7 +69,6 @@ local override_groups = {
         NoiceCmdlinePopupBorder     = { fg = colors.fg_mid, bg = "none" },
         StatusLineNC                = { bg = colors.bg_mid },
         LineNr                      = { fg = colors.fg_mid },
-        Normal                      = { bg = colors.bg_deep },
         Comment                     = { fg = colors.fg_mid },
         NormalFloat                 = { fg = colors.fg_main, bg = "none" },
         FloatBorder                 = { fg = colors.fg_mid },
