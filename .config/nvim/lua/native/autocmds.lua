@@ -27,8 +27,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
                 local ignore = { "markdown", "make", "oil", "txt", "typ" }
                 if vim.tbl_contains(ignore, vim.bo.filetype) then return end
                 local pos = vim.api.nvim_win_get_cursor(0)
-                -- Check if any LSP client is attached
-                local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+                local clients = vim.lsp.get_clients({ bufnr = 0 })
                 if #clients > 0 then
                         vim.lsp.buf.format({ async = false })
                 else

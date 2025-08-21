@@ -1,9 +1,9 @@
 local icons = require("ui.icons").noice
 
 local plugins = {
-        { src = "https://github.com/rcarriga/nvim-notify", version = "master", sync = true, silent = true },
-        { src = "https://github.com/MunifTanjim/nui.nvim", version = "master", sync = true, silent = true },
-        { src = "https://github.com/folke/noice.nvim", version = "v4.10.0", sync = true, silent = true },
+        { src = "https://github.com/rcarriga/nvim-notify", version = "master",  sync = true, silent = true },
+        { src = "https://github.com/MunifTanjim/nui.nvim", version = "master",  sync = true, silent = true },
+        { src = "https://github.com/folke/noice.nvim",     version = "v4.10.0", sync = true, silent = true },
 }
 for _, plugin in ipairs(plugins) do
         vim.pack.add({ plugin })
@@ -31,14 +31,21 @@ end
 local has_noice, noice = pcall(require, "noice")
 if has_noice then
         noice.setup({
+                routes = {
+                        {
+                                filter = {
+                                        find = "deprecated",
+                                },
+                        },
+                },
                 cmdline = {
                         format = {
                                 cmdline = { icon = icons.cmdline, title = "" },
-                                search_down = { icon = icons.search_down},
-                                search_up = { icon = icons.search_up},
-                                filter = { icon = icons.filter},
-                                lua = { icon = icons.lua},
-                                help = { icon = icons.help},
+                                search_down = { icon = icons.search_down },
+                                search_up = { icon = icons.search_up },
+                                filter = { icon = icons.filter },
+                                lua = { icon = icons.lua },
+                                help = { icon = icons.help },
                         },
                 },
                 lsp = {

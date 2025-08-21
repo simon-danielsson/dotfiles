@@ -95,9 +95,9 @@ local function mode_icon()
 end
 
 local function lsp_info()
-        local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+        local clients = vim.lsp.get_clients({ bufnr = 0 })
         if #clients > 0 then
-                return "│ " .. icons.ui.gear .. clients[1].name .. " "
+                return "│ " .. icons.ui.gear .. " " .. clients[1].name .. " "
         end
         return ""
 end
