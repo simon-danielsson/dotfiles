@@ -10,6 +10,7 @@ local autocmd = vim.api.nvim_create_autocmd
 
 local git_cache = { status = "", last_update = 0 }
 local max_repo_name_length = 15
+
 local function git_info()
         local now = vim.loop.hrtime() / 1e9
         if now - git_cache.last_update > 2 then
@@ -55,6 +56,10 @@ local function git_info()
                         if modified > 0 then table.insert(parts, (icons.git.modify or "~") .. " " .. modified) end
                         if deleted > 0 then table.insert(parts, (icons.git.delete or "-") .. " " .. deleted) end
                         if conflict > 0 then table.insert(parts, (icons.git.conflict or "!") .. " " .. conflict) end
+                        local diff_total = added + modified + deleted + conflict
+                        if diff_total > 0 then
+                                table.insert(parts, (icons.git.diff or "≡") .. " " .. diff_total)
+                        end
                         git_cache.status = table.concat(parts, " ")
                 end
         end
