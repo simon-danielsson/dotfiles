@@ -5,8 +5,12 @@ What makes this config unique is its Swedish flair—optimized for Swedish keybo
 > ⚠️ This is **not** intended to be installed as a complete config - instead, I recommend that you sift through these files and take inspiration; copy-paste what you like into your own setup.
 
 ## 📸 Screenshots
-![2](media/2.png)
-![3](media/3.png)
+<details>
+<summary>Screenshots</summary>
+    ![1](media/1.png)
+    ![2](media/2.png)
+    ![3](media/3.png)
+</details>
 
 ## 🖥️ TMUX `.tmux.conf`
 - ⌨️ Prefix: `Ctrl-a`
