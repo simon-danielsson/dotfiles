@@ -7,7 +7,6 @@ Note that I'm using my own Swedish version of Workman on a 42-key split keyboard
 
 > ⚠️ This is **not** intended to be installed as a complete config - instead, I recommend that you sift through these files and take inspiration; copy-paste what you like into your own setup.
 
-## 📸 Screenshots
 ![1](media/1.png)
 ![2](media/2.png)
 
