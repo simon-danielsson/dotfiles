@@ -70,7 +70,7 @@ autocmd("RecordingEnter", {
         callback = function()
                 local reg = vim.fn.reg_recording()
                 if reg ~= "" then
-                        -- _G.macro_recording = " " .. icons.ui.rec_macro .. " @" .. reg .. " "
+                        -- _G.macro_recording = "    " .. icons.ui.rec_macro .. " @" .. reg .. "    "
                         _G.macro_recording = "    " .. icons.ui.rec_macro .. "    "
                 end
         end,
@@ -88,29 +88,6 @@ local function word_count()
         end
         local wc = vim.fn.wordcount()
         return wc.words > 0 and (icons.ui.wordcount .. " " .. wc.words .. " words ") or ""
-end
-
-local function file_size()
-        local size = vim.fn.getfsize(vim.fn.expand('%'))
-        if size < 0 then return "" end
-        if size < 1024 then
-                return size .. "B"
-        elseif size < 1024 * 1024 then
-                return string.format("%.1fK", size / 1024)
-        else
-                return string.format("%.1fM", size / 1024 / 1024)
-        end
-end
-
-local function short_filepath()
-        local path = vim.fn.expand("%:p")
-        local parts = vim.split(path, "/", { trimempty = true })
-        local count = #parts
-        return table.concat({
-                parts[count - 2] or "",
-                parts[count - 1] or "",
-                parts[count] or ""
-        }, "/")
 end
 
 local function mode_icon()
@@ -133,6 +110,17 @@ local function file_type_icon()
         else
                 return icons.ui.unrec_file
         end
+end
+
+local function short_filepath()
+        local path = vim.fn.expand("%:p")
+        local parts = vim.split(path, "/", { trimempty = true })
+        local count = #parts
+        return table.concat({
+                parts[count - 2] or "",
+                parts[count - 1] or "",
+                parts[count] or ""
+        }, "/")
 end
 
 local function file_type_filename()
@@ -186,25 +174,21 @@ end
 -- Highlights
 -- ======================================================
 
-local function set_hl(group, fg, bg, bold)
-        vim.api.nvim_set_hl(0, group, { fg = fg, bg = bg, bold = bold })
-end
-
-local base_groups = {
-        "StatusFilename", "StatusFileType", "StatusLine",
-        "StatusFileSize", "StatusLSP", "ColumnPercentage",
+local statusline_highlights = {
+        StatusLine       = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
+        StatusFilename   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
+        StatusFileType   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
+        ColumnPercentage = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
+        StatusPosition   = { fg = colors.fg_main, bg = colors.bg_mid, bold = true },
+        StatusMode       = { fg = colors.fg_main, bg = colors.bg_mid },
+        StatusScrollbar  = { fg = colors.fg_main, bg = colors.fg_mid, bold = true },
+        StatusGit        = { fg = colors.fg_mid, bg = colors.bg_deep },
+        StatusSelection  = { fg = colors.fg_mid, bg = colors.bg_mid, bold = true },
+        MacroRec         = { fg = colors.fg_main, bg = aux_colors.macro_statusline },
 }
-for _, group in ipairs(base_groups) do
-        set_hl(group, colors.fg_main, colors.bg_deep, false)
+for group, opts in pairs(statusline_highlights) do
+        vim.api.nvim_set_hl(0, group, opts)
 end
-
-set_hl("ColumnPercentage", colors.fg_main, colors.bg_deep, true)
-set_hl("StatusPosition", colors.fg_main, colors.bg_mid, true)
-set_hl("StatusMode", colors.fg_main, colors.bg_mid, true)
-set_hl("StatusScrollbar", colors.fg_main, colors.fg_mid, true)
-set_hl("StatusGit", colors.fg_mid, colors.bg_deep, true)
-set_hl("MarcoRec", colors.fg_main, aux_colors.macro_statusline, true)
-set_hl("StatusSelection", colors.fg_mid, colors.bg_mid, true)
 
 for _, level in ipairs(diagnostics_levels) do
         vim.api.nvim_set_hl(0, "StatusDiagnostics" .. level.name, { link = "Diagnostic" .. level.name })
@@ -228,16 +212,13 @@ _G.Statusline = function()
         end
         table.insert(parts, "%#StatusDiagnosticsSummary#" .. diagnostics_summary())
         table.insert(parts, "%#StatusFileSize#" .. word_count())
-        -- table.insert(parts, "%#StatusFileSize#" .. icons.ui.memory .. " " .. file_size() .. " ")
-        -- table.insert(parts, "%#StatusFileSize#" .. icons.ui.file .. " %L ")
         table.insert(parts, "%#StatusSelection#" .. selected_lines())
         table.insert(parts, "%#StatusPosition# " .. "%l:%c ")
         table.insert(parts, scrollbar())
         if _G.macro_recording ~= "" then
-                table.insert(parts, "%#MarcoRec#" .. _G.macro_recording)
+                table.insert(parts, "%#MacroRec#" .. _G.macro_recording)
         end
-
-return table.concat(parts)
+        return table.concat(parts)
 end
 
 vim.opt.statusline = "%!v:lua.Statusline()"
