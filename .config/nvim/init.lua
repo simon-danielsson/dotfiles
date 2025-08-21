@@ -37,10 +37,11 @@ require("plugins.netrw")
 require("plugins.keymaps")
 
 -- ======================================================
--- Trident
+-- Native plugins
 -- ======================================================
 
 require("native.trident").setup()
+require("native.lsp_hover_win").setup()
 
 -- ======================================================
 -- LSP
