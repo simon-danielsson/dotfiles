@@ -9,6 +9,7 @@ M.colors = {
         splash_version = "#444444",
         splash_banner  = "#B8BB25",
         splash_buttons = "#888888",
+        cursor         = "#B8BB25",
 }
 
 M.colors_pink_explosion = {
@@ -20,6 +21,7 @@ M.colors_pink_explosion = {
         splash_version = "#9B59B6",
         splash_banner  = "#4B0082",
         splash_buttons = "#9B59B6",
+        cursor         = "#9B59B6",
 }
 
 M.aux_colors = {
@@ -56,9 +58,5 @@ M.banner = {
         "┗┓┃┃┃┃┃┃┃┃┃┃",
         "┗┛┻┛ ┗┗┛┻┛ ┗",
 }
-
--- local banners = { M.banner1, M.banner2, M.banner3, M.banner4, M.banner5, M.banner6 }
--- local chosen_banner = banners[math.random(#banners)]
--- M.banner = chosen_banner
 
 return M
