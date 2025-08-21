@@ -138,6 +138,8 @@ function M.show()
                 title = " " .. M.title .. " ",
                 title_pos = M.title_pos,
         })
+        vim.cmd("hi noCursor blend=100 cterm=strikethrough")
+        vim.opt.guicursor:append("a:noCursor/lCursor")
         for i = 1, M.max_slots do
                 vim.keymap.set("n", tostring(i), function()
                         local target_buf = M.buffers[i]
