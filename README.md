@@ -29,7 +29,6 @@ Zsh is my shell of choice. I've set it up so that a new zsh instance will automa
 - 🔍 **`s`**: The same logic as `ss`, but only searches through the current directory.
 
 ### Scripts `scripts/`
-Utility bash scripts.
 - 💀 **kill-nvim-and-tmux.sh**: Kills all Neovim and TMUX processes.
 - 🚀 **start-godot-and-nvim-together.sh**: Opens Godot together with Neovim.
 - 🔧 **start-nvim-with-godotpipe.sh**: Starts Neovim with GodotPipe for editing GDScript with Godot.
