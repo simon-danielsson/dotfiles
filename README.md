@@ -73,36 +73,36 @@ A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harp
 <details>
   <summary>🚀 autocmds.lua</summary>
 
-## Write & Formatting
+### Write & Formatting
 - Autosave every 8th time normal mode is entered.
 - Format buffer on save using LSP or Tree-sitter.
 - Remove trailing whitespace, extra empty lines, and empty first lines.
 - Export Typst files to PDF automatically.
 - Make shell scripts executable on save.
 
-## File & Directory Management
+### File & Directory Management
 - Load a template when opening a new file, if available.
 - Automatically change working directory to current buffer's folder.
 - Create directories automatically before saving files.
 - Ensure undo directory exists.
 
-## Cursor Management
+### Cursor Management
 - Restore cursor position when reopening a buffer.
 - Highlight cursorline in active windows (ignored for certain buffers).
 - Temporarily highlight yanked text.
 
-## Terminal Management
+### Terminal Management
 - Automatically enter insert mode in terminal buffers.
 - Close terminal buffer when the process exits.
 
-## User Interface Tweaks
+### User Interface Tweaks
 - Disable automatic comment insertion on new lines.
 - Enable spell checking for text, markdown, and Typst files.
 - Fold paragraphs separated by empty lines.
 - Hide statusline for Oil file explorer and restore afterward.
 - Auto-resize splits when the window is resized.
 
-## Miscellaneous
+### Miscellaneous
 - Suppress non-error notifications inside Oil buffers.
 
 </details>
