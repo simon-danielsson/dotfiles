@@ -3,6 +3,44 @@ local banner = require("ui.theme").banner
 
 local M = {}
 
+local saved_opts = {
+        cursorline = vim.wo.cursorline,
+        cursor = vim.opt.guicursor,
+        fillchars = vim.wo.fillchars,
+        list = vim.wo.list,
+        listchars = vim.wo.listchars,
+        cursorline = vim.wo.cursorline,
+        number = vim.wo.number,
+        relativenumber = vim.wo.relativenumber,
+        wrap = vim.wo.wrap,
+}
+
+function M.plugin_override_opts()
+        vim.wo.cursorline = false
+        vim.cmd("hi noCursor blend=100 cterm=strikethrough")
+        vim.opt.guicursor:append("a:noCursor/lCursor")
+        vim.wo.fillchars = ""
+        vim.wo.list = false
+        vim.wo.listchars = ""
+        vim.wo.cursorline = false
+        vim.wo.number = false
+        vim.wo.relativenumber = false
+        vim.wo.wrap = false
+end
+
+function M.plugin_restore_opts()
+        vim.cmd("hi noCursor blend=0 cterm=bold")
+        vim.wo.cursorline = saved_opts.cursorline
+        vim.opt.guicursor = saved_opts.cursor
+        vim.wo.fillchars = saved_opts.fillchars
+        vim.wo.list = saved_opts.list
+        vim.wo.listchars = saved_opts.listchars
+        vim.wo.cursorline = saved_opts.cursorline
+        vim.wo.number = saved_opts.number
+        vim.wo.relativenumber = saved_opts.relativenumber
+        vim.wo.wrap = saved_opts.wrap
+end
+
 local function disp_width(s)
         return vim.fn.strdisplaywidth(s)
 end
@@ -44,6 +82,7 @@ local function render(buf)
         for _ = 1, top_padding do
                 table.insert(final_content, "")
         end
+        M.plugin_override_opts()
         vim.list_extend(final_content, centered)
         vim.api.nvim_buf_set_option(buf, "modifiable", true)
         vim.api.nvim_buf_set_lines(buf, 0, -1, false, final_content)
@@ -59,6 +98,7 @@ local function render(buf)
 end
 
 M.setup = function()
+        M.plugin_override_opts()
         vim.api.nvim_set_hl(0, "SplashVersion", { fg = colors.splash_version })
         vim.api.nvim_set_hl(0, "SplashBanner", { fg = colors.splash_banner })
         vim.api.nvim_set_hl(0, "SplashButton", { fg = colors.splash_buttons })
@@ -69,22 +109,6 @@ M.setup = function()
                         vim.api.nvim_set_current_buf(buf)
                         vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
                         vim.api.nvim_buf_set_option(buf, "swapfile", false)
-                        local saved_opts = {
-                                fillchars = vim.wo.fillchars,
-                                list = vim.wo.list,
-                                listchars = vim.wo.listchars,
-                                cursorline = vim.wo.cursorline,
-                                number = vim.wo.number,
-                                relativenumber = vim.wo.relativenumber,
-                                wrap = vim.wo.wrap,
-                        }
-                        vim.wo.fillchars = ""
-                        vim.wo.list = false
-                        vim.wo.listchars = ""
-                        vim.wo.cursorline = false
-                        vim.wo.number = false
-                        vim.wo.relativenumber = false
-                        vim.wo.wrap = false
                         render(buf)
                         local opts = { noremap = true, silent = true, buffer = buf }
                         vim.keymap.set("n", "q", "<cmd>qa<cr>", opts)
@@ -96,13 +120,7 @@ M.setup = function()
                                 callback = function()
                                         if vim.api.nvim_buf_is_valid(buf) then
                                                 vim.api.nvim_buf_delete(buf, { force = true })
-                                                vim.wo.fillchars = saved_opts.fillchars
-                                                vim.wo.list = saved_opts.list
-                                                vim.wo.listchars = saved_opts.listchars
-                                                vim.wo.cursorline = saved_opts.cursorline
-                                                vim.wo.number = saved_opts.number
-                                                vim.wo.relativenumber = saved_opts.relativenumber
-                                                vim.wo.wrap = saved_opts.wrap
+                                                M.plugin_restore_opts()
                                         end
                                 end,
                         })

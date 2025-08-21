@@ -75,18 +75,20 @@ local function format_buf_line(i, buf)
 end
 
 local saved_opts = {
+        cursor = vim.opt.guicursor,
         cursorline = vim.wo.cursorline,
-        cursor = vim.opt.guicursor
 }
 
 function M.plugin_override_opts()
+        vim.cmd("hi noCursor blend=100 cterm=strikethrough")
+        vim.opt.guicursor:append("a:noCursor/lCursor")
         vim.wo.cursorline = false
-        vim.opt.guicursor = "a:None"
 end
 
 function M.plugin_restore_opts()
-        vim.wo.cursorline = saved_opts.cursorline
+        vim.cmd("hi noCursor blend=0 cterm=bold")
         vim.opt.guicursor = saved_opts.cursor
+        vim.wo.cursorline = saved_opts.cursorline
 end
 
 function M.show()
@@ -137,8 +139,6 @@ function M.show()
                 title = " " .. M.title .. " ",
                 title_pos = M.title_pos,
         })
-        vim.cmd("hi noCursor blend=100 cterm=strikethrough")
-        vim.opt.guicursor:append("a:noCursor/lCursor")
         for i = 1, M.max_slots do
                 vim.keymap.set("n", tostring(i), function()
                         local target_buf = M.buffers[i]
