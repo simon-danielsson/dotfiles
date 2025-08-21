@@ -1,6 +1,6 @@
 # **SIMVIM** : A Swedish Development Environment
 This repository contains my personal dotfiles for a minimal and maintainable development environment tailored for Rust and Python, as well as GDScript. My focus is on leveraging the native features of Neovim and TMUX before resorting to plugins, ensuring a relatively lightweight setup.
-What makes this config unique is its Swedish flair—optimized for Swedish keyboard layouts (e.g., easy access to å, ä, ö in keymaps). But note that I'm using my own modified version of the Workman keyboard layout on a 42-key split keyboard, so my keymaps may not make sense for someone with a qwerty US-layout.
+What makes this config unique is its Swedish flair—optimized for Swedish keyboard layouts (e.g., some things have been mapped to å, ä, ö). But note that I'm using my own modified version of the Workman keyboard layout on a 42-key split keyboard, so my keymaps may not make sense for someone with a qwerty US-layout.
 
 > ⚠️ This is **not** intended to be installed as a complete config - instead, I recommend that you sift through these files and take inspiration; copy-paste what you like into your own setup.
 
@@ -27,6 +27,12 @@ Zsh is my shell of choice. I've set it up so that a new zsh instance will automa
 - 📂 **`ls`**: `eza --color=always --icons --group-directories-first --git --no-time --no-permissions`
 - 🔍 **`ss`**: Launches fzf with preview window - built-in logic so that if a *directory* is selected you cd into it, but if a *file* is selected you open it in Neovim. Searches from the global directory regardless of `cwd`.
 - 🔍 **`s`**: The same logic as `ss`, but only searches through the current directory.
+
+### Scripts `scripts/`
+Utility bash scripts.
+- 💀 **kill-nvim-and-tmux.sh**: Kills all Neovim and TMUX processes.
+- 🚀 **start-godot-and-nvim-together.sh**: Opens Godot together with Neovim.
+- 🔧 **start-nvim-with-godotpipe.sh**: Starts Neovim with GodotPipe for editing GDScript with Godot.
 
 ## 📝 Neovim `.config/nvim/`
 Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the plugin manager.
@@ -76,11 +82,11 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 ### UI `lua/ui/`
 - 🎉 **splash.lua**: A Neovim-native splashscreen.
     - Centered banner configurable in **theme.lua**.
-    - Neovim version display.
-    - Configurable quick-action buttons.
     - Separate highlight groups for version, banner, and buttons - configurable in **theme.lua**.
+    - Configurable quick-action buttons.
+    - Neovim version display.
 - 🎨 **theme.lua**: Defines custom color palette - configuring these colours allow you to change the colour style globally across Neovim.
-- 🖌️ **colorscheme.lua**: Applies color overrides to `retrobox` using the colors set in **theme.lua**.
+- 🖌️ **colorscheme.lua**: Applies color overrides using the colors set in **theme.lua**.
 - 🌟 **icons.lua**: Defines icons for statusline, telescope, etc., using Nerd Fonts.
 - 📊 **statusline.lua**: Custom statusline displaying mode, file name, diagnostics, git branch, wordcount etc.
 
@@ -93,9 +99,3 @@ Template files for new buffers ( template application is defined in **autocmds.l
 - 🐍 Python
 - 🦀 Rust
 - 🖋️ Typst
-
-## Scripts `scripts/`
-Utility bash scripts.
-- 💀 **kill-nvim-and-tmux.sh**: Kills all Neovim and TMUX processes.
-- 🚀 **start-godot-and-nvim-together.sh**: Opens Godot together with Neovim.
-- 🔧 **start-nvim-with-godotpipe.sh**: Starts Neovim with GodotPipe for editing GDScript with Godot.
