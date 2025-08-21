@@ -18,6 +18,23 @@ Note that I'm using my own Swedish version of Workman on a 42-key split keyboard
 ## 🐚 Zsh `.zshrc`
 Zsh is my shell of choice. I've set it up so that a new zsh instance will automatically attach to a TMUX session called `main` - if there is none already running, a new `main` TMUX session will be created. This ensures I am always inside TMUX when I start my terminal emulator.
 
+<details>
+  <summary>Frequently Asked Questions</summary>
+
+### Q1: What is this project about?
+  This project is a **tool** to help developers manage tasks efficiently.
+
+### Q2: How do I contribute?
+  1. Fork the repo
+  2. Create a new branch
+  3. Make your changes
+  4. Submit a pull request
+
+### Q3: License
+  This project is licensed under the [MIT License](LICENSE).
+
+</details>
+
 ### Zsh Aliases `zsh_aliases.zsh`
 - 🐍 **`p`**: `python3 *.py`
 - 🦀 **`r`**: `cargo run --release`
