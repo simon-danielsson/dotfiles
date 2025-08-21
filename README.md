@@ -75,10 +75,10 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 
 ### UI `lua/ui/`
 - 🎉 **splash.lua**: A Neovim-native splashscreen.
-    - Centered banner - configurable in **theme.lua**.
+    - Centered banner configurable in **theme.lua**.
     - Neovim version display.
-    - Configurable quick-action buttons
-    - Separate highlight groups for version, banner, and buttons for a polished look - configurable in **theme.lua**.
+    - Configurable quick-action buttons.
+    - Separate highlight groups for version, banner, and buttons - configurable in **theme.lua**.
 - 🎨 **theme.lua**: Defines custom color palette - configuring these colours allow you to change the colour style globally across Neovim.
 - 🖌️ **colorscheme.lua**: Applies color overrides to `retrobox` using the colors set in **theme.lua**.
 - 🌟 **icons.lua**: Defines icons for statusline, telescope, etc., using Nerd Fonts.
