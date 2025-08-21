@@ -18,23 +18,6 @@ Note that I'm using my own Swedish version of Workman on a 42-key split keyboard
 ## 🐚 Zsh `.zshrc`
 Zsh is my shell of choice. I've set it up so that a new zsh instance will automatically attach to a TMUX session called `main` - if there is none already running, a new `main` TMUX session will be created. This ensures I am always inside TMUX when I start my terminal emulator.
 
-<details>
-  <summary>Frequently Asked Questions</summary>
-
-### Q1: What is this project about?
-  This project is a **tool** to help developers manage tasks efficiently.
-
-### Q2: How do I contribute?
-  1. Fork the repo
-  2. Create a new branch
-  3. Make your changes
-  4. Submit a pull request
-
-### Q3: License
-  This project is licensed under the [MIT License](LICENSE).
-
-</details>
-
 ### Zsh Aliases `zsh_aliases.zsh`
 - 🐍 **`p`**: `python3 *.py`
 - 🦀 **`r`**: `cargo run --release`
@@ -65,12 +48,17 @@ Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the pl
 
 <img src="media/trident.gif" width="400" />
 
-- 🔱 **trident.lua**: A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harpoon/tree/harpoon2).
-    - Buffers can not be added manually like in harpoon, but are instead added and subtracted from the list automatically.
-    - A maximum of 6 buffers are allowed on the list at once (to minimize visual noise) - this is easily configurable if you find it limiting.
-    - The list automatically rotates sequentially when any listed buffers are closed or deleted.
-    - Uses **nvim-web-devicons** to get filetype icons in the list - if **nvim-web-devicons** is malfunctioning or isn't installed, Trident defaults to a configurable fallback icon to avoid errors.
-    - Hit the prefix `"` to initiate Trident, then hit the number corresponding to the buffer you wish to open. The prefix is easily altered within **trident.lua**.
+<details>
+  <summary>🔱 trident.lua</summary>
+
+A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harpoon/tree/harpoon2).
+- Buffers can not be added manually like in harpoon, but are instead added and subtracted from the list automatically.
+- A maximum of 6 buffers are allowed on the list at once (to minimize visual noise) - this is easily configurable if you find it limiting.
+- The list automatically rotates sequentially when any listed buffers are closed or deleted.
+- Uses **nvim-web-devicons** to get filetype icons in the list - if **nvim-web-devicons** is malfunctioning or isn't installed, Trident defaults to a configurable fallback icon to avoid errors.
+- Hit the prefix `"` to initiate Trident, then hit the number corresponding to the buffer you wish to open. The prefix is easily altered within **trident.lua**.
+
+</details>
 
 <img src="media/lsp_hover_win.gif" width="400" />
 
