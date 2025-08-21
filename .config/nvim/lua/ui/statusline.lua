@@ -39,7 +39,7 @@ local function git_info()
                                         conflict = conflict + 1
                                 end
                         end
-                        local parts = { (icons.git.branch or "") .. " " .. branch }
+                        local parts = { "│ " .. (icons.git.branch or "") .. " " .. branch }
                         if ahead > 0 then table.insert(parts, "↑" .. ahead) end
                         if behind > 0 then table.insert(parts, "↓" .. behind) end
                         if added > 0 then table.insert(parts, (icons.git.add or "+") .. " " .. added) end
@@ -92,6 +92,14 @@ end
 
 local function mode_icon()
         return (icons.modes[vim.fn.mode()] .. " ") or (" " .. vim.fn.mode():upper())
+end
+
+local function lsp_info()
+        local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+        if #clients > 0 then
+                return "│ " .. icons.ui.gear .. clients[1].name .. " "
+        end
+        return ""
 end
 
 -- ======================================================
@@ -203,7 +211,8 @@ _G.Statusline = function()
                 "%#StatusMode#  " .. mode_icon() .. " ",
                 "%#StatusFileType# " .. file_type_icon() .. " ",
                 file_type_filename(),
-                " %#StatusGit#" .. git_info() .. " ",
+                " %#StatusGit#" .. git_info(),
+                " %#StatusGit#" .. lsp_info() .. " ",
                 "%=",
         }
         for _, level in ipairs(diagnostics_levels) do

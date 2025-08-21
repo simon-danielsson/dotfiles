@@ -40,6 +40,7 @@ M.ui = {
         arrow_right = "",
         arrow_up = "",
         arrow_down = "",
+        gear = "",
 }
 
 M.lang = {
