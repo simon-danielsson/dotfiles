@@ -30,11 +30,3 @@ map({ "n", "x", "o" }, "S", flash.treesitter, { desc = "Flash Treesitter" })
 map("o", "r", flash.remote, { desc = "Remote Flash" })
 map({ "o", "x" }, "R", flash.treesitter_search, { desc = "Treesitter Search" })
 map("c", "<C-s>", flash.toggle, { desc = "Toggle Flash Search" })
-
--- ======================================================
--- ChatGPT
--- ======================================================
-
-vim.keymap.set("n", "cg", "<cmd>ChatGPT<CR>", { desc = "Open ChatGPT" })
-vim.keymap.set("v", "ce", "<cmd>ChatGPTEditWithInstructions<CR>", { desc = "ChatGPT edit selection" })
-vim.keymap.set("n", "ca", "<cmd>ChatGPTActAs<CR>", { desc = "ChatGPT Act As" })

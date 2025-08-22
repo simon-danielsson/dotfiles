@@ -6,7 +6,6 @@ export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PAT
 export ZSH="$HOME/.oh-my-zsh"
 export LESS='--mouse --wheel-lines=1'
 export rmpc='/Users/simondanielsson/.cargo/bin'
-"$HOME/openaikey.sh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search)
 source $ZSH/oh-my-zsh.sh
@@ -21,13 +20,24 @@ export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+eval "$(zoxide init zsh)"
+
+# opencode
+"$HOME/openaikey.sh"
+export PATH=/Users/simondanielsson/.opencode/bin:$PATH
+
 # Auto-start or attach to tmux session "main" only if not already inside tmux
 if [ -z "$TMUX" ]; then
         if tmux has-session -t main 2>/dev/null; then
                 exec tmux attach-session -t main
         else
-                exec tmux new-session -s main
+                # Create session "main" in detached mode with a named window
+                tmux new-session -d -s main
+                # If for some reason the window wasn't created, ensure a window exists
+                tmux new-window -t main -n opencode "opencode" 2>/dev/null || true
+                # Return focus to the first window (index 0)
+                tmux select-window -t main:1
+                # Attach to the session
+                exec tmux attach-session -t main
         fi
 fi
-
-eval "$(zoxide init zsh)"
