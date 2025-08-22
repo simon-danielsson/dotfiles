@@ -9,17 +9,12 @@
 ![1](media/1.png)
 ![2](media/2.png)
 
-## 🖥️ TMUX `.tmux.conf`
-- ⌨️ Prefix: `Ctrl-a`
-- 🖱️ Mouse support for when you're feeling treacherous.
-- 📊 Status bar: session name, time, load average.
-
-## 🐚 Zsh `.zshrc`
+## 🖥️ Zsh & TMUX
 This is how my Zsh/TMUX setup behaves at startup:
 1. A new Zsh instance will automatically attach to a TMUX session called `main` - if there is none already running, a new `main` TMUX session will be created.
 2. Inside the newly created TMUX session a new window with an instance of [OpenCode](https://opencode.ai/docs/) is automatically created.
 
-### Zsh Aliases `zsh_aliases.zsh`
+### Zsh Aliases
 - 🐍 **`p`**: `python3 *.py`
 - 🦀 **`r`**: `cargo run --release`
 - 🦀 **`rd`**: `cargo doc --open`
@@ -31,12 +26,12 @@ This is how my Zsh/TMUX setup behaves at startup:
 - 🔍 **`ss`**: Launches fzf with preview window - built-in logic so that if a *directory* is selected you cd into it, but if a *file* is selected you open it in Neovim. Searches from the global directory regardless of `cwd`.
 - 🔍 **`s`**: The same logic as `ss`, but only searches through the current directory.
 
-### Scripts `scripts/`
+### Scripts
 - 💀 **kill-nvim-and-tmux.sh**: Kills all Neovim and TMUX processes.
 - 🚀 **start-godot-and-nvim-together.sh**: Opens Godot together with Neovim.
 - 🔧 **start-nvim-with-godotpipe.sh**: Starts Neovim with GodotPipe for editing GDScript with Godot.
 
-## 📝 Neovim `.config/nvim/`
+## 📝 Neovim
 Using **v0.12 nightly** with Lua modules for modularity and `vim.pack` as the plugin manager.
 
 ### Core Init `init.lua`
