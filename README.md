@@ -23,7 +23,7 @@ This is how my Zsh/TMUX setup behaves at startup:
 - 📔 **`journal`**: Starts Neovim with a new Typst file using a template - this is automatically titled to the current date and saved in `~/journal`. This makes for effortless journaling, so that I can focus on writing down my thoughts without friction.
 - 💀 **`q`**: Launches a script that kills all Neovim and TMUX sessions.
 - 📂 **`ls`**: `eza --color=always --icons --group-directories-first --git --no-time --no-permissions`
-- 🔍 **`ss`**: Launches fzf with preview window - built-in logic so that if a *directory* is selected you cd into it, but if a *file* is selected you open it in Neovim. Searches from the global directory regardless of `cwd`.
+- 🔍 **`ss`**: Launches fzf with preview window - built-in logic so that if a *directory* is selected you cd into it, but if a *file* is selected you open it in Neovim. Always searches from the `$HOME` directory.
 - 🔍 **`s`**: The same logic as `ss`, but only searches through the current directory.
 
 ### Scripts
