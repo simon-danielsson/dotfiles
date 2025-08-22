@@ -15,7 +15,9 @@
 - 📊 Status bar: session name, time, load average.
 
 ## 🐚 Zsh `.zshrc`
-Zsh is my shell of choice. I've set it up so that a new zsh instance will automatically attach to a TMUX session called `main` - if there is none already running, a new `main` TMUX session will be created. This ensures I am always inside TMUX when I start my terminal emulator.
+This is how my Zsh/TMUX setup behaves at startup:
+1. A new Zsh instance will automatically attach to a TMUX session called `main` - if there is none already running, a new `main` TMUX session will be created.
+2. Inside the newly created TMUX session a new window with an instance of [OpenCode](https://opencode.ai/docs/) is automatically created.
 
 ### Zsh Aliases `zsh_aliases.zsh`
 - 🐍 **`p`**: `python3 *.py`
