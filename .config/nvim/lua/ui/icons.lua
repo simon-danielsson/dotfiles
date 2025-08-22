@@ -31,7 +31,7 @@ M.git = {
 
 M.ui = {
         location = "󰟙",
-        file = "",
+        file = "",
         wordcount = "󰆙",
         memory = "",
         unrec_file = "",
@@ -41,6 +41,9 @@ M.ui = {
         arrow_up = "",
         arrow_down = "",
         gear = "",
+        folder = "󰷏",
+        time = "",
+        quit = "󰈆",
 }
 
 M.lang = {

@@ -1,14 +1,4 @@
 -- ======================================================
--- Native
--- ======================================================
-
-require("native.options")
-require("native.comment")
-require("native.autocmds")
-require("native.netrw")
-require("native.keymaps")
-
--- ======================================================
 -- UI
 -- ======================================================
 
@@ -19,6 +9,16 @@ colors.background_transparency(false)
 require("ui.colorscheme")
 require("ui.statusline")
 require("ui.splash").setup()
+
+-- ======================================================
+-- Native
+-- ======================================================
+
+require("native.options")
+require("native.comment")
+require("native.autocmds")
+require("native.netrw")
+require("native.keymaps")
 
 -- ======================================================
 -- Plugins

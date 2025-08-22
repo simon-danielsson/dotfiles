@@ -1,10 +1,59 @@
-local colors = require("ui.theme").colors
-local banner = require("ui.theme").banner
+-- ======================================================
+-- Setup
+-- ======================================================
 
+local colors = require("ui.theme").colors
+local icons = require("ui.icons")
 local M = {}
 
+-- ======================================================
+-- Settings
+-- ======================================================
+
+local banner = {
+        "┏┓┳┳┳┓┓┏┳┳┳┓",
+        "┗┓┃┃┃┃┃┃┃┃┃┃",
+        "┗┛┻┛ ┗┗┛┻┛ ┗",
+}
+
+M.splash_keymaps = ({
+        new = {
+                icon = "" .. icons.ui.file .. " ",
+                desc = "[n]ew",
+                key = "n",
+                action = "enew",
+        },
+        explore = {
+                icon = "  " .. icons.ui.folder .. " ",
+                desc = "[f]iles",
+                key = "f",
+                action = "Ex",
+        },
+        recent = {
+                icon = "   " .. icons.ui.time .. " ",
+                desc = "[r]ecent",
+                key = "r",
+                action = "Telescope oldfiles",
+        },
+        config = {
+                icon = "  " .. icons.ui.gear .. " ",
+                desc = "[c]onfig",
+                key = "c",
+                action = "edit ~/.config/nvim/init.lua",
+        },
+        quit = {
+                icon = " " .. icons.ui.quit .. " ",
+                desc = "[q]uit",
+                key = "q",
+                action = "qa!",
+        },
+})
+
+-- ======================================================
+-- Splash
+-- ======================================================
+
 local saved_opts = {
-        cursorline = vim.wo.cursorline,
         cursor = vim.opt.guicursor,
         fillchars = vim.wo.fillchars,
         list = vim.wo.list,
@@ -19,9 +68,9 @@ function M.plugin_override_opts()
         vim.wo.cursorline = false
         vim.cmd("hi noCursor blend=100 cterm=strikethrough")
         vim.opt.guicursor:append("a:noCursor/lCursor")
-        vim.wo.fillchars = ""
+        vim.wo.fillchars = nil
         vim.wo.list = false
-        vim.wo.listchars = ""
+        vim.wo.listchars = nil
         vim.wo.cursorline = false
         vim.wo.number = false
         vim.wo.relativenumber = false
@@ -36,10 +85,18 @@ function M.plugin_restore_opts()
         vim.wo.list = saved_opts.list
         vim.wo.listchars = saved_opts.listchars
         vim.wo.cursorline = saved_opts.cursorline
-        vim.wo.number = saved_opts.number
-        vim.wo.relativenumber = saved_opts.relativenumber
+        vim.wo.number = true
+        vim.wo.relativenumber = true
         vim.wo.wrap = saved_opts.wrap
 end
+
+local buttons = {
+        M.splash_keymaps.new.icon .. M.splash_keymaps.new.desc,
+        M.splash_keymaps.explore.icon .. M.splash_keymaps.explore.desc,
+        M.splash_keymaps.recent.icon .. M.splash_keymaps.recent.desc,
+        M.splash_keymaps.config.icon .. M.splash_keymaps.config.desc,
+        M.splash_keymaps.quit.icon .. M.splash_keymaps.quit.desc,
+}
 
 local function disp_width(s)
         return vim.fn.strdisplaywidth(s)
@@ -54,13 +111,6 @@ local function center_lines(lines, width)
         end
         return out
 end
-
-local buttons = {
-        " [n]ew",
-        "  [f]ind",
-        "    [r]ecent",
-        " 󰈆 [q]uit",
-}
 
 local function build_content()
         local v = vim.version()
@@ -97,6 +147,37 @@ local function render(buf)
         end
 end
 
+local function create_splash()
+        M.plugin_override_opts()
+        local buf = vim.api.nvim_create_buf(false, true)
+        vim.api.nvim_set_current_buf(buf)
+        vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
+        vim.api.nvim_buf_set_option(buf, "swapfile", false)
+        render(buf)
+        local opts = { noremap = true, silent = true, buffer = buf }
+        vim.keymap.set("n", M.splash_keymaps.quit.key, "<cmd>" .. M.splash_keymaps.quit.action .. "<cr>", opts)
+        vim.keymap.set("n", M.splash_keymaps.new.key, "<cmd>" .. M.splash_keymaps.new.action .. "<cr>", opts)
+        vim.keymap.set("n", M.splash_keymaps.explore.key, "<cmd>" .. M.splash_keymaps.explore.action .. "<cr>", opts)
+        vim.keymap.set("n", M.splash_keymaps.recent.key, "<cmd>" .. M.splash_keymaps.recent.action .. "<cr>", opts)
+        vim.keymap.set("n", M.splash_keymaps.config.key, "<cmd>" .. M.splash_keymaps.config.action .. "<cr>", opts)
+        vim.api.nvim_create_autocmd({ "BufLeave", "BufWipeout", "BufUnload" }, {
+                buffer = buf,
+                callback = function()
+                        if vim.api.nvim_buf_is_valid(buf) then
+                                vim.api.nvim_buf_delete(buf, { force = true })
+                                M.plugin_restore_opts()
+                        end
+                end,
+        })
+        vim.api.nvim_create_autocmd("VimResized", {
+                callback = function()
+                        if vim.api.nvim_buf_is_valid(buf) then
+                                render(buf)
+                        end
+                end,
+        })
+end
+
 M.setup = function()
         M.plugin_override_opts()
         vim.api.nvim_set_hl(0, "SplashVersion", { fg = colors.splash_version })
@@ -105,34 +186,14 @@ M.setup = function()
         vim.api.nvim_create_autocmd("VimEnter", {
                 callback = function()
                         if vim.fn.argc() ~= 0 then return end
-                        local buf = vim.api.nvim_create_buf(false, true)
-                        vim.api.nvim_set_current_buf(buf)
-                        vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
-                        vim.api.nvim_buf_set_option(buf, "swapfile", false)
-                        render(buf)
-                        local opts = { noremap = true, silent = true, buffer = buf }
-                        vim.keymap.set("n", "q", "<cmd>qa<cr>", opts)
-                        vim.keymap.set("n", "n", "<cmd>enew<cr>", opts)
-                        vim.keymap.set("n", "f", "<cmd>Telescope find_files<cr>", opts)
-                        vim.keymap.set("n", "r", "<cmd>Telescope oldfiles<cr>", opts)
-                        vim.api.nvim_create_autocmd({ "BufLeave", "BufWipeout", "BufUnload" }, {
-                                buffer = buf,
-                                callback = function()
-                                        if vim.api.nvim_buf_is_valid(buf) then
-                                                vim.api.nvim_buf_delete(buf, { force = true })
-                                                M.plugin_restore_opts()
-                                        end
-                                end,
-                        })
-                        vim.api.nvim_create_autocmd("VimResized", {
-                                callback = function()
-                                        if vim.api.nvim_buf_is_valid(buf) then
-                                                render(buf)
-                                        end
-                                end,
-                        })
+                        M.plugin_override_opts()
+                        create_splash()
                 end,
         })
+end
+
+function M.show()
+        create_splash()
 end
 
 return M
