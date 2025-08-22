@@ -6,6 +6,7 @@ export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PAT
 export ZSH="$HOME/.oh-my-zsh"
 export LESS='--mouse --wheel-lines=1'
 export rmpc='/Users/simondanielsson/.cargo/bin'
+"$HOME/openaikey.sh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search)
 source $ZSH/oh-my-zsh.sh

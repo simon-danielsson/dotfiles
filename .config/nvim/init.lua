@@ -33,6 +33,7 @@ require("plugins.noice")
 require("plugins.flash")
 require("plugins.cmp")
 require("plugins.netrw")
+require("plugins.chatgpt")
 
 require("plugins.keymaps")
 

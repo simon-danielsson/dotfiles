@@ -36,7 +36,7 @@ M.splash_keymaps = ({
                 action = "Telescope oldfiles",
         },
         config = {
-                icon = "  " .. icons.ui.gear .. " ",
+                icon = "   " .. icons.ui.gear .. " ",
                 desc = "[c]onfig",
                 key = "c",
                 action = "edit ~/.config/nvim/init.lua",
