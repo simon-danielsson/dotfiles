@@ -12,46 +12,77 @@ local M = {}
 
 M.splash_keymaps = ({
         new = {
-                icon = "" .. icons.ui.file .. " ",
+                icon = icons.ui.file,
                 desc = "new",
                 key = "n",
                 action = "enew",
         },
         explore = {
-                icon = "  " .. icons.ui.folder .. " ",
+                icon = icons.ui.folder,
                 desc = "files",
                 key = "f",
                 action = "Ex",
         },
         recent = {
-                icon = "   " .. icons.ui.time .. " ",
+                icon = icons.ui.time,
                 desc = "recent",
                 key = "r",
                 action = "Telescope oldfiles",
         },
         quit = {
-                icon = " " .. icons.ui.quit .. " ",
+                icon = icons.ui.quit,
                 desc = "quit",
                 key = "q",
                 action = "qa!",
         },
 })
 
-local banner = {
+M.banner = {
         "┏┓┳┳┳┓┓┏┳┳┳┓",
         "┗┓┃┃┃┃┃┃┃┃┃┃",
         "┗┛┻┛ ┗┗┛┻┛ ┗",
 }
 
 local quotes = {
-        "think",
-        "act",
-        "focus",
+        "focus", -- English
+        "fokus", -- German
+        "foco", -- Spanish
+        "focus", -- French
+        "focus", -- Italian
+        "фокус", -- Russian
+        "焦点", -- Chinese (Simplified)
+        "フォーカス", -- Japanese
+        "포커스", -- Korean
+        "تركيز", -- Arabic
+        "foque", -- Galician
+        "enfocar", -- Spanish (verb form)
+        "תְּשׂוּמַת לֵב", -- Hebrew
+        "foqus", -- Albanian
+        "foqueo", -- Spanish (alternate)
+        "焦点", -- Chinese (Simplified)
+        "專注", -- Chinese (Traditional)
+        "フォーカス", -- Japanese
+        "포커스", -- Korean
+        "ध्यान", -- Hindi
+        "توجّه", -- Arabic
+        "فوکوس", -- Persian
+        "ध्यान", -- Nepali
 }
 
 -- ======================================================
 -- Splash
 -- ======================================================
+
+-- function M.random_banner()
+-- math.randomseed(os.time() + os.clock() * 1000000)
+-- local banners = { M.banner1, M.banner2, M.banner3 }
+-- local chosen_banner = banners[math.random(#banners)]
+-- return chosen_banner
+-- end
+--
+-- M.banner = M.random_banner()
+
+M.key_spacing = 0
 
 function M.random_quote()
         math.randomseed(os.time() + os.clock() * 1000000)
@@ -84,14 +115,44 @@ local function center_lines(lines, width)
         return out
 end
 
+local function build_keymap_lines(banner_width)
+        local lines = {}
+        local keymap_order = { "new", "explore", "recent", "quit" }
+        local max_key_width = 0
+        for _, key in ipairs(keymap_order) do
+                max_key_width = math.max(max_key_width,
+                        disp_width(M.splash_keymaps[key].key))
+        end
+        for i, key in ipairs(keymap_order) do
+                local map = M.splash_keymaps[key]
+                local key_text = map.icon .. " " .. map.key
+                local desc = map.desc
+                local space = banner_width - max_key_width - disp_width(desc) - 2
+                space = math.max(space, 1) -- at least 1 space
+                local line = key_text .. string.rep(" ", space) .. desc
+                table.insert(lines, line)
+                if i < #keymap_order then
+                        for _ = 1, M.key_spacing do
+                                table.insert(lines, "")
+                        end
+                end
+        end
+        return lines
+end
+
 local function build_content()
         local v = vim.version()
         local quote = M.random_quote()
         local version_line = string.format("v%d.%d.%d", v.major, v.minor, v.patch)
         local content = { version_line, "" }
-        vim.list_extend(content, banner)
+        vim.list_extend(content, M.banner)
         table.insert(content, "")
-        vim.list_extend(content, buttons)
+        local banner_width = 0
+        for _, line in ipairs(M.banner) do
+                banner_width = math.max(banner_width, disp_width(line))
+        end
+        local keymap_lines = build_keymap_lines(banner_width)
+        vim.list_extend(content, keymap_lines)
         table.insert(content, "")
         local quote_lines = {}
         for line in quote:gmatch("([^\n]+)") do
@@ -143,11 +204,11 @@ local function render(buf, win)
         vim.api.nvim_buf_set_lines(buf, 0, -1, false, final_content)
         vim.api.nvim_buf_set_option(buf, "modifiable", false)
         vim.api.nvim_buf_add_highlight(buf, -1, "SplashVersion", top_padding, 0, -1)
-        for i = 2, (#banner + 1) do
+        for i = 2, (#M.banner + 1) do
                 vim.api.nvim_buf_add_highlight(buf, -1, "SplashBanner", top_padding + i, 0, -1)
         end
         local button_start = #final_content - quote_count - #buttons
-        for i = button_start - 1, button_start + #buttons do
+        for i = button_start - 2, button_start + #buttons do
                 vim.api.nvim_buf_add_highlight(buf, -1, "SplashButton", i, 0, -1)
         end
         local quote_start = #final_content - quote_count
