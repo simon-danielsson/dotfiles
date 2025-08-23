@@ -120,12 +120,13 @@ opt.wildmenu    = true
 opt.wildmode    = "longest:full,full"
 opt.wildoptions = "pum,fuzzy"
 opt.wildignore:append({ "*.o", "*.obj",
-"*.pyc", "*.class", "*.jar" })
+        "*.pyc", "*.class", "*.jar" })
 
 -- ======================================================
 -- Appearance
 -- ======================================================
 
+vim.opt.cmdheight        = 0
 o.signcolumn             = 'yes:1'
 opt.winborder            = "rounded"
 opt.termguicolors        = true

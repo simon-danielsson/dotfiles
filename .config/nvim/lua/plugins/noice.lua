@@ -1,7 +1,7 @@
 local icons = require("ui.icons").noice
 
 local plugins = {
-        { src = "https://github.com/rcarriga/nvim-notify", version = "master",  sync = true, silent = true },
+        -- { src = "https://github.com/rcarriga/nvim-notify", version = "master",  sync = true, silent = true },
         { src = "https://github.com/MunifTanjim/nui.nvim", version = "master",  sync = true, silent = true },
         { src = "https://github.com/folke/noice.nvim",     version = "v4.10.0", sync = true, silent = true },
 }
@@ -19,24 +19,23 @@ for _, group in ipairs(highlights) do
         vim.cmd(string.format("highlight %s guibg=NONE", group))
 end
 
-local has_notify, notify = pcall(require, "notify")
-if has_notify then
-        vim.notify = notify.setup({
-                stages = "static",
-                timeout = 5000,
-                background_colour = "#000000",
-        })
-end
+-- local has_notify, notify = pcall(require, "notify")
+-- if has_notify then
+-- vim.notify = notify.setup({
+-- stages = "static",
+-- timeout = 5000,
+-- background_colour = "#000000",
+-- })
+-- end
 
 local has_noice, noice = pcall(require, "noice")
 if has_noice then
         noice.setup({
-                routes = {
-                        {
-                                filter = {
-                                        find = "deprecated",
-                                },
-                        },
+                messages = {
+                        enabled = false,
+                },
+                notify = {
+                        enabled = false,
                 },
                 cmdline = {
                         format = {
@@ -51,13 +50,13 @@ if has_noice then
                 lsp = {
                         progress = { enabled = true },
                         signature = { enabled = true },
-                        hover = { enabled = true },
-                        message = { enabled = true },
+                        hover = { enabled = false },
+                        message = { enabled = false },
                 },
                 presets = {
                         bottom_search = false,
                         command_palette = true,
-                        long_message_to_split = true,
+                        long_message_to_split = false,
                         lsp_doc_border = true,
                 },
                 views = {

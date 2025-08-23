@@ -1,4 +1,14 @@
 -- ======================================================
+-- Native
+-- ======================================================
+
+require("native.options")
+require("native.comment")
+require("native.autocmds")
+require("native.netrw")
+require("native.keymaps")
+
+-- ======================================================
 -- UI
 -- ======================================================
 
@@ -9,16 +19,6 @@ colors.background_transparency(false)
 require("ui.colorscheme")
 require("ui.statusline")
 require("ui.splash").setup()
-
--- ======================================================
--- Native
--- ======================================================
-
-require("native.options")
-require("native.comment")
-require("native.autocmds")
-require("native.netrw")
-require("native.keymaps")
 
 -- ======================================================
 -- Plugins
@@ -42,7 +42,7 @@ require("plugins.keymaps")
 
 require("native.trident").setup()
 require("native.lsp_hover_win").setup()
-
+require("native.notify")
 -- ======================================================
 -- LSP
 -- ======================================================
