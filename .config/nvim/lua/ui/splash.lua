@@ -89,7 +89,6 @@ end
 -- Core render
 -- ======================================================
 
-local saved_guicursor = vim.opt.guicursor
 local function set_splash_win_opts(win)
         vim.api.nvim_set_option_value("number", false, { win = win })
         vim.api.nvim_set_option_value("relativenumber", false, { win = win })
@@ -97,8 +96,6 @@ local function set_splash_win_opts(win)
         vim.api.nvim_set_option_value("wrap", false, { win = win })
         vim.api.nvim_set_option_value("list", false, { win = win })
         vim.api.nvim_set_option_value("fillchars", "", { win = win })
-        vim.api.nvim_set_option_value("guicursor", "a:noCursor/lCursor", { scope = "local" })
-        -- vim.cmd("hi noCursor blend=100 cterm=strikethrough")
 end
 
 local function restore_defaults(win)
@@ -108,8 +105,6 @@ local function restore_defaults(win)
         vim.api.nvim_set_option_value("cursorline", true, { win = win })
         vim.api.nvim_set_option_value("wrap", true, { win = win })
         vim.api.nvim_set_option_value("list", true, { win = win })
-        vim.api.nvim_set_option_value("guicursor", saved_guicursor, { scope = "local" })
-        vim.cmd("hi noCursor blend=0 cterm=bold")
 end
 
 local function render(buf, win)
