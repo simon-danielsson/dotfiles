@@ -89,6 +89,8 @@ end
 -- Core render
 -- ======================================================
 
+local saved_guicursor = vim.o.guicursor
+print(saved_guicursor)
 local function set_splash_win_opts(win)
         vim.api.nvim_set_option_value("number", false, { win = win })
         vim.api.nvim_set_option_value("relativenumber", false, { win = win })
@@ -96,6 +98,10 @@ local function set_splash_win_opts(win)
         vim.api.nvim_set_option_value("wrap", false, { win = win })
         vim.api.nvim_set_option_value("list", false, { win = win })
         vim.api.nvim_set_option_value("fillchars", "", { win = win })
+        -- vim.o.guicursor = "a:noCursor/lCursor"
+        -- vim.o.guicursor = "a:hor20"
+        -- vim.cmd("hi noCursor blend=100 cterm=strikethrough")
+        -- vim.api.nvim_set_option_value("guicursor", "a:noCursor/lCursor", { scope = "local" })
 end
 
 local function restore_defaults(win)
@@ -105,6 +111,9 @@ local function restore_defaults(win)
         vim.api.nvim_set_option_value("cursorline", true, { win = win })
         vim.api.nvim_set_option_value("wrap", true, { win = win })
         vim.api.nvim_set_option_value("list", true, { win = win })
+        -- vim.api.nvim_set_option_value("guicursor", saved_guicursor, { scope = "local" })
+        -- vim.o.guicursor = saved_guicursor
+        -- vim.cmd("hi noCursor blend=0 cterm=bold")
 end
 
 local function render(buf, win)
@@ -156,7 +165,7 @@ local function create_splash()
                         end
                 end,
         })
-        vim.api.nvim_create_autocmd("BufWinLeave", {
+        vim.api.nvim_create_autocmd("BufDelete", {
                 buffer = buf,
                 callback = function()
                         restore_defaults(win)
