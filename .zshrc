@@ -41,3 +41,7 @@ if [ -z "$TMUX" ]; then
                 exec tmux attach-session -t main
         fi
 fi
+
+if [[ -t 1 ]]; then
+        neofetch
+fi

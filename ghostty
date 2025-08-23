@@ -1,43 +1,73 @@
-# erase all keyboard shortcuts
+## ======================================================
+## Keybinds
+## ======================================================
+
+# Erase All Keyboard Shortcuts
 keybind = clear
 
-# keep pasting as a keybind
+# Paste
 keybind = performable:cmd+v=paste_from_clipboard
 
-# behaviour
+# Open Config
+keybind = global:cmd+,=open_config
+keybind = global:cmd+shift+,=reload_config
 
-window-save-state = always
+## ======================================================
+## Behaviour
+## ======================================================
+
+# Notifications
+desktop-notifications = false
+
+# Clipboard
 clipboard-read = allow
 clipboard-write = allow
 copy-on-select = true
-quit-after-last-window-closed = true
+
+# Shell
 shell-integration = zsh
-auto-update = download
+
+# Cursor
 mouse-hide-while-typing = true
 
-# font
+## ======================================================
+## Font
+## ======================================================
 
 font-size = 16
 font-family = 0xProto Nerd Font Mono
+window-inherit-font-size = true
 
-# window
+## ======================================================
+## Window
+## ======================================================
 
+# Save State
+window-save-state = always
+
+# Padding
 window-padding-x = 20,20
 window-padding-y = 20,20
 window-padding-balance = true
 
-window-inherit-font-size = true
-window-subtitle = false
-# macos-titlebar-style = hidden
+# General
+quit-after-last-window-closed = true
+window-subtitle = true
 macos-window-shadow = true
+window-width = 110
+window-height = 40
 
-# background
+## ======================================================
+## Background
+## ======================================================
+
 background = #262626
-#background = #333333
 background-opacity = 0.8
 background-blur = 40
 
-# quick terminal
+## ======================================================
+## Quick Terminal
+## ======================================================
 
 quick-terminal-position = left
 quick-terminal-autohide = true
