@@ -121,11 +121,9 @@ map("n", "ä", function()
                 if reg == "q" then
                         -- Stop recording
                         vim.cmd("normal! q")
-                        print(" ⏹ Stopped recording macro ")
                 else
                         -- Overwrite previous recording
                         vim.cmd("normal! qq")
-                        print(" ⏺ Recording macro ")
                 end
         end,
         { desc = "Start/stop recording macro in @q" })

@@ -38,5 +38,6 @@ if [ -z "$TMUX" ]; then
 fi
 
 if [[ -t 1 ]]; then
+        echo " "
         neofetch
 fi

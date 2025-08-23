@@ -10,54 +10,63 @@ local M = {}
 -- Settings
 -- ======================================================
 
+M.splash_keymaps = ({
+        new = {
+                icon = "" .. icons.ui.file .. " ",
+                desc = "new",
+                key = "n",
+                action = "enew",
+        },
+        explore = {
+                icon = "  " .. icons.ui.folder .. " ",
+                desc = "files",
+                key = "f",
+                action = "Ex",
+        },
+        recent = {
+                icon = "   " .. icons.ui.time .. " ",
+                desc = "recent",
+                key = "r",
+                action = "Telescope oldfiles",
+        },
+        quit = {
+                icon = " " .. icons.ui.quit .. " ",
+                desc = "quit",
+                key = "q",
+                action = "qa!",
+        },
+})
+
 local banner = {
         "┏┓┳┳┳┓┓┏┳┳┳┓",
         "┗┓┃┃┃┃┃┃┃┃┃┃",
         "┗┛┻┛ ┗┗┛┻┛ ┗",
 }
 
-M.splash_keymaps = ({
-        new = {
-                icon = "" .. icons.ui.file .. " ",
-                desc = "[n]ew",
-                key = "n",
-                action = "enew",
-        },
-        explore = {
-                icon = "  " .. icons.ui.folder .. " ",
-                desc = "[f]iles",
-                key = "f",
-                action = "Ex",
-        },
-        recent = {
-                icon = "   " .. icons.ui.time .. " ",
-                desc = "[r]ecent",
-                key = "r",
-                action = "Telescope oldfiles",
-        },
-        config = {
-                icon = "   " .. icons.ui.gear .. " ",
-                desc = "[c]onfig",
-                key = "c",
-                action = "edit ~/dotfiles/.config/nvim/init.lua",
-        },
-        quit = {
-                icon = " " .. icons.ui.quit .. " ",
-                desc = "[q]uit",
-                key = "q",
-                action = "qa!",
-        },
-})
+local quotes = {
+        "think",
+        "act",
+        "focus",
+}
 
 -- ======================================================
--- Helpers
+-- Splash
 -- ======================================================
+
+function M.random_quote()
+        math.randomseed(os.time() + os.clock() * 1000000)
+        local q = quotes[math.random(#quotes)]
+        if type(q) == "table" then
+                return table.concat(q, "\n")
+        else
+                return q
+        end
+end
 
 local buttons = {
         M.splash_keymaps.new.icon .. M.splash_keymaps.new.desc,
         M.splash_keymaps.explore.icon .. M.splash_keymaps.explore.desc,
         M.splash_keymaps.recent.icon .. M.splash_keymaps.recent.desc,
-        M.splash_keymaps.config.icon .. M.splash_keymaps.config.desc,
         M.splash_keymaps.quit.icon .. M.splash_keymaps.quit.desc,
 }
 
@@ -77,20 +86,23 @@ end
 
 local function build_content()
         local v = vim.version()
+        local quote = M.random_quote()
         local version_line = string.format("v%d.%d.%d", v.major, v.minor, v.patch)
         local content = { version_line, "" }
         vim.list_extend(content, banner)
         table.insert(content, "")
         vim.list_extend(content, buttons)
-        return content
+        table.insert(content, "")
+        local quote_lines = {}
+        for line in quote:gmatch("([^\n]+)") do
+                table.insert(content, line)
+                table.insert(quote_lines, line)
+        end
+        return content, #quote_lines
 end
 
--- ======================================================
--- Core render
--- ======================================================
-
-local saved_guicursor = vim.o.guicursor
-print(saved_guicursor)
+-- local saved_guicursor = vim.o.guicursor
+-- print(saved_guicursor)
 local function set_splash_win_opts(win)
         vim.api.nvim_set_option_value("number", false, { win = win })
         vim.api.nvim_set_option_value("relativenumber", false, { win = win })
@@ -119,7 +131,7 @@ end
 local function render(buf, win)
         local width = vim.o.columns
         local height = vim.o.lines
-        local content = build_content()
+        local content, quote_count = build_content()
         local centered = center_lines(content, width)
         local top_padding = math.max(math.floor((height - #centered) / 2), 0)
         local final_content = {}
@@ -130,20 +142,20 @@ local function render(buf, win)
         vim.api.nvim_buf_set_option(buf, "modifiable", true)
         vim.api.nvim_buf_set_lines(buf, 0, -1, false, final_content)
         vim.api.nvim_buf_set_option(buf, "modifiable", false)
-        vim.api.nvim_buf_add_highlight(buf, -1, "SplashVersion", top_padding + 0, 0, -1)
-        for i = 2, (#banner + 2) do
+        vim.api.nvim_buf_add_highlight(buf, -1, "SplashVersion", top_padding, 0, -1)
+        for i = 2, (#banner + 1) do
                 vim.api.nvim_buf_add_highlight(buf, -1, "SplashBanner", top_padding + i, 0, -1)
         end
-        local button_start = #final_content - #buttons - 2
-        for i = button_start + 1, #final_content do
+        local button_start = #final_content - quote_count - #buttons
+        for i = button_start - 1, button_start + #buttons do
                 vim.api.nvim_buf_add_highlight(buf, -1, "SplashButton", i, 0, -1)
+        end
+        local quote_start = #final_content - quote_count
+        for i = quote_start, #final_content - 1 do
+                vim.api.nvim_buf_add_highlight(buf, -1, "SplashVersion", i, 0, -1)
         end
         set_splash_win_opts(win)
 end
-
--- ======================================================
--- Splash buffer
--- ======================================================
 
 local function create_splash()
         local buf = vim.api.nvim_create_buf(false, true)
@@ -157,7 +169,6 @@ local function create_splash()
         vim.keymap.set("n", M.splash_keymaps.new.key, "<cmd>" .. M.splash_keymaps.new.action .. "<cr>", opts)
         vim.keymap.set("n", M.splash_keymaps.explore.key, "<cmd>" .. M.splash_keymaps.explore.action .. "<cr>", opts)
         vim.keymap.set("n", M.splash_keymaps.recent.key, "<cmd>" .. M.splash_keymaps.recent.action .. "<cr>", opts)
-        vim.keymap.set("n", M.splash_keymaps.config.key, "<cmd>" .. M.splash_keymaps.config.action .. "<cr>", opts)
         vim.api.nvim_create_autocmd("VimResized", {
                 callback = function()
                         if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_win_is_valid(win) then
@@ -180,10 +191,6 @@ local function create_splash()
                 end,
         })
 end
-
--- ======================================================
--- Setup
--- ======================================================
 
 M.setup = function()
         vim.api.nvim_set_hl(0, "SplashVersion", { fg = colors.splash_version })
