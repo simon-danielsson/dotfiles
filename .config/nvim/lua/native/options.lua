@@ -65,11 +65,8 @@ opt.cursorline   = true
 o.showmode       = false
 o.laststatus     = 3
 vim.cmd("hi noCursor blend=0 cterm=bold")
-vim.opt.guicursor = table.concat({
-        "n-v-c:block-blinkwait700-blinkoff400-blinkon250",
-        "i:ver25-blinkwait700-blinkoff400-blinkon250",
-        "r:hor20",
-}, ",")
+vim.opt.guicursor = "n-v-c:block-blinkwait700-blinkoff400-blinkon250,i:ver25-blinkwait700-blinkoff400-blinkon250,r:hor20"
+
 -- ======================================================
 -- Indenting & Tabs
 -- ======================================================
@@ -123,7 +120,7 @@ opt.wildmenu    = true
 opt.wildmode    = "longest:full,full"
 opt.wildoptions = "pum,fuzzy"
 opt.wildignore:append({ "*.o", "*.obj",
-        "*.pyc", "*.class", "*.jar" })
+"*.pyc", "*.class", "*.jar" })
 
 -- ======================================================
 -- Appearance

@@ -63,4 +63,3 @@ if os.getenv("TMUX") then
                 desc = "Rename TMUX windows dynamically",
         })
 end
-vim.cmd("hi noCursor blend=0 cterm=bold")

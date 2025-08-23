@@ -1,5 +1,5 @@
 -- ======================================================
--- Setup
+-- Setup & Imports
 -- ======================================================
 
 local colors = require("ui.theme").colors
@@ -50,45 +50,8 @@ M.splash_keymaps = ({
 })
 
 -- ======================================================
--- Splash
+-- Helpers
 -- ======================================================
-
-local saved_opts = {
-        cursor = vim.opt.guicursor,
-        fillchars = vim.wo.fillchars,
-        list = vim.wo.list,
-        listchars = vim.wo.listchars,
-        cursorline = vim.wo.cursorline,
-        number = vim.wo.number,
-        relativenumber = vim.wo.relativenumber,
-        wrap = vim.wo.wrap,
-}
-
-function M.plugin_override_opts()
-        vim.wo.cursorline = false
-        vim.cmd("hi noCursor blend=100 cterm=strikethrough")
-        vim.opt.guicursor:append("a:noCursor/lCursor")
-        vim.wo.fillchars = nil
-        vim.wo.list = false
-        vim.wo.listchars = nil
-        vim.wo.cursorline = false
-        vim.wo.number = false
-        vim.wo.relativenumber = false
-        vim.wo.wrap = false
-end
-
-function M.plugin_restore_opts()
-        vim.cmd("hi noCursor blend=0 cterm=bold")
-        vim.wo.cursorline = saved_opts.cursorline
-        vim.opt.guicursor = saved_opts.cursor
-        vim.wo.fillchars = saved_opts.fillchars
-        vim.wo.list = saved_opts.list
-        vim.wo.listchars = saved_opts.listchars
-        vim.wo.cursorline = saved_opts.cursorline
-        vim.wo.number = true
-        vim.wo.relativenumber = true
-        vim.wo.wrap = saved_opts.wrap
-end
 
 local buttons = {
         M.splash_keymaps.new.icon .. M.splash_keymaps.new.desc,
@@ -122,7 +85,34 @@ local function build_content()
         return content
 end
 
-local function render(buf)
+-- ======================================================
+-- Core render
+-- ======================================================
+
+local saved_guicursor = vim.o.guicursor
+local function set_splash_win_opts(win)
+        vim.api.nvim_set_option_value("number", false, { win = win })
+        vim.api.nvim_set_option_value("relativenumber", false, { win = win })
+        vim.api.nvim_set_option_value("cursorline", false, { win = win })
+        vim.api.nvim_set_option_value("wrap", false, { win = win })
+        vim.api.nvim_set_option_value("list", false, { win = win })
+        vim.api.nvim_set_option_value("fillchars", "", { win = win })
+        vim.api.nvim_set_option_value("guicursor", "a:noCursor/lCursor", { scope = "local" })
+        vim.cmd("hi noCursor blend=100 cterm=strikethrough")
+end
+
+local function restore_defaults(win)
+        if not vim.api.nvim_win_is_valid(win) then return end
+        vim.api.nvim_set_option_value("number", true, { win = win })
+        vim.api.nvim_set_option_value("relativenumber", true, { win = win })
+        vim.api.nvim_set_option_value("cursorline", true, { win = win })
+        vim.api.nvim_set_option_value("wrap", true, { win = win })
+        vim.api.nvim_set_option_value("list", true, { win = win })
+        vim.api.nvim_set_option_value("guicursor", saved_guicursor, { scope = "local" })
+        vim.cmd("hi noCursor blend=0 cterm=bold")
+end
+
+local function render(buf, win)
         local width = vim.o.columns
         local height = vim.o.lines
         local content = build_content()
@@ -132,7 +122,6 @@ local function render(buf)
         for _ = 1, top_padding do
                 table.insert(final_content, "")
         end
-        M.plugin_override_opts()
         vim.list_extend(final_content, centered)
         vim.api.nvim_buf_set_option(buf, "modifiable", true)
         vim.api.nvim_buf_set_lines(buf, 0, -1, false, final_content)
@@ -145,48 +134,52 @@ local function render(buf)
         for i = button_start + 1, #final_content do
                 vim.api.nvim_buf_add_highlight(buf, -1, "SplashButton", i, 0, -1)
         end
+        set_splash_win_opts(win)
 end
 
+-- ======================================================
+-- Splash buffer
+-- ======================================================
+
 local function create_splash()
-        M.plugin_override_opts()
         local buf = vim.api.nvim_create_buf(false, true)
         vim.api.nvim_set_current_buf(buf)
+        local win = vim.api.nvim_get_current_win()
         vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
         vim.api.nvim_buf_set_option(buf, "swapfile", false)
-        render(buf)
+        render(buf, win)
         local opts = { noremap = true, silent = true, buffer = buf }
         vim.keymap.set("n", M.splash_keymaps.quit.key, "<cmd>" .. M.splash_keymaps.quit.action .. "<cr>", opts)
         vim.keymap.set("n", M.splash_keymaps.new.key, "<cmd>" .. M.splash_keymaps.new.action .. "<cr>", opts)
         vim.keymap.set("n", M.splash_keymaps.explore.key, "<cmd>" .. M.splash_keymaps.explore.action .. "<cr>", opts)
         vim.keymap.set("n", M.splash_keymaps.recent.key, "<cmd>" .. M.splash_keymaps.recent.action .. "<cr>", opts)
         vim.keymap.set("n", M.splash_keymaps.config.key, "<cmd>" .. M.splash_keymaps.config.action .. "<cr>", opts)
-        vim.api.nvim_create_autocmd({ "BufLeave", "BufWipeout", "BufUnload" }, {
-                buffer = buf,
+        vim.api.nvim_create_autocmd("VimResized", {
                 callback = function()
-                        if vim.api.nvim_buf_is_valid(buf) then
-                                vim.api.nvim_buf_delete(buf, { force = true })
-                                M.plugin_restore_opts()
+                        if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_win_is_valid(win) then
+                                render(buf, win)
                         end
                 end,
         })
-        vim.api.nvim_create_autocmd("VimResized", {
+        vim.api.nvim_create_autocmd("BufWinLeave", {
+                buffer = buf,
                 callback = function()
-                        if vim.api.nvim_buf_is_valid(buf) then
-                                render(buf)
-                        end
+                        restore_defaults(win)
                 end,
         })
 end
 
+-- ======================================================
+-- Setup
+-- ======================================================
+
 M.setup = function()
-        M.plugin_override_opts()
         vim.api.nvim_set_hl(0, "SplashVersion", { fg = colors.splash_version })
         vim.api.nvim_set_hl(0, "SplashBanner", { fg = colors.splash_banner })
         vim.api.nvim_set_hl(0, "SplashButton", { fg = colors.splash_buttons })
         vim.api.nvim_create_autocmd("VimEnter", {
                 callback = function()
                         if vim.fn.argc() ~= 0 then return end
-                        M.plugin_override_opts()
                         create_splash()
                 end,
         })
