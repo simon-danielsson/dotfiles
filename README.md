@@ -150,10 +150,11 @@ Global Neovim options.
 
 ### UI `lua/ui/`
 - 🎉 **splash.lua**: A Neovim-native splashscreen.
-    - Centered banner configurable in **theme.lua**.
-    - Separate highlight groups for version, banner, and buttons - configurable in **theme.lua**.
+    - Dynamically updated Neovim version display.
+    - Configurable banner.
     - Configurable quick-action buttons.
-    - Neovim version display.
+    - Random qoute each time the splash is opened - configurable qoute list.
+    - Separate highlight groups for version/qoute, banner, and buttons - configurable in **theme.lua**.
 - 🎨 **theme.lua**: Defines custom color palette - configuring these colours allow you to change the colour style globally across Neovim.
 - 🖌️ **colorscheme.lua**: Applies color overrides using the colors set in **theme.lua**.
 - 🌟 **icons.lua**: Defines icons for statusline, telescope, etc., using Nerd Fonts.
