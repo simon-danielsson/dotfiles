@@ -62,7 +62,7 @@ window-height = 40
 ## ======================================================
 
 background = #262626
-background-opacity = 0.8
+background-opacity = 1
 background-blur = 40
 
 ## ======================================================
