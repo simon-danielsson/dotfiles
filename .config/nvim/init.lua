@@ -8,6 +8,7 @@ colors.background_transparency(false)
 
 require("ui.colorscheme")
 require("ui.statusline")
+require("ui.splash").setup()
 
 -- ======================================================
 -- Native
@@ -36,12 +37,11 @@ require("plugins.netrw")
 require("plugins.keymaps")
 
 -- ======================================================
--- Native plugins (need to be loaded last)
+-- Native modules that need to be loaded last
 -- ======================================================
 
 require("native.trident").setup()
 require("native.lsp_hover_win").setup()
-require("ui.splash").setup()
 
 -- ======================================================
 -- LSP
