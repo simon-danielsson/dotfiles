@@ -29,7 +29,6 @@ require("plugins.nvim-telescope")
 require("plugins.nvim-treesitter")
 require("plugins.undotree")
 require("plugins.surround")
-require("plugins.noice")
 require("plugins.flash")
 require("plugins.cmp")
 require("plugins.netrw")
@@ -43,6 +42,7 @@ require("plugins.keymaps")
 require("native.trident").setup()
 require("native.lsp_hover_win").setup()
 require("native.notify")
+
 -- ======================================================
 -- LSP
 -- ======================================================

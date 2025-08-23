@@ -1,8 +1,11 @@
 local M = {}
 M.filter = { "deprecated", "TextYankPost", "faq" }
 M.notifications = {}
-M.config = { timeout = 3000, max_width = 50, border = "rounded", top_margin = 2, right_margin = 2 }
+M.config = { timeout = 6000, max_width = 50, border = "rounded", top_margin = 2, right_margin = 2 }
 local level_hl = { INFO = "DiagnosticInfo", WARN = "DiagnosticWarn", ERROR = "DiagnosticError", HINT = "DiagnosticHint" }
+
+local icons = require("ui.icons").diagn
+M.diagn = icons
 
 local function is_filtered(msg)
         for _, word in ipairs(M.filter) do if string.find(msg:lower(), word:lower(), 1, true) then return true end end
@@ -12,10 +15,20 @@ end
 local function create_win(msg, level)
         local buf = vim.api.nvim_create_buf(false, true)
         local lines = {}
+        local icon = ""
+        if level == "ERROR" then
+                icon = M.diagn.error
+        elseif level == "WARN" then
+                icon = M.diagn.warning
+        elseif level == "INFO" then
+                icon = M.diagn.information
+        elseif level == "HINT" then
+                icon = M.diagn.hint
+        end
+        table.insert(lines, icon .. " " .. level)
         local width = math.min(#msg + 4, M.config.max_width)
         for i = 1, math.ceil(#msg / M.config.max_width) do
-                table.insert(lines,
-                        msg:sub((i - 1) * M.config.max_width + 1, i * M.config.max_width))
+                table.insert(lines, msg:sub((i - 1) * M.config.max_width + 1, i * M.config.max_width))
         end
         vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
         local row = M.config.top_margin
@@ -153,5 +166,30 @@ print = function(...)
         M.notify(msg, "INFO")
         orig_print(...)
 end
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+        callback = function()
+                vim.schedule(function()
+                        local ft = vim.bo.filetype
+                        if ft == "netrw" then return end
+                        local ok, M = pcall(require, "native.notify")
+                        if not ok then return end
+                        local reg = vim.fn.getreg(vim.v.register)
+                        local regtype = vim.fn.getregtype(vim.v.register)
+                        local count, unit
+                        if regtype == "V" then
+                                unit = "lines"
+                                count = #vim.fn.split(reg, "\n")
+                        elseif regtype == "\22" then
+                                unit = "block"
+                                count = #reg:gsub("\n", "")
+                        else
+                                unit = "chars"
+                                count = #reg
+                        end
+                        M.info(string.format("%d %s yanked", count, unit))
+                end)
+        end
+})
 
 return M
