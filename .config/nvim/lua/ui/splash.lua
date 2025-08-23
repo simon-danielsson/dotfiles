@@ -89,7 +89,7 @@ end
 -- Core render
 -- ======================================================
 
-local saved_guicursor = vim.o.guicursor
+local saved_guicursor = vim.opt.guicursor
 local function set_splash_win_opts(win)
         vim.api.nvim_set_option_value("number", false, { win = win })
         vim.api.nvim_set_option_value("relativenumber", false, { win = win })
@@ -98,7 +98,7 @@ local function set_splash_win_opts(win)
         vim.api.nvim_set_option_value("list", false, { win = win })
         vim.api.nvim_set_option_value("fillchars", "", { win = win })
         vim.api.nvim_set_option_value("guicursor", "a:noCursor/lCursor", { scope = "local" })
-        vim.cmd("hi noCursor blend=100 cterm=strikethrough")
+        -- vim.cmd("hi noCursor blend=100 cterm=strikethrough")
 end
 
 local function restore_defaults(win)
@@ -185,7 +185,7 @@ M.setup = function()
         vim.api.nvim_set_hl(0, "SplashVersion", { fg = colors.splash_version })
         vim.api.nvim_set_hl(0, "SplashBanner", { fg = colors.splash_banner })
         vim.api.nvim_set_hl(0, "SplashButton", { fg = colors.splash_buttons })
-        vim.api.nvim_create_autocmd("VimEnter", {
+        vim.api.nvim_create_autocmd("UIEnter", {
                 callback = function()
                         if vim.fn.argc() ~= 0 then return end
                         create_splash()
