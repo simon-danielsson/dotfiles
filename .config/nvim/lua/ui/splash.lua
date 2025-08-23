@@ -39,7 +39,7 @@ M.splash_keymaps = ({
                 icon = "   " .. icons.ui.gear .. " ",
                 desc = "[c]onfig",
                 key = "c",
-                action = "edit ~/.config/nvim/init.lua",
+                action = "edit ~/dotfiles/.config/nvim/init.lua",
         },
         quit = {
                 icon = " " .. icons.ui.quit .. " ",
