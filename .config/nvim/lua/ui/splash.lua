@@ -167,6 +167,14 @@ local function create_splash()
                         restore_defaults(win)
                 end,
         })
+        vim.api.nvim_create_autocmd("BufLeave", {
+                buffer = buf,
+                callback = function()
+                        if vim.api.nvim_buf_is_valid(buf) then
+                                vim.api.nvim_buf_delete(buf, { force = true })
+                        end
+                end,
+        })
 end
 
 -- ======================================================
