@@ -11,27 +11,30 @@ M.win_id                    = nil
 -- Settings
 -- ======================================================
 
--- Function
-M.max_slots                 = 6
-
--- Keymaps
-M.prefix_key                = '"'
-M.panic_key                 = "<Esc>"
-
--- Appearance
-M.title                     = icons.trident.main_icon
-M.fallback_icon             = icons.trident.fallback
-M.border                    = icons.border
-M.use_devicons              = true
-M.style                     = "minimal"
-M.title_pos                 = "center"
+M.trident_settings          = ({
+        general = {
+                max_slots = 6,
+                devicons = true,
+        },
+        keymaps = {
+                prefix = '"',
+                panic = "<Esc>",
+        },
+        ui = {
+                title = icons.trident.main_icon,
+                fallback_icon = icons.trident.fallback,
+                style = "minimal",
+                title_pos = "center",
+                border = icons.border
+        },
+})
 
 -- ======================================================
 -- Trident
 -- ======================================================
 
 local ok_devicons, devicons = nil, nil
-if M.use_devicons then
+if M.trident_settings.general.devicons then
         ok_devicons, devicons = pcall(require, "nvim-web-devicons")
 end
 
@@ -40,14 +43,14 @@ function M.update_buffers()
                 return vim.api.nvim_buf_is_valid(b) and vim.api.nvim_buf_get_option(b, "buflisted")
         end, vim.api.nvim_list_bufs())
         M.buffers = {}
-        for i = 1, M.max_slots do
+        for i = 1, M.trident_settings.general.max_slots do
                 M.buffers[i] = active_buffers[i] or nil
         end
 end
 
 local function format_buf_line(i, buf)
         if not buf then
-                return string.format(" %d %s -", i, M.fallback_icon)
+                return string.format(" %d %s -", i, M.trident_settings.ui.fallback_icon)
         end
         local name = vim.api.nvim_buf_get_name(buf)
         local display_name
@@ -70,7 +73,7 @@ local function format_buf_line(i, buf)
         if hl_group and icon ~= "" then
                 return { line = string.format(" %d %s %s", i, icon, display_name), hl = { icon = icon, hl_group = hl_group } }
         else
-                return { line = string.format(" %d %s %s", i, M.fallback_icon, display_name) }
+                return { line = string.format(" %d %s %s", i, M.trident_settings.ui.fallback_icon, display_name) }
         end
 end
 
@@ -101,7 +104,7 @@ function M.show()
                 if formatted.hl then
                         table.insert(highlights, {
                                 lnum = i - 1,
-                                col = #string.format(" %d %s ", i, M.fallback_icon),
+                                col = #string.format(" %d %s ", i, M.trident_settings.ui.fallback_icon),
                                 icon_len = #formatted.hl.icon - 3,
                                 hl_group = formatted.hl.hl_group,
                         })
@@ -133,13 +136,13 @@ function M.show()
                 height = height,
                 row = row,
                 col = col,
-                style = M.style,
-                border = M.border,
+                style = M.trident_settings.ui.style,
+                border = M.trident_settings.ui.border,
                 focusable = true,
-                title = " " .. M.title .. " ",
-                title_pos = M.title_pos,
+                title = " " .. M.trident_settings.ui.title .. " ",
+                title_pos = M.trident_settings.ui.title_pos,
         })
-        for i = 1, M.max_slots do
+        for i = 1, M.trident_settings.general.max_slots do
                 vim.keymap.set("n", tostring(i), function()
                         local target_buf = M.buffers[i]
                         if target_buf and vim.api.nvim_buf_is_valid(target_buf) then
@@ -152,7 +155,7 @@ function M.show()
                         end
                 end, { buffer = buf, nowait = true })
         end
-        vim.keymap.set("n", M.panic_key, function()
+        vim.keymap.set("n", M.trident_settings.keymaps.panic, function()
                 if M.win_id and vim.api.nvim_win_is_valid(M.win_id) then
                         vim.api.nvim_win_close(M.win_id, true)
                         M.plugin_restore_opts()
@@ -176,7 +179,7 @@ function M.jump(slot)
 end
 
 function M.setup()
-        vim.keymap.set("n", M.prefix_key, function()
+        vim.keymap.set("n", M.trident_settings.keymaps.prefix, function()
                 M.show()
         end, {
                 noremap = true,
