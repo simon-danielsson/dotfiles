@@ -2,7 +2,7 @@ local opt          = vim.opt
 local g            = vim.g
 local o            = vim.o
 local bo           = vim.bo
-
+local autocmd      = vim.api.nvim_create_autocmd
 -- ======================================================
 -- Line Numbers
 -- ======================================================
@@ -49,10 +49,10 @@ o.equalalways    = true
 opt.inccommand   = 'split'
 opt.hidden       = true
 opt.diffopt      = {
-        "filler",
-        "indent-heuristic",
-        "linematch:60",
-        "vertical",
+	"filler",
+	"indent-heuristic",
+	"linematch:60",
+	"vertical",
 }
 
 -- ======================================================
@@ -65,37 +65,67 @@ opt.cursorline   = true
 o.showmode       = false
 o.laststatus     = 3
 vim.cmd("hi noCursor blend=0 cterm=bold")
-vim.opt.guicursor = "n-v-c:block-blinkwait700-blinkoff400-blinkon250,i:ver25-blinkwait700-blinkoff400-blinkon250,r:hor20"
+vim.opt.guicursor          = "n-v-c:block-blinkwait700-blinkoff400-blinkon250,i:ver25-blinkwait700-blinkoff400-blinkon250,r:hor20"
+
+-- ======================================================
+-- Appearance
+-- ======================================================
+
+o.signcolumn               = 'yes:1'
+opt.winborder              = "rounded"
+opt.termguicolors          = true
+vim.o.encoding             = "utf-8"
+opt.numberwidth            = 4
+opt.showmatch              = true
+opt.listchars              = {
+	tab = "║ ",
+	trail = "•",
+	nbsp = " ",
+}
+opt.list                   = true
+opt.fillchars              = {
+	horiz     = " ",
+	horizup   = " ",
+	horizdown = " ",
+	vert      = " ",
+	vertleft  = " ",
+	vertright = " ",
+	verthoriz = " ",
+	fold      = "─",
+	eob       = " ",
+	diff      = " ",
+	msgsep    = " ",
+	foldsep   = "│",
+	foldclose = "",
+	foldopen  = "",
+}
 
 -- ======================================================
 -- Indenting & Tabs
 -- ======================================================
 
-o.expandtab       = true
-o.smartindent     = true
-o.autoindent      = true
+g.python_recommended_style = 1
+o.expandtab                = false
+o.smartindent              = true
+o.autoindent               = true
+o.tabstop                  = 8
+o.shiftwidth               = 8
+o.softtabstop              = 8
 
-vim.api.nvim_create_autocmd("FileType", {
-        pattern = "*",
-        callback = function()
-                bo.tabstop    = 8
-                bo.shiftwidth = 8
-                o.tabstop     = 8
-                o.shiftwidth  = 8
-                o.softtabstop = 8
-        end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "python", "markdown" },
-        callback = function()
-                bo.tabstop    = 4
-                bo.shiftwidth = 4
-                o.tabstop     = 4
-                o.shiftwidth  = 4
-                o.softtabstop = 4
-                bo.indentexpr = ""
-        end,
+autocmd("FileType", {
+	pattern = { "python", "markdown" },
+	callback = function()
+		vim.opt_local.list      = true
+		vim.opt_local.listchars = {
+			tab = "║ ",
+			trail = "•",
+			nbsp = " ",
+		}
+		bo.tabstop              = 4
+		bo.shiftwidth           = 4
+		bo.softtabstop          = 4
+		bo.expandtab            = true
+	end,
 })
 
 -- ======================================================
@@ -120,37 +150,7 @@ opt.wildmenu    = true
 opt.wildmode    = "longest:full,full"
 opt.wildoptions = "pum,fuzzy"
 opt.wildignore:append({ "*.o", "*.obj",
-        "*.pyc", "*.class", "*.jar" })
-
--- ======================================================
--- Appearance
--- ======================================================
-
-vim.opt.cmdheight        = 0
-o.signcolumn             = 'yes:1'
-opt.winborder            = "rounded"
-opt.termguicolors        = true
-vim.o.encoding           = "utf-8"
-opt.numberwidth          = 4
-opt.showmatch            = true
-opt.list                 = true
-opt.listchars            = { tab = "║ ", trail = "•" }
-opt.fillchars            = {
-        horiz     = " ",
-        horizup   = " ",
-        horizdown = " ",
-        vert      = " ",
-        vertleft  = " ",
-        vertright = " ",
-        verthoriz = " ",
-        fold      = "─",
-        eob       = " ",
-        diff      = " ",
-        msgsep    = " ",
-        foldsep   = "│",
-        foldclose = "",
-        foldopen  = "",
-}
+	"*.pyc", "*.class", "*.jar" })
 
 -- ======================================================
 -- File Handling

@@ -18,13 +18,11 @@ colors.background_transparency(false)
 
 require("ui.colorscheme")
 require("ui.statusline")
-require("ui.splash").setup()
 
 -- ======================================================
 -- Plugins
 -- ======================================================
 
-require("plugins.indent-blankline")
 require("plugins.nvim-telescope")
 require("plugins.nvim-treesitter")
 require("plugins.undotree")
@@ -54,12 +52,12 @@ require("lsp")
 -- ======================================================
 
 if os.getenv("TMUX") then
-        vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
-                callback = function()
-                        local name = vim.fn.expand("%:t")
-                        if name == "" then name = "[No Name]" end
-                        vim.fn.system({ "tmux", "rename-window", name })
-                end,
-                desc = "Rename TMUX windows dynamically",
-        })
+	vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
+		callback = function()
+			local name = vim.fn.expand("%:t")
+			if name == "" then name = "[No Name]" end
+			vim.fn.system({ "tmux", "rename-window", name })
+		end,
+		desc = "Rename TMUX windows dynamically",
+	})
 end

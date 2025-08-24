@@ -24,34 +24,47 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         group = write_group,
         pattern = "*",
         callback = function()
-                local ignore = { "markdown", "make", "txt", "typ" }
-                if vim.tbl_contains(ignore, vim.bo.filetype) then return end
+                local ignore = { "markdown", "make", "txt", "typ" } -- ignore list for non-Python files
+                local ft = vim.bo.filetype
+
+                if vim.tbl_contains(ignore, ft) then
+                        return -- skip formatting
+                end
+
                 local pos = vim.api.nvim_win_get_cursor(0)
                 local clients = vim.lsp.get_clients({ bufnr = 0 })
-                if #clients > 0 then
+
+                if ft == "python" then
+                        -- Run Black only for Python files
+                        vim.cmd("silent !black %") -- format current buffer
+                        vim.cmd("edit")            -- reload the buffer after formatting
+                elseif #clients > 0 then
+                        -- Other filetypes with LSP: normal LSP formatting
                         vim.lsp.buf.format({ async = false })
                 else
-                        -- fallback: use Tree-sitter aware '=' operator
+                        -- Fallback: Tree-sitter '=' operator
                         vim.cmd("normal! gg=G")
                 end
+
+                -- Restore cursor position
                 vim.api.nvim_win_set_cursor(0, pos)
         end,
-        desc = "Format buffer on save using LSP/Tree-sitter",
+        desc = "Format buffer on save using LSP/Tree-sitter and Black for Python",
 })
 
-autocmd("BufWritePre", {
+vim.api.nvim_create_autocmd("BufWritePre", {
         group = write_group,
         pattern = "*",
         callback = function()
                 local pos = vim.api.nvim_win_get_cursor(0)
-                if vim.fn.getline(1):match("^%s*$") then
-                        vim.api.nvim_buf_set_lines(0, 0, 1, false, {})
-                end
-                vim.cmd([[%s#\($\n\s*\)\+\%$##e]])
-                vim.cmd([[%s/\(\n\s*\)\{2,}/\r\r/e]])
+                -- Remove trailing empty lines at the end of the file
+                vim.cmd([[silent! %s/\s\+$//e]])
+                -- Collapse multiple consecutive empty lines into a single empty line
+                -- without touching indented lines
+                vim.cmd([[silent! %s/\(\n\)\{3,}/\r\r/e]])
                 vim.api.nvim_win_set_cursor(0, pos)
         end,
-        desc = "Remove trailing empty lines and collapse multiple empty lines on write",
+        desc = "Trim trailing whitespace and collapse multiple empty lines safely",
 })
 
 autocmd("BufWritePre", {
