@@ -13,7 +13,8 @@ local M = {}
 M.filter = {
 	"deprecated",
 	"TextYankPost",
-	"faq"
+	"faq",
+	"Autocommands"
 }
 
 M.config = {

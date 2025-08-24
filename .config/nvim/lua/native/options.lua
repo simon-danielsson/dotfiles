@@ -65,25 +65,25 @@ opt.cursorline   = true
 o.showmode       = false
 o.laststatus     = 3
 vim.cmd("hi noCursor blend=0 cterm=bold")
-vim.opt.guicursor          = "n-v-c:block-blinkwait700-blinkoff400-blinkon250,i:ver25-blinkwait700-blinkoff400-blinkon250,r:hor20"
+vim.opt.guicursor = "n-v-c:block-blinkwait700-blinkoff400-blinkon250,i:ver25-blinkwait700-blinkoff400-blinkon250,r:hor20"
 
 -- ======================================================
 -- Appearance
 -- ======================================================
 
-o.signcolumn               = 'yes:1'
-opt.winborder              = "rounded"
-opt.termguicolors          = true
-vim.o.encoding             = "utf-8"
-opt.numberwidth            = 4
-opt.showmatch              = true
-opt.listchars              = {
+o.signcolumn      = 'yes:1'
+opt.winborder     = "rounded"
+opt.termguicolors = true
+vim.o.encoding    = "utf-8"
+opt.numberwidth   = 4
+opt.showmatch     = true
+opt.listchars     = {
 	tab = "║ ",
 	trail = "•",
 	nbsp = " ",
 }
-opt.list                   = true
-opt.fillchars              = {
+opt.list          = true
+opt.fillchars     = {
 	horiz     = " ",
 	horizup   = " ",
 	horizdown = " ",
@@ -104,13 +104,30 @@ opt.fillchars              = {
 -- Indenting & Tabs
 -- ======================================================
 
-g.python_recommended_style = 1
-o.expandtab                = false
-o.smartindent              = true
-o.autoindent               = true
-o.tabstop                  = 8
-o.shiftwidth               = 8
-o.softtabstop              = 8
+o.expandtab       = false
+o.smartindent     = true
+o.autoindent      = true
+o.tabstop         = 8
+o.shiftwidth      = 8
+o.softtabstop     = 8
+
+autocmd("FileType", {
+	pattern = { "rust" },
+	callback = function()
+		vim.opt_local.list      = true
+		vim.opt_local.listchars = {
+			tab = "║ ",
+			trail = "•",
+			nbsp = " ",
+		}
+		bo.tabstop              = 8
+		bo.shiftwidth           = 8
+		bo.softtabstop          = 8
+		bo.expandtab            = true
+		bo.smartindent           = true
+		bo.autoindent            = true
+	end,
+})
 
 autocmd("FileType", {
 	pattern = { "python", "markdown" },
