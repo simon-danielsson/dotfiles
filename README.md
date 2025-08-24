@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="media/simvim.png" width="300">
-</p>
-
 My personal development environment is tailored for Rust and Python, as well as GDScript. My focus lies on leveraging the native features of Neovim and TMUX before resorting to plugins, ensuring a relatively lightweight setup.
 
 > ⚠️ This is **not** intended to be installed as a complete config - instead, I recommend that you sift through these files and take inspiration; copy-paste what you like into your own setup.
