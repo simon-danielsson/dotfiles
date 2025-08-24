@@ -134,13 +134,11 @@ Global Neovim options.
 - 🔭 [**telescope.nvim**](https://github.com/nvim-telescope/telescope.nvim)
 - 🖥️ [**nvim-lspconfig**](https://github.com/neovim/nvim-lspconfig)
 - 🌳 [**nvim-treesitter**](https://github.com/nvim-treesitter/nvim-treesitter)
-- 🔗 [**mini.surround**](https://github.com/echasnovski/mini.surround)
 - ⏪ [**undotree**](https://github.com/mbbill/undotree)
 - 🧰 [**mason.nvim**](https://github.com/williamboman/mason.nvim)
 - 🔧 [**plenary.nvim**](https://github.com/nvim-lua/plenary.nvim)
 - 📁 [**netrw.nvim**](https://github.com/prichrd/netrw.nvim)
 - 🌟 [**nvim-web-devicons**](https://github.com/nvim-tree/nvim-web-devicons)
-- 📚 [**friendly-snippets**](https://github.com/rafamadriz/friendly-snippets)
 - ✂️ [**LuaSnip**](https://github.com/L3MON4D3/LuaSnip)
 - 🗝️ **keymaps.lua**
 
