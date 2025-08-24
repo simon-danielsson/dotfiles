@@ -104,7 +104,7 @@ opt.fillchars     = {
 -- Indenting & Tabs
 -- ======================================================
 
-o.expandtab       = false
+o.expandtab       = true
 o.smartindent     = true
 o.autoindent      = true
 o.tabstop         = 8
@@ -123,9 +123,8 @@ autocmd("FileType", {
 		bo.tabstop              = 8
 		bo.shiftwidth           = 8
 		bo.softtabstop          = 8
-		bo.expandtab            = true
-		bo.smartindent           = true
-		bo.autoindent            = true
+		bo.smartindent          = true
+		bo.autoindent           = true
 	end,
 })
 
@@ -141,7 +140,6 @@ autocmd("FileType", {
 		bo.tabstop              = 4
 		bo.shiftwidth           = 4
 		bo.softtabstop          = 4
-		bo.expandtab            = true
 	end,
 })
 

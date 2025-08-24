@@ -182,6 +182,8 @@ map("n", "<leader>I", "I", { desc = "Insert at line start" })
 map("n", "<leader>o", "o", { desc = "Open new line below" })
 map("n", "<leader>O", "O", { desc = "Open new line above" })
 
+map("i", "<Tab>", "<Nop>")
+map("i", "<S-Tab>", "<Nop>")
 map({ "v", "i" }, "<Tab>", ">gv", { desc = "Indent selection" })
 map({ "v", "i" }, "<S-Tab>", "<gv", { desc = "Outdent selection" })
 map("n", "<Tab>", ">>", { desc = "Indent line" })
