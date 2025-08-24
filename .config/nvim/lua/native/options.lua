@@ -49,10 +49,10 @@ o.equalalways    = true
 opt.inccommand   = 'split'
 opt.hidden       = true
 opt.diffopt      = {
-	"filler",
-	"indent-heuristic",
-	"linematch:60",
-	"vertical",
+        "filler",
+        "indent-heuristic",
+        "linematch:60",
+        "vertical",
 }
 
 -- ======================================================
@@ -78,26 +78,26 @@ vim.o.encoding    = "utf-8"
 opt.numberwidth   = 4
 opt.showmatch     = true
 opt.listchars     = {
-	tab = "║ ",
-	trail = "•",
-	nbsp = " ",
+        tab = "║ ",
+        trail = "•",
+        nbsp = " ",
 }
 opt.list          = true
 opt.fillchars     = {
-	horiz     = " ",
-	horizup   = " ",
-	horizdown = " ",
-	vert      = " ",
-	vertleft  = " ",
-	vertright = " ",
-	verthoriz = " ",
-	fold      = "─",
-	eob       = " ",
-	diff      = " ",
-	msgsep    = " ",
-	foldsep   = "│",
-	foldclose = "",
-	foldopen  = "",
+        horiz     = " ",
+        horizup   = " ",
+        horizdown = " ",
+        vert      = " ",
+        vertleft  = " ",
+        vertright = " ",
+        verthoriz = " ",
+        fold      = "─",
+        eob       = " ",
+        diff      = " ",
+        msgsep    = " ",
+        foldsep   = "│",
+        foldclose = "",
+        foldopen  = "",
 }
 
 -- ======================================================
@@ -112,35 +112,35 @@ o.shiftwidth      = 8
 o.softtabstop     = 8
 
 autocmd("FileType", {
-	pattern = { "rust" },
-	callback = function()
-		vim.opt_local.list      = true
-		vim.opt_local.listchars = {
-			tab = "║ ",
-			trail = "•",
-			nbsp = " ",
-		}
-		bo.tabstop              = 8
-		bo.shiftwidth           = 8
-		bo.softtabstop          = 8
-		bo.smartindent          = true
-		bo.autoindent           = true
-	end,
+        pattern = { "rust", "lua" },
+        callback = function()
+                vim.opt_local.list      = true
+                vim.opt_local.listchars = {
+                        tab = "║ ",
+                        trail = "•",
+                        nbsp = " ",
+                }
+                bo.tabstop              = 8
+                bo.shiftwidth           = 8
+                bo.softtabstop          = 8
+                bo.smartindent          = true
+                bo.autoindent           = true
+        end,
 })
 
 autocmd("FileType", {
-	pattern = { "python", "markdown" },
-	callback = function()
-		vim.opt_local.list      = true
-		vim.opt_local.listchars = {
-			tab = "║ ",
-			trail = "•",
-			nbsp = " ",
-		}
-		bo.tabstop              = 4
-		bo.shiftwidth           = 4
-		bo.softtabstop          = 4
-	end,
+        pattern = { "python", "markdown" },
+        callback = function()
+                vim.opt_local.list      = true
+                vim.opt_local.listchars = {
+                        tab = "║ ",
+                        trail = "•",
+                        nbsp = " ",
+                }
+                bo.tabstop              = 4
+                bo.shiftwidth           = 4
+                bo.softtabstop          = 4
+        end,
 })
 
 -- ======================================================
@@ -165,7 +165,7 @@ opt.wildmenu    = true
 opt.wildmode    = "longest:full,full"
 opt.wildoptions = "pum,fuzzy"
 opt.wildignore:append({ "*.o", "*.obj",
-	"*.pyc", "*.class", "*.jar" })
+        "*.pyc", "*.class", "*.jar" })
 
 -- ======================================================
 -- File Handling
