@@ -25,11 +25,11 @@ require("ui.statusline")
 -- ======================================================
 
 require("plugins.nvim-telescope")
-require("plugins.nvim-treesitter")
 require("plugins.undotree")
 require("plugins.flash")
 require("plugins.cmp")
 require("plugins.netrw")
+require("plugins.nvim-treesitter")
 require("plugins.keymaps")
 
 -- ======================================================

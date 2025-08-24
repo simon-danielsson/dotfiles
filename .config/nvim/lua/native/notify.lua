@@ -21,7 +21,7 @@ M.config = {
         timeout = 6000,
         max_width = 50,
         border = "rounded",
-        top_margin = 1,
+        top_margin = 2,
         right_margin = 3
 }
 
@@ -39,10 +39,19 @@ local function is_filtered(msg)
         return false
 end
 
+local function split_lines(str)
+        local t = {}
+        for s in str:gmatch("([^\n]+)") do
+                table.insert(t, s)
+        end
+        return t
+end
+
 local function create_win(msg, level)
         local buf = vim.api.nvim_create_buf(false, true)
         local lines = {}
         local icon = ""
+
         if level == "ERROR" then
                 level = "Error"
                 icon = M.diagn.error
@@ -56,19 +65,26 @@ local function create_win(msg, level)
                 level = "Hint"
                 icon = M.diagn.hint
         end
+
         table.insert(lines, icon .. " " .. level)
-        local width = math.min(#msg + 4, M.config.max_width)
-        for i = 1, math.ceil(#msg / M.config.max_width) do
-                table.insert(lines, msg:sub((i - 1) * M.config.max_width + 1, i * M.config.max_width))
+
+        -- handle multi-line messages safely
+        for _, l in ipairs(split_lines(msg)) do
+                for i = 1, math.ceil(#l / M.config.max_width) do
+                        table.insert(lines, l:sub((i - 1) * M.config.max_width + 1, i * M.config.max_width))
+                end
         end
+
         vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+
+        local width = math.min(#msg + 4, M.config.max_width)
         local row = M.config.top_margin
         for _, win in ipairs(M.notifications) do
                 if vim.api.nvim_win_is_valid(win) then
-                        row = row +
-                            vim.api.nvim_win_get_height(win) + 2
+                        row = row + vim.api.nvim_win_get_height(win) + 2
                 end
         end
+
         local col = vim.o.columns - width - M.config.right_margin
         local opts = {
                 relative = "editor",
@@ -77,14 +93,12 @@ local function create_win(msg, level)
                 row = row,
                 col = col,
                 style = "minimal",
-                border =
-                    M.config.border
+                border = M.config.border,
         }
         local win = vim.api.nvim_open_win(buf, false, opts)
         vim.api.nvim_win_set_option(win, "winhl", "Normal:" .. (level_hl[level] or "Normal"))
         return buf, win
 end
-
 local function reflow()
         local row = M.config.top_margin
         for _, w in ipairs(M.notifications) do
@@ -182,7 +196,7 @@ end
 
 vim.api.nvim_create_user_command("W", function()
         local file = vim.fn.expand("%")
-        vim.cmd("write")
+        vim.cmd("write!")
         local size = vim.fn.getfsize(file)
         local display = size < 1024 and size .. "B" or math.floor(size / 1024) .. "KB"
         M.info(file .. " written (" .. display .. ")")

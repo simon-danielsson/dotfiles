@@ -85,3 +85,12 @@ if has_cmp then
                 },
         })
 end
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+        pattern = "~/.config/nvim/snippets/*.lua",
+        callback = function()
+                require("luasnip").cleanup()
+                require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets" })
+                vim.notify("LuaSnip reloaded snippets!", vim.log.levels.INFO)
+        end,
+})

@@ -34,7 +34,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
                 if ft == "python" then
                         -- Run Black only for Python files
                         vim.cmd("silent !black %") -- format current buffer
-                        vim.cmd("edit") -- reload the buffer after formatting
+                        vim.cmd("edit")            -- reload the buffer after formatting
                 elseif #clients > 0 then
                         -- Other filetypes with LSP: normal LSP formatting
                         vim.lsp.buf.format({ async = false })
@@ -106,7 +106,7 @@ autocmd("BufNewFile", {
         desc = "If one exists, use a template when opening a new file",
 })
 
-autocmd("BufEnter", {
+autocmd({ "BufEnter", "BufWritePre" }, {
         group = files_group,
         pattern = "*",
         callback = function()
