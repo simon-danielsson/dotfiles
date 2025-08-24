@@ -131,8 +131,6 @@ Global Neovim options.
 ### Plugins `lua/plugins/`
 - 🕹️ [**nvim-cmp**](https://github.com/hrsh7th/nvim-cmp)
 - ✨ [**flash.nvim**](https://github.com/folke/flash.nvim)
-- 📏 [**indent-blankline.nvim**](https://github.com/lukas-reineke/indent-blankline.nvim)
-- 💬 [**noice.nvim**](https://github.com/folke/noice.nvim)
 - 🔭 [**telescope.nvim**](https://github.com/nvim-telescope/telescope.nvim)
 - 🖥️ [**nvim-lspconfig**](https://github.com/neovim/nvim-lspconfig)
 - 🌳 [**nvim-treesitter**](https://github.com/nvim-treesitter/nvim-treesitter)
@@ -140,8 +138,6 @@ Global Neovim options.
 - ⏪ [**undotree**](https://github.com/mbbill/undotree)
 - 🧰 [**mason.nvim**](https://github.com/williamboman/mason.nvim)
 - 🔧 [**plenary.nvim**](https://github.com/nvim-lua/plenary.nvim)
-- 🎨 [**nui.nvim**](https://github.com/MunifTanjim/nui.nvim)
-- 🔔 [**nvim-notify**](https://github.com/rcarriga/nvim-notify)
 - 📁 [**netrw.nvim**](https://github.com/prichrd/netrw.nvim)
 - 🌟 [**nvim-web-devicons**](https://github.com/nvim-tree/nvim-web-devicons)
 - 📚 [**friendly-snippets**](https://github.com/rafamadriz/friendly-snippets)
@@ -149,12 +145,6 @@ Global Neovim options.
 - 🗝️ **keymaps.lua**
 
 ### UI `lua/ui/`
-- 🎉 **splash.lua**: A Neovim-native splashscreen.
-    - Dynamically updated Neovim version display.
-    - Configurable banner.
-    - Configurable quick-action buttons.
-    - Random qoute each time the splash is opened - configurable qoute list.
-    - Separate highlight groups for version/qoute, banner, and buttons - configurable in **theme.lua**.
 - 🎨 **theme.lua**: Defines custom color palette - configuring these colours allow you to change the colour style globally across Neovim.
 - 🖌️ **colorscheme.lua**: Applies color overrides using the colors set in **theme.lua**.
 - 🌟 **icons.lua**: Defines icons for statusline, telescope, etc., using Nerd Fonts.
