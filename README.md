@@ -2,12 +2,12 @@
   <img src="media/simvim.png" width="300">
 </p>
 
-**SIMVIM** is my personal development environment tailored for Rust and Python, as well as GDScript. My focus lies on leveraging the native features of Neovim and TMUX before resorting to plugins, ensuring a relatively lightweight setup.
+My personal development environment is tailored for Rust and Python, as well as GDScript. My focus lies on leveraging the native features of Neovim and TMUX before resorting to plugins, ensuring a relatively lightweight setup.
 
 > ⚠️ This is **not** intended to be installed as a complete config - instead, I recommend that you sift through these files and take inspiration; copy-paste what you like into your own setup.
 
-![1](media/1.png)
-![2](media/2.png)
+![1](media/3.png)
+![2](media/4.png)
 
 ## 🖥️ Zsh & TMUX
 This is how my Zsh/TMUX setup behaves at startup:
