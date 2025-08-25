@@ -12,6 +12,12 @@ alias q="/Users/simondanielsson/dotfiles/scripts/kill-nvim-and-tmux.sh"
 alias r="cargo run --release"
 alias rd="cargo doc --open"
 
+cargodoc() {
+        cargo doc --quiet
+        crate=$(basename "$(pwd)")
+        tmux new-window "w3m target/doc/$crate/index.html | less; tmux kill-window"
+}
+
 # ======================================================
 # Python
 # ======================================================
