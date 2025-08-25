@@ -101,56 +101,13 @@ opt.fillchars     = {
 }
 
 -- ======================================================
--- Indenting & Tabs
--- ======================================================
-
-o.expandtab       = true
-o.smartindent     = true
-o.autoindent      = true
-o.tabstop         = 8
-o.shiftwidth      = 8
-o.softtabstop     = 8
-
-autocmd("FileType", {
-        pattern = { "rust", "lua" },
-        callback = function()
-                vim.opt_local.list      = true
-                vim.opt_local.listchars = {
-                        tab = "║ ",
-                        trail = "•",
-                        nbsp = " ",
-                }
-                bo.tabstop              = 8
-                bo.shiftwidth           = 8
-                bo.softtabstop          = 8
-                bo.smartindent          = true
-                bo.autoindent           = true
-        end,
-})
-
-autocmd("FileType", {
-        pattern = { "python", "markdown" },
-        callback = function()
-                vim.opt_local.list      = true
-                vim.opt_local.listchars = {
-                        tab = "║ ",
-                        trail = "•",
-                        nbsp = " ",
-                }
-                bo.tabstop              = 4
-                bo.shiftwidth           = 4
-                bo.softtabstop          = 4
-        end,
-})
-
--- ======================================================
 -- Folds
 -- ======================================================
 
-opt.foldcolumn   = "2"
-o.foldmethod     = "expr"
-o.foldlevelstart = 99
-o.foldenable     = false
+opt.foldcolumn    = "2"
+o.foldmethod      = "expr"
+o.foldlevelstart  = 99
+o.foldenable      = false
 
 -- ======================================================
 -- Search

@@ -39,6 +39,7 @@ require("plugins.keymaps")
 require("native.trident").setup()
 require("native.lsp-hover-win").setup()
 require("native.notify")
+require("native.indent")
 
 -- ======================================================
 -- LSP
@@ -51,12 +52,12 @@ require("lsp")
 -- ======================================================
 
 if os.getenv("TMUX") then
-        vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
-                callback = function()
-                        local name = vim.fn.expand("%:t")
-                        if name == "" then name = "[No Name]" end
-                        vim.fn.system({ "tmux", "rename-window", name })
-                end,
-                desc = "Rename TMUX windows dynamically",
-        })
+	vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
+		callback = function()
+			local name = vim.fn.expand("%:t")
+			if name == "" then name = "[No Name]" end
+			vim.fn.system({ "tmux", "rename-window", name })
+		end,
+		desc = "Rename TMUX windows dynamically",
+	})
 end
