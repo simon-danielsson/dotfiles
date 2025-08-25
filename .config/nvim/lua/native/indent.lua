@@ -13,7 +13,7 @@ o.softtabstop = 8
 
 -- Filetype-specific settings
 autocmd("FileType", {
-        pattern = { "rust", "lua" },
+        pattern = { "gdscript", "rust", "lua" },
         callback = function()
                 vim.opt_local.list      = true
                 vim.opt_local.listchars = {
