@@ -15,7 +15,7 @@ require("native.surround-word")
 
 local colors = require("ui.theme")
 colors.colorscheme(1) -- 1 or 2
-colors.background_transparency(true)
+colors.background_transparency(false)
 
 require("ui.colorscheme")
 require("ui.statusline")
@@ -30,6 +30,7 @@ require("plugins.flash")
 require("plugins.cmp")
 require("plugins.netrw")
 require("plugins.nvim-treesitter")
+require("plugins.copilot")
 require("plugins.keymaps")
 
 -- ======================================================
@@ -52,12 +53,12 @@ require("lsp")
 -- ======================================================
 
 if os.getenv("TMUX") then
-	vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
-		callback = function()
-			local name = vim.fn.expand("%:t")
-			if name == "" then name = "[No Name]" end
-			vim.fn.system({ "tmux", "rename-window", name })
-		end,
-		desc = "Rename TMUX windows dynamically",
-	})
+        vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
+                callback = function()
+                        local name = vim.fn.expand("%:t")
+                        if name == "" then name = "[No Name]" end
+                        vim.fn.system({ "tmux", "rename-window", name })
+                end,
+                desc = "Rename TMUX windows dynamically",
+        })
 end
