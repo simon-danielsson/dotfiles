@@ -137,6 +137,7 @@ Global Neovim options.
 - 📁 [**netrw.nvim**](https://github.com/prichrd/netrw.nvim)
 - 🌟 [**nvim-web-devicons**](https://github.com/nvim-tree/nvim-web-devicons)
 - ✂️ [**LuaSnip**](https://github.com/L3MON4D3/LuaSnip)
+- ✈️ [**Copilot**](https://github.com/github/copilot.vim)
 - 🗝️ **keymaps.lua**
 
 ### UI `lua/ui/`
