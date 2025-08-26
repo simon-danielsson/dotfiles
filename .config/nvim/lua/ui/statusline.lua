@@ -122,7 +122,7 @@ end
 -- ======================================================
 
 for ft, entry in pairs(icons.lang) do
-        vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = colors.bg_deep })
+        vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = colors.bg_deep2 })
 end
 local function file_type_icon()
         local ft = vim.bo.filetype
@@ -202,15 +202,15 @@ end
 -- ======================================================
 
 local statusline_highlights = {
-        StatusLine       = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
-        StatusFilename   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
-        StatusFileType   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
+        StatusLine       = { fg = colors.fg_main, bg = colors.bg_deep2, bold = false },
+        StatusFilename   = { fg = colors.fg_main, bg = colors.bg_deep2, bold = false },
+        StatusFileType   = { fg = colors.fg_main, bg = colors.bg_deep2, bold = false },
         ColumnPercentage = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
-        StatusPosition   = { fg = colors.fg_main, bg = colors.bg_mid, bold = true },
-        StatusMode       = { fg = colors.fg_main, bg = colors.bg_mid },
+        StatusPosition   = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
+        StatusMode       = { fg = colors.fg_main, bg = colors.bg_deep },
         StatusScrollbar  = { fg = colors.fg_main, bg = colors.fg_mid, bold = true },
-        StatusGit        = { fg = colors.fg_mid, bg = colors.bg_deep },
-        StatusSelection  = { fg = colors.fg_mid, bg = colors.bg_mid, bold = true },
+        StatusGit        = { fg = colors.fg_mid, bg = colors.bg_deep2 },
+        StatusSelection  = { fg = colors.fg_mid, bg = colors.bg_deep, bold = true },
         MacroRec         = { fg = colors.fg_main, bg = aux_colors.macro_statusline },
 }
 for group, opts in pairs(statusline_highlights) do

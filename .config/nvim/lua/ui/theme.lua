@@ -1,11 +1,12 @@
 local M = {}
 
 M.colors = {
-        fg_main = "#ffffff",
-        fg_mid  = "#888888",
-        bg_mid  = "#444444",
-        bg_mid2 = "#333333",
-        bg_deep = "#262626",
+        fg_main  = "#ffffff",
+        fg_mid   = "#888888",
+        bg_mid   = "#444444",
+        bg_mid2  = "#333333",
+        bg_deep  = "#212121",
+        bg_deep2 = "#1a1a1a",
 }
 
 M.colors_light_mode = {
