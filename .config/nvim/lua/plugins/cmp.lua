@@ -76,6 +76,11 @@ if has_cmp then
                                 },
                         },
                 }),
+                experimental = {
+                        ghost_text = {
+                                hl_group = "CmpGhostText", -- Optional: use custom highlight
+                        },
+                },
         })
 
         cmp.setup.cmdline(":", {

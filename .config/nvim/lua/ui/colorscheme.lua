@@ -76,6 +76,7 @@ local override_groups = {
         NoiceCmdlinePopupBorder = { fg = colors.fg_mid, bg = "none" },
         StatusLineNC            = { bg = colors.bg_mid },
         StatusLineNormal        = { bg = colors.bg_mid },
+        CmpGhostText            = { fg = colors.bg_mid },
         LineNr                  = { fg = colors.fg_mid },
         Comment                 = { fg = colors.fg_mid },
         TelescopePromptBorder   = { fg = colors.fg_mid, bg = "none" },
