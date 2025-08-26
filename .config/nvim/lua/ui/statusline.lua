@@ -154,6 +154,30 @@ local function file_type_filename()
 end
 
 -- ======================================================
+-- Keyboard Input Tracker
+-- ======================================================
+
+local last_keys = {}
+local MAX_KEYS = 12
+
+vim.on_key(function(key)
+        local buf = vim.api.nvim_get_current_buf()
+        local ft = vim.bo[buf].filetype or ""
+        if ft:match("^Telescope") then
+                return
+        end
+        if key:match("^%c") then return end
+        table.insert(last_keys, key)
+        if #last_keys > MAX_KEYS then
+                table.remove(last_keys, 1)
+        end
+end)
+local function key_status()
+        if #last_keys == 0 then return "" end
+        return icons.ui.wordcount .. " " .. table.concat(last_keys, "") .. " "
+end
+
+-- ======================================================
 -- Diagnostics
 -- ======================================================
 
@@ -205,6 +229,7 @@ local statusline_highlights = {
         StatusLine       = { fg = colors.fg_main, bg = colors.bg_deep2, bold = false },
         StatusFilename   = { fg = colors.fg_main, bg = colors.bg_deep2, bold = false },
         StatusFileType   = { fg = colors.fg_main, bg = colors.bg_deep2, bold = false },
+        StatusKey        = { fg = colors.fg_mid, bg = colors.bg_deep2, bold = false },
         ColumnPercentage = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
         StatusPosition   = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
         StatusMode       = { fg = colors.fg_main, bg = colors.bg_deep },
@@ -230,6 +255,13 @@ _G.Statusline = function()
                 " %#StatusGit#" .. lsp_info() .. " ",
                 "%=",
         }
+        table.insert(parts, "%#StatusKey#" .. key_status())
+
+        local count = #vim.diagnostic.get(0, { severity = severity })
+        if count > 0 then
+                table.insert(parts, "%#StatusKey#" .. "│ ")
+        end
+
         for _, level in ipairs(diagnostics_levels) do
                 table.insert(parts, "%#StatusDiagnostics" .. level.name .. "#")
                 table.insert(parts, diagnostics_component(level.name, level.icon, level.severity))

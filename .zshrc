@@ -27,13 +27,12 @@ eval "$(zoxide init zsh)"
 export PATH=/Users/simondanielsson/.opencode/bin:$PATH
 
 if [ -z "$TMUX" ]; then
-    if tmux has-session -t main 2>/dev/null; then
-        exec tmux attach-session -t main
-    else
-        tmux new-session -d -s main -c ~/dev
-        tmux new-window -t main -n opencode -c ~/dev "opencode" 2>/dev/null || true
-        tmux select-window -t main:1
-        tmux split-window -t main:1 -v -l 10% -c ~/dev -d
-        exec tmux attach-session -t main
-    fi
+        if tmux has-session -t main 2>/dev/null; then
+                exec tmux attach-session -t main
+        else
+                tmux new-session -d -s main -c ~/dev
+                tmux new-window -t main -n opencode -c ~/dev "opencode" 2>/dev/null || true
+                tmux select-window -t main:1
+                exec tmux attach-session -t main
+        fi
 fi
