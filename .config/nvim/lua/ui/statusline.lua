@@ -158,28 +158,52 @@ end
 -- ======================================================
 
 local last_keys = {}
-local MAX_KEYS = 30
+local MAX_KEYS = 12
 
--- Map special keys to glyphs
-local special_map = {
-        [" "]   = "󱁐",
-        ["\t"]  = "⇥",
-        ["\r"]  = "⏎",
-        ["\n"]  = "⏎",
-        ["\b"]  = "⌫",
-        ["\27"] = "⎋",
+local ignore_mouse = {
+        vim.api.nvim_replace_termcodes("<ScrollWheelUp>", true, true, true),
+        vim.api.nvim_replace_termcodes("<ScrollWheelDown>", true, true, true),
+        vim.api.nvim_replace_termcodes("<ScrollWheelLeft>", true, true, true),
+        vim.api.nvim_replace_termcodes("<ScrollWheelRight>", true, true, true),
+        vim.api.nvim_replace_termcodes("<LeftDrag>", true, true, true),
+        vim.api.nvim_replace_termcodes("<LeftRelease>", true, true, true),
+        vim.api.nvim_replace_termcodes("<RightDrag>", true, true, true),
 }
 
+local function key_to_display(key)
+        local termcodes = vim.api.nvim_replace_termcodes
+        local special_map = {
+                [termcodes("<LeftMouse>", true, true, true)]  = "",
+                [termcodes("<RightMouse>", true, true, true)] = "",
+                [termcodes("<Up>", true, true, true)]         = "↑",
+                [termcodes("<Down>", true, true, true)]       = "↓",
+                [termcodes("<Left>", true, true, true)]       = "←",
+                [termcodes("<Right>", true, true, true)]      = "→",
+                [" "]                                         = "󱁐",
+                ["\t"]                                        = "⇥",
+                ["\r"]                                        = "⏎",
+                ["\n"]                                        = "⏎",
+                ["\b"]                                        = "⌫",
+                ["\27"]                                       = "⎋",
+        }
+        local disp = special_map[key] or key
+        if disp:match("^%c$") then
+                return nil
+        end
+        return disp
+end
+
 vim.on_key(function(_, typed)
+        for _, code in ipairs(ignore_mouse) do
+                if typed == code then return end
+        end
         local buf = vim.api.nvim_get_current_buf()
         local ft = vim.bo[buf].filetype or ""
         if ft:match("^Telescope") then
                 return
         end
-
-        local display = special_map[typed] or typed
-        -- if display:match("^%c$") then return end
-
+        local display = key_to_display(typed)
+        if not display then return end
         table.insert(last_keys, display)
         if #last_keys > MAX_KEYS then
                 table.remove(last_keys, 1)
