@@ -158,20 +158,34 @@ end
 -- ======================================================
 
 local last_keys = {}
-local MAX_KEYS = 12
+local MAX_KEYS = 30
 
-vim.on_key(function(key)
+-- Map special keys to glyphs
+local special_map = {
+        [" "]   = "󱁐",
+        ["\t"]  = "⇥",
+        ["\r"]  = "⏎",
+        ["\n"]  = "⏎",
+        ["\b"]  = "⌫",
+        ["\27"] = "⎋",
+}
+
+vim.on_key(function(_, typed)
         local buf = vim.api.nvim_get_current_buf()
         local ft = vim.bo[buf].filetype or ""
         if ft:match("^Telescope") then
                 return
         end
-        if key:match("^%c") then return end
-        table.insert(last_keys, key)
+
+        local display = special_map[typed] or typed
+        -- if display:match("^%c$") then return end
+
+        table.insert(last_keys, display)
         if #last_keys > MAX_KEYS then
                 table.remove(last_keys, 1)
         end
 end)
+
 local function key_status()
         if #last_keys == 0 then return "" end
         return icons.ui.wordcount .. " " .. table.concat(last_keys, "") .. " "
