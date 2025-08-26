@@ -4,6 +4,7 @@ local augroup = vim.api.nvim_create_augroup
 -- ======================================================
 -- Write
 -- ======================================================
+
 local write_group = augroup("WriteCommands", { clear = true })
 
 _G.autosave_counter = 0
@@ -96,6 +97,7 @@ autocmd("BufWritePost", {
 -- ======================================================
 -- Directories & Files
 -- ======================================================
+
 local files_group = augroup("FileCommands", { clear = true })
 
 autocmd("BufNewFile", {
@@ -139,6 +141,7 @@ end
 -- ======================================================
 -- Cursor
 -- ======================================================
+
 local cursor_group = augroup("CursorCommands", { clear = true })
 
 autocmd("BufReadPost", {
@@ -216,6 +219,7 @@ autocmd("TermClose", {
 -- ======================================================
 -- User Interface
 -- ======================================================
+
 local ui_group = augroup("UiCommands", { clear = true })
 
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -258,7 +262,7 @@ autocmd("VimResized", {
 })
 
 vim.api.nvim_create_autocmd('BufWinEnter', {
-        group = user_autocmds_augroup,
+        group = ui_group,
         pattern = { '*.txt' },
         callback = function()
                 if vim.o.filetype == 'help' then vim.cmd.wincmd('L') end
@@ -267,6 +271,7 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
 })
 
 vim.api.nvim_create_autocmd("InsertEnter", {
+        group = ui_group,
         pattern = "*",
         callback = function()
                 vim.opt.relativenumber = false
@@ -275,6 +280,7 @@ vim.api.nvim_create_autocmd("InsertEnter", {
 })
 
 vim.api.nvim_create_autocmd("InsertLeave", {
+        group = ui_group,
         pattern = "*",
         callback = function()
                 vim.opt.relativenumber = true

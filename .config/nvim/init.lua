@@ -14,7 +14,7 @@ require("native.surround-word")
 -- ======================================================
 
 local colors = require("ui.theme")
-colors.colorscheme(1) -- 1: low contr or 2: high contr
+colors.colorscheme(2) -- 1: low contr or 2: high contr
 colors.background_transparency(false)
 
 require("ui.colorscheme")
@@ -29,7 +29,6 @@ require("plugins.undotree")
 require("plugins.flash")
 require("plugins.cmp")
 require("plugins.nvim-treesitter")
-require("plugins.copilot")
 require("plugins.keymaps")
 
 -- ======================================================
