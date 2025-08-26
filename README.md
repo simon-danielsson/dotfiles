@@ -93,6 +93,7 @@ A Neovim-native interpretation of [harpoon](https://github.com/ThePrimeagen/harp
 - Enable spell checking for text, markdown, and Typst files.
 - Fold paragraphs separated by empty lines.
 - Auto-resize splits when the window is resized.
+- Disable relative line numbers in insert mode.
 
 </details>
 
