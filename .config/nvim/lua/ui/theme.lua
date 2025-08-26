@@ -1,25 +1,19 @@
 local M = {}
 
 M.colors = {
-        fg_main        = "#ffffff",
-        fg_mid         = "#888888",
-        bg_mid         = "#444444",
-        bg_mid2        = "#333333",
-        bg_deep        = "#262626",
-        splash_version = "#444444",
-        splash_banner  = "#B8BB25",
-        splash_buttons = "#888888",
+        fg_main = "#ffffff",
+        fg_mid  = "#888888",
+        bg_mid  = "#444444",
+        bg_mid2 = "#333333",
+        bg_deep = "#262626",
 }
 
-M.colors_pink_explosion = {
-        fg_main        = "#4B0082",
-        fg_mid         = "#6A0DAD",
-        bg_mid         = "#9B59B6",
-        bg_mid2        = "#DDA0DD",
-        bg_deep        = "#E6CCFF",
-        splash_version = "#9B59B6",
-        splash_banner  = "#4B0082",
-        splash_buttons = "#9B59B6",
+M.colors_light_mode = {
+        bg_deep = "#e8e8e8",
+        bg_mid2 = "#d9d9d9",
+        fg_mid  = "#7d7d7d",
+        bg_mid  = "#e8e8e8",
+        fg_main = "#262626",
 }
 
 M.aux_colors = {
@@ -38,8 +32,8 @@ end
 function M.colorscheme(option)
         if option == 2 then
                 vim.o.background = "light"
-                vim.cmd.colorscheme("peachpuff")
-                M.colors = vim.deepcopy(M.colors_pink_explosion)
+                vim.cmd.colorscheme("retrobox")
+                M.colors = vim.deepcopy(M.colors_light_mode)
                 return true
         else
                 if option == 1 then
