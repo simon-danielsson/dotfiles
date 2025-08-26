@@ -9,14 +9,6 @@ M.colors = {
         bg_deep2 = "#1a1a1a",
 }
 
-M.colors_light_mode = {
-        bg_deep = "#e8e8e8",
-        bg_mid2 = "#d9d9d9",
-        fg_mid  = "#7d7d7d",
-        bg_mid  = "#e8e8e8",
-        fg_main = "#262626",
-}
-
 M.aux_colors = {
         macro_statusline = "#FB4835",
 }
@@ -32,14 +24,13 @@ end
 
 function M.colorscheme(option)
         if option == 2 then
-                vim.o.background = "light"
+                vim.o.background = "dark"
                 vim.cmd.colorscheme("retrobox")
-                M.colors = vim.deepcopy(M.colors_light_mode)
                 return true
         else
                 if option == 1 then
                         vim.o.background = "dark"
-                        vim.cmd.colorscheme("retrobox")
+                        vim.cmd.colorscheme("habamax")
                         M.background_transparency(false)
                         return false
                 end
