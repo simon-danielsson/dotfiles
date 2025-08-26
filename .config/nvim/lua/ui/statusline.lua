@@ -86,7 +86,7 @@ autocmd("RecordingEnter", {
                 local reg = vim.fn.reg_recording()
                 if reg ~= "" then
                         -- _G.macro_recording = "    " .. icons.ui.rec_macro .. " @" .. reg .. "    "
-                        _G.macro_recording = "    " .. icons.ui.rec_macro .. "    "
+                        _G.macro_recording = "  " .. icons.ui.rec_macro .. "  "
                 end
         end,
 })
