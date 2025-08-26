@@ -265,3 +265,19 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
         end,
         desc = "Open help window in a vertical split to the right",
 })
+
+vim.api.nvim_create_autocmd("InsertEnter", {
+        pattern = "*",
+        callback = function()
+                vim.opt.relativenumber = false
+        end,
+        desc = "Disable relative line numbers in insert mode",
+})
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+        pattern = "*",
+        callback = function()
+                vim.opt.relativenumber = true
+        end,
+        desc = "Enable relative line numbers in normal mode",
+})
