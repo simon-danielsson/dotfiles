@@ -2,6 +2,7 @@
 -- Native
 -- ======================================================
 
+require("native.motion-trainer")
 require("native.options")
 require("native.comment")
 require("native.autocmds")

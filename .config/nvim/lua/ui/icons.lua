@@ -38,7 +38,7 @@ M.ui = {
         rec_macro = "󰻂",
         arrow_left = "",
         arrow_right = "",
-        arrow_up = "",
+       arrow_up = "",
         arrow_down = "",
         gear = "",
         folder = "󰷏",
@@ -47,7 +47,6 @@ M.ui = {
 }
 
 M.lang = {
-        lua = { icon = "", color = "#51A1FF" },
         python = { icon = "", color = "#FED141" },
         javascript = { icon = "", color = "#F6DE42" },
         html = { icon = "", color = "#E34C26" },
@@ -66,6 +65,7 @@ M.lang = {
         typst = { icon = "", color = "#dea584" },
         c = { icon = "", color = "#6798D1" },
         cpp = { icon = "", color = "#00599C" },
+        lua = { icon = "", color = "#51A1FF" },
         java = { icon = "", color = "#F34335" },
         php = { icon = "", color = "#8892be" },
         ruby = { icon = "", color = "#701516" },

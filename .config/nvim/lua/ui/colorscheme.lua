@@ -82,6 +82,7 @@ local override_groups = {
         TelescopePromptBorder   = { fg = colors.fg_mid, bg = "none" },
         TelescopePromptNormal   = { bg = colors.bg_deep },
         TelescopePromptPrefix   = { bg = colors.bg_deep },
+        FlashMatch              = { fg = colors.fg_mid, bg = colors.bg_mid },
         TelescopePromptCounter  = { bg = "none" },
         TelescopeBorder         = { fg = colors.fg_mid, bg = "none" },
         TelescopeNormal         = { fg = "none", bg = "none" },

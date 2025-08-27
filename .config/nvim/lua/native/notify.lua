@@ -21,7 +21,7 @@ M.config = {
         timeout = 6000,
         max_width = 50,
         border = "rounded",
-        top_margin = 2,
+        top_margin = 1,
         right_margin = 3
 }
 
