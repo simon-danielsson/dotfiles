@@ -2,8 +2,7 @@ My personal development environment is tailored for Rust and Python, as well as 
 
 > ⚠️ This is **not** intended to be installed as a complete config - instead, I recommend that you sift through these files and take inspiration; copy-paste what you like into your own setup.
 
-![1](media/3.png)
-![2](media/4.png)
+![1](media/1.png)
 
 ## 🖥️ Zsh & TMUX
 This is how my Zsh/TMUX setup behaves at startup:
