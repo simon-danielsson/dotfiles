@@ -21,6 +21,15 @@ map("n", "<leader>g", "<cmd>Telescope live_grep<cr>", common("Local grep"))
 map("n", "<leader>u", "<cmd>UndotreeToggle<CR>", common("Toggle Undotree"))
 
 -- ======================================================
+-- Silicon
+-- ======================================================
+
+map({ 'n', 'v' }, '<leader>s', function()
+                vim.cmd('Silicon')
+        end,
+        { desc = 'Silicon' })
+
+-- ======================================================
 -- Flash
 -- ======================================================
 
