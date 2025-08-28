@@ -52,7 +52,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
         callback = function()
                 local transparent_groups = {
                         "VertSplit", "SignColumn",
-                        "LineNr", "NormalNC", "WinSeparator", "CursorLineNr",
+                        "LineNr", "NormalNC", "CursorLineNr",
                         "EndOfBuffer",
                         "NormalFloat"
                 }
@@ -92,11 +92,11 @@ local override_groups = {
         TelescopePreviewBorder  = { fg = colors.fg_mid },
         TelescopeSelection      = { fg = colors.fg_main, bg = colors.bg_deep },
         TelescopeResultsNormal  = { fg = colors.fg_main },
-        -- NormalNC                    = { bg = colors.bg_deep },
+        NormalNC                = { bg = colors.bg_deep, fg = colors.fg_mid },
         TabLine                 = { bg = colors.bg_deep },
         TabLineFill             = { bg = colors.bg_deep },
         TabLineSel              = { bg = colors.fg_mid, bold = true },
-        WinSeparator            = { bg = colors.bg_deep },
+        WinSeparator            = { bg = colors.bg_deep, fg = colors.fg_mid },
         ToolbarButton           = { bg = colors.fg_main, bold = true, reverse = true },
         EndOfBuffer             = { bg = "none" },
         ColorColumn             = { ctermbg = 0, bg = colors.bg_deep },

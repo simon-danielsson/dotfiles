@@ -194,6 +194,58 @@ autocmd("TextYankPost", {
 })
 
 -- ======================================================
+-- Make
+-- ======================================================
+
+local make_group = augroup("MakeCommands", { clear = true })
+
+local term_buf = nil
+local term_win = nil
+local term_job = nil
+local function run_in_term(cmd)
+        if not term_buf or not vim.api.nvim_buf_is_valid(term_buf) then
+                vim.cmd("botright 15split | terminal")
+                term_win = vim.api.nvim_get_current_win()
+                term_buf = vim.api.nvim_get_current_buf()
+                term_job = vim.b.terminal_job_id
+        else
+                if not vim.api.nvim_win_is_valid(term_win) then
+                        vim.cmd("botright 15split")
+                        vim.api.nvim_set_current_buf(term_buf)
+                        term_win = vim.api.nvim_get_current_win()
+                end
+                vim.api.nvim_set_current_win(term_win)
+        end
+        if term_job then
+                vim.fn.chansend(term_job, cmd .. "\n")
+        end
+
+        vim.cmd("startinsert")
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+        group = make_group,
+        pattern = "python",
+        callback = function()
+                vim.keymap.set("n", "<leader>m", function()
+                        run_in_term("python3 " .. vim.fn.expand("%"))
+                end, { buffer = true, desc = "Run Python file" })
+        end,
+        desc = "Run Python file in terminal",
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+        group = make_group,
+        pattern = "rust",
+        callback = function()
+                vim.keymap.set("n", "<leader>m", function()
+                        run_in_term("cargo run")
+                end, { buffer = true, desc = "Run Rust project" })
+        end,
+        desc = "Run Rust file in terminal",
+})
+
+-- ======================================================
 -- Terminal
 -- ======================================================
 
