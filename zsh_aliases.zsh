@@ -51,6 +51,32 @@ journal() {
         fi
         nvim "$file"
 }
+
+# ======================================================
+# Notes
+# ======================================================
+
+alias notes="cd ~/notes"
+
+note() {
+        local name="$*"
+        local today
+        today=$(date +"%Y-%m-%d")
+        local dir="$HOME/notes"
+        # If no name given, default to "note"
+        if [ -z "$name" ]; then
+                name="note"
+        fi
+        # Trim whitespace, replace multiple spaces with a single '-', strip trailing '-',
+        # and convert to lowercase
+        name=$(echo "$name" | xargs | tr -s ' ' '-' | sed 's/-$//' | tr '[:upper:]' '[:lower:]')
+        local file="$dir/${name}_${today}.md"
+        mkdir -p "$dir"
+        # Create empty file if it doesn't exist
+        [ -f "$file" ] || touch "$file"
+        nvim "$file"
+}
+
 # ======================================================
 # Directories & Search
 # ======================================================
