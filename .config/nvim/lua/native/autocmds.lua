@@ -25,22 +25,19 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         group = write_group,
         pattern = "*",
         callback = function()
-                local ignore = { "markdown", "make", "txt", "typ" } -- ignore list for non-Python files
+                local ignore = { "markdown", "make", "txt", "typ" }
                 local ft = vim.bo.filetype
                 if vim.tbl_contains(ignore, ft) then
-                        return -- skip formatting
+                        return
                 end
                 local pos = vim.api.nvim_win_get_cursor(0)
                 local clients = vim.lsp.get_clients({ bufnr = 0 })
                 if ft == "python" then
-                        -- Run Black only for Python files
-                        vim.cmd("silent !black %") -- format current buffer
-                        vim.cmd("edit")            -- reload the buffer after formatting
+                        vim.cmd("silent !black %")
+                        vim.cmd("edit")
                 elseif #clients > 0 then
-                        -- Other filetypes with LSP: normal LSP formatting
                         vim.lsp.buf.format({ async = false })
                 else
-                        -- Fallback: Tree-sitter '=' operator
                         vim.cmd("normal! gg=G")
                 end
                 local line = math.min(pos[1], vim.api.nvim_buf_line_count(0))
@@ -55,10 +52,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         pattern = "*",
         callback = function()
                 local pos = vim.api.nvim_win_get_cursor(0)
-                -- Remove trailing empty lines at the end of the file
                 vim.cmd([[silent! %s/\s\+$//e]])
-                -- Collapse multiple consecutive empty lines into a single empty line
-                -- without touching indented lines
                 vim.cmd([[silent! %s/\(\n\)\{3,}/\r\r/e]])
                 vim.api.nvim_win_set_cursor(0, pos)
         end,
