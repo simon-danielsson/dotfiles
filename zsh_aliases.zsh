@@ -58,7 +58,7 @@ journal() {
 
 alias notes="cd ~/notes"
 
-note() {
+n() {
         local name="$*"
         local today
         today=$(date +"%Y-%m-%d")
