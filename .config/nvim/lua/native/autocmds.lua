@@ -194,76 +194,77 @@ autocmd("TextYankPost", {
 })
 
 -- ======================================================
--- Make
+-- Terminal
 -- ======================================================
-
-local make_group = augroup("MakeCommands", { clear = true })
+local term_group = augroup("TermCommands", { clear = true })
 
 local term_buf = nil
 local term_win = nil
 local term_job = nil
-local function run_in_term(cmd)
+
+local function ensure_terminal(cmd)
+        local cwd = vim.fn.expand('%:p:h')
         if not term_buf or not vim.api.nvim_buf_is_valid(term_buf) then
                 vim.cmd("botright 15split | terminal")
-                term_win = vim.api.nvim_get_current_win()
                 term_buf = vim.api.nvim_get_current_buf()
+                term_win = vim.api.nvim_get_current_win()
                 term_job = vim.b.terminal_job_id
         else
                 if not vim.api.nvim_win_is_valid(term_win) then
                         vim.cmd("botright 15split")
                         vim.api.nvim_set_current_buf(term_buf)
                         term_win = vim.api.nvim_get_current_win()
+                else
+                        vim.api.nvim_set_current_win(term_win)
                 end
-                vim.api.nvim_set_current_win(term_win)
         end
-        if term_job then
+        if term_job and cwd then
+                vim.fn.chansend(term_job, "cd " .. cwd .. "\n")
+        end
+        if cmd and term_job then
                 vim.fn.chansend(term_job, cmd .. "\n")
         end
-
         vim.cmd("startinsert")
 end
 
 vim.api.nvim_create_autocmd("FileType", {
-        group = make_group,
+        group = term_group,
         pattern = "python",
         callback = function()
                 vim.keymap.set("n", "<leader>m", function()
-                        run_in_term("python3 " .. vim.fn.expand("%"))
+                        ensure_terminal("python3 " .. vim.fn.expand("%"))
                 end, { buffer = true, desc = "Run Python file" })
         end,
-        desc = "Run Python file in terminal",
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-        group = make_group,
+        group = term_group,
         pattern = "rust",
         callback = function()
                 vim.keymap.set("n", "<leader>m", function()
-                        run_in_term("cargo run")
+                        ensure_terminal("cargo run")
                 end, { buffer = true, desc = "Run Rust project" })
         end,
-        desc = "Run Rust file in terminal",
 })
 
--- ======================================================
--- Terminal
--- ======================================================
-
-local terminal_group = augroup("TerminalCommands", { clear = true })
-
-autocmd({ "WinEnter", "BufWinEnter", "TermOpen" }, {
-        group = terminal_group,
-        pattern = "term://*",
+vim.api.nvim_create_autocmd("BufEnter", {
+        group = term_group,
+        pattern = "*",
         callback = function()
-                vim.cmd("startinsert")
+                vim.keymap.set("n", "<leader>M", function()
+                        ensure_terminal()
+                end, { buffer = true, noremap = true, silent = true, desc = "Open terminal" })
         end,
-        desc = "Auto-enter insert mode when switching to a terminal",
+        desc = "Open terminal in current buffer",
 })
 
-autocmd("TermClose", {
-        group = terminal_group,
+vim.api.nvim_create_autocmd("TermClose", {
+        group = term_group,
         callback = function()
-                vim.cmd("bdelete!")
+                if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+                        vim.cmd("bdelete! " .. term_buf)
+                        term_buf, term_win, term_job = nil, nil, nil
+                end
         end,
         desc = "Close terminal buffer on process exit",
 })
