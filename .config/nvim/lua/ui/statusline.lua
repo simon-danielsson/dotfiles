@@ -179,11 +179,11 @@ local function key_to_display(key)
                 [termcodes("<Down>", true, true, true)]       = "↓",
                 [termcodes("<Left>", true, true, true)]       = "←",
                 [termcodes("<Right>", true, true, true)]      = "→",
+                [termcodes("<BS>", true, true, true)]         = "⌫",
                 [" "]                                         = "󱁐",
                 ["\t"]                                        = "⇥",
                 ["\r"]                                        = "⏎",
                 ["\n"]                                        = "⏎",
-                ["\b"]                                        = "⌫",
                 ["\27"]                                       = "⎋",
         }
         local disp = special_map[key] or key
