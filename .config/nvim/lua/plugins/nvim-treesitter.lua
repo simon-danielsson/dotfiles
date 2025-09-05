@@ -24,10 +24,12 @@ require("nvim-treesitter.configs").setup({
         highlight = {
                 enable = true,
                 additional_vim_regex_highlighting = false,
+                disable = { "csv" },
+
         },
         indent = {
                 enable = true,
-                -- disable = { "rust" },
+                disable = { "yaml" },
         },
         fold = {
                 enable = true,

@@ -157,7 +157,13 @@ map('n', 'x', '"_x',
         { desc = "Delete single character without yanking to register" })
 
 map("n", "<leader><CR>", "i<CR><Esc>",
-        { desc = "Insert newline at cursor" })
+        { desc = "Insert newline at cursor in normal mode" })
+
+map("n", "<leader><BS>", "i<BS><Esc>",
+        { desc = "Insert backspace at cursor in normal mode" })
+
+map("n", "<leader><leader>", "i<Space><Esc>",
+        { desc = "Insert space at cursor in normal mode" })
 
 -- "vip" to go visual inside paragraph (had to be fixed since it broke when I remapped the movement keys)
 map("n", "vip", function()

@@ -51,23 +51,17 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         group = write_group,
         pattern = "*",
         callback = function()
+                local ft = vim.bo.filetype
+                local ext = vim.fn.expand("%:e")
+                if ft == "markdown" or ft == "yaml" or ext == "RPP" or ext:lower() == "csv" then
+                        return
+                end
                 local pos = vim.api.nvim_win_get_cursor(0)
                 vim.cmd([[silent! %s/\s\+$//e]])
                 vim.cmd([[silent! %s/\(\n\)\{3,}/\r\r/e]])
                 vim.api.nvim_win_set_cursor(0, pos)
         end,
         desc = "Trim trailing whitespace and collapse multiple empty lines safely",
-})
-
-autocmd("BufWritePre", {
-        group = write_group,
-        pattern = "*",
-        callback = function()
-                local save_cursor = vim.api.nvim_win_get_cursor(0)
-                vim.cmd([[ %s/\s\+$//e ]])
-                vim.api.nvim_win_set_cursor(0, save_cursor)
-        end,
-        desc = "Remove trailing whitespace at ends of lines on write",
 })
 
 vim.api.nvim_create_autocmd("BufWritePost", {

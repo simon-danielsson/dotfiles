@@ -1,32 +1,30 @@
 local M = {}
 
--- Basic comment syntax map
 local comment_strings = {
-        lua        = { line = "--",  block = { "--[[", "]]" } },
-        python     = { line = "#",   block = { '"""', '"""' } },
-        gdscript   = { line = "#",   block = { '"""', '"""' } },
-        javascript = { line = "//",  block = { "/*", "*/" } },
-        typst      = { line = "//",  block = { "/*", "*/" } },
-        typescript = { line = "//",  block = { "/*", "*/" } },
-        c          = { line = "//",  block = { "/*", "*/" } },
-        cpp        = { line = "//",  block = { "/*", "*/" } },
-        html       = { line = nil,   block = { "<!--", "-->" } },
-        css        = { line = nil,   block = { "/*", "*/" } },
-        sh         = { line = "#",   block = nil },
-        vim        = { line = '"',   block = nil },
-        markdown   = { line = nil,   block = { "<!--", "-->" } },
-        rust	   = { line = "//",  block = { "/*", "*/" } },
-        toml       = { line = "#",   block = nil },
+        lua        = { line = "--", block = { "--[[", "]]" } },
+        python     = { line = "#", block = { '"""', '"""' } },
+        csv        = { line = "#", block = { '"""', '"""' } },
+        gdscript   = { line = "#", block = { '"""', '"""' } },
+        javascript = { line = "//", block = { "/*", "*/" } },
+        typst      = { line = "//", block = { "/*", "*/" } },
+        typescript = { line = "//", block = { "/*", "*/" } },
+        c          = { line = "//", block = { "/*", "*/" } },
+        cpp        = { line = "//", block = { "/*", "*/" } },
+        html       = { line = nil, block = { "<!--", "-->" } },
+        css        = { line = nil, block = { "/*", "*/" } },
+        sh         = { line = "#", block = nil },
+        vim        = { line = '"', block = nil },
+        markdown   = { line = nil, block = { "<!--", "-->" } },
+        rust       = { line = "//", block = { "/*", "*/" } },
+        toml       = { line = "#", block = nil },
 }
 
--- Get comment string for current filetype
 local function get_comment_syntax()
         local ft = vim.bo.filetype
         local comment = comment_strings[ft] or {}
         return comment.line, comment.block
 end
 
--- Toggle line comment in Normal mode
 function M.toggle_line_comment()
         local line_cmt = get_comment_syntax()
         if not line_cmt then
@@ -44,7 +42,6 @@ function M.toggle_line_comment()
         vim.fn.setline(lnum, line)
 end
 
--- Toggle line comments in Visual mode
 function M.toggle_visual()
         local line_cmt = get_comment_syntax()
         if not line_cmt then
@@ -79,7 +76,6 @@ function M.toggle_visual()
         end
 end
 
--- Comment.lua manual settings
 vim.api.nvim_create_autocmd("FileType", {
         pattern = "gd",
         callback = function()
@@ -93,7 +89,6 @@ vim.api.nvim_create_autocmd("FileType", {
         end,
 })
 
--- Toggle block comment (for Normal or Visual)
 function M.toggle_block_comment()
         local _, block_cmt = get_comment_syntax()
         if not block_cmt then
