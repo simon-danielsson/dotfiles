@@ -12,6 +12,7 @@ local M = {}
 
 M.filter = {
         "deprecated",
+        "yanked",
         "TextYankPost",
         "faq",
         "Autocommands"

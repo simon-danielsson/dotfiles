@@ -5,6 +5,11 @@
 # kill all nvim and tmux processes, and exit ghostty
 alias q="/Users/simondanielsson/dotfiles/scripts/kill-nvim-and-tmux.sh"
 
+# convert all jpg and png images in chosen folder into webp
+alias webp="/Users/simondanielsson/dotfiles/scripts/conv-to-webp.sh"
+
+alias agepdf="/Users/simondanielsson/dotfiles/scripts/age-pdf.sh"
+
 # ======================================================
 # Rust
 # ======================================================

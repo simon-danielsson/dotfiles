@@ -30,7 +30,7 @@ autocmd("FileType", {
 })
 
 autocmd("FileType", {
-        pattern = { "python", "markdown" },
+        pattern = { "python", "markdown", "html", "css" },
         callback = function()
                 vim.opt_local.list      = true
                 vim.opt_local.listchars = {

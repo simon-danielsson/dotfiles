@@ -32,13 +32,14 @@ require("plugins.cmp")
 require("plugins.nvim-silicon")
 require("plugins.nvim-treesitter")
 require("plugins.keymaps")
+require("plugins.stay-centered")
 
 -- ======================================================
 -- Native modules that need to be loaded last
 -- ======================================================
 
 require("native.trident").setup()
-require("native.lsp-hover-win").setup()
+-- require("native.lsp-hover-win").setup()
 require("native.notify")
 require("native.indent")
 

@@ -16,11 +16,12 @@ opt.relativenumber = true
 
 opt.wrap           = true
 opt.linebreak      = true
-vim.o.breakindent  = true
+o.breakindent      = true
 opt.showbreak      = '󱞩 '
-opt.scrolloff      = 99
+opt.scrolloff      = 999
+opt.virtualedit    = "onemore"
 opt.sidescrolloff  = 6
-vim.o.smoothscroll = true
+o.smoothscroll     = true
 
 -- ======================================================
 -- Clipboard
@@ -33,37 +34,38 @@ opt.clipboard      = 'unnamedplus'
 -- ======================================================
 
 opt.iskeyword:append({ "-", "_" })
-opt.backspace    = "indent,eol,start"
-opt.modifiable   = true
-opt.completeopt  = { "noselect", "menu", "menuone", "preview" }
-vim.o.inccommand = 'nosplit'
+opt.backspace   = "indent,eol,start"
+opt.modifiable  = true
+opt.completeopt = { "noselect", "menu", "menuone", "preview" }
+o.inccommand    = 'nosplit'
 
 -- ======================================================
 -- Windows, Splits & Buffers
 -- ======================================================
 
-opt.splitbelow   = true
-opt.autochdir    = false
-opt.splitright   = true
-o.equalalways    = true
-opt.inccommand   = 'split'
-opt.hidden       = true
-opt.diffopt      = {
+opt.splitbelow  = true
+opt.autochdir   = false
+opt.splitright  = true
+o.equalalways   = true
+opt.inccommand  = 'split'
+opt.hidden      = true
+opt.diffopt     = {
         "filler",
         "indent-heuristic",
         "linematch:60",
         "vertical",
 }
 
+
 -- ======================================================
 -- Cursor & Statusline
 -- ======================================================
 
-o.mouse          = 'a'
-opt.mouse        = "a"
-opt.cursorline   = true
-o.showmode       = false
-o.laststatus     = 3
+o.mouse         = 'a'
+opt.mouse       = "a"
+opt.cursorline  = true
+o.showmode      = false
+o.laststatus    = 3
 vim.cmd("hi noCursor blend=0 cterm=bold")
 vim.opt.guicursor = "n-v-c:block-blinkwait700-blinkoff400-blinkon250,i:ver25-blinkwait700-blinkoff400-blinkon250,r:hor20"
 
