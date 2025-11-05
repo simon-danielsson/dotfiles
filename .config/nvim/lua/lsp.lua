@@ -24,7 +24,7 @@ if has_mason and has_mason_lsp and has_lspconfig then
                 }
         })
         mason_lspconfig.setup({
-                ensure_installed = { "lua_ls", "ruff", "pyright", "rust_analyzer" },
+                ensure_installed = { "lua_ls", "pyright", "rust_analyzer" },
                 automatic_installation = false,
         })
 end

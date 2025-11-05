@@ -32,10 +32,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
                 end
                 local pos = vim.api.nvim_win_get_cursor(0)
                 local clients = vim.lsp.get_clients({ bufnr = 0 })
-                if ft == "python" then
-                        vim.cmd("silent !black %")
-                        vim.cmd("edit")
-                elseif #clients > 0 then
+                if #clients > 0 then
                         vim.lsp.buf.format({ async = false })
                 else
                         vim.cmd("normal! gg=G")
@@ -214,6 +211,16 @@ local function ensure_terminal(cmd)
         end
         vim.cmd("startinsert")
 end
+
+vim.api.nvim_create_autocmd("FileType", {
+        group = term_group,
+        pattern = "racket",
+        callback = function()
+                vim.keymap.set("n", "<leader>m", function()
+                        ensure_terminal("racket " .. vim.fn.expand("%"))
+                end, { buffer = true, desc = "Run Python file" })
+        end,
+})
 
 vim.api.nvim_create_autocmd("FileType", {
         group = term_group,

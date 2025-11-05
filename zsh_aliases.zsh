@@ -8,7 +8,11 @@ alias q="/Users/simondanielsson/dotfiles/scripts/kill-nvim-and-tmux.sh"
 # convert all jpg and png images in chosen folder into webp
 alias webp="/Users/simondanielsson/dotfiles/scripts/conv-to-webp.sh"
 
+# age sheet music to look older
 alias agepdf="/Users/simondanielsson/dotfiles/scripts/age-pdf.sh"
+
+# convert m4a to flac in a given folder
+alias convflac="/Users/simondanielsson/dotfiles/scripts/convert-m4a-to-flac.sh"
 
 # ======================================================
 # Rust
