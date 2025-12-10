@@ -28,7 +28,6 @@ require("plugins.nvim-telescope")
 require("plugins.undotree")
 require("plugins.flash")
 require("plugins.render-markdown")
-require("plugins.cmp")
 require("plugins.nvim-silicon")
 require("plugins.nvim-treesitter")
 require("plugins.keymaps")
@@ -46,21 +45,24 @@ require("native.indent")
 -- LSP
 -- ======================================================
 
-require("lsp")
+require("lsp.lsp")
+require("lsp.cmp")
+
+-- vim.g.python3_host_prog = vim.env.VIRTUAL_ENV .. "/bin/python"
 
 -- ======================================================
 -- TMUX
 -- ======================================================
 
 if os.getenv("TMUX") then
-	vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
-		callback = function()
-			local name = vim.fn.expand("%:t")
-			if name == "" then name = "[No Name]" end
-			vim.fn.system({ "tmux", "rename-window", name })
-		end,
-		desc = "Rename TMUX windows dynamically",
-	})
+        vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
+                callback = function()
+                        local name = vim.fn.expand("%:t")
+                        if name == "" then name = "[No Name]" end
+                        vim.fn.system({ "tmux", "rename-window", name })
+                end,
+                desc = "Rename TMUX windows dynamically",
+        })
 end
 
 -- ======================================================

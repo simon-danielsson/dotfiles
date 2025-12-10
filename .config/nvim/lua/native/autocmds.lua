@@ -21,6 +21,18 @@ autocmd("ModeChanged", {
         desc = "Autosave every 8th time normal mode is entered",
 })
 
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+-- pattern = "*.java",
+-- callback = function()
+-- local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+-- for _, client in ipairs(clients) do
+-- if client.name == "jdtls" then
+-- vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
+-- end
+-- end
+-- end,
+-- })
+--
 vim.api.nvim_create_autocmd("BufWritePre", {
         group = write_group,
         pattern = "*",
@@ -181,6 +193,7 @@ autocmd("TextYankPost", {
 -- ======================================================
 -- Terminal
 -- ======================================================
+
 local term_group = augroup("TermCommands", { clear = true })
 
 local term_buf = nil
@@ -227,7 +240,8 @@ vim.api.nvim_create_autocmd("FileType", {
         pattern = "python",
         callback = function()
                 vim.keymap.set("n", "<leader>m", function()
-                        ensure_terminal("python3 " .. vim.fn.expand("%"))
+                        local python = vim.env.VIRTUAL_ENV and (vim.env.VIRTUAL_ENV .. "/bin/python") or "python3"
+                        ensure_terminal(python .. " " .. vim.fn.expand("%"))
                 end, { buffer = true, desc = "Run Python file" })
         end,
 })

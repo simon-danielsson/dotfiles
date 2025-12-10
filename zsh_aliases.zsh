@@ -14,6 +14,9 @@ alias agepdf="/Users/simondanielsson/dotfiles/scripts/age-pdf.sh"
 # convert m4a to flac in a given folder
 alias convflac="/Users/simondanielsson/dotfiles/scripts/convert-m4a-to-flac.sh"
 
+# go to dotfiles
+alias dotfiles="/Users/simondanielsson/dotfiles/scripts/go-to-dotfiles.sh"
+
 # ======================================================
 # Rust
 # ======================================================

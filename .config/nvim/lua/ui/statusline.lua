@@ -70,6 +70,28 @@ end
 -- Utilities
 -- ======================================================
 
+local function python_venv()
+        -- Only show for Python files
+        local ft = vim.bo.filetype
+        local ext = vim.fn.expand("%:e")
+        if ft ~= "python" and ext ~= "py" then
+                return ""
+        end
+        local venv = vim.env.VIRTUAL_ENV
+        if not venv or venv == "" then
+                return ""
+        end
+        -- Get basename of the venv dir
+        local venv_name = vim.fn.fnamemodify(venv, ":t")
+        -- If the venv folder name is generic, use the project folder instead
+        if venv_name == "venv" or venv_name == ".venv" or venv_name == "env" then
+                -- Use :h (parent directory), then :t (its name)
+                local project = vim.fn.fnamemodify(venv, ":h:t")
+                return " " .. "" .. project .. " "
+        end
+        return " " .. " " .. venv_name .. " "
+end
+
 local function selected_lines()
         if vim.fn.mode():find("[vV]") == nil then
                 return ""
@@ -154,68 +176,6 @@ local function file_type_filename()
 end
 
 -- ======================================================
--- Keyboard Input Tracker
--- ======================================================
-
-local last_keys = {}
-local MAX_KEYS = 12
-
-local ignore_mouse = {
-        vim.api.nvim_replace_termcodes("<ScrollWheelUp>", true, true, true),
-        vim.api.nvim_replace_termcodes("<ScrollWheelDown>", true, true, true),
-        vim.api.nvim_replace_termcodes("<ScrollWheelLeft>", true, true, true),
-        vim.api.nvim_replace_termcodes("<ScrollWheelRight>", true, true, true),
-        vim.api.nvim_replace_termcodes("<LeftDrag>", true, true, true),
-        vim.api.nvim_replace_termcodes("<LeftRelease>", true, true, true),
-        vim.api.nvim_replace_termcodes("<RightDrag>", true, true, true),
-}
-
-local function key_to_display(key)
-        local termcodes = vim.api.nvim_replace_termcodes
-        local special_map = {
-                [termcodes("<LeftMouse>", true, true, true)]  = "",
-                [termcodes("<RightMouse>", true, true, true)] = "",
-                [termcodes("<Up>", true, true, true)]         = "↑",
-                [termcodes("<Down>", true, true, true)]       = "↓",
-                [termcodes("<Left>", true, true, true)]       = "←",
-                [termcodes("<Right>", true, true, true)]      = "→",
-                [termcodes("<BS>", true, true, true)]         = "⌫",
-                [" "]                                         = "󱁐",
-                ["\t"]                                        = "⇥",
-                ["\r"]                                        = "⏎",
-                ["\n"]                                        = "⏎",
-                ["\27"]                                       = "⎋",
-        }
-        local disp = special_map[key] or key
-        if disp:match("^%c$") then
-                return nil
-        end
-        return disp
-end
-
-vim.on_key(function(_, typed)
-        for _, code in ipairs(ignore_mouse) do
-                if typed == code then return end
-        end
-        local buf = vim.api.nvim_get_current_buf()
-        local ft = vim.bo[buf].filetype or ""
-        if ft:match("^Telescope") then
-                return
-        end
-        local display = key_to_display(typed)
-        if not display then return end
-        table.insert(last_keys, display)
-        if #last_keys > MAX_KEYS then
-                table.remove(last_keys, 1)
-        end
-end)
-
-local function key_status()
-        if #last_keys == 0 then return "" end
-        return icons.ui.wordcount .. " " .. table.concat(last_keys, "") .. " "
-end
-
--- ======================================================
 -- Diagnostics
 -- ======================================================
 
@@ -290,15 +250,10 @@ _G.Statusline = function()
                 "%#StatusFileType# " .. file_type_icon() .. " ",
                 file_type_filename(),
                 " %#StatusGit#" .. git_info(),
-                " %#StatusGit#" .. lsp_info() .. " ",
+                " %#StatusGit#" .. lsp_info() .. "",
+                "%#StatusGit#" .. python_venv() .. " ",
                 "%=",
         }
-        table.insert(parts, "%#StatusKey#" .. key_status())
-
-        local count = #vim.diagnostic.get(0, { severity = severity })
-        if count > 0 then
-                table.insert(parts, "%#StatusKey#" .. "│ ")
-        end
 
         for _, level in ipairs(diagnostics_levels) do
                 table.insert(parts, "%#StatusDiagnostics" .. level.name .. "#")

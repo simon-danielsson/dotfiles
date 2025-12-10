@@ -38,12 +38,13 @@ M.ui = {
         rec_macro = "󰻂",
         arrow_left = "",
         arrow_right = "",
-       arrow_up = "",
+        arrow_up = "",
         arrow_down = "",
         gear = "",
         folder = "󰷏",
         time = "",
         quit = "󰈆",
+        virtual_env = "",
 }
 
 M.lang = {

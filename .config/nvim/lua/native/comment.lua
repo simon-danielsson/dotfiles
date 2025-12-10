@@ -17,6 +17,7 @@ local comment_strings = {
         markdown   = { line = nil, block = { "<!--", "-->" } },
         rust       = { line = "//", block = { "/*", "*/" } },
         toml       = { line = "#", block = nil },
+        java       = { line = "//", block = { "/*", "*/" } },
 }
 
 local function get_comment_syntax()
