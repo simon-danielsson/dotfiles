@@ -240,6 +240,7 @@ vim.api.nvim_create_autocmd("FileType", {
         pattern = "python",
         callback = function()
                 vim.keymap.set("n", "<leader>m", function()
+                        vim.cmd("write")
                         local python = vim.env.VIRTUAL_ENV and (vim.env.VIRTUAL_ENV .. "/bin/python") or "python3"
                         ensure_terminal(python .. " " .. vim.fn.expand("%"))
                 end, { buffer = true, desc = "Run Python file" })
@@ -302,18 +303,18 @@ autocmd({ "BufRead", "BufNewFile" }, {
         desc = "Enable spell checking for certain file types",
 })
 
-vim.api.nvim_create_autocmd("BufEnter", {
-        group = ui_group,
-        callback = function()
-                vim.cmd([[
-                setlocal foldmethod=expr
-                setlocal foldexpr=getline(v:lnum)=~'^\\s*$'?0:1
-                setlocal foldlevelstart=99
-                setlocal foldenable
-                ]])
-        end,
-        desc = "Add folds for paragraphs separated by empty lines",
-})
+-- vim.api.nvim_create_autocmd("BufEnter", {
+-- group = ui_group,
+-- callback = function()
+-- vim.cmd([[
+-- setlocal foldmethod=expr
+-- setlocal foldexpr=getline(v:lnum)=~'^\\s*$'?0:1
+-- setlocal foldlevelstart=99
+-- setlocal foldenable
+-- ]])
+-- end,
+-- desc = "Add folds for paragraphs separated by empty lines",
+-- })
 
 autocmd("VimResized", {
         group = ui_group,

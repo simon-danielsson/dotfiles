@@ -25,7 +25,7 @@ end
 function M.colorscheme(option)
         if option == 2 then
                 vim.o.background = "dark"
-                vim.cmd.colorscheme("retrobox")
+                vim.cmd.colorscheme("slate")
                 return true
         else
                 if option == 1 then

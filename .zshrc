@@ -26,15 +26,15 @@ eval "$(zoxide init zsh)"
 "$HOME/openaikey.sh"
 export PATH=/Users/simondanielsson/.opencode/bin:$PATH
 
-if [ -z "$TMUX" ]; then
-        if tmux has-session -t main 2>/dev/null; then
-                exec tmux attach-session -t main
-        else
-                tmux new-session -d -s main -c ~/dev
-                tmux new-window -t main -n opencode -c ~/dev "opencode" 2>/dev/null || true
-                tmux new-window -t main -n journal -c ~/journal "zsh -i -c journal" || true
-                tmux new-window -t main -n music -c ~/dev "stim" || true
-                tmux select-window -t main:1
-                exec tmux attach-session -t main
-        fi
-fi
+# if [ -z "$TMUX" ]; then
+#         if tmux has-session -t main 2>/dev/null; then
+#                 exec tmux attach-session -t main
+#         else
+#                 tmux new-session -d -s main -c ~/dev
+#                 tmux new-window -t main -n opencode -c ~/dev "opencode" 2>/dev/null || true
+#                 tmux new-window -t main -n journal -c ~/journal "zsh -i -c journal" || true
+#                 tmux new-window -t main -n music -c ~/dev "stim" || true
+#                 tmux select-window -t main:1
+#                 exec tmux attach-session -t main
+#         fi
+# fi

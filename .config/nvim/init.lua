@@ -15,7 +15,7 @@ require("native.surround-word")
 
 local colors = require("ui.theme")
 colors.colorscheme(2) -- 1: low contr or 2: high contr
-colors.background_transparency(false)
+colors.background_transparency(true)
 
 require("ui.colorscheme")
 require("ui.statusline")
