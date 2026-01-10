@@ -17,6 +17,12 @@ alias convflac="/Users/simondanielsson/dotfiles/scripts/convert-m4a-to-flac.sh"
 # go to dotfiles
 alias dotfiles="/Users/simondanielsson/dotfiles/scripts/go-to-dotfiles.sh"
 
+# go to dotfiles
+alias dotfiles="/Users/simondanielsson/dotfiles/scripts/go-to-dotfiles.sh"
+
+alias anna="/Users/simondanielsson/dotfiles/executables/anna"
+alias pass="/Users/simondanielsson/dotfiles/executables/passgen"
+
 # ======================================================
 # Rust
 # ======================================================

@@ -7,7 +7,6 @@ require("native.comment")
 require("native.autocmds")
 require("native.netrw")
 require("native.keymaps")
-require("native.surround-word")
 
 -- ======================================================
 -- UI
@@ -38,6 +37,7 @@ require("plugins.keymaps")
 
 require("native.trident").setup()
 require("native.lsp-hover-win").setup()
+require("native.pairs").setup()
 require("native.notify")
 require("native.indent")
 
