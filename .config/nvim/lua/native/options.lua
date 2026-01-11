@@ -3,16 +3,13 @@ local g            = vim.g
 local o            = vim.o
 local bo           = vim.bo
 local autocmd      = vim.api.nvim_create_autocmd
--- ======================================================
--- Line Numbers
--- ======================================================
+
+-- ==== Line Numbers ====
 
 opt.number         = true
 opt.relativenumber = true
 
--- ======================================================
--- Wrapping & Linebreaks
--- ======================================================
+-- ==== Wrapping & Linebreaks ====
 
 opt.wrap           = true
 opt.linebreak      = true
@@ -23,15 +20,11 @@ opt.virtualedit    = "onemore"
 opt.sidescrolloff  = 6
 o.smoothscroll     = true
 
--- ======================================================
--- Clipboard
--- ======================================================
+-- ==== Clipboard ====
 
 opt.clipboard      = 'unnamedplus'
 
--- ======================================================
--- Editing
--- ======================================================
+-- ==== Editing ====
 
 opt.iskeyword:append({ "-", "_" })
 opt.backspace   = "indent,eol,start"
@@ -39,9 +32,7 @@ opt.modifiable  = true
 opt.completeopt = { "noselect", "menu", "menuone", "preview" }
 o.inccommand    = 'nosplit'
 
--- ======================================================
--- Windows, Splits & Buffers
--- ======================================================
+-- ==== Windows, Splits & Buffers ====
 
 opt.splitbelow  = true
 opt.autochdir   = false
@@ -50,28 +41,23 @@ o.equalalways   = true
 opt.inccommand  = 'split'
 opt.hidden      = true
 opt.diffopt     = {
-        "filler",
-        "indent-heuristic",
-        "linematch:60",
-        "vertical",
+    "filler",
+    "indent-heuristic",
+    "linematch:60",
+    "vertical",
 }
 
+-- ==== Cursor & Statusline ====
 
--- ======================================================
--- Cursor & Statusline
--- ======================================================
-
-o.mouse         = 'a'
-opt.mouse       = "a"
-opt.cursorline  = true
-o.showmode      = false
-o.laststatus    = 3
+o.mouse        = 'a'
+opt.mouse      = "a"
+opt.cursorline = true
+o.showmode     = false
+o.laststatus   = 3
 vim.cmd("hi noCursor blend=0 cterm=bold")
 vim.opt.guicursor = "n-v-c:block-blinkwait700-blinkoff400-blinkon250,i:ver25-blinkwait700-blinkoff400-blinkon250,r:hor20"
 
--- ======================================================
--- Appearance
--- ======================================================
+-- ==== Appearance ====
 
 o.signcolumn      = 'yes:1'
 opt.winborder     = "rounded"
@@ -80,48 +66,44 @@ vim.o.encoding    = "utf-8"
 opt.numberwidth   = 4
 opt.showmatch     = true
 opt.listchars     = {
-        tab = "║ ",
-        trail = "•",
-        nbsp = " ",
+    tab = "║ ",
+    trail = "•",
+    nbsp = " ",
 }
 opt.list          = true
 opt.fillchars     = {
-        eob       = " ", -- no ~ at end of buffer
-        diff      = "╱", -- diff filler
-        msgsep    = "─", -- separator in messages
-        foldsep   = "│",
-        foldclose = "", -- nf-cod-chevron-right
-        foldopen  = "", -- nf-cod-chevron-down
+    eob       = " ", -- no ~ at end of buffer
+    diff      = "╱", -- diff filler
+    msgsep    = "─", -- separator in messages
+    foldsep   = "│",
+    foldclose = "", -- nf-cod-chevron-right
+    foldopen  = "", -- nf-cod-chevron-down
 }
 opt.fillchars     = {
-        horiz     = "─", -- horizontal line
-        horizup   = "┴", -- T pointing up
-        horizdown = "┬", -- T pointing down
-        vert      = "│", -- vertical line
-        vertleft  = "┤", -- T pointing left
-        vertright = "├", -- T pointing right
-        verthoriz = "┼", -- intersection/cross
-        fold      = "─",
-        eob       = " ",
-        diff      = " ",
-        msgsep    = " ",
-        foldsep   = "│",
-        foldclose = "",
-        foldopen  = "",
+    horiz     = "─", -- horizontal line
+    horizup   = "┴", -- T pointing up
+    horizdown = "┬", -- T pointing down
+    vert      = "│", -- vertical line
+    vertleft  = "┤", -- T pointing left
+    vertright = "├", -- T pointing right
+    verthoriz = "┼", -- intersection/cross
+    fold      = "─",
+    eob       = " ",
+    diff      = " ",
+    msgsep    = " ",
+    foldsep   = "│",
+    foldclose = "",
+    foldopen  = "",
 }
 
--- ======================================================
--- Folds
--- ======================================================
+-- ==== Folds ====
 
 opt.foldcolumn    = "2"
 o.foldmethod      = "expr"
 o.foldlevelstart  = 99
 o.foldenable      = false
 
--- ======================================================
--- Search
--- ======================================================
+-- ==== Search ====
 
 opt.path:append("**")
 opt.hlsearch    = true
@@ -132,11 +114,9 @@ opt.wildmenu    = true
 opt.wildmode    = "longest:full,full"
 opt.wildoptions = "pum,fuzzy"
 opt.wildignore:append({ "*.o", "*.obj",
-        "*.pyc", "*.class", "*.jar" })
+    "*.pyc", "*.class", "*.jar" })
 
--- ======================================================
--- File Handling
--- ======================================================
+-- ==== File Handling ====
 
 opt.undodir              = vim.fn.expand("~/.vim/undodir")
 opt.undofile             = true
@@ -150,9 +130,7 @@ opt.autoread             = true
 opt.autowrite            = false
 opt.confirm              = false
 
--- ======================================================
--- Performance Improvements
--- ======================================================
+-- ==== Performance Improvements ====
 
 opt.redrawtime           = 10000
 opt.maxmempattern        = 20000

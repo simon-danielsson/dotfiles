@@ -1,16 +1,11 @@
--- ======================================================
--- Native
--- ======================================================
+-- ==== Native ====
 
 require("native.options")
-require("native.comment")
 require("native.autocmds")
 require("native.netrw")
 require("native.keymaps")
 
--- ======================================================
--- UI
--- ======================================================
+-- ==== UI ====
 
 local colors = require("ui.theme")
 colors.colorscheme(1) -- 1: low contr or 2: high contr
@@ -19,40 +14,26 @@ colors.background_transparency(true)
 require("ui.colorscheme")
 require("ui.statusline")
 
--- ======================================================
--- LSP
--- ======================================================
-
-require("lsp.lsp")
-require("lsp.cmp")
-
--- ======================================================
--- Plugins
--- ======================================================
+-- ==== Plugins ====
 
 require("plugins.nvim-telescope")
 require("plugins.undotree")
 require("plugins.flash")
--- require("plugins.rust-tools")
 require("plugins.render-markdown")
-require("plugins.nvim-silicon")
 require("plugins.nvim-treesitter")
 require("plugins.keymaps")
 
--- ======================================================
--- Native modules that need to be loaded last
--- ======================================================
+-- ==== Native (after) ====
 
--- require("native.lsp-hover-win").setup()
 require("native.pairs").setup()
-require("native.notify")
 require("native.indent")
 
--- vim.g.python3_host_prog = vim.env.VIRTUAL_ENV .. "/bin/python"
+-- ==== LSP ====
 
--- ======================================================
--- TMUX
--- ======================================================
+require("lsp.lsp")
+require("lsp.cmp")
+
+-- ==== TMUX ====
 
 if os.getenv("TMUX") then
     vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {

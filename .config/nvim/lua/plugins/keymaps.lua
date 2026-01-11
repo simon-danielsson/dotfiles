@@ -1,11 +1,9 @@
 local map = vim.keymap.set
 local function common(descr)
-        return { desc = descr, noremap = true, silent = true }
+    return { desc = descr, noremap = true, silent = true }
 end
 
--- ======================================================
--- Telescope
--- ======================================================
+-- ==== Telescope ====
 
 map("n", "<leader>t", "<cmd>Telescope<cr>", common("Telescope"))
 map("n", "<leader>b", "<cmd>Telescope buffers<cr>", common("Current buffers"))
@@ -15,24 +13,18 @@ map("n", "<leader>k", "<cmd>Telescope keymaps<cr>", common("Keymaps"))
 map("n", "<leader>g", "<cmd>Telescope live_grep<cr>", common("Local grep"))
 map("n", "gd", "<cmd>Telescope lsp_definitions<cr>", common("Go to LSP definition"))
 
--- ======================================================
--- UndoTree
--- ======================================================
+-- ==== UndoTree ====
 
 map("n", "<leader>u", "<cmd>UndotreeToggle<CR>", common("Toggle Undotree"))
 
--- ======================================================
--- Silicon
--- ======================================================
+-- ==== Silicon ====
 
 map({ 'n', 'v' }, '<leader>s', function()
-                vim.cmd('Silicon')
-        end,
-        { desc = 'Silicon' })
+        vim.cmd('Silicon')
+    end,
+    { desc = 'Silicon' })
 
--- ======================================================
--- Flash
--- ======================================================
+-- ==== Flash ====
 
 local flash = require("flash")
 map({ "n", "x", "o" }, "s", flash.jump, { desc = "Flash" })

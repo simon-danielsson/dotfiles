@@ -31,7 +31,6 @@ function M.colorscheme(option)
         if option == 1 then
             vim.o.background = "dark"
             vim.cmd.colorscheme("retrobox")
-            M.background_transparency(false)
             return false
         end
     end

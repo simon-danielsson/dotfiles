@@ -17,7 +17,7 @@ local has_cmp, cmp = pcall(require, "cmp")
 if has_cmp then
     local has_luasnip, luasnip = pcall(require, "luasnip")
     if has_luasnip then
-        -- Load your Lua snippets from your custom folder
+        -- load snippets
         require("luasnip.loaders.from_lua").lazy_load({
             paths = "~/.config/nvim/snippets",
         })
@@ -43,24 +43,6 @@ if has_cmp then
         },
         mapping = cmp.mapping.preset.insert({
             ["<CR>"] = cmp.mapping.confirm({ select = true }),
-            -- ["<Tab>"] = cmp.mapping(function(fallback)
-            -- if cmp.visible() then
-            -- cmp.select_next_item()
-            -- elseif has_luasnip and luasnip.expand_or_jumpable() then
-            -- luasnip.expand_or_jump()
-            -- else
-            -- fallback()
-            -- end
-            -- end, { "i", "s" }),
-            -- ["<S-Tab>"] = cmp.mapping(function(fallback)
-            -- if cmp.visible() then
-            -- cmp.select_prev_item()
-            -- elseif has_luasnip and luasnip.jumpable(-1) then
-            -- luasnip.jump(-1)
-            -- else
-            -- fallback()
-            -- end
-            -- end, { "i", "s" }),
         }),
         sources = cmp.config.sources({
             { name = 'render-markdown' },
@@ -79,7 +61,7 @@ if has_cmp then
         }),
         experimental = {
             ghost_text = {
-                hl_group = "LineNr", -- Optional: use custom highlight
+                hl_group = "LineNr",
             },
         },
     })

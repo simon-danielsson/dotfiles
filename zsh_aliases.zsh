@@ -26,7 +26,14 @@ alias pass="/Users/simondanielsson/dotfiles/executables/passgen"
 # add to clipboard
 alias clip="pbcopy"
 
+# nvim nightly
 alias nvim="bob run nightly"
+
+# emoji picker
+alias emoji="/Users/simondanielsson/dotfiles/scripts/emoji-picker.sh"
+
+# devicon picker
+alias devicon="/Users/simondanielsson/dotfiles/scripts/devicon-picker.sh"
 
 # ======================================================
 # Rust

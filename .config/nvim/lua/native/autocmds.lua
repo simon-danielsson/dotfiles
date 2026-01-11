@@ -1,9 +1,7 @@
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 
--- ======================================================
--- Templates
--- ======================================================
+-- ==== Templates ====
 
 local template_dir = vim.fn.stdpath("config") .. "/templates"
 
@@ -23,9 +21,7 @@ vim.api.nvim_create_autocmd("BufNewFile", {
     end,
 })
 
--- ======================================================
--- Write
--- ======================================================
+-- ==== Write ====
 
 local write_group = augroup("WriteCommands", { clear = true })
 
@@ -112,9 +108,7 @@ autocmd("BufWritePost", {
     desc = "Make shell scripts and .desktop files executable",
 })
 
--- ======================================================
--- Directories & Files
--- ======================================================
+-- ==== Directories & Files ====
 
 local files_group = augroup("FileCommands", { clear = true })
 
@@ -124,18 +118,6 @@ autocmd("BufNewFile", {
         .. vim.fn.stdpath("config")
         .. "/templates/template.%:e",
     desc = "If one exists, use a template when opening a new file",
-})
-
-autocmd({ "BufEnter", "BufWritePre" }, {
-    group = files_group,
-    pattern = "*",
-    callback = function()
-        local dir = vim.fn.expand("%:p:h")
-        if vim.fn.isdirectory(dir) == 1 then
-            vim.cmd("lcd " .. dir)
-        end
-    end,
-    desc = "Auto-change cwd to folder of current buffer",
 })
 
 autocmd("BufWritePre", {
@@ -156,9 +138,7 @@ if vim.fn.isdirectory(undodir) == 0 then
     vim.fn.mkdir(undodir, "p")
 end
 
--- ======================================================
--- Cursor
--- ======================================================
+-- ==== Cursor ====
 
 local cursor_group = augroup("CursorCommands", { clear = true })
 
@@ -211,9 +191,7 @@ autocmd("TextYankPost", {
     desc = "Highlight yanked text",
 })
 
--- ======================================================
--- Terminal
--- ======================================================
+-- ==== Terminal ====
 
 local term_group = augroup("TermCommands", { clear = true })
 
@@ -330,9 +308,7 @@ vim.api.nvim_create_autocmd("TermClose", {
     desc = "Close terminal buffer on process exit",
 })
 
--- ======================================================
--- User Interface
--- ======================================================
+-- ==== User Interface ====
 
 local ui_group = augroup("UiCommands", { clear = true })
 
@@ -342,16 +318,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
         vim.opt.formatoptions:remove { "c", "r", "o" }
     end,
     desc = "Disable new line comment",
-})
-
-autocmd({ "BufRead", "BufNewFile" }, {
-    group = ui_group,
-    pattern = { "*.txt", "*.md", "*.typ" },
-    callback = function()
-        vim.opt.spell = true
-        vim.opt.spelllang = { "en_us" }
-    end,
-    desc = "Enable spell checking for certain file types",
 })
 
 autocmd("VimResized", {
