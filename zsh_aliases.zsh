@@ -23,6 +23,11 @@ alias dotfiles="/Users/simondanielsson/dotfiles/scripts/go-to-dotfiles.sh"
 alias anna="/Users/simondanielsson/dotfiles/executables/anna"
 alias pass="/Users/simondanielsson/dotfiles/executables/passgen"
 
+# add to clipboard
+alias clip="pbcopy"
+
+alias nvim="bob run nightly"
+
 # ======================================================
 # Rust
 # ======================================================
@@ -31,9 +36,9 @@ alias r="cargo run --release"
 alias rd="cargo doc --open"
 
 cargodoc() {
-        cargo doc --quiet
-        crate=$(basename "$(pwd)")
-        tmux new-window "w3m target/doc/$crate/index.html | less; tmux kill-window"
+    cargo doc --quiet
+    crate=$(basename "$(pwd)")
+    tmux new-window "w3m target/doc/$crate/index.html | less; tmux kill-window"
 }
 
 # ======================================================
@@ -54,20 +59,20 @@ alias gd="/Users/simondanielsson/dotfiles/scripts/start-godot-and-nvim-together.
 # ======================================================
 
 journal() {
-        local today=$(date +"%Y-%m-%d")
-        local dir="$HOME/journal"
-        local file="$dir/${today}.typ"
-        local template="$dir/template.typ"
-        mkdir -p "$dir"
-        # Only copy template if the file doesn't already exist
-        if [ ! -f "$file" ]; then
-                if [ -f "$template" ]; then
-                        cp "$template" "$file"
-                else
-                        touch "$file"
-                fi
+    local today=$(date +"%Y-%m-%d")
+    local dir="$HOME/journal"
+    local file="$dir/${today}.typ"
+    local template="$dir/template.typ"
+    mkdir -p "$dir"
+    # Only copy template if the file doesn't already exist
+    if [ ! -f "$file" ]; then
+        if [ -f "$template" ]; then
+            cp "$template" "$file"
+        else
+            touch "$file"
         fi
-        nvim "$file"
+    fi
+    nvim "$file"
 }
 
 # ======================================================
@@ -77,22 +82,22 @@ journal() {
 alias notes="cd ~/notes"
 
 n() {
-        local name="$*"
-        local today
-        today=$(date +"%Y-%m-%d")
-        local dir="$HOME/notes"
-        # If no name given, default to "note"
-        if [ -z "$name" ]; then
-                name="note"
-        fi
-        # Trim whitespace, replace multiple spaces with a single '-', strip trailing '-',
-        # and convert to lowercase
-        name=$(echo "$name" | xargs | tr -s ' ' '-' | sed 's/-$//' | tr '[:upper:]' '[:lower:]')
-        local file="$dir/${name}_${today}.md"
-        mkdir -p "$dir"
-        # Create empty file if it doesn't exist
-        [ -f "$file" ] || touch "$file"
-        nvim "$file"
+    local name="$*"
+    local today
+    today=$(date +"%Y-%m-%d")
+    local dir="$HOME/notes"
+    # If no name given, default to "note"
+    if [ -z "$name" ]; then
+        name="note"
+    fi
+    # Trim whitespace, replace multiple spaces with a single '-', strip trailing '-',
+    # and convert to lowercase
+    name=$(echo "$name" | xargs | tr -s ' ' '-' | sed 's/-$//' | tr '[:upper:]' '[:lower:]')
+    local file="$dir/${name}_${today}.md"
+    mkdir -p "$dir"
+    # Create empty file if it doesn't exist
+    [ -f "$file" ] || touch "$file"
+    nvim "$file"
 }
 
 # ======================================================
@@ -105,23 +110,23 @@ alias ls="eza --color=always --icons --group-directories-first --git --no-time -
 # Local search from current directory
 unalias s 2>/dev/null
 s() {
-        local target
-        target=$(fd --type f --type d --hidden | fzf --preview='[[ -d {} ]] && exa -al --color=always {} || bat --style=numbers --color=always {}') || return
-        if [[ -d $target ]]; then
-                cd "$target"
-        elif [[ -f $target ]]; then
-                nvim "$target"
-        fi
+    local target
+    target=$(fd --type f --type d --hidden | fzf --preview='[[ -d {} ]] && exa -al --color=always {} || bat --style=numbers --color=always {}') || return
+    if [[ -d $target ]]; then
+        cd "$target"
+    elif [[ -f $target ]]; then
+        nvim "$target"
+    fi
 }
 
 # Global search from home directory
 unalias ss 2>/dev/null
 ss() {
-        local target
-        target=$(fd --type f --type d --hidden . ~ | fzf --preview='[[ -d {} ]] && exa -al --color=always {} || bat --style=numbers --color=always {}') || return
-        if [[ -d $target ]]; then
-                cd "$target"
-        elif [[ -f $target ]]; then
-                nvim "$target"
-        fi
+    local target
+    target=$(fd --type f --type d --hidden . ~ | fzf --preview='[[ -d {} ]] && exa -al --color=always {} || bat --style=numbers --color=always {}') || return
+    if [[ -d $target ]]; then
+        cd "$target"
+    elif [[ -f $target ]]; then
+        nvim "$target"
+    fi
 }

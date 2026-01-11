@@ -13,11 +13,18 @@ require("native.keymaps")
 -- ======================================================
 
 local colors = require("ui.theme")
-colors.colorscheme(2) -- 1: low contr or 2: high contr
+colors.colorscheme(1) -- 1: low contr or 2: high contr
 colors.background_transparency(true)
 
 require("ui.colorscheme")
 require("ui.statusline")
+
+-- ======================================================
+-- LSP
+-- ======================================================
+
+require("lsp.lsp")
+require("lsp.cmp")
 
 -- ======================================================
 -- Plugins
@@ -26,6 +33,7 @@ require("ui.statusline")
 require("plugins.nvim-telescope")
 require("plugins.undotree")
 require("plugins.flash")
+-- require("plugins.rust-tools")
 require("plugins.render-markdown")
 require("plugins.nvim-silicon")
 require("plugins.nvim-treesitter")
@@ -35,18 +43,10 @@ require("plugins.keymaps")
 -- Native modules that need to be loaded last
 -- ======================================================
 
-require("native.trident").setup()
-require("native.lsp-hover-win").setup()
+-- require("native.lsp-hover-win").setup()
 require("native.pairs").setup()
 require("native.notify")
 require("native.indent")
-
--- ======================================================
--- LSP
--- ======================================================
-
-require("lsp.lsp")
-require("lsp.cmp")
 
 -- vim.g.python3_host_prog = vim.env.VIRTUAL_ENV .. "/bin/python"
 
@@ -55,18 +55,12 @@ require("lsp.cmp")
 -- ======================================================
 
 if os.getenv("TMUX") then
-        vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
-                callback = function()
-                        local name = vim.fn.expand("%:t")
-                        if name == "" then name = "[No Name]" end
-                        vim.fn.system({ "tmux", "rename-window", name })
-                end,
-                desc = "Rename TMUX windows dynamically",
-        })
+    vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
+        callback = function()
+            local name = vim.fn.expand("%:t")
+            if name == "" then name = "[No Name]" end
+            vim.fn.system({ "tmux", "rename-window", name })
+        end,
+        desc = "Rename TMUX windows dynamically",
+    })
 end
-
--- ======================================================
--- DEV
--- ======================================================
-
-require("plugins.dev")

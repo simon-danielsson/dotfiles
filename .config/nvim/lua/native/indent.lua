@@ -7,9 +7,9 @@ local autocmd = vim.api.nvim_create_autocmd
 o.expandtab   = true
 o.smartindent = true
 o.autoindent  = true
-o.tabstop     = 8
-o.shiftwidth  = 8
-o.softtabstop = 8
+o.tabstop     = 4
+o.shiftwidth  = 4
+o.softtabstop = 4
 
 -- Filetype-specific settings
 autocmd("FileType", {
@@ -21,9 +21,9 @@ autocmd("FileType", {
                         trail = "•",
                         nbsp = " ",
                 }
-                bo.tabstop              = 8
-                bo.shiftwidth           = 8
-                bo.softtabstop          = 8
+                bo.tabstop              = 4
+                bo.shiftwidth           = 4
+                bo.softtabstop          = 4
                 bo.smartindent          = true
                 bo.autoindent           = true
         end,
