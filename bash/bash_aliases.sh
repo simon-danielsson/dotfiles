@@ -18,8 +18,8 @@ alias devicon="/Users/simondanielsson/dotfiles/scripts/devicon-picker.sh"
 # source .bashrc
 alias sbash="source ~/.bashrc"
 
-# neofetch
-alias nf="clear && neofetch"
+# neofetch (doubles as clear and go back to home dir)
+alias nf="cd && clear && neofetch"
 
 # ==== journal ====
 

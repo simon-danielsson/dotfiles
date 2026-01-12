@@ -66,26 +66,12 @@ vim.api.nvim_create_autocmd("FileType", {
 -- Override groups with custom colors and styles
 local override_groups = {
 	CursorLine              = { bg = colors.bg_deep },
-	NoiceCmdlinePopup       = { fg = colors.fg_mid, bg = "none" },
-	NoiceCmdlinePopupBorder = { fg = colors.fg_mid, bg = "none" },
 	StatusLineNC            = { bg = colors.bg_mid },
 	StatusLineNormal        = { bg = colors.bg_mid },
-	CmpGhostText            = { fg = colors.bg_mid },
 	LineNr                  = { fg = colors.fg_mid },
 	Comment                 = { fg = colors.fg_mid },
-	TelescopePromptBorder   = { fg = colors.fg_mid, bg = "none" },
-	TelescopePromptNormal   = { bg = "none" },
-	TelescopePromptPrefix   = { bg = "none" },
-	FlashMatch              = { fg = colors.fg_mid, bg = colors.bg_mid },
-	TelescopePromptCounter  = { bg = "none" },
-	TelescopeBorder         = { fg = colors.fg_mid, bg = "none" },
-	TelescopeNormal         = { fg = "none", bg = "none" },
 	NormalFloat             = { fg = colors.fg_main, bg = "none" },
 	FloatBorder             = { fg = colors.fg_mid, bg = "none" },
-	TelescopeResultsBorder  = { fg = colors.fg_mid },
-	TelescopePreviewBorder  = { fg = colors.fg_mid },
-	TelescopeSelection      = { fg = colors.fg_main, bg = colors.bg_deep },
-	TelescopeResultsNormal  = { fg = colors.fg_main },
 	NormalNC                = { bg = colors.bg_deep, fg = colors.fg_mid },
 	TabLine                 = { bg = colors.bg_deep },
 	TabLineFill             = { bg = colors.bg_deep },
@@ -99,6 +85,32 @@ local override_groups = {
 	PmenuSel                = { bg = colors.bg_mid, fg = colors.fg_main },
 	PmenuSbar               = { bg = colors.bg_deep },
 	PmenuThumb              = { bg = colors.bg_mid },
+
+	-- nvim-cmp
+	CmpGhostText            = { fg = colors.bg_mid },
+
+	-- flash
+	FlashMatch              = { fg = colors.fg_mid, bg = colors.bg_mid },
+
+	-- telescope
+	TelescopeResultsBorder  = { fg = colors.fg_mid },
+	TelescopePreviewBorder  = { fg = colors.fg_mid },
+	TelescopeSelection      = { fg = colors.fg_main, bg = colors.bg_deep },
+	TelescopeResultsNormal  = { fg = colors.fg_main },
+	TelescopePromptBorder   = { fg = colors.fg_mid, bg = "none" },
+	TelescopePromptNormal   = { bg = "none" },
+	TelescopePromptPrefix   = { bg = "none" },
+	TelescopePromptCounter  = { bg = "none" },
+	TelescopeBorder         = { fg = colors.fg_mid, bg = "none" },
+	TelescopeNormal         = { fg = "none", bg = "none" },
+
+	-- noice / nvim.notify
+	NotifyBackground        = { bg = colors.bg_mid },
+	-- CmdlineIcon             = { fg = colors.fg_main, bg = colors.bg_mid },
+	-- Cmdline                 = { fg = colors.fg_main, bg = colors.bg_mid },
+	-- Title                   = { fg = colors.fg_main, bg = colors.bg_mid },
+	NoiceCmdlinePopup       = { fg = colors.fg_mid, bg = "none" },
+	NoiceCmdlinePopupBorder = { fg = colors.fg_mid, bg = "none" },
 }
 
 -- Apply overrides

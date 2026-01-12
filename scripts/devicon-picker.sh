@@ -131,6 +131,7 @@ devicon_list="
  wifi
  database
  clock
+󰥔 clock-filled
  dot
  users
  link
@@ -180,7 +181,7 @@ devicon_list="
 "
 
 selected=$(printf "%s\n" "$devicon_list" \
-    | fzf --prompt="devicon > " --height=40% --reverse) || exit 0
+	| fzf --prompt="devicon > " --height=40% --reverse) || exit 0
 
 icon_char=$(printf "%s" "$selected" | awk '{print $1}')
 

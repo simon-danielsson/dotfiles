@@ -139,7 +139,7 @@ local function file_type_icon()
 	local ft = vim.bo.filetype
 	local entry = icons.lang[ft]
 	if entry then
-		local hl = "%#FileIcon_" .. ft .. "#"
+		local hl = " %#FileIcon_" .. ft .. "#"
 		return hl .. entry.icon .. "%*"
 	else
 		return icons.ui.unrec_file
@@ -161,7 +161,7 @@ local function file_type_filename()
 	local ft = vim.bo.filetype
 	local entry = icons.lang[ft]
 	local hl = entry and "%#FileIcon_" .. ft .. "#" or "%#StatusFilename#"
-	return hl .. " " .. short_filepath() .. " " .. "%*"
+	return hl .. " " .. short_filepath() .. "" .. "%*"
 end
 
 -- ==== diagnostics ====
@@ -205,7 +205,7 @@ local function scrollbar()
 	if total == 0 then return "" end
 	local idx = math.floor((cur - 1) / total * #SBAR) + 1
 	idx = math.max(1, math.min(idx, #SBAR))
-	return "%#StatusScrollbar#" .. SBAR[idx]:rep(1) .. "%*"
+	return "%#StatusScrollbar# " .. SBAR[idx]:rep(1) .. "%*"
 end
 
 -- ==== highlights ====
@@ -217,9 +217,9 @@ local statusline_highlights = {
 	StatusKey        = { fg = colors.fg_mid, bg = colors.bg_deep, bold = false },
 	ColumnPercentage = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
 	endBit           = { fg = colors.bg_deep, bg = "none", },
-	StatusPosition   = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
+	StatusPosition   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
 	StatusMode       = { fg = colors.fg_main, bg = colors.bg_deep },
-	StatusScrollbar  = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
+	StatusScrollbar  = { fg = aux_colors.accent, bg = colors.bg_deep, bold = true },
 	StatusSelection  = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
 	StatusGit        = { fg = colors.fg_main, bg = colors.bg_deep },
 	MacroRec         = { fg = aux_colors.macro_statusline, bg = "none" },
@@ -244,6 +244,7 @@ _G.Statusline = function()
 		"%#endBit#" .. " ",
 		"%=",
 	}
+
 	local summary = diagnostics_summary()
 	if summary then
 		table.insert(parts, "%#endBit#" .. "█")
@@ -259,11 +260,12 @@ _G.Statusline = function()
 
 		table.insert(parts, "%#endBit#" .. " ")
 	end
+
 	table.insert(parts, "%#endBit#" .. "")
 	table.insert(parts, "%#StatusMode#" .. word_count())
 	table.insert(parts, "%#StatusSelection#" .. selected_lines())
-	table.insert(parts, "%#StatusPosition# " .. "%l:%c ")
 	table.insert(parts, scrollbar())
+	table.insert(parts, "%#StatusPosition#" .. "%l:" .. "%c ")
 	table.insert(parts, "%#endBit#" .. "")
 	if _G.macro_recording ~= "" then
 		table.insert(parts, "%#MacroRec#" .. "" .. _G.macro_recording)

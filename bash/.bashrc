@@ -14,7 +14,8 @@ if [ -z "$TMUX" ]; then
 		exec tmux attach-session -t main
 	else
 		tmux new-session -d -s main -c ~
-		# tmux new-window -t main -n opencode -c ~/dev "opencode" 2>/dev/null || true
+		tmux new-window -t main -n notes -c ~/notes || true
+		tmux new-window -t main -n dotfiles -c ~/dotfiles || true
 		# tmux new-window -t main -n journal -c ~/journal "zsh -i -c journal" || true
 		# tmux new-window -t main -n music -c ~/dev "stim" || true
 		tmux select-window -t main:1

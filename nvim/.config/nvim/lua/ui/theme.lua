@@ -11,6 +11,7 @@ M.colors = {
 
 M.aux_colors = {
 	macro_statusline = "#FB4835",
+	accent = "#B8BB25",
 }
 
 function M.background_transparency(is_transparent)
