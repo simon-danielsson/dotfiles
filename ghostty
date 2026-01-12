@@ -29,6 +29,10 @@ shell-integration = zsh
 
 # Cursor
 mouse-hide-while-typing = true
+cursor-opacity = 0.8
+
+# links
+link-url = true
 
 ## ======================================================
 ## Font
@@ -46,13 +50,13 @@ window-inherit-font-size = true
 window-save-state = always
 
 # Padding
-window-padding-x = 20,20
-window-padding-y = 20,20
+window-padding-x = 10,10
+window-padding-y = 10,10
 window-padding-balance = true
 
 # General
 quit-after-last-window-closed = true
-window-subtitle = true
+window-subtitle = false
 macos-window-shadow = true
 window-width = 110
 window-height = 40
@@ -61,8 +65,8 @@ window-height = 40
 ## Background
 ## ======================================================
 
-background = #262626
-background-opacity = 0.2
+background = #222222
+background-opacity = 1
 background-blur = 40
 
 ## ======================================================
@@ -71,3 +75,4 @@ background-blur = 40
 
 quick-terminal-position = left
 quick-terminal-autohide = true
+
