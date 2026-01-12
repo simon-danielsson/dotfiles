@@ -133,7 +133,7 @@ end
 -- ==== file ====
 
 for ft, entry in pairs(icons.lang) do
-	vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = colors.bg_deep2 })
+	vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = colors.bg_deep })
 end
 local function file_type_icon()
 	local ft = vim.bo.filetype
@@ -190,7 +190,7 @@ end
 for _, level in ipairs(diagnostics_levels) do
 	vim.api.nvim_set_hl(0, "StatusDiagnostics" .. level.name, {
 		fg = vim.api.nvim_get_hl(0, { name = "Diagnostic" .. level.name }).fg,
-		bg = colors.bg_deep2,
+		bg = colors.bg_deep,
 		bold = true,
 	})
 end
@@ -212,16 +212,16 @@ end
 
 local statusline_highlights = {
 	StatusLine       = { fg = colors.fg_main, bg = "none", bold = false },
-	StatusFilename   = { fg = colors.fg_main, bg = colors.bg_deep2, bold = false },
-	StatusFileType   = { fg = colors.fg_main, bg = colors.bg_deep2, bold = false },
-	StatusKey        = { fg = colors.fg_mid, bg = colors.bg_deep2, bold = false },
-	ColumnPercentage = { fg = colors.fg_main, bg = colors.bg_deep2, bold = true },
-	endBit           = { fg = colors.bg_deep2, bg = "none", },
-	StatusPosition   = { fg = colors.fg_main, bg = colors.bg_deep2, bold = true },
-	StatusMode       = { fg = colors.fg_main, bg = colors.bg_deep2 },
-	StatusScrollbar  = { fg = colors.fg_main, bg = colors.bg_deep2, bold = true },
-	StatusSelection  = { fg = colors.fg_main, bg = colors.bg_deep2, bold = true },
-	StatusGit        = { fg = colors.fg_main, bg = colors.bg_deep2 },
+	StatusFilename   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
+	StatusFileType   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
+	StatusKey        = { fg = colors.fg_mid, bg = colors.bg_deep, bold = false },
+	ColumnPercentage = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
+	endBit           = { fg = colors.bg_deep, bg = "none", },
+	StatusPosition   = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
+	StatusMode       = { fg = colors.fg_main, bg = colors.bg_deep },
+	StatusScrollbar  = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
+	StatusSelection  = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
+	StatusGit        = { fg = colors.fg_main, bg = colors.bg_deep },
 	MacroRec         = { fg = aux_colors.macro_statusline, bg = "none" },
 }
 for group, opts in pairs(statusline_highlights) do
