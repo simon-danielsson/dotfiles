@@ -1,13 +1,17 @@
+
+# paths
+
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 export LESS='--mouse --wheel-lines=1'
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 . "$HOME/.cargo/env"
+export PATH="$PATH:/Users/simondanielsson/.local/bin"
 
 if [ -f ~/bash_aliases.sh ]; then
 	source ~/bash_aliases.sh
 fi
 
-source ~/bash_prompt.sh
+# source ~/bash_prompt.sh
 
 if [ -z "$TMUX" ]; then
 	if tmux has-session -t main 2>/dev/null; then
@@ -23,6 +27,4 @@ if [ -z "$TMUX" ]; then
 	fi
 fi
 
-
-# Created by `pipx` on 2026-01-21 06:06:30
-export PATH="$PATH:/Users/simondanielsson/.local/bin"
+eval "$(starship init bash)"

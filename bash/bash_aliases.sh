@@ -11,7 +11,9 @@ NVIM="bob run nightly"
 alias nvim=$NVIM
 alias code=$NVIM
 alias v=$NVIM
+alias nv=$NVIM
 alias vim=$NVIM
+alias nivm=$NVIM
 
 # emoji picker
 EM_PICKER="/Users/simondanielsson/dotfiles/scripts/emoji-picker.sh"
@@ -38,20 +40,20 @@ alias snok="/Users/simondanielsson/dotfiles/executables/snok"
 # ==== journal ====
 
 journal() {
-	local today=$(date +"%Y-%m-%d")
-	local dir="$HOME/journal"
-	local file="$dir/${today}.typ"
-	local template="$dir/template.typ"
-	mkdir -p "$dir"
-	# Only copy template if the file doesn't already exist
-	if [ ! -f "$file" ]; then
-		if [ -f "$template" ]; then
-			cp "$template" "$file"
-		else
-			touch "$file"
-		fi
-	fi
-	nvim "$file"
+        local today=$(date +"%Y-%m-%d")
+        local dir="$HOME/journal"
+        local file="$dir/${today}.typ"
+        local template="$dir/template.typ"
+        mkdir -p "$dir"
+        # Only copy template if the file doesn't already exist
+        if [ ! -f "$file" ]; then
+                if [ -f "$template" ]; then
+                        cp "$template" "$file"
+                else
+                        touch "$file"
+                fi
+        fi
+        nvim "$file"
 }
 
 # ==== notes ====
@@ -59,22 +61,22 @@ journal() {
 alias notes="cd ~/notes"
 
 n() {
-	local name="$*"
-	local today
-	today=$(date +"%Y-%m-%d")
-	local dir="$HOME/notes"
-	# If no name given, default to "note"
-	if [ -z "$name" ]; then
-		name="note"
-	fi
-	# Trim whitespace, replace multiple spaces with a single '-', strip trailing '-',
-	# and convert to lowercase
-	name=$(echo "$name" | xargs | tr -s ' ' '-' | sed 's/-$//' | tr '[:upper:]' '[:lower:]')
-	local file="$dir/${name}_${today}.md"
-	mkdir -p "$dir"
-	# Create empty file if it doesn't exist
-	[ -f "$file" ] || touch "$file"
-	nvim "$file"
+        local name="$*"
+        local today
+        today=$(date +"%Y-%m-%d")
+        local dir="$HOME/notes"
+        # If no name given, default to "note"
+        if [ -z "$name" ]; then
+                name="note"
+        fi
+        # Trim whitespace, replace multiple spaces with a single '-', strip trailing '-',
+        # and convert to lowercase
+        name=$(echo "$name" | xargs | tr -s ' ' '-' | sed 's/-$//' | tr '[:upper:]' '[:lower:]')
+        local file="$dir/${name}_${today}.md"
+        mkdir -p "$dir"
+        # Create empty file if it doesn't exist
+        [ -f "$file" ] || touch "$file"
+        nvim "$file"
 }
 
 # ==== directories and search ====
@@ -85,23 +87,23 @@ alias ls="eza --color=always --icons --group-directories-first --git --no-time -
 # Local search from current directory
 unalias s 2>/dev/null
 s() {
-	local target
-	target=$(fd --type f --type d --hidden | fzf --preview='[[ -d {} ]] && exa -al --color=always {} || bat --style=numbers --color=always {}') || return
-	if [[ -d $target ]]; then
-		cd "$target"
-	elif [[ -f $target ]]; then
-		nvim "$target"
-	fi
+        local target
+        target=$(fd --type f --type d --hidden | fzf --preview='[[ -d {} ]] && exa -al --color=always {} || bat --style=numbers --color=always {}') || return
+        if [[ -d $target ]]; then
+                cd "$target"
+        elif [[ -f $target ]]; then
+                nvim "$target"
+        fi
 }
 
 # Global search from home directory
 unalias ss 2>/dev/null
 ss() {
-	local target
-	target=$(fd --type f --type d --hidden . ~ | fzf --preview='[[ -d {} ]] && exa -al --color=always {} || bat --style=numbers --color=always {}') || return
-	if [[ -d $target ]]; then
-		cd "$target"
-	elif [[ -f $target ]]; then
-		nvim "$target"
-	fi
+        local target
+        target=$(fd --type f --type d --hidden . ~ | fzf --preview='[[ -d {} ]] && exa -al --color=always {} || bat --style=numbers --color=always {}') || return
+        if [[ -d $target ]]; then
+                cd "$target"
+        elif [[ -f $target ]]; then
+                nvim "$target"
+        fi
 }

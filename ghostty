@@ -1,6 +1,5 @@
-## ======================================================
-## Keybinds
-## ======================================================
+
+# === keybinds ===
 
 # Erase All Keyboard Shortcuts
 keybind = clear
@@ -12,9 +11,7 @@ keybind = performable:cmd+v=paste_from_clipboard
 keybind = global:cmd+,=open_config
 keybind = global:cmd+shift+,=reload_config
 
-## ======================================================
-## Behaviour
-## ======================================================
+# === behaviour ===
 
 # Notifications
 desktop-notifications = false
@@ -34,24 +31,20 @@ cursor-opacity = 0.8
 # links
 link-url = true
 
-## ======================================================
-## Font
-## ======================================================
+# === font ===
 
-font-size = 16
-font-family = 0xProto Nerd Font Mono
-window-inherit-font-size = true
+font-size = 20
+#font-family = 0xProto Nerd Font Mono
+#window-inherit-font-size = true
 
-## ======================================================
-## Window
-## ======================================================
+# === window ===
 
 # Save State
 window-save-state = always
 
 # Padding
-window-padding-x = 10,10
-window-padding-y = 10,10
+window-padding-x = 40,15
+window-padding-y = 15,15
 window-padding-balance = true
 
 # General
@@ -61,18 +54,14 @@ macos-window-shadow = true
 window-width = 110
 window-height = 40
 
-## ======================================================
-## Background
-## ======================================================
+# === background ===
 
-background = #222222
+theme = Atom One Dark
+background = #25252d
 background-opacity = 1
-background-blur = 40
+background-blur = 0
 
-## ======================================================
-## Quick Terminal
-## ======================================================
+# === quick terminal ===
 
 quick-terminal-position = left
 quick-terminal-autohide = true
-

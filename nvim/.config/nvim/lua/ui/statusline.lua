@@ -10,189 +10,189 @@ local git_cache = { status = "", last_update = 0 }
 local max_repo_name_length = 15
 
 local function git_info()
-	local now = vim.loop.hrtime() / 1e9
-	if now - git_cache.last_update > 2 then
-		git_cache.last_update = now
-		local branch = vim.fn.system("git branch --show-current 2>/dev/null"):gsub("\n", "")
-		if branch == "" then
-			git_cache.status = ""
-		else
-			local toplevel = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("\n", "")
-			local repo = vim.fn.fnamemodify(toplevel, ":t")
-			if #repo > max_repo_name_length then
-				repo = repo:sub(1, max_repo_name_length) .. "..."
-			end
-			local status = vim.fn.systemlist("git status --porcelain=v2 --branch 2>/dev/null")
-			local ahead, behind = 0, 0
-			local added, modified, deleted, conflict = 0, 0, 0, 0
-			for _, line in ipairs(status) do
-				local a, b = line:match("^# branch%.ab%s+([%+%-]?%d+)%s+([%+%-]?%d+)")
-				if a and b then
-					ahead, behind = tonumber(a) or 0, tonumber(b) or 0
-				end
-				local first_char = line:sub(1, 1)
-				if first_char == "1" or first_char == "2" then
-					local parts_line = vim.split(line, "%s+")
-					local xy = parts_line[2] or ""
-					local x, y = xy:sub(1, 1), xy:sub(2, 2)
-					if x == "A" or y == "A" then added = added + 1 end
-					if x == "M" or y == "M" then modified = modified + 1 end
-					if x == "D" or y == "D" then deleted = deleted + 1 end
-				elseif first_char == "?" then
-					added = added + 1
-				elseif first_char == "u" then
-					conflict = conflict + 1
-				end
-			end
-			local parts = {
-				"│ " .. (icons.git.repo or "") .. " " .. repo,
-				(icons.git.branch or "") .. " " .. branch
-			}
-			if ahead > 0 then table.insert(parts, "↑" .. ahead) end
-			if behind > 0 then table.insert(parts, "↓" .. behind) end
-			if added > 0 then table.insert(parts, (icons.git.add or "+") .. " " .. added) end
-			if modified > 0 then table.insert(parts, (icons.git.modify or "~") .. " " .. modified) end
-			if deleted > 0 then table.insert(parts, (icons.git.delete or "-") .. " " .. deleted) end
-			if conflict > 0 then table.insert(parts, (icons.git.conflict or "!") .. " " .. conflict) end
-			local diff_total = added + modified + deleted + conflict
-			if diff_total > 0 then
-				table.insert(parts, (icons.git.diff or "≡") .. " " .. diff_total)
-			end
-			git_cache.status = table.concat(parts, " ")
-		end
-	end
-	return git_cache.status
+        local now = vim.loop.hrtime() / 1e9
+        if now - git_cache.last_update > 2 then
+                git_cache.last_update = now
+                local branch = vim.fn.system("git branch --show-current 2>/dev/null"):gsub("\n", "")
+                if branch == "" then
+                        git_cache.status = ""
+                else
+                        local toplevel = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("\n", "")
+                        local repo = vim.fn.fnamemodify(toplevel, ":t")
+                        if #repo > max_repo_name_length then
+                                repo = repo:sub(1, max_repo_name_length) .. "..."
+                        end
+                        local status = vim.fn.systemlist("git status --porcelain=v2 --branch 2>/dev/null")
+                        local ahead, behind = 0, 0
+                        local added, modified, deleted, conflict = 0, 0, 0, 0
+                        for _, line in ipairs(status) do
+                                local a, b = line:match("^# branch%.ab%s+([%+%-]?%d+)%s+([%+%-]?%d+)")
+                                if a and b then
+                                        ahead, behind = tonumber(a) or 0, tonumber(b) or 0
+                                end
+                                local first_char = line:sub(1, 1)
+                                if first_char == "1" or first_char == "2" then
+                                        local parts_line = vim.split(line, "%s+")
+                                        local xy = parts_line[2] or ""
+                                        local x, y = xy:sub(1, 1), xy:sub(2, 2)
+                                        if x == "A" or y == "A" then added = added + 1 end
+                                        if x == "M" or y == "M" then modified = modified + 1 end
+                                        if x == "D" or y == "D" then deleted = deleted + 1 end
+                                elseif first_char == "?" then
+                                        added = added + 1
+                                elseif first_char == "u" then
+                                        conflict = conflict + 1
+                                end
+                        end
+                        local parts = {
+                                "│ " .. (icons.git.repo or "") .. " " .. repo,
+                                (icons.git.branch or "") .. " " .. branch
+                        }
+                        if ahead > 0 then table.insert(parts, "↑" .. ahead) end
+                        if behind > 0 then table.insert(parts, "↓" .. behind) end
+                        if added > 0 then table.insert(parts, (icons.git.add or "+") .. " " .. added) end
+                        if modified > 0 then table.insert(parts, (icons.git.modify or "~") .. " " .. modified) end
+                        if deleted > 0 then table.insert(parts, (icons.git.delete or "-") .. " " .. deleted) end
+                        if conflict > 0 then table.insert(parts, (icons.git.conflict or "!") .. " " .. conflict) end
+                        local diff_total = added + modified + deleted + conflict
+                        if diff_total > 0 then
+                                table.insert(parts, (icons.git.diff or "≡") .. " " .. diff_total)
+                        end
+                        git_cache.status = table.concat(parts, " ")
+                end
+        end
+        return git_cache.status
 end
 
 -- ==== utilities ====
 
 local function python_venv()
-	local ft = vim.bo.filetype
-	local ext = vim.fn.expand("%:e")
-	if ft ~= "python" and ext ~= "py" then
-		return ""
-	end
-	local venv = vim.env.VIRTUAL_ENV
-	if not venv or venv == "" then
-		return ""
-	end
-	local venv_name = vim.fn.fnamemodify(venv, ":t")
-	if venv_name == "venv" or venv_name == ".venv" or venv_name == "env" then
-		local project = vim.fn.fnamemodify(venv, ":h:t")
-		return " " .. "" .. project .. " "
-	end
-	return "  " .. " " .. venv_name .. " "
+        local ft = vim.bo.filetype
+        local ext = vim.fn.expand("%:e")
+        if ft ~= "python" and ext ~= "py" then
+                return ""
+        end
+        local venv = vim.env.VIRTUAL_ENV
+        if not venv or venv == "" then
+                return ""
+        end
+        local venv_name = vim.fn.fnamemodify(venv, ":t")
+        if venv_name == "venv" or venv_name == ".venv" or venv_name == "env" then
+                local project = vim.fn.fnamemodify(venv, ":h:t")
+                return " " .. "" .. project .. " "
+        end
+        return "  " .. " " .. venv_name .. " "
 end
 
 local function selected_lines()
-	if vim.fn.mode():find("[vV]") == nil then
-		return ""
-	end
-	local start_pos = vim.fn.getpos("v")[2]
-	local end_pos = vim.fn.getpos(".")[2]
-	local lines = math.abs(end_pos - start_pos) + 1
-	return " " .. lines .. " lines │"
+        if vim.fn.mode():find("[vV]") == nil then
+                return ""
+        end
+        local start_pos = vim.fn.getpos("v")[2]
+        local end_pos = vim.fn.getpos(".")[2]
+        local lines = math.abs(end_pos - start_pos) + 1
+        return " " .. lines .. " lines │"
 end
 
 _G.macro_recording = ""
 autocmd("RecordingEnter", {
-	callback = function()
-		local reg = vim.fn.reg_recording()
-		if reg ~= "" then
-			_G.macro_recording = " " .. ""
-		end
-	end,
+        callback = function()
+                local reg = vim.fn.reg_recording()
+                if reg ~= "" then
+                        _G.macro_recording = " " .. ""
+                end
+        end,
 })
 autocmd("RecordingLeave", {
-	callback = function()
-		_G.macro_recording = ""
-	end,
+        callback = function()
+                _G.macro_recording = ""
+        end,
 })
 
 local function word_count()
-	local ext = vim.fn.expand("%:e")
-	if ext ~= "md" and ext ~= "typ" and ext ~= "txt" then
-		return ""
-	end
-	local wc = vim.fn.wordcount()
-	return wc.words > 0 and (icons.ui.wordcount .. " " .. wc.words .. " words │") or ""
+        local ext = vim.fn.expand("%:e")
+        if ext ~= "md" and ext ~= "typ" and ext ~= "txt" then
+                return ""
+        end
+        local wc = vim.fn.wordcount()
+        return wc.words > 0 and (icons.ui.wordcount .. " " .. wc.words .. " words │") or ""
 end
 
 local function mode_icon()
-	return (icons.modes[vim.fn.mode()] .. " ") or (" " .. vim.fn.mode():upper())
+        return (icons.modes[vim.fn.mode()] .. " ") or (" " .. vim.fn.mode():upper())
 end
 
 local function lsp_info()
-	local clients = vim.lsp.get_clients({ bufnr = 0 })
-	if #clients > 0 then
-		return " │ " .. icons.ui.gear .. " " .. clients[1].name .. " "
-	end
-	return ""
+        local clients = vim.lsp.get_clients({ bufnr = 0 })
+        if #clients > 0 then
+                return " │ " .. icons.ui.gear .. " " .. clients[1].name .. " "
+        end
+        return ""
 end
 
 -- ==== file ====
 
 for ft, entry in pairs(icons.lang) do
-	vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = colors.bg_deep })
+        vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = colors.bg_deep })
 end
 local function file_type_icon()
-	local ft = vim.bo.filetype
-	local entry = icons.lang[ft]
-	if entry then
-		local hl = " %#FileIcon_" .. ft .. "#"
-		return hl .. entry.icon .. "%*"
-	else
-		return icons.ui.unrec_file
-	end
+        local ft = vim.bo.filetype
+        local entry = icons.lang[ft]
+        if entry then
+                local hl = " %#FileIcon_" .. ft .. "#"
+                return hl .. entry.icon .. "%*"
+        else
+                return icons.ui.unrec_file
+        end
 end
 
 local function short_filepath()
-	local path = vim.fn.expand("%:p")
-	local parts = vim.split(path, "/", { trimempty = true })
-	local count = #parts
-	return table.concat({
-		parts[count - 2] or "",
-		parts[count - 1] or "",
-		parts[count] or ""
-	}, "/")
+        local path = vim.fn.expand("%:p")
+        local parts = vim.split(path, "/", { trimempty = true })
+        local count = #parts
+        return table.concat({
+                parts[count - 2] or "",
+                parts[count - 1] or "",
+                parts[count] or ""
+        }, "/")
 end
 
 local function file_type_filename()
-	local ft = vim.bo.filetype
-	local entry = icons.lang[ft]
-	local hl = entry and "%#FileIcon_" .. ft .. "#" or "%#StatusFilename#"
-	return hl .. " " .. short_filepath() .. " " .. "%*"
+        local ft = vim.bo.filetype
+        local entry = icons.lang[ft]
+        local hl = entry and "%#FileIcon_" .. ft .. "#" or "%#StatusFilename#"
+        return hl .. " " .. short_filepath() .. " " .. "%*"
 end
 
 -- ==== diagnostics ====
 
 local diagnostics_levels = {
-	{ name = "Error", icon = icons.diagn.error,       severity = vim.diagnostic.severity.ERROR },
-	{ name = "Warn",  icon = icons.diagn.warning,     severity = vim.diagnostic.severity.WARN },
-	{ name = "Info",  icon = icons.diagn.information, severity = vim.diagnostic.severity.INFO },
-	{ name = "Hint",  icon = icons.diagn.hint,        severity = vim.diagnostic.severity.HINT },
+        { name = "Error", icon = icons.diagn.error,       severity = vim.diagnostic.severity.ERROR },
+        { name = "Warn",  icon = icons.diagn.warning,     severity = vim.diagnostic.severity.WARN },
+        { name = "Info",  icon = icons.diagn.information, severity = vim.diagnostic.severity.INFO },
+        { name = "Hint",  icon = icons.diagn.hint,        severity = vim.diagnostic.severity.HINT },
 }
 
 local function diagnostics_component(name, icon, severity)
-	local count = #vim.diagnostic.get(0, { severity = severity })
-	return count > 0 and (icon .. " " .. count .. " ") or ""
+        local count = #vim.diagnostic.get(0, { severity = severity })
+        return count > 0 and (icon .. " " .. count .. " ") or ""
 end
 
 local function diagnostics_summary()
-	for _, level in ipairs(diagnostics_levels) do
-		if #vim.diagnostic.get(0, { severity = level.severity }) > 0 then
-			return true
-		end
-	end
-	return false
+        for _, level in ipairs(diagnostics_levels) do
+                if #vim.diagnostic.get(0, { severity = level.severity }) > 0 then
+                        return true
+                end
+        end
+        return false
 end
 
 for _, level in ipairs(diagnostics_levels) do
-	vim.api.nvim_set_hl(0, "StatusDiagnostics" .. level.name, {
-		fg = vim.api.nvim_get_hl(0, { name = "Diagnostic" .. level.name }).fg,
-		bg = colors.bg_deep,
-		bold = true,
-	})
+        vim.api.nvim_set_hl(0, "StatusDiagnostics" .. level.name, {
+                fg = vim.api.nvim_get_hl(0, { name = "Diagnostic" .. level.name }).fg,
+                bg = colors.bg_deep,
+                bold = true,
+        })
 end
 
 -- ==== scrollbar ====
@@ -200,93 +200,93 @@ end
 local SBAR = { "󱃓 ", "󰪞 ", "󰪟 ", "󰪠 ", "󰪡 ", "󰪢 ", "󰪣 ", "󰪤 ", "󰪥 " }
 
 local function scrollbar()
-	local cur = vim.api.nvim_win_get_cursor(0)[1]
-	local total = vim.api.nvim_buf_line_count(0)
-	if total == 0 then return "" end
-	local idx = math.floor((cur - 1) / total * #SBAR) + 1
-	idx = math.max(1, math.min(idx, #SBAR))
-	return "%#StatusScrollbar# " .. SBAR[idx]:rep(1) .. "%*"
+        local cur = vim.api.nvim_win_get_cursor(0)[1]
+        local total = vim.api.nvim_buf_line_count(0)
+        if total == 0 then return "" end
+        local idx = math.floor((cur - 1) / total * #SBAR) + 1
+        idx = math.max(1, math.min(idx, #SBAR))
+        return "%#StatusScrollbar# " .. SBAR[idx]:rep(1) .. "%*"
 end
 
 -- ==== highlights ====
 
 local statusline_highlights = {
-	StatusLine       = { fg = colors.fg_main, bg = "none", bold = false },
-	StatusFilename   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
-	StatusFileType   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
-	StatusKey        = { fg = colors.fg_mid, bg = colors.bg_deep, bold = false },
-	ColumnPercentage = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
-	endBit           = { fg = colors.bg_deep, bg = "none", },
-	StatusPosition   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
-	StatusMode       = { fg = colors.fg_main, bg = colors.bg_deep },
-	StatusScrollbar  = { fg = aux_colors.accent, bg = colors.bg_deep, bold = true },
-	StatusSelection  = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
-	StatusGit        = { fg = colors.fg_main, bg = colors.bg_deep },
-	MacroRec         = { fg = aux_colors.macro_statusline, bg = "none" },
+        StatusLine       = { fg = colors.fg_main, bg = "none", bold = false },
+        StatusFilename   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
+        StatusFileType   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
+        StatusKey        = { fg = colors.fg_mid, bg = colors.bg_deep, bold = false },
+        ColumnPercentage = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
+        endBit           = { fg = colors.bg_deep, bg = "none", },
+        StatusPosition   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
+        StatusMode       = { fg = colors.fg_main, bg = colors.bg_deep },
+        StatusScrollbar  = { fg = aux_colors.accent, bg = colors.bg_deep, bold = true },
+        StatusSelection  = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
+        StatusGit        = { fg = colors.fg_main, bg = colors.bg_deep },
+        MacroRec         = { fg = aux_colors.macro_statusline, bg = "none" },
 }
 for group, opts in pairs(statusline_highlights) do
-	vim.api.nvim_set_hl(0, group, opts)
+        vim.api.nvim_set_hl(0, group, opts)
 end
 
 -- ==== assembly ====
 
 _G.Statusline = function()
-	local parts = {
-		"%#endBit#" .. "",
-		"%#StatusMode# " .. mode_icon() .. "",
-		"%#endBit#" .. " ",
-		"%#endBit#" .. "",
-		"%#StatusFileType#" .. file_type_icon() .. "",
-		file_type_filename(),
-		"%#StatusGit#" .. git_info(),
-		"%#StatusGit#" .. lsp_info() .. "",
-		"%#StatusGit#" .. python_venv() .. "",
-		"%#endBit#" .. " ",
-		"%=",
-	}
+        local parts = {
+                "%#endBit#" .. "",
+                "%#StatusMode# " .. mode_icon() .. "",
+                "%#endBit#" .. " ",
+                "%#endBit#" .. "",
+                "%#StatusFileType#" .. file_type_icon() .. "",
+                file_type_filename(),
+                "%#StatusGit#" .. git_info(),
+                "%#StatusGit#" .. lsp_info() .. "",
+                "%#StatusGit#" .. python_venv() .. "",
+                "%#endBit#" .. " ",
+                "%=",
+        }
 
-	local summary = diagnostics_summary()
-	if summary then
-		table.insert(parts, "%#endBit#" .. "█")
+        local summary = diagnostics_summary()
+        if summary then
+                table.insert(parts, "%#endBit#" .. "█")
 
-		for _, level in ipairs(diagnostics_levels) do
-			table.insert(parts, "%#StatusDiagnostics" .. "" .. level.name .. "#")
-			table.insert(parts, diagnostics_component(
-				level.name,
-				level.icon,
-				level.severity
-			))
-		end
+                for _, level in ipairs(diagnostics_levels) do
+                        table.insert(parts, "%#StatusDiagnostics" .. "" .. level.name .. "#")
+                        table.insert(parts, diagnostics_component(
+                                level.name,
+                                level.icon,
+                                level.severity
+                        ))
+                end
 
-		table.insert(parts, "%#endBit#" .. " ")
-	end
+                table.insert(parts, "%#endBit#" .. " ")
+        end
 
-	table.insert(parts, "%#endBit#" .. "")
-	table.insert(parts, "%#StatusMode#" .. word_count())
-	table.insert(parts, "%#StatusSelection#" .. selected_lines())
-	table.insert(parts, scrollbar())
-	table.insert(parts, "%#StatusPosition#" .. "%l:" .. "%c ")
-	table.insert(parts, "%#endBit#" .. "")
-	if _G.macro_recording ~= "" then
-		table.insert(parts, "%#MacroRec#" .. "" .. _G.macro_recording)
-	end
+        table.insert(parts, "%#endBit#" .. "")
+        table.insert(parts, "%#StatusMode#" .. word_count())
+        table.insert(parts, "%#StatusSelection#" .. selected_lines())
+        table.insert(parts, scrollbar())
+        table.insert(parts, "%#StatusPosition#" .. "%l:" .. "%c ")
+        table.insert(parts, "%#endBit#" .. "")
+        if _G.macro_recording ~= "" then
+                table.insert(parts, "%#MacroRec#" .. "" .. _G.macro_recording)
+        end
 
-	return table.concat(parts)
+        return table.concat(parts)
 end
 
 vim.api.nvim_create_autocmd("TermClose", {
-	callback = function()
-		vim.opt_local.statusline = "%!v:lua.Statusline()"
-	end,
+        callback = function()
+                vim.opt_local.statusline = "%!v:lua.Statusline()"
+        end,
 })
 vim.api.nvim_create_autocmd("TermOpen", {
-	callback = function()
-		vim.opt_local.winhighlight = "Normal:Normal,StatusLine:Normal,StatusLineNC:Normal"
-		vim.opt_local.statusline = " "
-	end,
+        callback = function()
+                vim.opt_local.winhighlight = "Normal:Normal,StatusLine:Normal,StatusLineNC:Normal"
+                vim.opt_local.statusline = " "
+        end,
 })
 vim.api.nvim_create_autocmd("BufEnter", {
-	callback = function()
-		vim.opt_local.statusline = "%!v:lua.Statusline()"
-	end,
+        callback = function()
+                vim.opt_local.statusline = "%!v:lua.Statusline()"
+        end,
 })

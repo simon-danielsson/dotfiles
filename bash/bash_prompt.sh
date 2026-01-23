@@ -1,22 +1,32 @@
 #!/usr/bin/env bash
 
 # Foreground colors
-FG_DARK1="\[\e[38;5;234m\]"   # #222222
-FG_DARK2="\[\e[38;5;236m\]"   # #333333
+FG_DARK1="\[\e[38;5;235m\]"   # #25252d
+FG_DARK2="\[\e[38;5;238m\]"   # #40404f
 FG_WHITE="\[\e[38;5;15m\]"    # #ffffff
 
 # Background colors
-BG_DARK1="\[\e[48;5;234m\]"   # #222222
-BG_DARK2="\[\e[48;5;236m\]"   # #333333
+BG_DARK1="\[\e[48;5;235m\]"   # #25252d
+BG_DARK2="\[\e[48;5;238m\]"   # #40404f
 BG_WHITE="\[\e[48;5;15m\]"    # #ffffff
+
+# # Foreground colors
+# FG_DARK1="\[\e[38;5;234m\]"   # #222222
+# FG_DARK2="\[\e[38;5;236m\]"   # #333333
+# FG_WHITE="\[\e[38;5;15m\]"    # #ffffff
+#
+# # Background colors
+# BG_DARK1="\[\e[48;5;234m\]"   # #222222
+# BG_DARK2="\[\e[48;5;236m\]"   # #333333
+# BG_WHITE="\[\e[48;5;15m\]"    # #ffffff
 
 # ==== colours ====
 
 RESET="\[\e[0m\]"
 
 # dir
-DIR="\[\e[38;5;15;48;5;236m\]"
-END_DIR="\[\e[38;5;236m\]"
+DIR="\[\e[38;5;15;48;5;238m\]"
+END_DIR="\[\e[38;5;238m\]"
 
 # git branch
 GIT="\[\e[34;5;15;48;5;236m\]"
