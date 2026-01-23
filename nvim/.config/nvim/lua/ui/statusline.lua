@@ -161,7 +161,7 @@ local function file_type_filename()
 	local ft = vim.bo.filetype
 	local entry = icons.lang[ft]
 	local hl = entry and "%#FileIcon_" .. ft .. "#" or "%#StatusFilename#"
-	return hl .. " " .. short_filepath() .. "" .. "%*"
+	return hl .. " " .. short_filepath() .. " " .. "%*"
 end
 
 -- ==== diagnostics ====

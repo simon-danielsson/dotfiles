@@ -4,6 +4,7 @@ require("native.options")
 require("native.autocmds")
 require("native.netrw")
 require("native.keymaps")
+require("native.indenting")
 
 -- ==== UI ====
 

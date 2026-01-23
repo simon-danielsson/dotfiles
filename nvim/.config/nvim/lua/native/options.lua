@@ -49,11 +49,11 @@ opt.diffopt     = {
 
 -- ==== Cursor & Statusline ====
 
-o.mouse         = 'a'
-opt.mouse       = "a"
-opt.cursorline  = true
-o.showmode      = false
-o.laststatus    = 3
+o.mouse        = 'a'
+opt.mouse      = "a"
+opt.cursorline = true
+o.showmode     = false
+o.laststatus   = 3
 vim.cmd("hi noCursor blend=0 cterm=bold")
 vim.opt.guicursor = "n-v-c:block-blinkwait700-blinkoff400-blinkon250,i:ver25-blinkwait700-blinkoff400-blinkon250,r:hor20"
 

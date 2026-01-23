@@ -15,7 +15,7 @@ if [ -z "$TMUX" ]; then
 	else
 		tmux new-session -d -s main -c ~
 		tmux new-window -t main -n notes -c ~/notes || true
-		tmux new-window -t main -n dotfiles -c ~/dotfiles || true
+		tmux new-window -t main -n system -c ~ "glances" || true
 		# tmux new-window -t main -n journal -c ~/journal "zsh -i -c journal" || true
 		# tmux new-window -t main -n music -c ~/dev "stim" || true
 		tmux select-window -t main:1
@@ -23,3 +23,6 @@ if [ -z "$TMUX" ]; then
 	fi
 fi
 
+
+# Created by `pipx` on 2026-01-21 06:06:30
+export PATH="$PATH:/Users/simondanielsson/.local/bin"

@@ -1,13 +1,33 @@
-local icons = require("ui.icons")
-local colors = require("ui.theme").colors
+local icons             = require("ui.icons")
+local colors            = require("ui.theme").colors
 
--- ==== Set Colorscheme ====
+-- ==== terminal colors ====
 
-vim.g.border = icons.border
+vim.g.terminal_color_0  = "#1e1e2e" -- black
+vim.g.terminal_color_1  = "#f38ba8" -- red
+vim.g.terminal_color_2  = "#a6e3a1" -- green
+vim.g.terminal_color_3  = "#f9e2af" -- yellow
+vim.g.terminal_color_4  = "#89b4fa" -- blue
+vim.g.terminal_color_5  = "#f5c2e7" -- magenta
+vim.g.terminal_color_6  = "#94e2d5" -- cyan
+vim.g.terminal_color_7  = "#ffffff" -- white
+
+vim.g.terminal_color_8  = colors.fg_mid
+vim.g.terminal_color_9  = "#f38ba8" -- bright red
+vim.g.terminal_color_10 = "#a6e3a1" -- bright green
+vim.g.terminal_color_11 = "#f9e2af" -- bright yellow
+vim.g.terminal_color_12 = "#89b4fa" -- bright blue
+vim.g.terminal_color_13 = "#f5c2e7" -- bright magenta
+vim.g.terminal_color_14 = "#94e2d5" -- bright cyan
+vim.g.terminal_color_15 = "#ffffff" -- bright white
+
+-- ==== borders ====
+
+vim.g.border            = icons.border
 
 -- ==== Diagnostics ====
 
-local diag_icons = {
+local diag_icons        = {
 	[vim.diagnostic.severity.ERROR] = icons.diagn.error,
 	[vim.diagnostic.severity.WARN]  = icons.diagn.warning,
 	[vim.diagnostic.severity.INFO]  = icons.diagn.information,
@@ -27,7 +47,7 @@ for name, icon in pairs({
 	DiagnosticSignInfo  = diag_icons[vim.diagnostic.severity.INFO],
 	DiagnosticSignHint  = diag_icons[vim.diagnostic.severity.HINT],
 }) do
-	vim.fn.sign_define(name, { text = icon, texthl = name })
+vim.fn.sign_define(name, { text = icon, texthl = name })
 end
 
 -- ==== Color Overrides ====
@@ -66,9 +86,10 @@ vim.api.nvim_create_autocmd("FileType", {
 -- Override groups with custom colors and styles
 local override_groups = {
 	CursorLine              = { bg = colors.bg_deep },
+	TermNormal              = { bg = colors.bg_mid },
 	StatusLineNC            = { bg = colors.bg_mid },
 	StatusLineNormal        = { bg = colors.bg_mid },
-	LineNr                  = { fg = colors.fg_mid },
+	LineNr                  = { fg = colors.fg_mid, bg = colors.bg_mid },
 	Comment                 = { fg = colors.fg_mid },
 	NormalFloat             = { fg = colors.fg_main, bg = "none" },
 	FloatBorder             = { fg = colors.fg_mid, bg = "none" },
@@ -76,7 +97,7 @@ local override_groups = {
 	TabLine                 = { bg = colors.bg_deep },
 	TabLineFill             = { bg = colors.bg_deep },
 	TabLineSel              = { bg = colors.fg_mid, bold = true },
-	WinSeparator            = { bg = "", fg = colors.fg_mid },
+	WinSeparator            = { bg = "none", fg = colors.fg_mid },
 	ToolbarButton           = { bg = colors.fg_main, bold = true, reverse = true },
 	EndOfBuffer             = { bg = "none" },
 	ColorColumn             = { ctermbg = 0, bg = colors.bg_deep },
@@ -106,9 +127,6 @@ local override_groups = {
 
 	-- noice / nvim.notify
 	NotifyBackground        = { bg = colors.bg_mid },
-	-- CmdlineIcon             = { fg = colors.fg_main, bg = colors.bg_mid },
-	-- Cmdline                 = { fg = colors.fg_main, bg = colors.bg_mid },
-	-- Title                   = { fg = colors.fg_main, bg = colors.bg_mid },
 	NoiceCmdlinePopup       = { fg = colors.fg_mid, bg = "none" },
 	NoiceCmdlinePopupBorder = { fg = colors.fg_mid, bg = "none" },
 }

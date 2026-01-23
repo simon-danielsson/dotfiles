@@ -14,13 +14,16 @@ vim.notify = require("notify")
 
 require("noice").setup({
 	lsp = {
-		override = {
-			["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-			["vim.lsp.util.stylize_markdown"] = true,
-			["cmp.entry.get_documentation"] = true,
-		},
+		hover = {
+			enabled = true,
+			opts = {
+				border = {
+					style = "rounded",
+					padding = { 0, 1 },
+				},
+			}
+		}
 	},
-
 	cmdline = {
 		enabled = true, -- enables the Noice cmdline UI
 		view = "cmdline_input",
@@ -32,6 +35,15 @@ require("noice").setup({
 			lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = icon.lua, lang = "lua" },
 			help = { pattern = "^:%s*he?l?p?%s+", icon = icon.help },
 			input = { view = "cmdline_input", icon = "󰥻 " }, -- Used by input()
+		},
+	},
+	routes = {
+		{
+			filter = {
+				event = "msg_show",
+				kind = "",
+			},
+			opts = { skip = true },
 		},
 	},
 

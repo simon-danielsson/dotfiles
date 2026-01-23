@@ -6,20 +6,34 @@ alias q="~/dotfiles/scripts/kill-nvim-and-tmux.sh"
 # add to clipboard
 alias clip="pbcopy"
 
-# nvim nightly
-alias nvim="bob run nightly"
+# neovim
+NVIM="bob run nightly"
+alias nvim=$NVIM
+alias code=$NVIM
+alias v=$NVIM
+alias vim=$NVIM
 
 # emoji picker
-alias emoji="/Users/simondanielsson/dotfiles/scripts/emoji-picker.sh"
+EM_PICKER="/Users/simondanielsson/dotfiles/scripts/emoji-picker.sh"
+alias emoji=$EM_PICKER
+alias em=$EM_PICKER
 
 # devicon picker
-alias devicon="/Users/simondanielsson/dotfiles/scripts/devicon-picker.sh"
+DEV_PICKER="/Users/simondanielsson/dotfiles/scripts/devicon-picker.sh"
+alias devicon=$DEV_PICKER
+alias dev=$DEV_PICKER
 
 # source .bashrc
 alias sbash="source ~/.bashrc"
 
 # neofetch (doubles as clear and go back to home dir)
 alias nf="cd && clear && neofetch"
+
+# DIY screensaver
+alias star="/Users/simondanielsson/dotfiles/executables/starryterm"
+
+# DIY screensaver
+alias snok="/Users/simondanielsson/dotfiles/executables/snok"
 
 # ==== journal ====
 
