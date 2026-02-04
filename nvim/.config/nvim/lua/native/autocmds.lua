@@ -275,9 +275,27 @@ vim.api.nvim_create_autocmd("FileType", {
                         local outfile = vim.fn.expand("%:r") -- same name, no extension
                         local build_path = vim.fn.expand("%:p:h") .. "/build.sh"
                         local fallback_cmd = string.format(
-                        "echo \"error whilst launching build script, try launching it from your index.html\"")
+                                "echo \"error whilst launching build script, try launching it from your index.html\"")
                         run_build_or_fallback(build_path, fallback_cmd)
                 end, { buffer = true, desc = "Run html (host on local server" })
+        end,
+})
+
+-- haskell
+vim.api.nvim_create_autocmd("FileType", {
+        group = term_group,
+        pattern = "haskell",
+        callback = function()
+                vim.keymap.set("n", "<leader>m", function()
+                        vim.cmd('write')
+                        vim.lsp.buf.format({ async = true })
+                        local file = vim.fn.expand("%")
+                        local outfile = vim.fn.expand("%:r") -- same name, no extension
+                        local build_path = vim.fn.expand("%:p:h") .. "/build.sh"
+                        local fallback_cmd = string.format("ghc \"%s\" && ./\"%s\"",
+                                file, outfile)
+                        run_build_or_fallback(build_path, fallback_cmd)
+                end, { buffer = true, desc = "Compile and run C file" })
         end,
 })
 

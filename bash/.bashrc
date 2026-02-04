@@ -6,6 +6,7 @@ export LESS='--mouse --wheel-lines=1'
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 . "$HOME/.cargo/env"
 export PATH="$PATH:/Users/simondanielsson/.local/bin"
+export PATH="$HOME/.ghcup/bin:$PATH"
 
 if [ -f ~/bash_aliases.sh ]; then
 	source ~/bash_aliases.sh
@@ -18,10 +19,8 @@ if [ -z "$TMUX" ]; then
 		exec tmux attach-session -t main
 	else
 		tmux new-session -d -s main -c ~
-		tmux new-window -t main -n notes -c ~/notes || true
 		tmux new-window -t main -n system -c ~ "glances" || true
-		# tmux new-window -t main -n journal -c ~/journal "zsh -i -c journal" || true
-		# tmux new-window -t main -n music -c ~/dev "stim" || true
+		tmux new-window -t main -n journal -c ~/journal "bash -i -c journal" || true
 		tmux select-window -t main:1
 		exec tmux attach-session -t main
 	fi

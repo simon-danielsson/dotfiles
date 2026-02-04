@@ -1,4 +1,4 @@
-# ==== general ====
+# === general ===
 
 # kill all nvim and tmux processes, and exit ghostty
 alias q="~/dotfiles/scripts/kill-nvim-and-tmux.sh"
@@ -12,7 +12,6 @@ alias nvim=$NVIM
 alias code=$NVIM
 alias v=$NVIM
 alias nv=$NVIM
-alias vim=$NVIM
 alias nivm=$NVIM
 
 # emoji picker
@@ -31,19 +30,28 @@ alias sbash="source ~/.bashrc"
 # neofetch (doubles as clear and go back to home dir)
 alias nf="cd && clear && neofetch"
 
-# DIY screensaver
-alias star="/Users/simondanielsson/dotfiles/executables/starryterm"
+# terminal cheat lookup
+cheat() {
+        curl cheat.sh/$@
+}
 
-# DIY screensaver
-alias snok="/Users/simondanielsson/dotfiles/executables/snok"
+# shorten url
+shorten() {
+        curl -F url=$@ https://shorta.link
+}
 
-# ==== journal ====
+# define word
+define() {
+        curl dict.org/d:$@
+}
+
+# === journal ===
 
 journal() {
         local today=$(date +"%Y-%m-%d")
         local dir="$HOME/journal"
-        local file="$dir/${today}.typ"
-        local template="$dir/template.typ"
+        local file="$dir/${today}.md"
+        local template="$dir/template.md"
         mkdir -p "$dir"
         # Only copy template if the file doesn't already exist
         if [ ! -f "$file" ]; then
@@ -56,7 +64,7 @@ journal() {
         nvim "$file"
 }
 
-# ==== notes ====
+# === notes ===
 
 alias notes="cd ~/notes"
 
@@ -79,10 +87,10 @@ n() {
         nvim "$file"
 }
 
-# ==== directories and search ====
+# === directories and search ]===
 
-# eza (better ls)
-alias ls="eza --color=always --icons --group-directories-first --git --no-time --no-permissions"
+# my own worse version of ls
+alias ta="ta -i -w -a -e"
 
 # Local search from current directory
 unalias s 2>/dev/null
