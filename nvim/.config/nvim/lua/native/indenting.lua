@@ -7,9 +7,9 @@ local autocmd = vim.api.nvim_create_autocmd
 o.expandtab   = true
 o.smartindent = true
 o.autoindent  = true
--- o.tabstop     = 4
--- o.shiftwidth  = 4
--- o.softtabstop = 4
+o.tabstop     = 4
+o.shiftwidth  = 4
+o.softtabstop = 4
 
 -- -- Filetype-specific settings
 -- autocmd({ "FileType", "BufWritePre" }, {
@@ -25,16 +25,16 @@ o.autoindent  = true
 -- })
 
 autocmd("FileType", {
-	pattern = { "html", "css" },
-	callback = function()
-		vim.opt_local.list      = true
-		vim.opt_local.listchars = {
-			tab = "║ ",
-			trail = "•",
-			nbsp = " ",
-		}
-		bo.tabstop              = 4
-		bo.shiftwidth           = 4
-		bo.softtabstop          = 4
-	end,
+        pattern = { "html", "css" },
+        callback = function()
+                vim.opt_local.list      = true
+                vim.opt_local.listchars = {
+                        tab = "║ ",
+                        trail = "•",
+                        nbsp = " ",
+                }
+                bo.tabstop              = 4
+                bo.shiftwidth           = 4
+                bo.softtabstop          = 4
+        end,
 })

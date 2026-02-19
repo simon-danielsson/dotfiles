@@ -27,3 +27,8 @@ if [ -z "$TMUX" ]; then
 fi
 
 eval "$(starship init bash)"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/simondanielsson/.lmstudio/bin"
+# End of LM Studio CLI section
+

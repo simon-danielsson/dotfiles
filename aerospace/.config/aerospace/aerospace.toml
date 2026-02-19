@@ -124,6 +124,12 @@ on-mode-changed = []
     w = ['flatten-workspace-tree', 'mode main'] # reset layout
     f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
     backspace = ['close-all-windows-but-current', 'mode main']
+        1 = ['move-node-to-workspace 1']
+        2 = ['move-node-to-workspace 2']
+        3 = ['move-node-to-workspace 3']
+        4 = ['move-node-to-workspace 4']
+        5 = ['move-node-to-workspace 5']
+        6 = ['move-node-to-workspace 6']
 
     alt-shift-h = ['join-with left', 'mode main']
     alt-shift-j = ['join-with down', 'mode main']

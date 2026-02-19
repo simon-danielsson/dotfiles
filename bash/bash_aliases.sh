@@ -1,5 +1,8 @@
 # === general ===
 
+# safe mv command
+alias mv="mv -i"
+
 # kill all nvim and tmux processes, and exit ghostty
 alias q="~/dotfiles/scripts/kill-nvim-and-tmux.sh"
 
@@ -12,6 +15,7 @@ alias nvim=$NVIM
 alias code=$NVIM
 alias v=$NVIM
 alias nv=$NVIM
+alias nvi=$NVIM
 alias nivm=$NVIM
 
 # emoji picker
@@ -53,7 +57,7 @@ journal() {
         local file="$dir/${today}.md"
         local template="$dir/template.md"
         mkdir -p "$dir"
-        # Only copy template if the file doesn't already exist
+        # only copy template if the file doesn't already exist
         if [ ! -f "$file" ]; then
                 if [ -f "$template" ]; then
                         cp "$template" "$file"
@@ -88,6 +92,12 @@ n() {
 }
 
 # === directories and search ]===
+
+# recursively delete all .DS_Store files in current folder
+alias ds='find . -name ".DS_Store" -type f -delete'
+
+# ls default
+alias ls='ls -paGAoh -D "%d-%m-%Y %H:%M" '
 
 # my own worse version of ls
 alias ta="ta -i -w -a -e"

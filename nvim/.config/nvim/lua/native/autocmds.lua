@@ -79,7 +79,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         callback = function()
                 local ft = vim.bo.filetype
                 local ext = vim.fn.expand("%:e")
-                if ft == "markdown" or ft == "yaml" or ext == "RPP" or ext:lower() == "csv" then
+                if ft == "markdown" or ft == "yaml" or ext == "html" or ext == "RPP" or ext:lower() == "csv" then
                         return
                 end
                 local pos = vim.api.nvim_win_get_cursor(0)
@@ -255,7 +255,7 @@ vim.api.nvim_create_autocmd("FileType", {
         callback = function()
                 vim.keymap.set("n", "<leader>m", function()
                         vim.cmd('write')
-                        local python = vim.env.VIRTUAL_ENV and (vim.env.VIRTUAL_ENV .. "/bin/python") or "python3"
+                        local python = vim.env.VIRTUAL_ENV and (vim.env.VIRTUAL_ENV .. "/bin/python") or "python3.14"
                         local file = vim.fn.expand("%")
                         local build_path = vim.fn.expand("%:p:h") .. "/build.sh"
                         local fallback_cmd = python .. " " .. file
