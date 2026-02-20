@@ -1,13 +1,22 @@
 #!/usr/bin/env bash
 
-devicon_list="
+lang="
  bash
  html
  c
  javascript
  rust
- config
+ lua
+ haskell
+ csharp
+ cpp
+ python
+ java
+ ruby
+󰟓 go
+"
 
+git="
  git
  github
  gitadd
@@ -23,93 +32,112 @@ devicon_list="
  gitunstaged
  gitstaged
  gitconflict
+"
 
- rightarrow
-
- apple
+os="
+ applemac
  linux
  voidlinux
 󰣇 archlinux
- macos
  windows
+ android
+"
 
- folder
- folder-open
- file
- file-text
- download
- openhand
- rocket
- file-doc
- file-image
- file-audio
- file-video
- disk
- rss
- cloud
- gear
- search
+apps="
+ neovim
+ vim
+ emacs
  github
  gitlab
- terminal
- code
- database
- clipboard
- flask
  firefox
  steam
- android
- python
- java
- ruby
- rust
- go
- html
- javascript
- dir
- folder
- folder-open
- file
- file-text
- file-pdf
- file-zip
- file-image
- file-audio
- file-video
- check
- cross
- warning
- tick
- cross
- help
- info
- alert
+ terminal
+"
+
+arrows="
+ arrow-right
+ arrow-up
+ arrow-down
+ arrow-left
  arrow-right
  arrow-left
- arrow-down
- arrow-up
- link
- clipboard
- pen
+ arrow-up
+ arrow-down
+"
+
+files="
+ folder
+ folder-open
+ file-doc
+ file
+ file-copy
+ dir-copy
+ file-image
+ file-video
+"
+
+sys="
+ disk
+ search
+ clipboard
+ user
+"
+
+web="
+ download
+ rss
+ cloud
+ database
+ inbox
+"
+
+other="
+ file-outline
+ flask
+ code
+ time-clock
+ openhand
+ rocket
+ pen
+ config
 󱠓 brush
 󰃣 brush
 󱝱 brush-x
  brush
  roller
  paintcan
- up
- down
+"
+
+ui="
+ check
+ cross
+ warning
+ tick
+ cross
+ help
+ info
+ alert
+
+"
+
+unsorted="
+
+ file-pdf
+ arrow-down
+ arrow-up
+ link
+ shuffle
+ message
 󱧾 image-refresh
- refresh
+ loop-refresh
+ loop-refresh
  power
- settings
- toolbox
+ cart
  record
- radio
- bookmark
- circle
- triangle
- warning
+ record
+ view-eye
+ expand
+ view-eye
  redo
  calendar
  search
@@ -144,9 +172,6 @@ devicon_list="
  cross
  question
  info
- alpha
- beta
- gamma
  delta
  epsilon
  phi
@@ -155,9 +180,6 @@ devicon_list="
  exclamation
  alert
  key
- neovim
- vim
- emacs
 󰨙 toggleoff
 󰔡 toggleon
  gift
@@ -167,20 +189,26 @@ devicon_list="
  mail
  bookmark
  target
- triangle
  warning
  redo
  calendar
- clipboard
  pen
  magnet
- paint
- cog
- settings
- toolbox
 "
 
-selected=$(printf "%s\n" "$devicon_list" \
+devicons="
+$unsorted
+$os
+$ui
+$git
+$web
+$lang
+$apps
+$files
+$arrows
+"
+
+selected=$(printf "%s\n" "$devicons" \
 	| fzf --prompt="devicon > " --height=40% --reverse) || exit 0
 
 icon_char=$(printf "%s" "$selected" | awk '{print $1}')
