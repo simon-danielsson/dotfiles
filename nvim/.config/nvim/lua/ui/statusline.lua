@@ -48,16 +48,6 @@ local function git_info()
                 "│ " .. (icons.git.repo or "") .. " " .. repo,
                 (icons.git.branch or "") .. " " .. branch
             }
-            -- if ahead > 0 then table.insert(parts, "↑" .. ahead) end
-            -- if behind > 0 then table.insert(parts, "↓" .. behind) end
-            -- if added > 0 then table.insert(parts, (icons.git.add or "+") .. " " .. added) end
-            -- if modified > 0 then table.insert(parts, (icons.git.modify or "~") .. " " .. modified) end
-            -- if deleted > 0 then table.insert(parts, (icons.git.delete or "-") .. " " .. deleted) end
-            -- if conflict > 0 then table.insert(parts, (icons.git.conflict or "!") .. " " .. conflict) end
-            -- local diff_total = added + modified + deleted + conflict
-            -- if diff_total > 0 then
-            --         table.insert(parts, (icons.git.diff or "≡") .. " " .. diff_total)
-            -- end
             git_cache.status = table.concat(parts, " ")
         end
     end
@@ -84,16 +74,6 @@ local function python_venv()
     return "  " .. " " .. venv_name .. " "
 end
 
-local function selected_lines()
-    if vim.fn.mode():find("[vV]") == nil then
-        return ""
-    end
-    local start_pos = vim.fn.getpos("v")[2]
-    local end_pos = vim.fn.getpos(".")[2]
-    local lines = math.abs(end_pos - start_pos) + 1
-    return " " .. lines .. " lines │"
-end
-
 _G.macro_recording = ""
 autocmd("RecordingEnter", {
     callback = function()
@@ -115,10 +95,11 @@ local function word_count()
         return ""
     end
     local wc = vim.fn.wordcount()
-    return wc.words > 0 and (icons.ui.wordcount .. " " .. wc.words .. " words │") or ""
+    return wc.words > 0 and (" " .. wc.words .. " words │ ") or ""
 end
 
 local function mode_icon()
+    -- return (icons.modes[vim.fn.mode()] .. " ") or (" " .. vim.fn.mode():upper())
     return (icons.modes[vim.fn.mode()] .. " ") or (" " .. vim.fn.mode():upper())
 end
 
@@ -133,7 +114,7 @@ end
 -- ==== file ====
 
 for ft, entry in pairs(icons.lang) do
-    vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = colors.bg_deep })
+    vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = "none" })
 end
 local function file_type_icon()
     local ft = vim.bo.filetype
@@ -142,7 +123,7 @@ local function file_type_icon()
         local hl = " %#FileIcon_" .. ft .. "#"
         return hl .. entry.icon .. "%*"
     else
-        return icons.ui.unrec_file
+        return " " .. icons.ui.unrec_file
     end
 end
 
@@ -164,37 +145,6 @@ local function file_type_filename()
     return hl .. " " .. short_filepath() .. " " .. "%*"
 end
 
--- ==== diagnostics ====
-
-local diagnostics_levels = {
-    { name = "Error", icon = icons.diagn.error,       severity = vim.diagnostic.severity.ERROR },
-    { name = "Warn",  icon = icons.diagn.warning,     severity = vim.diagnostic.severity.WARN },
-    { name = "Info",  icon = icons.diagn.information, severity = vim.diagnostic.severity.INFO },
-    { name = "Hint",  icon = icons.diagn.hint,        severity = vim.diagnostic.severity.HINT },
-}
-
-local function diagnostics_component(name, icon, severity)
-    local count = #vim.diagnostic.get(0, { severity = severity })
-    return count > 0 and (icon .. " " .. count .. " ") or ""
-end
-
-local function diagnostics_summary()
-    for _, level in ipairs(diagnostics_levels) do
-        if #vim.diagnostic.get(0, { severity = level.severity }) > 0 then
-            return true
-        end
-    end
-    return false
-end
-
-for _, level in ipairs(diagnostics_levels) do
-    vim.api.nvim_set_hl(0, "StatusDiagnostics" .. level.name, {
-        fg = vim.api.nvim_get_hl(0, { name = "Diagnostic" .. level.name }).fg,
-        bg = colors.bg_deep,
-        bold = true,
-    })
-end
-
 -- ==== scrollbar ====
 
 local SBAR = { "󱃓 ", "󰪞 ", "󰪟 ", "󰪠 ", "󰪡 ", "󰪢 ", "󰪣 ", "󰪤 ", "󰪥 " }
@@ -210,18 +160,24 @@ end
 
 -- ==== highlights ====
 
+local g_bg = "none"
+
 local statusline_highlights = {
-    StatusLine       = { fg = colors.fg_main, bg = "none", bold = false },
-    StatusFilename   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
-    StatusFileType   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
-    StatusKey        = { fg = colors.fg_mid, bg = colors.bg_deep, bold = false },
-    ColumnPercentage = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
-    endBit           = { fg = colors.bg_deep, bg = "none", },
-    StatusPosition   = { fg = colors.fg_main, bg = colors.bg_deep, bold = false },
-    StatusMode       = { fg = colors.fg_main, bg = colors.bg_deep },
-    StatusScrollbar  = { fg = aux_colors.accent, bg = colors.bg_deep, bold = true },
-    StatusSelection  = { fg = colors.fg_main, bg = colors.bg_deep, bold = true },
-    StatusGit        = { fg = colors.fg_main, bg = colors.bg_deep },
+    StatusLine       = { fg = colors.fg_main, bg = g_bg, bold = false },
+    StatusLineNC     = { fg = colors.fg_main, bg = g_bg, bold = false },
+    StatusLineNormal = { fg = colors.fg_main, bg = g_bg, bold = false },
+    StatusLineTermNC = { fg = colors.fg_main, bg = g_bg, bold = false },
+    StatusFilename   = { fg = colors.fg_main, bg = g_bg, bold = false },
+    StatusFileType   = { fg = colors.fg_main, bg = g_bg, bold = false },
+    StatusKey        = { fg = colors.fg_mid, bg = g_bg, bold = false },
+    ColumnPercentage = { fg = colors.fg_main, bg = g_bg, bold = true },
+    endBit           = { fg = colors.bg_deep2, bg = g_bg, },
+    StatusPosition   = { fg = colors.fg_mid, bg = g_bg, bold = false },
+    StatusMode       = { fg = colors.fg_mid, bg = g_bg },
+    StatusScrollbar  = { fg = aux_colors.accent, bg = g_bg, bold = true },
+    StatusSelection  = { fg = colors.fg_mid, bg = g_bg, bold = false },
+    StatusGit        = { fg = colors.fg_mid, bg = g_bg },
+    StatusLsp        = { fg = colors.fg_mid, bg = g_bg },
     MacroRec         = { fg = aux_colors.macro_statusline, bg = "none" },
 }
 for group, opts in pairs(statusline_highlights) do
@@ -232,41 +188,18 @@ end
 
 _G.Statusline = function()
     local parts = {
-        "%#endBit#" .. "",
-        "%#StatusMode# " .. mode_icon() .. "",
-        "%#endBit#" .. " ",
-        "%#endBit#" .. "",
+        "%#StatusMode#  " .. mode_icon() .. " │",
         "%#StatusFileType#" .. file_type_icon() .. "",
         file_type_filename(),
         "%#StatusGit#" .. git_info(),
-        "%#StatusGit#" .. lsp_info() .. "",
-        "%#StatusGit#" .. python_venv() .. "",
-        "%#endBit#" .. " ",
+        "%#StatusLsp#" .. lsp_info() .. "",
+        "%#StatusLsp#" .. python_venv() .. "",
         "%=",
     }
 
-    local summary = diagnostics_summary()
-    if summary then
-        table.insert(parts, "%#endBit#" .. "█")
-
-        for _, level in ipairs(diagnostics_levels) do
-            table.insert(parts, "%#StatusDiagnostics" .. "" .. level.name .. "#")
-            table.insert(parts, diagnostics_component(
-                level.name,
-                level.icon,
-                level.severity
-            ))
-        end
-
-        table.insert(parts, "%#endBit#" .. " ")
-    end
-
-    table.insert(parts, "%#endBit#" .. "")
     table.insert(parts, "%#StatusMode#" .. word_count())
-    table.insert(parts, "%#StatusSelection#" .. selected_lines())
+    table.insert(parts, "%#StatusPosition#" .. "%l:" .. "%c")
     table.insert(parts, scrollbar())
-    table.insert(parts, "%#StatusPosition#" .. "%l:" .. "%c ")
-    table.insert(parts, "%#endBit#" .. "")
     if _G.macro_recording ~= "" then
         table.insert(parts, "%#MacroRec#" .. "" .. _G.macro_recording)
     end

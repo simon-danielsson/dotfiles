@@ -41,19 +41,19 @@ o.equalalways   = true
 opt.inccommand  = 'split'
 opt.hidden      = true
 opt.diffopt     = {
-	"filler",
-	"indent-heuristic",
-	"linematch:60",
-	"vertical",
+    "filler",
+    "indent-heuristic",
+    "linematch:60",
+    "vertical",
 }
 
 -- ==== Cursor & Statusline ====
 
-o.mouse        = 'a'
-opt.mouse      = "a"
-opt.cursorline = true
-o.showmode     = false
-o.laststatus   = 3
+o.mouse         = 'a'
+opt.mouse       = "a"
+opt.cursorline  = true
+o.showmode      = false
+o.laststatus    = 3
 vim.cmd("hi noCursor blend=0 cterm=bold")
 vim.opt.guicursor = "n-v-c:block-blinkwait700-blinkoff400-blinkon250,i:ver25-blinkwait700-blinkoff400-blinkon250,r:hor20"
 
@@ -66,34 +66,34 @@ vim.o.encoding    = "utf-8"
 opt.numberwidth   = 4
 opt.showmatch     = true
 opt.listchars     = {
-	tab = "│ ",
-	trail = "•",
-	nbsp = " ",
+    tab = "│ ",
+    trail = "•",
+    nbsp = " ",
 }
 opt.list          = true
 opt.fillchars     = {
-	eob       = " ", -- no ~ at end of buffer
-	diff      = "╱", -- diff filler
-	msgsep    = "─", -- separator in messages
-	foldsep   = "│",
-	foldclose = "", -- nf-cod-chevron-right
-	foldopen  = "", -- nf-cod-chevron-down
+    eob       = " ", -- no ~ at end of buffer
+    diff      = "╱", -- diff filler
+    msgsep    = "─", -- separator in messages
+    foldsep   = "│",
+    foldclose = "", -- nf-cod-chevron-right
+    foldopen  = "", -- nf-cod-chevron-down
 }
 opt.fillchars     = {
-	horiz     = "─", -- horizontal line
-	horizup   = "┴", -- T pointing up
-	horizdown = "┬", -- T pointing down
-	vert      = "│", -- vertical line
-	vertleft  = "┤", -- T pointing left
-	vertright = "├", -- T pointing right
-	verthoriz = "┼", -- intersection/cross
-	fold      = "─",
-	eob       = " ",
-	diff      = " ",
-	msgsep    = " ",
-	foldsep   = "│",
-	foldclose = "",
-	foldopen  = "",
+    horiz     = "─", -- horizontal line
+    horizup   = "┴", -- T pointing up
+    horizdown = "┬", -- T pointing down
+    vert      = "│", -- vertical line
+    vertleft  = "┤", -- T pointing left
+    vertright = "├", -- T pointing right
+    verthoriz = "┼", -- intersection/cross
+    fold      = "─",
+    eob       = " ",
+    diff      = " ",
+    msgsep    = " ",
+    foldsep   = "│",
+    foldclose = "",
+    foldopen  = "",
 }
 
 -- ==== Folds ====
@@ -114,7 +114,7 @@ opt.wildmenu    = true
 opt.wildmode    = "longest:full,full"
 opt.wildoptions = "pum,fuzzy"
 opt.wildignore:append({ "*.o", "*.obj",
-	"*.pyc", "*.class", "*.jar" })
+    "*.pyc", "*.class", "*.jar" })
 
 -- ==== File Handling ====
 

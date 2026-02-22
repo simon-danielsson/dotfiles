@@ -40,8 +40,14 @@ require('nvim-biscuits').setup({
         prefix_string = " @ "
     },
     language_config = {
-        python = {
-            disabled = false
+        markdown = {
+            disabled = true
+        },
+        toml = {
+            disabled = true
+        },
+        yaml = {
+            disabled = true
         }
     }
 })
