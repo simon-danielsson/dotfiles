@@ -1,5 +1,8 @@
 # === general ===
 
+# cmatrix screensaver
+alias matrix="cmatrix -u 9 -C white -s"
+
 # safe mv command
 alias mv="mv -i"
 

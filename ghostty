@@ -34,7 +34,8 @@ link-url = true
 # === font ===
 
 font-size = 20
-#font-family = 0xProto Nerd Font Mono
+font-family = Maple Mono NF
+#font-family = Lilex
 #window-inherit-font-size = true
 
 # === window ===
@@ -58,7 +59,7 @@ window-height = 40
 
 theme = Atom One Dark
 background = #25252d
-background-opacity = 1
+background-opacity = 0
 background-blur = 0
 
 # === quick terminal ===
