@@ -16,6 +16,7 @@ alias code=$NVIM
 alias v=$NVIM
 alias nv=$NVIM
 alias nvi=$NVIM
+alias vim=$NVIM
 alias nivm=$NVIM
 
 # emoji picker

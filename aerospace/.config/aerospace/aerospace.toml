@@ -76,7 +76,10 @@ on-mode-changed = []
     inner.vertical =   10
     outer.left =       10
     outer.bottom =     10
-    outer.top =        45
+    # outer.top =        37 # 37 on the big screen, 7 on just the macbook (to fit with simple-bar)
+    outer.top =        [{ monitor."built-in" = 7 },
+                        {monitor."main" = 37},
+                        37]
     outer.right =      10
 
 # === binds ===
