@@ -6,6 +6,12 @@ alias matrix="cmatrix -u 9 -C white -s"
 # safe mv command
 alias mv="mv -i"
 
+# create new blog post
+alias blog="~/dotfiles/scripts/create-new-blog-entry-for-website.sh"
+
+# cd website repo
+alias website="cd ~/dev/rust/website/"
+
 # kill all nvim and tmux processes, and exit ghostty
 alias q="~/dotfiles/scripts/kill-nvim-and-tmux.sh"
 
@@ -81,16 +87,15 @@ n() {
         local today
         today=$(date +"%Y-%m-%d")
         local dir="$HOME/notes"
-        # If no name given, default to "note"
+        # if no arg given, default to "note"
         if [ -z "$name" ]; then
                 name="note"
         fi
-        # Trim whitespace, replace multiple spaces with a single '-', strip trailing '-',
-        # and convert to lowercase
+        # format arg
         name=$(echo "$name" | xargs | tr -s ' ' '-' | sed 's/-$//' | tr '[:upper:]' '[:lower:]')
         local file="$dir/${name}_${today}.md"
         mkdir -p "$dir"
-        # Create empty file if it doesn't exist
+        # create empty file if it doesn't exist
         [ -f "$file" ] || touch "$file"
         nvim "$file"
 }
@@ -106,7 +111,7 @@ alias ls='ls -paGAoh -D "%d-%m-%Y %H:%M" '
 # my own worse version of ls
 alias ta="ta -i -w -a -e"
 
-# Local search from current directory
+# local search from current directory
 unalias s 2>/dev/null
 s() {
         local target
@@ -118,7 +123,7 @@ s() {
         fi
 }
 
-# Global search from home directory
+# global search from home directory
 unalias ss 2>/dev/null
 ss() {
         local target
