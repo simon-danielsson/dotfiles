@@ -1,1 +1,1 @@
-![screenshot](media/screenshot-3.png)
+![screenshot](media/screenshot-4.png)
