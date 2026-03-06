@@ -9,6 +9,12 @@ alias mv="mv -i"
 # create new blog post
 alias blog="~/dotfiles/scripts/create-new-blog-entry-for-website.sh"
 
+# get size of current dir
+size() {
+dir_size=$(du -sh . | awk '{print $1}')
+echo "Current directory size: $dir_size"
+}
+
 # cd website repo
 alias website="cd ~/dev/rust/website/"
 
