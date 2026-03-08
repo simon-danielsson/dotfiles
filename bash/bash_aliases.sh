@@ -8,6 +8,7 @@ alias mv="mv -i"
 
 # create new blog post
 alias blog="~/dotfiles/scripts/create-new-blog-entry-for-website.sh"
+alias blogdir="cd ~/dev/rust/website/src/blog/blog_entries/"
 
 # get size of current dir
 size() {
