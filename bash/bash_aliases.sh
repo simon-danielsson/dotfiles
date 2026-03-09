@@ -6,6 +6,9 @@ alias matrix="cmatrix -u 9 -C white -s"
 # safe mv command
 alias mv="mv -i"
 
+# invert pdf
+alias invpdf="~/dotfiles/scripts/invert-pdf.sh"
+
 # create new blog post
 alias blog="~/dotfiles/scripts/create-new-blog-entry-for-website.sh"
 alias blogdir="cd ~/dev/rust/website/src/blog/blog_entries/"
@@ -34,6 +37,7 @@ alias nv=$NVIM
 alias nvi=$NVIM
 alias vim=$NVIM
 alias nivm=$NVIM
+alias vnim=$NVIM
 
 # emoji picker
 EM_PICKER="/Users/simondanielsson/dotfiles/scripts/emoji-picker.sh"
