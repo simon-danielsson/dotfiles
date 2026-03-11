@@ -1,3 +1,14 @@
+# === website management ===
+
+# create new blog post
+alias blog="~/dotfiles/scripts/create-new-blog-entry-for-website.sh"
+
+# cd to blog dir
+alias blogdir="cd ~/dev/rust/website/src/blog/blog_entries/"
+
+# cd website repo
+alias website="cd ~/dev/rust/website/"
+
 # === general ===
 
 # cmatrix screensaver
@@ -9,9 +20,6 @@ alias mv="mv -i"
 # invert pdf
 alias invpdf="~/dotfiles/scripts/invert-pdf.sh"
 
-# create new blog post
-alias blog="~/dotfiles/scripts/create-new-blog-entry-for-website.sh"
-alias blogdir="cd ~/dev/rust/website/src/blog/blog_entries/"
 
 # get size of current dir
 size() {
@@ -19,8 +27,6 @@ dir_size=$(du -sh . | awk '{print $1}')
 echo "Current directory size: $dir_size"
 }
 
-# cd website repo
-alias website="cd ~/dev/rust/website/"
 
 # kill all nvim and tmux processes, and exit ghostty
 alias q="~/dotfiles/scripts/kill-nvim-and-tmux.sh"
