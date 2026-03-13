@@ -167,7 +167,7 @@ g() {
 unalias s 2>/dev/null
 s() {
         local target
-        target=$(fd --type f --type d --hidden | fzf --preview='[[ -d {} ]] && exa -al --color=always {} || bat --style=numbers --color=always {}') || return
+        target=$(fd --type f --type d --hidden | fzf --preview='[[ -d {} ]] && exa -al {} || bat --style=numbers {}') || return
         if [[ -d $target ]]; then
                 cd "$target"
         elif [[ -f $target ]]; then
@@ -179,7 +179,7 @@ s() {
 unalias ss 2>/dev/null
 ss() {
         local target
-        target=$(fd --type f --type d --hidden . ~ | fzf --preview='[[ -d {} ]] && exa -al --color=always {} || bat --style=numbers --color=always {}') || return
+        target=$(fd --type f --type d --hidden . ~ | fzf --preview='[[ -d {} ]] && exa -al {} || bat --style=numbers {}') || return
         if [[ -d $target ]]; then
                 cd "$target"
         elif [[ -f $target ]]; then
