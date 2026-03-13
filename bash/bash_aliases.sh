@@ -9,30 +9,16 @@ alias blogdir="cd ~/dev/rust/website/src/blog/blog_entries/"
 # cd website repo
 alias website="cd ~/dev/rust/website/"
 
-# === general ===
+# === dev ===
 
-# cmatrix screensaver
-alias matrix="cmatrix -u 9 -C white -s"
-
-# safe mv command
-alias mv="mv -i"
-
-# invert pdf
-alias invpdf="~/dotfiles/scripts/invert-pdf.sh"
-
-
-# get size of current dir
-size() {
-dir_size=$(du -sh . | awk '{print $1}')
-echo "Current directory size: $dir_size"
-}
-
+# brakoll custom issue tracker
+alias b="brakoll"
 
 # kill all nvim and tmux processes, and exit ghostty
 alias q="~/dotfiles/scripts/kill-nvim-and-tmux.sh"
 
-# add to clipboard
-alias clip="pbcopy"
+# safe mv command
+alias mv="mv -i"
 
 # neovim
 NVIM="bob run nightly"
@@ -44,6 +30,23 @@ alias nvi=$NVIM
 alias vim=$NVIM
 alias nivm=$NVIM
 alias vnim=$NVIM
+
+# === general ===
+
+# cmatrix screensaver
+alias matrix="cmatrix -u 9 -C white -s"
+
+# invert pdf
+alias invpdf="~/dotfiles/scripts/invert-pdf.sh"
+
+# get size of current dir
+size() {
+dir_size=$(du -sh . | awk '{print $1}')
+echo "Current directory size: $dir_size"
+}
+
+# add to clipboard
+alias clip="pbcopy"
 
 # emoji picker
 EM_PICKER="/Users/simondanielsson/dotfiles/scripts/emoji-picker.sh"
