@@ -131,6 +131,38 @@ alias ls='ls -paGAoh -D "%d-%m-%Y %H:%M" '
 # my own worse version of ls
 alias ta="ta -i -w -a -e"
 
+# grep using fzf
+unalias g 2>/dev/null
+g() {
+    local query="${*:-}"
+
+    local -a rg_opts=(
+        --column
+        --line-number
+        --no-heading
+        --color=never
+        --smart-case
+        --hidden
+        --glob '!.git/'
+        --glob '!target/'
+        --glob '!node_modules/'
+        --glob '!.gitignore'
+        --glob '!*.lock'
+    )
+
+    local reload_cmd
+    reload_cmd="rg $(printf "%q " "${rg_opts[@]}") {q} . 2>/dev/null || true"
+
+    fzf --disabled \
+        --query "$query" \
+        --delimiter : \
+        --preview 'bat --style=numbers --highlight-line {2} {1}' \
+        --preview-window '~3,+{2}/2' \
+        --bind "start:reload:$reload_cmd" \
+        --bind "change:reload:$reload_cmd" \
+        --bind 'enter:become(nvim "+call cursor({2},{3})" -- {1})'
+}
+
 # local search from current directory
 unalias s 2>/dev/null
 s() {

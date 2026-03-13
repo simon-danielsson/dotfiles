@@ -8,6 +8,6 @@ return {
         t("*brakoll - d: "), i(1),
         t(", p: "), i(2),
         t(", t: "), i(3),
-        t(", s: todo"),
+        t(", s: open"),
     }),
 }

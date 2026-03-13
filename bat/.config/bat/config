@@ -1,0 +1,5 @@
+--theme=ansi
+--style="numbers,changes"
+--paging=never
+--plain
+--force-colorization
