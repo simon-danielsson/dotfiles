@@ -9,10 +9,30 @@ alias blogdir="cd ~/dev/rust/website/src/blog/blog_entries/"
 # cd website repo
 alias website="cd ~/dev/rust/website/"
 
-# === dev ===
+# === brakoll issue tracker ===
 
-# brakoll custom issue tracker
+# short
 alias b="brakoll"
+
+unalias commit 2>/dev/null
+commit() {
+    local id="$1"
+    brakoll cp $id
+    brakoll closed $id
+
+    if command -v pbpaste >/dev/null; then
+    clip=$(pbpaste)
+    elif command -v xclip >/dev/null; then
+        clip=$(xclip -o -selection clipboard)
+    elif command -v wl-paste >/dev/null; then
+        clip=$(wl-paste)
+    fi
+
+    git add --all
+    git commit -a -m "$clip"
+}
+
+# === dev ===
 
 # kill all nvim and tmux processes, and exit ghostty
 alias q="~/dotfiles/scripts/kill-nvim-and-tmux.sh"
