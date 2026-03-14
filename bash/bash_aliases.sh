@@ -18,7 +18,7 @@ unalias commit 2>/dev/null
 commit() {
     local id="$1"
     brakoll cp $id
-    brakoll closed $id
+    brakoll close $id
 
     if command -v pbpaste >/dev/null; then
     clip=$(pbpaste)
