@@ -11,30 +11,29 @@ o.tabstop     = 4
 o.shiftwidth  = 4
 o.softtabstop = 4
 
--- -- Filetype-specific settings
--- autocmd({ "FileType", "BufWritePre" }, {
--- 	pattern = { "c", "gdscript", "rust", "lua" },
--- 	callback = function()
--- 		vim.opt_local.list      = true
--- 		bo.tabstop              = 4
--- 		bo.shiftwidth           = 4
--- 		bo.softtabstop          = 4
--- 		bo.smartindent          = true
--- 		bo.autoindent           = true
--- 	end,
--- })
+autocmd({ "FileType", "BufWritePre" }, {
+    pattern = { "reamake" },
+    callback = function()
+        vim.opt_local.list = true
+        bo.tabstop         = 4
+        bo.shiftwidth      = 4
+        bo.softtabstop     = 4
+        bo.smartindent     = false
+        bo.autoindent      = false
+    end,
+})
 
 autocmd("FileType", {
-        pattern = { "html", "css" },
-        callback = function()
-                vim.opt_local.list      = true
-                vim.opt_local.listchars = {
-                        tab = "║ ",
-                        trail = "•",
-                        nbsp = " ",
-                }
-                bo.tabstop              = 4
-                bo.shiftwidth           = 4
-                bo.softtabstop          = 4
-        end,
+    pattern = { "html", "css" },
+    callback = function()
+        vim.opt_local.list      = true
+        vim.opt_local.listchars = {
+            tab = "║ ",
+            trail = "•",
+            nbsp = " ",
+        }
+        bo.tabstop              = 4
+        bo.shiftwidth           = 4
+        bo.softtabstop          = 4
+    end,
 })

@@ -17,6 +17,7 @@ require("ui.statusline")
 
 -- ==== Plugins ====
 
+require("plugins.reamake")
 require("plugins.nvim-telescope")
 require("plugins.undotree")
 require("plugins.flash")

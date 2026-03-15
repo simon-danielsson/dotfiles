@@ -50,6 +50,7 @@ alias nvi=$NVIM
 alias vim=$NVIM
 alias nivm=$NVIM
 alias vnim=$NVIM
+alias nim=$NVIM
 
 # === general ===
 
