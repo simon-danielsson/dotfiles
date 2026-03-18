@@ -17,7 +17,6 @@ require("ui.statusline")
 
 -- ==== Plugins ====
 
-require("plugins.reamake")
 require("plugins.nvim-telescope")
 require("plugins.undotree")
 require("plugins.flash")
@@ -27,6 +26,7 @@ require("plugins.render-markdown")
 require("plugins.nvim-treesitter")
 require("plugins.indent-blankline")
 require("plugins.keymaps")
+require("plugins.reamake")
 
 -- ==== Native (after) ====
 
