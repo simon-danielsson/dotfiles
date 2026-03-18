@@ -39,12 +39,6 @@ autocmd("ModeChanged", {
     desc = "Autosave every 8th time normal mode is entered",
 })
 
--- vim.filetype.add({
---     extension = {
---         reamake = "reamake",
---     },
--- })
-
 vim.api.nvim_create_autocmd("BufWritePre", {
     group = write_group,
     pattern = "*",

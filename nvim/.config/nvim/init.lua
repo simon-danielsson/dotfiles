@@ -5,11 +5,12 @@ require("native.autocmds")
 require("native.netrw")
 require("native.keymaps")
 require("native.indenting")
+require("native.pairs").setup()
 
 -- ==== UI ====
 
 local colors = require("ui.theme")
-colors.colorscheme(2) -- 1: low contr or 2: high contr
+colors.colorscheme(2)
 colors.background_transparency(true)
 
 require("ui.colorscheme")
@@ -18,40 +19,12 @@ require("ui.statusline")
 -- ==== Plugins ====
 
 require("plugins.nvim-telescope")
-require("plugins.undotree")
 require("plugins.flash")
 require("plugins.noice")
-require("plugins.biscuits")
 require("plugins.render-markdown")
-require("plugins.nvim-treesitter")
 require("plugins.indent-blankline")
 require("plugins.keymaps")
 require("plugins.reamake")
-
--- ==== Native (after) ====
-
-require("native.pairs").setup()
-
--- ==== Plugins (after) ====
-
-require('nvim-biscuits').setup({
-    default_config = {
-        max_length = 20,
-        min_distance = 5,
-        prefix_string = " @ "
-    },
-    language_config = {
-        markdown = {
-            disabled = true
-        },
-        toml = {
-            disabled = true
-        },
-        yaml = {
-            disabled = true
-        }
-    }
-})
 
 -- ==== LSP ====
 

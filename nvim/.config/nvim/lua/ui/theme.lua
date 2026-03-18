@@ -11,8 +11,8 @@ M.colors = {
 
 M.aux_colors = {
     macro_statusline = "#aa4465",
-    cursorline_bg = "#25252d", -- when ghostty bg is transparent
-    -- cursorline_bg = "#2a2a33", -- when not transparent
+    -- cursorline_bg = "#25252d", -- when ghostty bg is transparent
+    cursorline_bg = "#2a2a33", -- when not transparent
     accent = "#9ec1a3",
 }
 
