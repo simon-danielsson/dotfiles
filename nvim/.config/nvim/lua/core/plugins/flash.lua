@@ -332,7 +332,7 @@ function M.setup(opts)
     config = vim.tbl_deep_extend("force", config, opts or {})
 
     vim.keymap.set({ "n", "x", "o" }, "s", function()
-        require("flash").jump()
+        require("core.plugins.flash").jump()
     end, { desc = "Native Flash-like jump" })
 end
 
