@@ -1,8 +1,6 @@
 local opt          = vim.opt
 local g            = vim.g
 local o            = vim.o
-local bo           = vim.bo
-local autocmd      = vim.api.nvim_create_autocmd
 
 -- ==== Line Numbers ====
 
@@ -105,7 +103,7 @@ o.foldenable      = false
 
 -- ==== Search ====
 
-opt.path:append("**")
+opt.path:append("*")
 opt.hlsearch    = true
 opt.ignorecase  = true
 opt.smartcase   = true
