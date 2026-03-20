@@ -1,6 +1,6 @@
-local icons = require("ui.icons")
-local colors = require("ui.theme").colors
-local aux_colors = require("ui.theme").aux_colors
+local icons = require("core.ui.icons")
+local colors = require("core.ui.theme").colors
+local aux_colors = require("core.ui.theme").aux_colors
 
 local autocmd = vim.api.nvim_create_autocmd
 

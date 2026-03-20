@@ -25,15 +25,11 @@ autocmd({ "FileType", "BufWritePre" }, {
 
 autocmd("FileType", {
     pattern = { "html", "css" },
+    -- pattern = { "*" },
     callback = function()
-        vim.opt_local.list      = true
-        vim.opt_local.listchars = {
-            tab = "║ ",
-            trail = "•",
-            nbsp = " ",
-        }
-        bo.tabstop              = 4
-        bo.shiftwidth           = 4
-        bo.softtabstop          = 4
+        vim.opt_local.list = true
+        bo.tabstop         = 4
+        bo.shiftwidth      = 4
+        bo.softtabstop     = 4
     end,
 })

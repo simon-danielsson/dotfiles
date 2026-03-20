@@ -1,6 +1,6 @@
-local icons             = require("ui.icons")
-local colors            = require("ui.theme").colors
-local aux_col           = require("ui.theme").aux_colors
+local icons             = require("core.ui.icons")
+local colors            = require("core.ui.theme").colors
+local aux_col           = require("core.ui.theme").aux_colors
 
 -- ==== terminal colors ====
 
@@ -102,7 +102,7 @@ local override_groups = {
     TabLine                       = { bg = colors.bg_deep },
     TabLineFill                   = { bg = colors.bg_deep },
     TabLineSel                    = { bg = colors.fg_mid, bold = true },
-    WinSeparator                  = { bg = "none", fg = colors.fg_mid },
+    WinSeparator                  = { bg = "none", fg = aux_col.cursorline_bg },
     ToolbarButton                 = { bg = colors.fg_main, bold = true, reverse = true },
     EndOfBuffer                   = { bg = "none" },
     ColorColumn                   = { ctermbg = 0, bg = colors.bg_deep },

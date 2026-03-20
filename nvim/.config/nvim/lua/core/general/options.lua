@@ -63,28 +63,31 @@ opt.termguicolors = true
 vim.o.encoding    = "utf-8"
 opt.numberwidth   = 4
 opt.showmatch     = true
+
+opt.list          = true
+
 opt.listchars     = {
     tab = "│ ",
     trail = "•",
     nbsp = " ",
 }
-opt.list          = true
+
 opt.fillchars     = {
-    eob       = " ", -- no ~ at end of buffer
-    diff      = "╱", -- diff filler
-    msgsep    = "─", -- separator in messages
+    eob       = " ",
+    diff      = "╱",
+    msgsep    = "─",
     foldsep   = "│",
-    foldclose = "", -- nf-cod-chevron-right
-    foldopen  = "", -- nf-cod-chevron-down
+    foldclose = "",
+    foldopen  = "",
 }
 opt.fillchars     = {
-    horiz     = "─", -- horizontal line
-    horizup   = "┴", -- T pointing up
-    horizdown = "┬", -- T pointing down
-    vert      = "│", -- vertical line
-    vertleft  = "┤", -- T pointing left
-    vertright = "├", -- T pointing right
-    verthoriz = "┼", -- intersection/cross
+    horiz     = "─",
+    horizup   = "┴",
+    horizdown = "┬",
+    vert      = "│",
+    vertleft  = "┤",
+    vertright = "├",
+    verthoriz = "┼",
     fold      = "─",
     eob       = " ",
     diff      = " ",

@@ -1,43 +1,54 @@
--- ==== Native ====
+-- core: general
 
-require("native.options")
-require("native.autocmds")
-require("native.netrw")
-require("native.keymaps")
-require("native.indenting")
-require("native.pairs").setup()
+require("core.general.options")
+require("core.general.netrw")
+require("core.general.keymaps")
+require("core.general.indenting")
 
--- ==== UI ====
+-- core: autocmd
 
-local colors = require("ui.theme")
+require("core.autocmd.templates")
+require("core.autocmd.write")
+require("core.autocmd.dirs")
+require("core.autocmd.cursor")
+require("core.autocmd.terminal")
+require("core.autocmd.ui")
+
+-- core: ui
+
+local colors = require("core.ui.theme")
 colors.colorscheme(2)
 colors.background_transparency(true)
 
-require("ui.colorscheme")
-require("ui.statusline")
+require("core.ui.colorscheme")
+require("core.ui.statusline")
 
--- ==== Plugins ====
+-- core: plugins
+
+require("core.plugins.pairs").setup()
+require("core.plugins.indent_guides").setup()
+
+-- plugins
 
 require("plugins.nvim-telescope")
 require("plugins.flash")
 require("plugins.noice")
 require("plugins.render-markdown")
-require("plugins.indent-blankline")
 require("plugins.keymaps")
 require("plugins.reamake")
 
--- ==== LSP ====
+-- lsp
 
 require("lsp.lsp")
 require("lsp.cmp")
 
--- ==== TMUX ====
+-- tmux
 
 if os.getenv("TMUX") then
     vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
         callback = function()
             local name = vim.fn.expand("%:t")
-            if name == "" then name = "[No Name]" end
+            if name == "" then name = "nvim" end
             vim.fn.system({ "tmux", "rename-window", name })
         end,
         desc = "Rename TMUX windows dynamically",
