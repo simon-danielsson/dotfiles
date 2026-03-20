@@ -27,11 +27,12 @@ require("core.ui.statusline")
 
 require("core.plugins.pairs").setup()
 require("core.plugins.indent_guides").setup()
+require("core.plugins.flash").setup()
 
 -- plugins
 
 require("plugins.nvim-telescope")
-require("plugins.flash")
+-- require("plugins.flash")
 require("plugins.noice")
 require("plugins.render-markdown")
 require("plugins.keymaps")

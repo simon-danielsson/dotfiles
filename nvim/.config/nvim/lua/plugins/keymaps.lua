@@ -15,6 +15,6 @@ map("n", "gd", "<cmd>Telescope lsp_definitions<cr>", common("Go to LSP definitio
 
 -- ==== flash ====
 
-local flash = require("flash")
-map({ "n", "x", "o" }, "s", flash.jump, { desc = "Flash" })
-map("c", "<C-s>", flash.toggle, { desc = "Toggle Flash Search" })
+-- local flash = require("flash")
+-- map({ "n", "x", "o" }, "s", flash.jump, { desc = "Flash" })
+-- map("c", "<C-s>", flash.toggle, { desc = "Toggle Flash Search" })
