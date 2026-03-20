@@ -1,5 +1,3 @@
-local opt     = vim.opt
-local g       = vim.g
 local o       = vim.o
 local bo      = vim.bo
 local autocmd = vim.api.nvim_create_autocmd

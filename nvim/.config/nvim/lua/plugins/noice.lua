@@ -25,7 +25,7 @@ require("noice").setup({
         }
     },
     cmdline = {
-        enabled = true, -- enables the Noice cmdline UI
+        enabled = true,
         view = "cmdline_input",
         format = {
             cmdline = { title = "", view = "cmdline_input", pattern = "^:", icon = icon.cmd, lang = "vim" },
@@ -34,7 +34,7 @@ require("noice").setup({
             filter = { pattern = "^:%s*!", icon = icon.filter, lang = "bash" },
             lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = icon.lua, lang = "lua" },
             help = { pattern = "^:%s*he?l?p?%s+", icon = icon.help },
-            input = { view = "cmdline_input", icon = "󰥻 " }, -- Used by input()
+            input = { view = "cmdline_input", icon = "󰥻 " },
         },
     },
     routes = {

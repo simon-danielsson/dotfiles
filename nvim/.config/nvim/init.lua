@@ -1,9 +1,9 @@
 -- core: general
 
 require("core.general.options")
-require("core.general.netrw")
 require("core.general.keymaps")
 require("core.general.indenting")
+require("core.general.netrw")
 
 -- core: autocmd
 

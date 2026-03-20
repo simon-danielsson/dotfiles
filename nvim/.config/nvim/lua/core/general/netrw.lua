@@ -1,10 +1,20 @@
 -- ==== General Settings ====
 
-local g = vim.g
-g.netrw_liststyle = 1
-g.netrw_banner = 0
-g.netrw_preview = 1
-vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" }, {
+local autocmd = vim.api.nvim_create_autocmd
+vim.g.netrw_liststyle = 3
+vim.g.netrw_banner = 0
+vim.g.netrw_preview = 1
+vim.g.netrw_altv = 1
+
+vim.api.nvim_create_autocmd("VimEnter", {
+    callback = function()
+        if vim.fn.argc() == 0 then
+            vim.cmd("Explore")
+        end
+    end,
+})
+
+autocmd({ "FileType", "BufWinEnter" }, {
     pattern = "netrw",
     callback = function()
         local opts = { buffer = true, noremap = true, silent = true }
@@ -20,7 +30,7 @@ vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" }, {
 
 -- ==== Preview ====
 
-vim.api.nvim_create_autocmd("BufEnter", {
+autocmd("BufEnter", {
     callback = function()
         vim.cmd("pclose")
     end,

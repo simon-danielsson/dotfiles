@@ -3,14 +3,6 @@ local augroup = vim.api.nvim_create_augroup
 
 local ui_group = augroup("UiCommands", { clear = true })
 
--- vim.api.nvim_create_autocmd("BufEnter", {
---     group = ui_group,
---     callback = function()
---         vim.opt.formatoptions:remove { "c", "r", "o" }
---     end,
---     desc = "Disable new line comment",
--- })
-
 autocmd("VimResized", {
     group = ui_group,
     callback = function()
