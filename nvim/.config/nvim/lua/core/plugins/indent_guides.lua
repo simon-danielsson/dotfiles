@@ -4,7 +4,7 @@ local ns = vim.api.nvim_create_namespace("native_indent_guides")
 
 local defaults = {
     char = "│",
-    highlight = "Comment",
+    highlight = "IndentGuide",
     show_first_level = true,
     show_blanklines = true,
 

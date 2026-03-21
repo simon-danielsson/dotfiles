@@ -28,6 +28,7 @@ require("core.ui.statusline")
 require("core.plugins.pairs").setup()
 require("core.plugins.indent_guides").setup()
 require("core.plugins.flash").setup()
+require("core.plugins.biscuits").setup()
 
 -- plugins
 

@@ -6,14 +6,6 @@ vim.g.netrw_banner = 0
 vim.g.netrw_preview = 1
 vim.g.netrw_keepdir = 0
 
-vim.api.nvim_create_autocmd("VimEnter", {
-    callback = function()
-        if vim.fn.argc() == 0 then
-            vim.cmd("Explore")
-        end
-    end,
-})
-
 autocmd({ "FileType", "BufWinEnter" }, {
     pattern = "netrw",
     callback = function()
