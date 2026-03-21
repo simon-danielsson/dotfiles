@@ -4,14 +4,14 @@ local aux_col           = require("core.ui.theme").aux_colors
 
 -- ==== terminal colors ====
 
-vim.g.terminal_color_0  = "#1e1e2e" -- black
-vim.g.terminal_color_1  = "#f38ba8" -- red
-vim.g.terminal_color_2  = "#a6e3a1" -- green
-vim.g.terminal_color_3  = "#f9e2af" -- yellow
-vim.g.terminal_color_4  = "#89b4fa" -- blue
-vim.g.terminal_color_5  = "#f5c2e7" -- magenta
-vim.g.terminal_color_6  = "#94e2d5" -- cyan
-vim.g.terminal_color_7  = "#ffffff" -- white
+vim.g.terminal_color_0  = "#1e1e2e"      -- black
+vim.g.terminal_color_1  = "#f38ba8"      -- red
+vim.g.terminal_color_2  = "#a6e3a1"      -- green
+vim.g.terminal_color_3  = "#f9e2af"      -- yellow
+vim.g.terminal_color_4  = "#89b4fa"      -- blue
+vim.g.terminal_color_5  = "#f5c2e7"      -- magenta
+vim.g.terminal_color_6  = "#94e2d5"      -- cyan
+vim.g.terminal_color_7  = colors.fg_main -- white
 
 vim.g.terminal_color_8  = colors.fg_mid
 vim.g.terminal_color_9  = "#f38ba8" -- bright red
@@ -20,7 +20,7 @@ vim.g.terminal_color_11 = "#f9e2af" -- bright yellow
 vim.g.terminal_color_12 = "#89b4fa" -- bright blue
 vim.g.terminal_color_13 = "#f5c2e7" -- bright magenta
 vim.g.terminal_color_14 = "#94e2d5" -- bright cyan
-vim.g.terminal_color_15 = "#ffffff" -- bright white
+vim.g.terminal_color_15 = colors.fg_main
 
 -- ==== borders ====
 

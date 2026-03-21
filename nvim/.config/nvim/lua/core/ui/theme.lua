@@ -6,7 +6,7 @@ M.colors = {
     bg_mid   = "#9ec1a3",
     bg_mid2  = "#6e6e87",
     bg_deep  = "#40404f",
-    bg_deep2 = "#25252d",
+    bg_deep3 = "#25252d",
 }
 
 M.aux_colors = {

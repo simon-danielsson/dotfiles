@@ -42,9 +42,9 @@ require("noice").setup({
             filter = {
                 event = "msg_show",
                 any = {
-                    { find = "lines to indent" },
-                    { find = "lines indented" },
-                    { find = "fewer lines" },
+                    { find = "lines" },
+                    { find = "lines" },
+                    { find = "lines" },
                 },
             },
             opts = { skip = true },

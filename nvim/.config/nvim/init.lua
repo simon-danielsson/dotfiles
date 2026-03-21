@@ -33,6 +33,7 @@ require("core.plugins.biscuits").setup()
 -- plugins
 
 require("plugins.nvim-telescope")
+require("plugins.nvim-treesitter")
 require("plugins.noice")
 require("plugins.render-markdown")
 require("plugins.keymaps")
@@ -45,13 +46,13 @@ require("lsp.cmp")
 
 -- tmux
 
-if os.getenv("TMUX") then
-    vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
-        callback = function()
-            local name = vim.fn.expand("%:t")
-            if name == "" then name = "nvim" end
-            vim.fn.system({ "tmux", "rename-window", name })
-        end,
-        desc = "Rename TMUX windows dynamically",
-    })
-end
+-- if os.getenv("TMUX") then
+--     vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
+--         callback = function()
+--             local name = vim.fn.expand("%:t")
+--             if name == "" then name = "nvim" end
+--             vim.fn.system({ "tmux", "rename-window", name })
+--         end,
+--         desc = "Rename TMUX windows dynamically",
+--     })
+-- end

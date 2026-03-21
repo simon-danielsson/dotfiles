@@ -1,52 +1,35 @@
 #!/usr/bin/env bash
 
+# ==== vars ====
+
 # Foreground colors
 FG_DARK1="\[\e[38;5;235m\]"   # #25252d
 FG_DARK2="\[\e[38;5;238m\]"   # #40404f
 FG_WHITE="\[\e[38;5;15m\]"    # #ffffff
 
-# Background colors
-BG_DARK1="\[\e[48;5;235m\]"   # #25252d
-BG_DARK2="\[\e[48;5;238m\]"   # #40404f
-BG_WHITE="\[\e[48;5;15m\]"    # #ffffff
-
-# ==== colours ====
-
 RESET="\[\e[0m\]"
 
-# dir
-DIR="\[\e[38;5;15;48;5;238m\]"
-END_DIR="\[\e[38;5;238m\]"
+DIR=${FG_WHITE}
 
-# git branch
-GIT="\[\e[34;5;15;48;5;236m\]"
-END_DIR="\[\e[38;5;236m\]"
-END_GIT="\[\e[38;5;236m\]"
+GIT=${FG_WHITE}
 
-GIT_ADD="\[\e[32;5;15;48;5;236m\]"
-GIT_MOD="\[\e[33;5;15;48;5;236m\]"
-GIT_DEL="\[\e[31;5;15;48;5;236m\]"
-END_GIT_STATUS="\[\e[38;5;236m\]"
+# python env
+PY_ENV="\[\e[38;5;11m\]"
+
+# Success/error symbols
+SYMBOL_OK="\[\e[38;5;15m\]${RESET}"
+SYMBOL_ERR="\[\e[38;5;15m\]󰯈${RESET}"
 
 # git symbols
 GIT_ADD_SYM=" "
 GIT_MOD_SYM=" "
 GIT_DEL_SYM=" "
 
-# python env
-PY_ENV="\[\e[38;5;11;48;5;236m\]"
-END_PY="\[\e[38;5;236m\]"
-
-# Success/error symbols
-SYMBOL_OK=""
-SYMBOL_ERR="󰯈"
-
 # ==== helpers ====
 
 short_pwd() {
 	local pwd="${PWD/#$HOME/\~}"
 
-	# Remove leading / for splitting, but remember if it started with /
 	local leading=""
 	if [[ "$pwd" == /* ]]; then
 		leading="/"
@@ -55,21 +38,19 @@ short_pwd() {
 
 	IFS='/' read -ra parts <<< "$pwd"
 	local n=${#parts[@]}
-		local out="$leading"
+	local out="$leading"
 
-		if (( n <= 3 )); then
-			# Short path: show everything
-			out+=$(IFS=/; echo "${parts[*]}")
-		else
-			# Long path: show only last two parent folders + current
-			local start=$(( n - 3 ))
-			for (( i=start; i<n; i++ )); do
-				out+="/${parts[i]}"
-			done
-		fi
+	if (( n <= 3 )); then
+		out+=$(IFS=/; echo "${parts[*]}")
+	else
+		local start=$(( n - 3 ))
+		for (( i=start; i<n; i++ )); do
+			out+="/${parts[i]}"
+		done
+	fi
 
-		echo "$out"
-	}
+	echo "$out"
+}
 
 git_branch() {
 	git rev-parse --abbrev-ref HEAD 2>/dev/null
@@ -88,11 +69,11 @@ git_status_counts() {
 	deleted=$(( $(echo "$status" | grep -E '^( D|D )' | wc -l) ))
 
 	local out=""
-	(( added > 0 )) && out+="${out:+ }${GIT_ADD}${GIT_ADD_SYM}${added}${END_GIT_STATUS}"
-	(( modified > 0 )) && out+="${out:+ }${GIT_MOD}${GIT_MOD_SYM}${modified}${END_GIT_STATUS}"
-	(( deleted > 0 )) && out+="${out:+ }${GIT_DEL}${GIT_DEL_SYM}${deleted}${END_GIT_STATUS}"
+	(( added > 0 )) && out+="${out:+ }${GIT}${GIT_ADD_SYM}${added}${RESET}"
+	(( modified > 0 )) && out+="${out:+ }${GIT}${GIT_MOD_SYM}${modified}${RESET}"
+	(( deleted > 0 )) && out+="${out:+ }${GIT}${GIT_DEL_SYM}${deleted}${RESET}"
 
-	echo " $out"
+	echo "$out"
 }
 
 python_venv() {
@@ -103,8 +84,10 @@ python_venv() {
 
 battery_status() {
 	if command -v upower >/dev/null; then
-		local battery=$(upower -i $(upower -e | grep BAT) 2>/dev/null)
-		local percent=$(echo "$battery" | awk '/percentage:/ {print $2}')
+		local battery
+		battery=$(upower -i "$(upower -e | grep BAT | head -n1)" 2>/dev/null)
+		local percent
+		percent=$(echo "$battery" | awk '/percentage:/ {print $2}')
 		echo "$percent"
 	fi
 }
@@ -117,26 +100,27 @@ custom_prompt() {
 	[[ $exit_code -ne 0 ]] && symbol="${SYMBOL_ERR}"
 
 	# dir
-	local dir_box="${END_DIR}${DIR}$(short_pwd)${RESET}${END_DIR}${RESET}"
+	local dir_box="${DIR}$(short_pwd)${RESET}"
 
 	# git
-	local git=$(git_branch)
+	local git
+	git=$(git_branch)
 	local git_box=""
 	if [[ -n "$git" ]]; then
-		local dir_box="${END_DIR}${DIR}$(short_pwd)"
 		local git_status
 		git_status=$(git_status_counts)
-
-		git_box=" │ ${GIT} $git${git_status} ${RESET}${END_GIT}${RESET}"
+		git_box=" ${GIT} $git${RESET}"
+		[[ -n "$git_status" ]] && git_box+=" ${git_status}"
+		git_box+="${RESET}"
 	fi
 
 	# python env
-	local py=$(python_venv)
+	local py
+	py=$(python_venv)
 	local py_box=""
-	[[ -n "$py" ]] && py_box=" ${END_PY}${PY_ENV}  $py ${RESET}${END_PY}${RESET}"
+	[[ -n "$py" ]] && py_box=" ${PY_ENV} $py${RESET}"
 
-	# assembly
-	PS1="\n${dir_box}${git_box}${py_box}${rust_box} ${symbol} "
+	PS1="\n${dir_box}${git_box}${py_box}\n${symbol} "
 }
 
 # ==== export PS1 ====
