@@ -56,10 +56,12 @@ end, { desc = "Go to next diagnostic" })
 
 -- ==== Global Navigation ====
 
-map("n", "<leader>f", "<cmd>Ex<CR>",
-    { desc = "Launch netrw", noremap = true, silent = true })
+vim.keymap.set("n", "<leader>f", function()
+    dir = vim.fn.getcwd()
+    vim.cmd("Explore " .. vim.fn.fnameescape(dir))
+end)
 
-map("n", "_", function()
+map("n", ";", function()
     local bufs = vim.api.nvim_list_bufs()
     -- Filter only listed and loaded buffers
     local open_bufs = {}
@@ -79,12 +81,12 @@ map("n", "_", function()
     end
     local next_idx = (idx % #open_bufs) + 1
     vim.api.nvim_set_current_buf(open_bufs[next_idx])
-end, { desc = "Cycle through open buffers with _" })
+end, { desc = "Cycle through open buffers" })
 
 map('t', '<Esc><Esc>', '<C-\\><C-n>',
     { desc = 'Exit terminal mode' })
 
-map("n", "-", function()
+map("n", ",", function()
     vim.cmd("wincmd w")
 end, { desc = "Cycle through splits" })
 
