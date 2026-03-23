@@ -150,7 +150,7 @@ alias ds='find . -name ".DS_Store" -type f -delete'
 alias ls='ls -paGAoh -D "%d-%m-%Y %H:%M" '
 
 # my own worse version of ls
-alias ta="ta -i -w -a -e"
+alias ta="ta -a "
 
 # grep using fzf
 unalias g 2>/dev/null
