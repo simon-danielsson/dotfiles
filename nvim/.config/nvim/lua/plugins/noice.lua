@@ -43,8 +43,8 @@ require("noice").setup({
                 event = "msg_show",
                 any = {
                     { find = "lines" },
-                    { find = "lines" },
-                    { find = "lines" },
+                    { find = "abandon" },
+                    { find = "outside" },
                 },
             },
             opts = { skip = true },

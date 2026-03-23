@@ -40,6 +40,8 @@ alias q="~/dotfiles/scripts/kill-nvim-and-tmux.sh"
 # safe mv command
 alias mv="mv -i"
 
+alias vimpack="cd ~/.local/share/nvim/site/pack/core/opt"
+
 # neovim
 NVIM="bob run nightly"
 alias nvim=$NVIM
@@ -51,6 +53,7 @@ alias vim=$NVIM
 alias nivm=$NVIM
 alias vnim=$NVIM
 alias nim=$NVIM
+alias invm=$NVIM
 
 # === general ===
 
@@ -142,6 +145,9 @@ n() {
 }
 
 # === directories and search ]===
+
+# copy working directory - add path of pwd to clipboard
+alias cwd='pwd | pbcopy'
 
 # recursively delete all .DS_Store files in current folder
 alias ds='find . -name ".DS_Store" -type f -delete'

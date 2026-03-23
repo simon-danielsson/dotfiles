@@ -29,6 +29,7 @@ require("core.plugins.pairs").setup()
 require("core.plugins.indent_guides").setup()
 require("core.plugins.flash").setup()
 require("core.plugins.biscuits").setup()
+require("core.plugins.splash").setup()
 
 -- plugins
 
@@ -37,7 +38,12 @@ require("plugins.nvim-treesitter")
 require("plugins.noice")
 require("plugins.render-markdown")
 require("plugins.keymaps")
+
+-- my own plugins
+
 require("plugins.reamake")
+require("plugins.test")
+-- vim.pack.update()
 
 -- lsp
 

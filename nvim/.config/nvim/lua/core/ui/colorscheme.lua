@@ -112,6 +112,7 @@ local override_groups = {
     PmenuSel                      = { bg = colors.bg_mid, fg = colors.fg_main },
     PmenuSbar                     = { bg = colors.bg_deep },
     PmenuThumb                    = { bg = colors.bg_mid },
+    SplashHeader                  = { fg = aux_col.accent },
 
     -- render-markdown
     RenderMarkdownCode            = { bg = colors.bg_deep2 },
