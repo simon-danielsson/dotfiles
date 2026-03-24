@@ -40,6 +40,15 @@ require("noice").setup({
     routes = {
         {
             filter = {
+                event = "notify",
+                any = {
+                    { find = "No information available" },
+                },
+            },
+            opts = { skip = true },
+        },
+        {
+            filter = {
                 event = "msg_show",
                 any = {
                     { find = "lines" },

@@ -84,6 +84,13 @@ on-mode-changed = []
 
 # === binds ===
 
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+if.app-name-regex-substring = 'finder'
+if.during-aerospace-startup = true
+check-further-callbacks = true
+run = ['layout floating']
+
 [mode.main.binding]
 
     # switch focus
