@@ -28,19 +28,18 @@ require("core.plugins.indent_guides").setup()
 require("core.plugins.flash").setup()
 require("core.plugins.biscuits").setup()
 
--- plugins
-
-require("plugins.nvim-telescope")
-require("plugins.nvim-treesitter")
-require("plugins.noice")
-require("plugins.render-markdown")
-require("plugins.keymaps")
-
--- my own plugins
-
-require("plugins.reamake")
-
 -- lsp
 
 require("lsp.lsp")
 require("lsp.cmp")
+
+-- plugins
+
+require("plugins.nvim-telescope")
+require("plugins.nvim-treesitter")
+-- require("plugins.noice")
+require("plugins.render-markdown")
+
+-- my own plugins
+
+require("plugins.reamake")

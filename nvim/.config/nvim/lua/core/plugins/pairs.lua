@@ -1,4 +1,5 @@
 local M = {}
+
 M.pairs = {
     ["("] = ")",
     ["["] = "]",
@@ -12,6 +13,11 @@ M.quotes = {
     ["`"] = true,
 }
 
+local closing_to_opening = {}
+for open, close in pairs(M.pairs) do
+    closing_to_opening[close] = open
+end
+
 local function getline()
     return vim.fn.getline(".")
 end
@@ -21,16 +27,18 @@ local function col()
 end
 
 local function get_char_at(pos)
+    if pos < 1 then
+        return ""
+    end
     local line = getline()
     return line:sub(pos, pos)
 end
 
 local function is_word_char(c)
-    return c:match("[%w_]")
+    return c ~= "" and c:match("[%w_]")
 end
 
-local function is_escaped(pos)
-    local line = getline()
+local function is_escaped(line, pos)
     local count = 0
     pos = pos - 1
     while pos > 0 and line:sub(pos, pos) == "\\" do
@@ -40,20 +48,78 @@ local function is_escaped(pos)
     return count % 2 == 1
 end
 
-local function has_unmatched_closer(open, close)
-    local line = getline()
-    local c = col()
-    local balance = 0
+local function can_auto_close_quote(line, pos, quote)
+    local prev = line:sub(pos - 1, pos - 1)
+    local next = line:sub(pos, pos)
 
-    for i = c, #line do
+    if is_escaped(line, pos) then
+        return false
+    end
+
+    if is_word_char(prev) or is_word_char(next) then
+        return false
+    end
+
+    return true
+end
+
+local function build_pair_stack_until(line, stop_pos)
+    local stack = {}
+    local active_quote = nil
+
+    for i = 1, stop_pos do
         local ch = line:sub(i, i)
-        if ch == open then
-            balance = balance + 1
-        elseif ch == close then
-            if balance == 0 then
-                return true
+
+        if active_quote then
+            if ch == active_quote and not is_escaped(line, i) then
+                active_quote = nil
             end
-            balance = balance - 1
+        else
+            if M.quotes[ch] and not is_escaped(line, i) then
+                active_quote = ch
+            elseif M.pairs[ch] then
+                stack[#stack + 1] = ch
+            elseif closing_to_opening[ch] then
+                local expected = closing_to_opening[ch]
+                if stack[#stack] == expected then
+                    stack[#stack] = nil
+                end
+            end
+        end
+    end
+
+    return stack, active_quote
+end
+
+local function has_unmatched_closer_ahead(open, close)
+    local line = getline()
+    local cursor_col = col()
+
+    local stack, active_quote = build_pair_stack_until(line, cursor_col - 1)
+
+    for i = cursor_col, #line do
+        local ch = line:sub(i, i)
+
+        if active_quote then
+            if ch == active_quote and not is_escaped(line, i) then
+                active_quote = nil
+            end
+        else
+            if M.quotes[ch] and not is_escaped(line, i) then
+                active_quote = ch
+            elseif M.pairs[ch] then
+                stack[#stack + 1] = ch
+            elseif closing_to_opening[ch] then
+                local expected = closing_to_opening[ch]
+
+                if stack[#stack] == expected then
+                    stack[#stack] = nil
+                else
+                    if ch == close and expected == open then
+                        return true
+                    end
+                end
+            end
         end
     end
 
@@ -61,21 +127,18 @@ local function has_unmatched_closer(open, close)
 end
 
 function M.open(char)
+    local line = getline()
     local c = col()
     local prev = get_char_at(c - 1)
     local next = get_char_at(c)
 
     if M.quotes[char] then
-        if is_escaped(c) then
-            return char
-        end
-
-        if is_word_char(prev) or is_word_char(next) then
-            return char
-        end
-
-        if next == char then
+        if next == char and not is_escaped(line, c) then
             return "<Right>"
+        end
+
+        if not can_auto_close_quote(line, c, char) then
+            return char
         end
 
         return char .. char .. "<Left>"
@@ -86,7 +149,7 @@ function M.open(char)
         return char
     end
 
-    if has_unmatched_closer(char, close) then
+    if has_unmatched_closer_ahead(char, close) then
         return char
     end
 
@@ -129,12 +192,19 @@ function M.setup()
     local expr = { expr = true, noremap = true }
 
     for o, c in pairs(M.pairs) do
-        vim.keymap.set("i", o, function() return M.open(o) end, expr)
-        vim.keymap.set("i", c, function() return M.close(c) end, expr)
+        vim.keymap.set("i", o, function()
+            return M.open(o)
+        end, expr)
+
+        vim.keymap.set("i", c, function()
+            return M.close(c)
+        end, expr)
     end
 
     for q, _ in pairs(M.quotes) do
-        vim.keymap.set("i", q, function() return M.open(q) end, expr)
+        vim.keymap.set("i", q, function()
+            return M.open(q)
+        end, expr)
     end
 
     vim.keymap.set("i", "<BS>", M.backspace, expr)
