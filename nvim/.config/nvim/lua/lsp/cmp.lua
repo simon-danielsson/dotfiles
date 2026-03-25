@@ -1,5 +1,6 @@
 vim.opt.completeopt = { "noselect", "menu", "menuone", "popup" }
 vim.o.inccommand    = 'nosplit'
+vim.opt.pumborder   = "rounded"
 
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)

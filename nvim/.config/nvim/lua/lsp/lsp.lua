@@ -1,7 +1,3 @@
-vim.pack.add {
-    { src = 'https://github.com/neovim/nvim-lspconfig' },
-}
-
 -- rust
 vim.lsp.enable('rust_analyzer')
 

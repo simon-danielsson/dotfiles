@@ -1,13 +1,4 @@
-icon = require("core.ui.icons").telescope
-
-vim.pack.add({
-    {
-        src = "https://github.com/nvim-lua/plenary.nvim",
-        version = "master",
-        sync = true,
-        silent = true
-    },
-})
+local icon = require("core.ui.icons").telescope
 
 vim.pack.add({
     {
