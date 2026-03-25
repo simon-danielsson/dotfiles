@@ -17,9 +17,7 @@ require("core.autocmd.ui")
 -- core: ui
 
 local colors = require("core.ui.theme")
-colors.colorscheme(2)
-colors.background_transparency(true)
-
+colors.colorscheme()
 require("core.ui.colorscheme")
 require("core.ui.statusline")
 
@@ -29,7 +27,6 @@ require("core.plugins.pairs").setup()
 require("core.plugins.indent_guides").setup()
 require("core.plugins.flash").setup()
 require("core.plugins.biscuits").setup()
-require("core.plugins.splash").setup()
 
 -- plugins
 
@@ -42,23 +39,8 @@ require("plugins.keymaps")
 -- my own plugins
 
 require("plugins.reamake")
-require("plugins.test")
--- vim.pack.update()
 
 -- lsp
 
 require("lsp.lsp")
 require("lsp.cmp")
-
--- tmux
-
--- if os.getenv("TMUX") then
---     vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
---         callback = function()
---             local name = vim.fn.expand("%:t")
---             if name == "" then name = "nvim" end
---             vim.fn.system({ "tmux", "rename-window", name })
---         end,
---         desc = "Rename TMUX windows dynamically",
---     })
--- end
