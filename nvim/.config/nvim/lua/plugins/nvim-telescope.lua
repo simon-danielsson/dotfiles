@@ -8,9 +8,7 @@ vim.pack.add({
         silent = true
     },
 })
-vim.pack.add({
-    { src = "https://github.com/nvim-tree/nvim-web-devicons", name = "nvim-web-devicons" },
-})
+
 vim.pack.add({
     {
         src = "https://github.com/nvim-telescope/telescope.nvim",

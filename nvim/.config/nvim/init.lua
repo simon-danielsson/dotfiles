@@ -28,17 +28,17 @@ require("core.plugins.indent_guides").setup()
 require("core.plugins.flash").setup()
 require("core.plugins.biscuits").setup()
 
+-- plugins
+
+require("plugins.nvim-web-devicons")
+require("plugins.nvim-telescope")
+require("plugins.nvim-treesitter")
+
 -- lsp
 
 require("lsp.lsp")
+require("lsp.format")
 require("lsp.cmp")
-
--- plugins
-
-require("plugins.nvim-telescope")
-require("plugins.nvim-treesitter")
--- require("plugins.noice")
-require("plugins.render-markdown")
 
 -- my own plugins
 
