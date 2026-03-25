@@ -13,14 +13,13 @@ vim.g.terminal_color_4  = "#89b4fa"      -- blue
 vim.g.terminal_color_5  = "#f5c2e7"      -- magenta
 vim.g.terminal_color_6  = "#94e2d5"      -- cyan
 vim.g.terminal_color_7  = colors.fg_main -- white
-
 vim.g.terminal_color_8  = colors.fg_mid
-vim.g.terminal_color_9  = "#f38ba8" -- bright red
-vim.g.terminal_color_10 = "#a6e3a1" -- bright green
-vim.g.terminal_color_11 = "#f9e2af" -- bright yellow
-vim.g.terminal_color_12 = "#89b4fa" -- bright blue
-vim.g.terminal_color_13 = "#f5c2e7" -- bright magenta
-vim.g.terminal_color_14 = "#94e2d5" -- bright cyan
+vim.g.terminal_color_9  = "#f38ba8"      -- bright red
+vim.g.terminal_color_10 = "#a6e3a1"      -- bright green
+vim.g.terminal_color_11 = "#f9e2af"      -- bright yellow
+vim.g.terminal_color_12 = "#89b4fa"      -- bright blue
+vim.g.terminal_color_13 = "#f5c2e7"      -- bright magenta
+vim.g.terminal_color_14 = "#94e2d5"      -- bright cyan
 vim.g.terminal_color_15 = colors.fg_main
 
 -- =========================================================
@@ -85,6 +84,10 @@ local override_groups = {
     VertSplit        = { ctermbg = 0, bg = "none", fg = "none" },
     -- popup menu
     Visual           = { bg = colors.bg_deep },
+    CurSearch        = { bg = aux_col.accent, fg = colors.bg_deep3 },
+    IncSearch        = { bg = aux_col.accent, fg = colors.bg_deep3 },
+    Search           = { bg = aux_col.accent, fg = colors.bg_deep3 },
+    Substitute       = { bg = colors.bg_deep },
 
     -- biscuit-nvim
     BiscuitColor     = { fg = colors.bg_deep, bg = aux_col.cursorline_bg },

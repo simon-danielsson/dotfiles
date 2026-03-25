@@ -43,12 +43,16 @@ vim.pack.add({
         sync = true,
         silent = true
     },
+
     -- devicons
     { src = "https://github.com/nvim-tree/nvim-web-devicons",  name = "nvim-web-devicons" },
+
     -- reamake
     { src = "https://github.com/simon-danielsson/reamake.nvim" },
+
     -- lspconfig
     { src = 'https://github.com/neovim/nvim-lspconfig' },
+
     -- treesitter
     {
         src = "https://github.com/nvim-treesitter/nvim-treesitter",

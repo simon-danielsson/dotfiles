@@ -1,3 +1,15 @@
+vim.lsp.config('*', {
+    capabilities = {
+        textDocument = {
+            completion = {
+                completionItem = {
+                    snippetSupport = true,
+                },
+            },
+        },
+    },
+})
+
 -- rust
 vim.lsp.enable('rust_analyzer')
 

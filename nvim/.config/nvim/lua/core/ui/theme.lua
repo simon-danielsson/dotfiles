@@ -10,10 +10,10 @@ M.colors = {
 }
 
 M.aux_colors = {
-    macro_statusline = "#aa4465",
+    macro_statusline = "#aa5565",
     -- cursorline_bg = "#25252d", -- if transparent bg
     cursorline_bg = "#2a2a33", -- not transparent bg
-    accent = "#9ec1a3",
+    accent = "#87afaf",
 }
 
 function M.colorscheme()
