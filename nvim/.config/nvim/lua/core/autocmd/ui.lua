@@ -24,7 +24,10 @@ vim.api.nvim_create_autocmd("InsertEnter", {
     group = ui_group,
     pattern = "*",
     callback = function()
-        vim.opt.relativenumber = false
+        if vim.api.nvim_win_get_config(0).relative ~= "" then
+            return
+        end
+        vim.wo.relativenumber = false
     end,
     desc = "Disable relative line numbers in insert mode",
 })
@@ -33,7 +36,10 @@ vim.api.nvim_create_autocmd("InsertLeave", {
     group = ui_group,
     pattern = "*",
     callback = function()
-        vim.opt.relativenumber = true
+        if vim.api.nvim_win_get_config(0).relative ~= "" then
+            return
+        end
+        vim.wo.relativenumber = true
     end,
     desc = "Enable relative line numbers in normal mode",
 })

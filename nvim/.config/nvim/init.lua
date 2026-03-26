@@ -31,38 +31,19 @@ require("core.plugins.indent_guides").setup()
 require("core.plugins.flash").setup()
 require("core.plugins.biscuits").setup()
 require("core.plugins.hexbg").setup()
+require("core.plugins.recentfiles").setup()
+require("core.plugins.diag").setup()
 
 -- =========================================================
 -- plugins
 
 vim.pack.add({
-    -- plenary
-    {
-        src = "https://github.com/nvim-lua/plenary.nvim",
-        version = "master",
-        sync = true,
-        silent = true
-    },
-
-    -- devicons
-    { src = "https://github.com/nvim-tree/nvim-web-devicons",  name = "nvim-web-devicons" },
-
     -- reamake
     { src = "https://github.com/simon-danielsson/reamake.nvim" },
 
     -- lspconfig
     { src = 'https://github.com/neovim/nvim-lspconfig' },
-
-    -- treesitter
-    {
-        src = "https://github.com/nvim-treesitter/nvim-treesitter",
-        version = "master",
-        sync = true,
-        silent = true
-    },
 })
-
-require("plugins.nvim-telescope")
 
 -- =========================================================
 -- lsp
