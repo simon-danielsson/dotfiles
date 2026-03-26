@@ -26,19 +26,20 @@ require("core.ui.statusline")
 -- =========================================================
 -- core: plugins
 
-require("core.plugins.pairs").setup()
-require("core.plugins.indent_guides").setup()
-require("core.plugins.flash").setup()
-require("core.plugins.biscuits").setup()
-require("core.plugins.hexbg").setup()
-require("core.plugins.recentfiles").setup()
-require("core.plugins.diag").setup()
+require("core.plugins.pairs").setup()         -- auto pair paren, quotes etc.
+require("core.plugins.indent_guides").setup() -- indent guides
+require("core.plugins.flash").setup()         -- jumper
+require("core.plugins.biscuits").setup()      -- function annotations
+require("core.plugins.hexbg").setup()         -- color hex codes
+require("core.plugins.recentfiles").setup()   -- recent files picker
+require("core.plugins.diag").setup()          -- buff diagn. picker
+require("core.plugins.buff").setup()          -- open buff picker
 
 -- =========================================================
 -- plugins
 
 vim.pack.add({
-    { src = "https://github.com/simon-danielsson/reamake.nvim" },
+    -- { src = "https://github.com/simon-danielsson/reamake.nvim" },
     { src = 'https://github.com/neovim/nvim-lspconfig' },
 })
 

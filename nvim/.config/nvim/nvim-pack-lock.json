@@ -1,12 +1,8 @@
 {
   "plugins": {
     "nvim-lspconfig": {
-      "rev": "46204c8fdaa36a9aa3768780450e4bc7a210025f",
+      "rev": "1a6d69206749a646ef28bfb39460610b14baff40",
       "src": "https://github.com/neovim/nvim-lspconfig"
-    },
-    "reamake.nvim": {
-      "rev": "ed15a1e956d9a68e5f553f8819fa7fdb1d7aad95",
-      "src": "https://github.com/simon-danielsson/reamake.nvim"
     }
   }
 }

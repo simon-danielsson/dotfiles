@@ -21,7 +21,7 @@ commit() {
     brakoll close $id
 
     if command -v pbpaste >/dev/null; then
-    clip=$(pbpaste)
+        clip=$(pbpaste)
     elif command -v xclip >/dev/null; then
         clip=$(xclip -o -selection clipboard)
     elif command -v wl-paste >/dev/null; then
@@ -47,6 +47,7 @@ NVIM="bob run nightly"
 alias nvim=$NVIM
 alias code=$NVIM
 alias v=$NVIM
+alias vni=$NVIM
 alias nv=$NVIM
 alias nvi=$NVIM
 alias vim=$NVIM
@@ -65,8 +66,8 @@ alias invpdf="~/dotfiles/scripts/invert-pdf.sh"
 
 # get size of current dir
 size() {
-dir_size=$(du -sh . | awk '{print $1}')
-echo "Current directory size: $dir_size"
+    dir_size=$(du -sh . | awk '{print $1}')
+    echo "Current directory size: $dir_size"
 }
 
 # add to clipboard
@@ -90,36 +91,36 @@ alias nf="cd && clear && neofetch"
 
 # terminal cheat lookup
 cheat() {
-        curl cheat.sh/$@
+    curl cheat.sh/$@
 }
 
 # shorten url
 shorten() {
-        curl -F url=$@ https://shorta.link
+    curl -F url=$@ https://shorta.link
 }
 
 # define word
 define() {
-        curl dict.org/d:$@
+    curl dict.org/d:$@
 }
 
 # === journal ===
 
 journal() {
-        local today=$(date +"%Y-%m-%d")
-        local dir="$HOME/journal"
-        local file="$dir/${today}.md"
-        local template="$dir/template.md"
-        mkdir -p "$dir"
-        # only copy template if the file doesn't already exist
-        if [ ! -f "$file" ]; then
-                if [ -f "$template" ]; then
-                        cp "$template" "$file"
-                else
-                        touch "$file"
-                fi
+    local today=$(date +"%Y-%m-%d")
+    local dir="$HOME/journal"
+    local file="$dir/${today}.md"
+    local template="$dir/template.md"
+    mkdir -p "$dir"
+    # only copy template if the file doesn't already exist
+    if [ ! -f "$file" ]; then
+        if [ -f "$template" ]; then
+            cp "$template" "$file"
+        else
+            touch "$file"
         fi
-        nvim "$file"
+    fi
+    nvim "$file"
 }
 
 # === notes ===
@@ -127,21 +128,21 @@ journal() {
 alias notes="cd ~/notes"
 
 n() {
-        local name="$*"
-        local today
-        today=$(date +"%Y-%m-%d")
-        local dir="$HOME/notes"
-        # if no arg given, default to "note"
-        if [ -z "$name" ]; then
-                name="note"
-        fi
-        # format arg
-        name=$(echo "$name" | xargs | tr -s ' ' '-' | sed 's/-$//' | tr '[:upper:]' '[:lower:]')
-        local file="$dir/${name}_${today}.md"
-        mkdir -p "$dir"
-        # create empty file if it doesn't exist
-        [ -f "$file" ] || touch "$file"
-        nvim "$file"
+    local name="$*"
+    local today
+    today=$(date +"%Y-%m-%d")
+    local dir="$HOME/notes"
+    # if no arg given, default to "note"
+    if [ -z "$name" ]; then
+        name="note"
+    fi
+    # format arg
+    name=$(echo "$name" | xargs | tr -s ' ' '-' | sed 's/-$//' | tr '[:upper:]' '[:lower:]')
+    local file="$dir/${name}_${today}.md"
+    mkdir -p "$dir"
+    # create empty file if it doesn't exist
+    [ -f "$file" ] || touch "$file"
+    nvim "$file"
 }
 
 # === directories and search ]===
@@ -193,23 +194,23 @@ g() {
 # local search from current directory
 unalias s 2>/dev/null
 s() {
-        local target
-        target=$(fd --type f --type d --hidden | fzf --preview='[[ -d {} ]] && exa -al {} || bat --style=numbers {}') || return
-        if [[ -d $target ]]; then
-                cd "$target"
-        elif [[ -f $target ]]; then
-                nvim "$target"
-        fi
+    local target
+    target=$(fd --type f --type d --hidden | fzf --preview='[[ -d {} ]] && exa -al {} || bat --style=numbers {}') || return
+    if [[ -d $target ]]; then
+        cd "$target"
+    elif [[ -f $target ]]; then
+        nvim "$target"
+    fi
 }
 
 # global search from home directory
 unalias ss 2>/dev/null
 ss() {
-        local target
-        target=$(fd --type f --type d --hidden . ~ | fzf --preview='[[ -d {} ]] && exa -al {} || bat --style=numbers {}') || return
-        if [[ -d $target ]]; then
-                cd "$target"
-        elif [[ -f $target ]]; then
-                nvim "$target"
-        fi
+    local target
+    target=$(fd --type f --type d --hidden . ~ | fzf --preview='[[ -d {} ]] && exa -al {} || bat --style=numbers {}') || return
+    if [[ -d $target ]]; then
+        cd "$target"
+    elif [[ -f $target ]]; then
+        nvim "$target"
+    fi
 }

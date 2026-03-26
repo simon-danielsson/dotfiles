@@ -13,12 +13,42 @@ local defaults = {
 
 M.config = vim.deepcopy(defaults)
 
+local qf_ns = vim.api.nvim_create_namespace("BufferDiagnosticsQuickfix")
+
+local severity_to_type = {
+    [vim.diagnostic.severity.ERROR] = "E",
+    [vim.diagnostic.severity.WARN] = "W",
+    [vim.diagnostic.severity.INFO] = "I",
+    [vim.diagnostic.severity.HINT] = "N",
+}
+
+local severity_to_icon = {
+    [vim.diagnostic.severity.ERROR] = icons.diagn.error,
+    [vim.diagnostic.severity.WARN] = icons.diagn.warning,
+    [vim.diagnostic.severity.INFO] = icons.diagn.information,
+    [vim.diagnostic.severity.HINT] = icons.diagn.hint,
+}
+
+local severity_to_hl = {
+    [vim.diagnostic.severity.ERROR] = "QfDiagError",
+    [vim.diagnostic.severity.WARN] = "QfDiagWarn",
+    [vim.diagnostic.severity.INFO] = "QfDiagInfo",
+    [vim.diagnostic.severity.HINT] = "QfDiagHint",
+}
+
 local function get_opts(opts)
     return vim.tbl_deep_extend("force", {}, M.config, opts or {})
 end
 
 local function normalize_path(path)
     return vim.fn.fnamemodify(path, ":~:.")
+end
+
+local function define_qf_highlights()
+    vim.api.nvim_set_hl(0, "QfDiagError", { link = "DiagnosticError" })
+    vim.api.nvim_set_hl(0, "QfDiagWarn", { link = "DiagnosticWarn" })
+    vim.api.nvim_set_hl(0, "QfDiagInfo", { link = "DiagnosticInfo" })
+    vim.api.nvim_set_hl(0, "QfDiagHint", { link = "DiagnosticHint" })
 end
 
 local function collect_buffer_diagnostics()
@@ -34,12 +64,10 @@ local function collect_buffer_diagnostics()
             end_lnum = d.end_lnum and (d.end_lnum + 1) or nil,
             end_col = d.end_col and (d.end_col + 1) or nil,
             text = d.message,
-            type = ({
-                [vim.diagnostic.severity.ERROR] = icons.diagn.error,
-                [vim.diagnostic.severity.WARN] = icons.diagn.warning,
-                [vim.diagnostic.severity.INFO] = icons.diagn.information,
-                [vim.diagnostic.severity.HINT] = icons.diagn.hint,
-            })[d.severity],
+            type = severity_to_type[d.severity],
+            user_data = {
+                severity = d.severity,
+            },
         }
     end
 
@@ -56,6 +84,24 @@ local function collect_buffer_diagnostics()
     return items
 end
 
+local function apply_qf_line_highlights(bufnr, qf_id)
+    vim.api.nvim_buf_clear_namespace(bufnr, qf_ns, 0, -1)
+
+    local qf_items = vim.fn.getqflist({ id = qf_id, items = 1 }).items or {}
+
+    for i, item in ipairs(qf_items) do
+        local severity = item.user_data and item.user_data.severity
+        local hl = severity_to_hl[severity]
+
+        if hl then
+            vim.api.nvim_buf_set_extmark(bufnr, qf_ns, i - 1, 0, {
+                line_hl_group = hl,
+                priority = 10,
+            })
+        end
+    end
+end
+
 function M.quickfix_text(info)
     local qf_items = vim.fn.getqflist({ id = info.id, items = 1 }).items
     local lines = {}
@@ -67,10 +113,11 @@ function M.quickfix_text(info)
             local path = normalize_path(name)
             local lnum = item.lnum or 0
             local col = item.col or 0
-            local typ = item.type or ""
+            local severity = item.user_data and item.user_data.severity
+            local icon = severity_to_icon[severity] or (item.type or "")
             local text = item.text or ""
 
-            lines[#lines + 1] = string.format("%s:%d:%d: [%s] %s", path, lnum, col, typ, text)
+            lines[#lines + 1] = string.format("%s:%d:%d: %s %s", path, lnum, col, icon, text)
         end
     end
 
@@ -111,6 +158,8 @@ end
 function M.setup(opts)
     M.config = get_opts(opts)
 
+    define_qf_highlights()
+
     if M.config.keymap then
         vim.keymap.set("n", M.config.keymap, function()
             M.open()
@@ -124,12 +173,14 @@ function M.setup(opts)
             group = group,
             pattern = "qf",
             callback = function(args)
-                local qf_info = vim.fn.getqflist({ title = 1 })
+                local qf_info = vim.fn.getqflist({ id = 0, title = 1, items = 0 })
                 if qf_info.title ~= M.config.title then
                     return
                 end
 
                 vim.bo[args.buf].buflisted = false
+
+                apply_qf_line_highlights(args.buf, qf_info.id)
 
                 vim.keymap.set("n", "q", "<cmd>cclose<cr>", {
                     buffer = args.buf,
