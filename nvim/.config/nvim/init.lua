@@ -24,7 +24,7 @@ require("core.ui.colorscheme")
 require("core.ui.statusline")
 
 -- =========================================================
--- core: plugins
+-- core: plugin recreations
 
 require("core.plugins.pairs").setup()         -- auto pair paren, quotes etc.
 require("core.plugins.indent_guides").setup() -- indent guides
@@ -34,13 +34,6 @@ require("core.plugins.hexbg").setup()         -- color hex codes
 require("core.plugins.recentfiles").setup()   -- recent files picker
 require("core.plugins.diag").setup()          -- buff diagn. picker
 require("core.plugins.buff").setup()          -- open buff picker
-
--- =========================================================
--- plugins
-
-vim.pack.add({
-    { src = 'https://github.com/neovim/nvim-lspconfig' },
-})
 
 -- =========================================================
 -- lsp
