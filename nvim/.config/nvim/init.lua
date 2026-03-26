@@ -38,10 +38,7 @@ require("core.plugins.diag").setup()
 -- plugins
 
 vim.pack.add({
-    -- reamake
     { src = "https://github.com/simon-danielsson/reamake.nvim" },
-
-    -- lspconfig
     { src = 'https://github.com/neovim/nvim-lspconfig' },
 })
 
