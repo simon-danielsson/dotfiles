@@ -39,7 +39,6 @@ require("core.plugins.buff").setup()          -- open buff picker
 -- plugins
 
 vim.pack.add({
-    -- { src = "https://github.com/simon-danielsson/reamake.nvim" },
     { src = 'https://github.com/neovim/nvim-lspconfig' },
 })
 
