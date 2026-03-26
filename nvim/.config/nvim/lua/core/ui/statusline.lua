@@ -23,13 +23,8 @@ local function git_info()
                 repo = repo:sub(1, max_repo_name_length) .. "..."
             end
             local status = vim.fn.systemlist("git status --porcelain=v2 --branch 2>/dev/null")
-            local ahead, behind = 0, 0
             local added, modified, deleted, conflict = 0, 0, 0, 0
             for _, line in ipairs(status) do
-                local a, b = line:match("^# branch%.ab%s+([%+%-]?%d+)%s+([%+%-]?%d+)")
-                if a and b then
-                    ahead, behind = tonumber(a) or 0, tonumber(b) or 0
-                end
                 local first_char = line:sub(1, 1)
                 if first_char == "1" or first_char == "2" then
                     local parts_line = vim.split(line, "%s+")

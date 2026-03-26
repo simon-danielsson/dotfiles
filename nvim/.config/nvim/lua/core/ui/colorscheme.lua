@@ -88,6 +88,7 @@ local override_groups = {
     IncSearch        = { bg = aux_col.accent, fg = colors.bg_deep3 },
     Search           = { bg = aux_col.accent, fg = colors.bg_deep3 },
     Substitute       = { bg = colors.bg_deep },
+    QuickFixLine     = { ctermbg = 0 },
 
     -- biscuit-nvim
     BiscuitColor     = { fg = colors.bg_deep, bg = aux_col.cursorline_bg },
