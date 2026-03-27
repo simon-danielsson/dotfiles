@@ -1,8 +1,6 @@
-# My dotfiles
+## A swedish development environment.
   
 ---
-
-## Info
     
 I had previously been using ghostty/tmux as my main development setup, but as of march 2026 I have switched to [cmux](https://github.com/manaflow-ai/cmux). I like how cmux still uses the ghostty backend whilst still being sleek and minimal.  
   
