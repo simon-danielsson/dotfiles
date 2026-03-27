@@ -45,7 +45,7 @@ vim.lsp.config('pyright', {
 })
 vim.lsp.enable('pyright')
 
--- -- c/c++
+-- c/c++
 vim.lsp.config('clangd', {
     cmd = {
         'clangd',

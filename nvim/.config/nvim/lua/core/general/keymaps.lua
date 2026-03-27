@@ -1,11 +1,13 @@
 local map = vim.keymap.set
 
--- ==== Leader ====
+-- =========================================================
+-- leader
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- ==== Local Navigation ====
+-- =========================================================
+-- navigation: local
 
 map("n", "i", "<Nop>")
 map("n", "I", "<Nop>")
@@ -54,7 +56,8 @@ map("n", "<C-o>", function()
     vim.cmd("normal! zz")
 end, { desc = "Go to next diagnostic" })
 
--- ==== Global Navigation ====
+-- =========================================================
+-- navigation: global
 
 vim.keymap.set("n", "<leader>f", function()
     dir = vim.fn.getcwd()
@@ -96,7 +99,8 @@ map('n', '<Left>', '<cmd>vertical resize +4<cr>',
 map('n', '<Right>', '<cmd>vertical resize -4<cr>',
     { desc = 'Decrease Window Width' })
 
--- ==== General ====
+-- =========================================================
+-- general
 
 map("n", "<Esc>", "<cmd>nohlsearch<CR>",
     { desc = "Clear search highlights" })
@@ -106,7 +110,8 @@ map('n', '<leader>å', function()
     end,
     { desc = 'Restart Neovim' })
 
--- ==== Macros (dumbed down, no registers) ====
+-- =========================================================
+-- macros
 
 map("n", "ä", function()
         local reg = vim.fn.reg_recording()
@@ -125,7 +130,8 @@ map("n", "Ä", function()
     end,
     { desc = "Play macro in @q once" })
 
--- ==== Folds ====
+-- =========================================================
+-- folds
 
 map('n', 'za', 'za',
     { desc = "Toggle fold under cursor" })
@@ -136,7 +142,8 @@ map('n', 'zo', 'zR',
 map('n', 'zc', 'zM',
     { desc = "Close all folds" })
 
--- ==== Editing ====
+-- =========================================================
+-- editing
 
 map("n", "<leader>,", [[:%s/<C-r><C-w>//gI<Left><Left><Left>]],
     { desc = "open %s//gI with cword" })
@@ -189,9 +196,9 @@ map("i", "<S-Tab>", "<C-d>", { desc = "Outdent line in insert mode" })
 map("v", "<S-e>", ":m '>+2<CR>gv=gv", { desc = "Move selection down" })
 map("v", "<S-o>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
--- ==== Plugins & LSP ====
+-- =========================================================
+-- lsp
 
--- LSP
 map("n", "K", function() vim.lsp.buf.hover({ border = "rounded" }) end, opts)
 map("n", "<C-k>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end, opts)
 

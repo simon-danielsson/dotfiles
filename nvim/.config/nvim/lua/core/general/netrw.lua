@@ -1,10 +1,15 @@
--- ==== General Settings ====
+-- settings
 
 local autocmd = vim.api.nvim_create_autocmd
 vim.g.netrw_liststyle = 3
 vim.g.netrw_banner = 0
 vim.g.netrw_preview = 1
 vim.g.netrw_keepdir = 0
+vim.g.netrw_sort_sequence = [[[/]$,\<core\%(\.\d\+\)\=,\.(c|h|cpp|hpp|lua|py|rs|go|ts|js)$,*]]
+vim.api.nvim_set_hl(0, "netrwMarkFile", { link = "Visual" })
+
+-- =========================================================
+-- keymaps
 
 autocmd({ "FileType", "BufWinEnter" }, {
     pattern = "netrw",
@@ -20,7 +25,8 @@ autocmd({ "FileType", "BufWinEnter" }, {
     end,
 })
 
--- ==== Preview ====
+-- =========================================================
+-- close netrw preview on bufenter
 
 autocmd("BufEnter", {
     callback = function()
