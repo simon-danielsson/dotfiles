@@ -1,25 +1,6 @@
-<p align="center">
-    <h2>My dotfiles</h2>
-</p>
-  
-<p align="center">
-  <em>A swedish development environment!</em>
-</p>
-  
-<p align="center">
-  <img src="https://img.shields.io/github/last-commit/simon-danielsson/dotfiles/main?style=flat-square&color=blue" alt="Last commit" />
-</p>
-  
-<p align="center">
-  <a href="#info">Information</a>
-</p>  
-   
-<!-- <p align="center"> -->
-<!--   <img src="./media/demo.gif" width="400"/> -->
-<!-- </p> -->
+# My dotfiles
   
 ---
-<div id="info"></div>
 
 ## Info
     
