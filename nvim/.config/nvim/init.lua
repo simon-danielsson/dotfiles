@@ -2788,6 +2788,264 @@ end
 recentfiles.setup()
 
 -- =========================================================
+-- !!! modules/jumps
+-- =========================================================
+
+local jumps = {}
+
+local defaults = {
+    title = "Jumplist",
+    open_cmd = "copen",
+    qf_mappings = true,
+    keymap = "<leader>j",
+    desc = "Open current window jumplist",
+    notify = false,
+    include_current = true,
+}
+
+jumps.config = vim.deepcopy(defaults)
+
+local qf_ns = vim.api.nvim_create_namespace("JumpListQuickfix")
+local current_idx_hl = "QfJumpCurrent"
+
+local function map(mode, lhs, rhs, opts)
+    vim.keymap.set(mode, lhs, rhs, opts)
+end
+
+local function get_opts(opts)
+    return vim.tbl_deep_extend("force", {}, jumps.config, opts or {})
+end
+
+local function normalize_path(path)
+    return vim.fn.fnamemodify(path, ":~:.")
+end
+
+local function define_qf_highlights()
+    vim.api.nvim_set_hl(0, current_idx_hl, { link = "Visual" })
+end
+
+local function get_bufname_from_jump(item)
+    if item.bufnr and item.bufnr > 0 then
+        local name = vim.api.nvim_buf_get_name(item.bufnr)
+        if name ~= "" then
+            return name
+        end
+    end
+    return item.filename or ""
+end
+
+local function get_line_text(bufnr, lnum)
+    if not bufnr or bufnr <= 0 or lnum <= 0 then
+        return ""
+    end
+
+    if not vim.api.nvim_buf_is_valid(bufnr) then
+        return ""
+    end
+
+    local ok, lines = pcall(vim.api.nvim_buf_get_lines, bufnr, lnum - 1, lnum, false)
+    if not ok or not lines or not lines[1] then
+        return ""
+    end
+
+    return vim.trim(lines[1])
+end
+
+local function collect_jumps(opts)
+    local result = vim.fn.getjumplist()
+    local jumplist = result[1] or {}
+    local current_idx = result[2] or -1
+    local items = {}
+
+    for i, jump in ipairs(jumplist) do
+        local bufnr = jump.bufnr or 0
+        local filename = get_bufname_from_jump(jump)
+
+        if bufnr <= 0 and filename ~= "" then
+            bufnr = vim.fn.bufnr(filename, false)
+        end
+
+        local lnum = jump.lnum or 1
+        local col = jump.col or 1
+
+        local text = ""
+        if bufnr > 0 then
+            text = get_line_text(bufnr, lnum)
+        end
+        if text == "" then
+            text = filename ~= "" and normalize_path(filename) or "[No text]"
+        end
+
+        items[#items + 1] = {
+            bufnr = bufnr > 0 and bufnr or nil,
+            filename = (bufnr <= 0 and filename ~= "") and filename or nil,
+            lnum = lnum,
+            col = col,
+            text = text,
+            user_data = {
+                jump_index = i,
+                current = opts.include_current and (i == (current_idx + 1)) or false,
+            },
+        }
+    end
+
+    return items, current_idx + 1
+end
+
+local function apply_qf_line_highlights(bufnr, qf_id)
+    vim.api.nvim_buf_clear_namespace(bufnr, qf_ns, 0, -1)
+
+    local qf_items = vim.fn.getqflist({ id = qf_id, items = 1 }).items or {}
+
+    for i, item in ipairs(qf_items) do
+        if item.user_data and item.user_data.current then
+            vim.api.nvim_buf_set_extmark(bufnr, qf_ns, i - 1, 0, {
+                line_hl_group = current_idx_hl,
+                priority = 10,
+            })
+        end
+    end
+end
+
+function jumps.quickfix_text(info)
+    local qf_items = vim.fn.getqflist({ id = info.id, items = 1 }).items or {}
+    local lines = {}
+
+    for i = info.start_idx, info.end_idx do
+        local item = qf_items[i]
+        if item then
+            local name = ""
+
+            if item.bufnr and item.bufnr > 0 then
+                name = vim.api.nvim_buf_get_name(item.bufnr)
+            elseif item.filename then
+                name = item.filename
+            end
+
+            local path = normalize_path(name ~= "" and name or "[No Name]")
+            local lnum = item.lnum or 0
+            local col = item.col or 0
+            local text = item.text or ""
+            local mark = (item.user_data and item.user_data.current) and "●" or " "
+
+            lines[#lines + 1] = string.format("%s %s:%d:%d: %s", mark, path, lnum, col, text)
+        end
+    end
+
+    return lines
+end
+
+function jumps.setqflist(opts)
+    opts = get_opts(opts)
+
+    local items = collect_jumps(opts)
+
+    if vim.tbl_isempty(items) then
+        if opts.notify then
+            vim.notify("No jumps found in current window", vim.log.levels.INFO)
+        end
+        return false
+    end
+
+    _G.jump_quickfix_text = jumps.quickfix_text
+
+    vim.fn.setqflist({}, " ", {
+        title = opts.title,
+        items = items,
+        quickfixtextfunc = "v:lua.jump_quickfix_text",
+    })
+
+    return true
+end
+
+function jumps.open(opts)
+    opts = get_opts(opts)
+
+    if not jumps.setqflist(opts) then
+        return
+    end
+
+    vim.cmd(opts.open_cmd)
+end
+
+local function jump_to_qf_item()
+    local item = vim.fn.getqflist()[vim.fn.line(".")]
+    if not item then
+        return
+    end
+
+    local target_buf = item.bufnr
+    local target_file = item.filename
+    local lnum = math.max(item.lnum or 1, 1)
+    local col = math.max(item.col or 1, 1)
+
+    vim.cmd("cclose")
+
+    if target_buf and target_buf > 0 and vim.api.nvim_buf_is_valid(target_buf) then
+        vim.api.nvim_set_current_buf(target_buf)
+    elseif target_file and target_file ~= "" then
+        vim.cmd.edit(vim.fn.fnameescape(target_file))
+        target_buf = vim.api.nvim_get_current_buf()
+    else
+        return
+    end
+
+    local line_count = vim.api.nvim_buf_line_count(0)
+    lnum = math.min(lnum, line_count)
+
+    local line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1] or ""
+    col = math.min(col, math.max(#line, 1))
+
+    vim.api.nvim_win_set_cursor(0, { lnum, math.max(col - 1, 0) })
+    vim.cmd("normal! zv")
+end
+
+function jumps.setup(opts)
+    jumps.config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
+
+    define_qf_highlights()
+
+    if jumps.config.keymap then
+        map("n", jumps.config.keymap, function()
+            jumps.open()
+        end, { desc = jumps.config.desc })
+    end
+
+    if jumps.config.qf_mappings then
+        local group = vim.api.nvim_create_augroup("JumpListQuickfix", { clear = true })
+
+        vim.api.nvim_create_autocmd("FileType", {
+            group = group,
+            pattern = "qf",
+            callback = function(args)
+                local qf_info = vim.fn.getqflist({ id = 0, title = 1, items = 0 })
+                if qf_info.title ~= jumps.config.title then
+                    return
+                end
+
+                vim.bo[args.buf].buflisted = false
+
+                apply_qf_line_highlights(args.buf, qf_info.id)
+
+                map("n", "q", "<cmd>cclose<cr>", {
+                    buffer = args.buf,
+                    silent = true,
+                    desc = "Close jumplist",
+                })
+
+                map("n", "<CR>", jump_to_qf_item, {
+                    buffer = args.buf,
+                    silent = true,
+                    desc = "Open jump and close list",
+                })
+            end,
+        })
+    end
+end
+
+jumps.setup()
+
+-- =========================================================
 -- !!! modules/diag
 -- =========================================================
 
