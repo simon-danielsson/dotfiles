@@ -1076,7 +1076,7 @@ local theme      = {}
 theme.colors     = {
     fg_main  = "#AAB3C0",
     fg_mid   = "#6e6e87",
-    bg_mid   = "#9ec1a3",
+    bg_mid   = "#87afaf",
     bg_mid2  = "#6e6e87",
     bg_deep  = "#40404f",
     bg_deep3 = "#25252d",
@@ -1099,7 +1099,6 @@ function theme.theme()
     vim.api.nvim_set_hl(0, "Normal", { bg = theme.colors.bg_deep3 })
 end
 
--- apply it
 theme.theme()
 
 -- =========================================================
@@ -1108,8 +1107,8 @@ theme.theme()
 
 local colors            = theme.colors
 local aux_col           = theme.aux_colors
--- terminal colors
 
+-- terminal colors
 vim.g.terminal_color_0  = "#1e1e2e"      -- black
 vim.g.terminal_color_1  = "#f38ba8"      -- red
 vim.g.terminal_color_2  = "#a6e3a1"      -- green
@@ -1128,11 +1127,9 @@ vim.g.terminal_color_14 = "#94e2d5"      -- bright cyan
 vim.g.terminal_color_15 = colors.fg_main
 
 -- borders
-
 vim.g.border            = icons.border
 
 -- diagnostics
-
 local diag_icons        = {
     [vim.diagnostic.severity.ERROR] = icons.diagn.error,
     [vim.diagnostic.severity.WARN]  = icons.diagn.warning,
