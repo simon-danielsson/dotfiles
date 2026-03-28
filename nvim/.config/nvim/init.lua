@@ -918,6 +918,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
                 end
             end
         end
+
         vim.lsp.completion.enable(true, client.id, args.buf, {
             autotrigger = true,
         })
