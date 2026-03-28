@@ -45,7 +45,6 @@ alias vimpack="cd ~/.local/share/nvim/site/pack/core/opt"
 # neovim
 NVIM="bob run nightly"
 alias nvim=$NVIM
-alias code=$NVIM
 alias v=$NVIM
 alias vni=$NVIM
 alias nv=$NVIM
