@@ -63,9 +63,6 @@ vim.lsp.config('clangd', {
 })
 vim.lsp.enable('clangd')
 
--- -- gdscript
--- vim.lsp.enable('gdscript')
-
 -- js/ts
 vim.lsp.config('tsserver', {
     cmd = { 'typescript-language-server', '--stdio' },

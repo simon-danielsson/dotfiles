@@ -126,6 +126,7 @@ opt.wildignore:append({ "*.o", "*.obj",
 
 -- ==== File Handling ====
 
+opt.shada                = "'1000,<50,s10,h"
 opt.undodir              = vim.fn.expand("~/.vim/undodir")
 opt.undofile             = true
 opt.backup               = false
