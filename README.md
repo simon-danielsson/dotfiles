@@ -1,6 +1,6 @@
 ## A swedish development environment.
   
-I had previously been using ghostty/tmux as my main development setup, but as of march 2026 I have switched to [cmux](https://github.com/manaflow-ai/cmux). I like how cmux uses the ghostty backend whilst still being sleek and minimal.  
+I had previously been using ghostty/tmux as my main development setup, but as of march 2026 I have switched to [cmux](https://github.com/manaflow-ai/cmux).  
   
 My neovim config is based around a no-plugins philosophy - lsp, completion, file-pickers, syntax highlighting and so on is all being done through native means. This is because I'm of the opinion that neovim feels a bit snappier and responsive with no plugins installed.  
   
