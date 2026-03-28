@@ -34,12 +34,13 @@ commit() {
 
 # === dev ===
 
-# kill all nvim and tmux processes, and exit ghostty
-alias q="~/dotfiles/scripts/kill-nvim-and-tmux.sh"
-
 # safe mv command
 alias mv="mv -i"
 
+# vim config
+alias vimconf="cd ~/dotfiles/nvim/.config/nvim"
+
+# vim pack
 alias vimpack="cd ~/.local/share/nvim/site/pack/core/opt"
 
 # neovim

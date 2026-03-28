@@ -90,7 +90,7 @@ function M.setqflist(opts)
         title = opts.title,
         lines = oldfiles,
         efm = "%f",
-        quickfixtextfunc = "v:lua.require'core.plugins.recentfiles'.quickfix_text",
+        quickfixtextfunc = "v:lua.require'modules.recentfiles'.quickfix_text",
     })
 
     return true

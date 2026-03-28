@@ -1,6 +1,6 @@
-local icons             = require("core.ui.icons")
-local colors            = require("core.ui.theme").colors
-local aux_col           = require("core.ui.theme").aux_colors
+local icons             = require("ui.icons")
+local colors            = require("ui.theme").colors
+local aux_col           = require("ui.theme").aux_colors
 
 -- =========================================================
 -- terminal colors

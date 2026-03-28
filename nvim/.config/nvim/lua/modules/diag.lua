@@ -1,4 +1,4 @@
-local icons = require("core.ui.icons")
+local icons = require("ui.icons")
 
 local M = {}
 
@@ -139,7 +139,7 @@ function M.setqflist(opts)
     vim.fn.setqflist({}, " ", {
         title = opts.title,
         items = items,
-        quickfixtextfunc = "v:lua.require'core.plugins.diag'.quickfix_text",
+        quickfixtextfunc = "v:lua.require'modules.diag'.quickfix_text",
     })
 
     return true
