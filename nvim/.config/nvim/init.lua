@@ -2048,7 +2048,7 @@ flash.setup()
 -- !!! modules/indent_guides
 -- =========================================================
 
-local M = {}
+local indent_guides = {}
 
 local ns = vim.api.nvim_create_namespace("native_indent_guides")
 
@@ -2159,38 +2159,38 @@ local function get_blankline_indent(bufnr, lnum)
     return 0
 end
 
-function M.refresh()
+function indent_guides.refresh()
     vim.cmd("redraw")
 end
 
-function M.enable()
+function indent_guides.enable()
     enabled = true
-    M.refresh()
+    indent_guides.refresh()
 end
 
-function M.disable()
+function indent_guides.disable()
     enabled = false
-    M.refresh()
+    indent_guides.refresh()
 end
 
-function M.toggle()
+function indent_guides.toggle()
     enabled = not enabled
-    M.refresh()
+    indent_guides.refresh()
 end
 
-function M.setup(opts)
+function indent_guides.setup(opts)
     config = vim.tbl_deep_extend("force", config, opts or {})
 
     vim.api.nvim_create_user_command("IndentGuidesEnable", function()
-        M.enable()
+        indent_guides.enable()
     end, {})
 
     vim.api.nvim_create_user_command("IndentGuidesDisable", function()
-        M.disable()
+        indent_guides.disable()
     end, {})
 
     vim.api.nvim_create_user_command("IndentGuidesToggle", function()
-        M.toggle()
+        indent_guides.toggle()
     end, {})
 
     vim.api.nvim_set_decoration_provider(ns, {
@@ -2268,13 +2268,13 @@ function M.setup(opts)
     })
 end
 
-M.setup()
+indent_guides.setup()
 
 -- =========================================================
 -- !!! modules/biscuits
 -- =========================================================
 
-local M = {}
+local biscuits = {}
 
 local ns = vim.api.nvim_create_namespace("native_biscuits")
 
@@ -2442,11 +2442,11 @@ local function draw_for_window(winid)
     end
 end
 
-function M.refresh()
+function biscuits.refresh()
     draw_for_window(vim.api.nvim_get_current_win())
 end
 
-function M.setup(opts)
+function biscuits.setup(opts)
     config = vim.tbl_extend("force", config, opts or {})
 
     local aug = vim.api.nvim_create_augroup("NativeBiscuits", { clear = true })
@@ -2459,17 +2459,17 @@ function M.setup(opts)
     })
 
     vim.api.nvim_create_user_command("BiscuitsRefresh", function()
-        M.refresh()
+        biscuits.refresh()
     end, {})
 end
 
-M.setup()
+biscuits.setup()
 
 -- =========================================================
 -- !!! modules/hexbg
 -- =========================================================
 
-local M = {}
+local hexbg = {}
 
 local ns = vim.api.nvim_create_namespace("hexbg")
 local group_cache = {}
@@ -2540,7 +2540,7 @@ local function add_matches_for_line(bufnr, lnum, line)
     end
 end
 
-function M.refresh(bufnr)
+function hexbg.refresh(bufnr)
     bufnr = bufnr or vim.api.nvim_get_current_buf()
 
     if not vim.api.nvim_buf_is_valid(bufnr) then
@@ -2557,8 +2557,8 @@ function M.refresh(bufnr)
     end
 end
 
-function M.setup()
-    local augroup = vim.api.nvim_create_augroup("HexBg", { clear = true })
+function hexbg.setup()
+    local hex_augroup = vim.api.nvim_create_augroup("HexBg", { clear = true })
 
     vim.api.nvim_create_autocmd({
         "BufEnter",
@@ -2566,20 +2566,20 @@ function M.setup()
         "TextChangedI",
         "InsertLeave",
     }, {
-        group = augroup,
+        group = hex_augroup,
         callback = function(args)
             vim.schedule(function()
-                M.refresh(args.buf)
+                hexbg.refresh(args.buf)
             end)
         end,
     })
 
     vim.schedule(function()
-        M.refresh()
+        hexbg.refresh()
     end)
 end
 
-M.setup()
+hexbg.setup()
 
 -- =========================================================
 -- !!! modules/recentfiles
@@ -3426,11 +3426,11 @@ buffers.setup()
 -- !!! modules/snippets
 -- =========================================================
 
-local M = {}
+local snippets = {}
 
 ---@param defs table<string, string>  -- trigger -> snippet body
 ---@param opts? { modes?: string|string[], key?: string, match?: fun(before: string, trigger: string): boolean }
-function M.setup(defs, opts)
+function snippets.setup(defs, opts)
     opts = opts or {}
 
     local modes = opts.modes or "i"
@@ -3463,6 +3463,6 @@ function M.setup(defs, opts)
     end, { desc = "Expand snippet trigger" })
 end
 
-M.setup({ -- snippets (expand with c-x)
+snippets.setup({ -- snippets (expand with c-x)
     issue = "*brakoll - d: $0, p: 0, t: feature, s: open",
 })
