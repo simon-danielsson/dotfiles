@@ -407,6 +407,18 @@ local write_group = augroup("WriteCommands", { clear = true })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
     group = write_group,
+    callback = function(event)
+        -- Skip if path is a protocol (e.g., git:, fzf:)
+        if event.match:match("^%w%w+:[\\/][\\/]") then return end
+        local file = vim.uv.fs_realpath(event.match) or event.match
+        local dir = vim.fn.fnamemodify(file, ":p:h") -- parent directory
+        vim.fn.mkdir(dir, "p")                       -- create recursively
+    end,
+    desc = "Auto-create parent directories before saving"
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+    group = write_group,
     pattern = "*",
     callback = function()
         local ft = vim.bo.filetype
@@ -668,6 +680,18 @@ autocmd("TermClose", {
 -- =========================================================
 
 local ui_group = augroup("UiCommands", { clear = true })
+
+vim.api.nvim_create_autocmd("FileType", {
+    group = ui_group,
+    pattern = {
+        "markdown",
+        "json",
+        "jsonc",
+        "json5"
+    },
+    callback = function() vim.opt_local.conceallevel = 0 end,
+    desc = "Disable conceal in Markdown and JSON files"
+})
 
 autocmd("VimResized", {
     group = ui_group,
@@ -1277,7 +1301,7 @@ autocmd("RecordingEnter", {
     callback = function()
         local reg = vim.fn.reg_recording()
         if reg ~= "" then
-            _G.macro_recording = " " .. ""
+            _G.macro_recording = " ██" .. ""
         end
     end,
 })
