@@ -22,23 +22,6 @@ local function git_info()
             if #repo > max_repo_name_length then
                 repo = repo:sub(1, max_repo_name_length) .. "..."
             end
-            local status = vim.fn.systemlist("git status --porcelain=v2 --branch 2>/dev/null")
-            local added, modified, deleted, conflict = 0, 0, 0, 0
-            for _, line in ipairs(status) do
-                local first_char = line:sub(1, 1)
-                if first_char == "1" or first_char == "2" then
-                    local parts_line = vim.split(line, "%s+")
-                    local xy = parts_line[2] or ""
-                    local x, y = xy:sub(1, 1), xy:sub(2, 2)
-                    if x == "A" or y == "A" then added = added + 1 end
-                    if x == "M" or y == "M" then modified = modified + 1 end
-                    if x == "D" or y == "D" then deleted = deleted + 1 end
-                elseif first_char == "?" then
-                    added = added + 1
-                elseif first_char == "u" then
-                    conflict = conflict + 1
-                end
-            end
             local parts = {
                 "│ " .. (icons.git.repo or "") .. " " .. repo,
                 (icons.git.branch or "") .. " " .. branch
@@ -50,24 +33,6 @@ local function git_info()
 end
 
 -- ==== utilities ====
-
-local function python_venv()
-    local ft = vim.bo.filetype
-    local ext = vim.fn.expand("%:e")
-    if ft ~= "python" and ext ~= "py" then
-        return ""
-    end
-    local venv = vim.env.VIRTUAL_ENV
-    if not venv or venv == "" then
-        return ""
-    end
-    local venv_name = vim.fn.fnamemodify(venv, ":t")
-    if venv_name == "venv" or venv_name == ".venv" or venv_name == "env" then
-        local project = vim.fn.fnamemodify(venv, ":h:t")
-        return " " .. "" .. project .. " "
-    end
-    return "  " .. " " .. venv_name .. " "
-end
 
 _G.macro_recording = ""
 autocmd("RecordingEnter", {
@@ -188,7 +153,6 @@ _G.Statusline = function()
         file_type_filename(),
         "%#StatusGit#" .. git_info(),
         "%#StatusLsp#" .. lsp_info() .. "",
-        "%#StatusLsp#" .. python_venv() .. "",
         "%=",
     }
 

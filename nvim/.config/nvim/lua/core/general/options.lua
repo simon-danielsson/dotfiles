@@ -7,6 +7,15 @@ local o            = vim.o
 opt.number         = true
 opt.relativenumber = true
 
+-- ==== indenting ====
+
+o.expandtab        = true
+o.smartindent      = true
+o.autoindent       = true
+o.tabstop          = 4
+o.shiftwidth       = 4
+o.softtabstop      = 4
+
 -- ==== Wrapping & Linebreaks ====
 
 opt.wrap           = true

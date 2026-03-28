@@ -18,32 +18,6 @@ autocmd("BufReadPost", {
     desc = "Restore cursor location when opening a buffer",
 })
 
-local ignore_filetypes = { "TelescopePrompt" }
-local function should_ignore()
-    return vim.tbl_contains(ignore_filetypes, vim.bo.filetype)
-end
-autocmd({ "BufEnter", "WinEnter" }, {
-    group = cursor_group,
-    callback = function()
-        if not should_ignore() then
-            vim.opt_local.cursorline = true
-        else
-            vim.opt_local.cursorline = false
-        end
-    end,
-    desc = "Highlight cursorline in active window (except Telescope)",
-})
-
-autocmd("WinLeave", {
-    group = cursor_group,
-    callback = function()
-        if not should_ignore() then
-            vim.opt_local.cursorline = false
-        end
-    end,
-    desc = "Do not highlight cursorline in inactive windows",
-})
-
 autocmd("TextYankPost", {
     group = cursor_group,
     callback = function()
