@@ -176,11 +176,10 @@ autocmd({ "FileType", "BufWinEnter" }, {
     pattern = "netrw",
     callback = function()
         local opts = { buffer = true, noremap = true, silent = true }
-        local keymap = vim.keymap.set
-        keymap("n", "n", "h", opts)
-        keymap("n", "e", "j", opts)
-        keymap("n", "o", "k", opts)
-        keymap("n", "i", "l", opts)
+        map("n", "n", "h", opts)
+        map("n", "e", "j", opts)
+        map("n", "o", "k", opts)
+        map("n", "i", "l", opts)
         vim.wo.relativenumber = true
         vim.wo.number = true
     end,
@@ -251,7 +250,7 @@ end, { desc = "Go to next diagnostic" })
 
 -- navigation: global
 
-vim.keymap.set("n", "<leader>f", function()
+map("n", "<leader>f", function()
     local dir = vim.fn.getcwd()
     vim.cmd("Explore " .. vim.fn.fnameescape(dir))
 end)
@@ -579,7 +578,7 @@ autocmd("FileType", {
     group = term_group,
     pattern = "python",
     callback = function()
-        vim.keymap.set("n", "<leader>m", function()
+        map("n", "<leader>m", function()
             vim.cmd('write')
             local python = vim.env.VIRTUAL_ENV and (vim.env.VIRTUAL_ENV .. "/bin/python") or "python3.14"
             local file = vim.fn.expand("%")
@@ -595,7 +594,7 @@ autocmd("FileType", {
     group = term_group,
     pattern = "haskell",
     callback = function()
-        vim.keymap.set("n", "<leader>m", function()
+        map("n", "<leader>m", function()
             vim.cmd('write')
             vim.lsp.buf.format({ async = true })
             local file = vim.fn.expand("%")
@@ -613,7 +612,7 @@ autocmd("FileType", {
     group = term_group,
     pattern = "c",
     callback = function()
-        vim.keymap.set("n", "<leader>m", function()
+        map("n", "<leader>m", function()
             vim.cmd('write')
             local file = vim.fn.expand("%")
             local outfile = vim.fn.expand("%:r") -- same name, no extension
@@ -630,7 +629,7 @@ autocmd("FileType", {
     group = term_group,
     pattern = "rust",
     callback = function()
-        vim.keymap.set("n", "<leader>m", function()
+        map("n", "<leader>m", function()
             vim.cmd('write')
             -- build.sh is in parent directory for Rust projects
             local build_path = vim.fn.expand("%:p:h") .. "/../build.sh"
@@ -645,7 +644,7 @@ autocmd("BufEnter", {
     group = term_group,
     pattern = "*",
     callback = function()
-        vim.keymap.set("n", "T", function()
+        map("n", "T", function()
             ensure_terminal()
         end, { buffer = true, noremap = true, silent = true, desc = "Open terminal" })
     end,
@@ -1361,7 +1360,8 @@ end
 
 -- ==== highlights ====
 
-local g_bg = "none"
+-- local g_bg = "none"
+local g_bg = aux_col.cursorline_bg
 
 local statusline_highlights = {
     StatusLine       = { fg = colors.fg_main, bg = g_bg, bold = false },
@@ -1412,17 +1412,24 @@ vim.api.nvim_create_autocmd("TermClose", {
         vim.opt_local.statusline = "%!v:lua.Statusline()"
     end,
 })
+
 vim.api.nvim_create_autocmd("TermOpen", {
     callback = function()
         vim.opt_local.winhighlight = "Normal:Normal,StatusLine:Normal,StatusLineNC:Normal"
         vim.opt_local.statusline = " "
     end,
 })
+
 vim.api.nvim_create_autocmd("BufEnter", {
     callback = function()
-        vim.opt_local.statusline = "%!v:lua.Statusline()"
+        if vim.bo.filetype == "netrw" then
+            vim.opt_local.statusline = " "
+        else
+            vim.opt_local.statusline = "%!v:lua.Statusline()"
+        end
     end,
 })
+
 -- =========================================================
 -- !!! modules/autopairs
 -- =========================================================
@@ -2060,7 +2067,7 @@ end
 function flash.setup(opts)
     config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
 
-    vim.keymap.set({ "n", "x", "o" }, "s", function()
+    map({ "n", "x", "o" }, "s", function()
         flash.jump()
     end, { desc = "flash-like jump" })
 end
@@ -2721,7 +2728,7 @@ function recentfiles.setup(opts)
     recentfiles.config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
 
     if recentfiles.config.keymap then
-        vim.keymap.set("n", recentfiles.config.keymap, function()
+        map("n", recentfiles.config.keymap, function()
             recentfiles.open()
         end, { desc = recentfiles.config.desc })
     end
@@ -2758,13 +2765,13 @@ function recentfiles.setup(opts)
 
                 vim.bo[args.buf].buflisted = false
 
-                vim.keymap.set("n", "q", "<cmd>cclose<cr>", {
+                map("n", "q", "<cmd>cclose<cr>", {
                     buffer = args.buf,
                     silent = true,
                     desc = "Close recent files",
                 })
 
-                vim.keymap.set("n", "<CR>", function()
+                map("n", "<CR>", function()
                     local idx = vim.fn.line(".")
                     vim.cmd(("cc %d"):format(idx))
                     vim.cmd("cclose")
@@ -2947,7 +2954,7 @@ function diag.setup(opts)
     define_qf_highlights()
 
     if diag.config.keymap then
-        vim.keymap.set("n", diag.config.keymap, function()
+        map("n", diag.config.keymap, function()
             diag.open()
         end, { desc = diag.config.desc })
     end
@@ -2968,13 +2975,13 @@ function diag.setup(opts)
 
                 apply_qf_line_highlights(args.buf, qf_info.id)
 
-                vim.keymap.set("n", "q", "<cmd>cclose<cr>", {
+                map("n", "q", "<cmd>cclose<cr>", {
                     buffer = args.buf,
                     silent = true,
                     desc = "Close diagnostics list",
                 })
 
-                vim.keymap.set("n", "<CR>", function()
+                map("n", "<CR>", function()
                     local idx = vim.fn.line(".")
                     vim.cmd(("cc %d"):format(idx))
                     vim.cmd("cclose")
@@ -3128,7 +3135,7 @@ function buffers.setup(opts)
     buffers.config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
 
     if buffers.config.keymap then
-        vim.keymap.set("n", buffers.config.keymap, function()
+        map("n", buffers.config.keymap, function()
             buffers.open()
         end, { desc = buffers.config.desc })
     end
@@ -3165,13 +3172,13 @@ function buffers.setup(opts)
 
                 vim.bo[args.buf].buflisted = false
 
-                vim.keymap.set("n", "q", "<cmd>cclose<cr>", {
+                map("n", "q", "<cmd>cclose<cr>", {
                     buffer = args.buf,
                     silent = true,
                     desc = "Close open buffers list",
                 })
 
-                vim.keymap.set("n", "<CR>", function()
+                map("n", "<CR>", function()
                     local idx = vim.fn.line(".")
                     vim.cmd(("cc %d"):format(idx))
                     vim.cmd("cclose")
@@ -3209,7 +3216,7 @@ function M.setup(defs, opts)
         return #a > #b
     end)
 
-    vim.keymap.set(modes, key, function()
+    map(modes, key, function()
         local row, col = unpack(vim.api.nvim_win_get_cursor(0))
         local line = vim.api.nvim_get_current_line()
         local before = line:sub(1, col)
