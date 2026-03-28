@@ -408,7 +408,7 @@ local write_group = augroup("WriteCommands", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePre", {
     group = write_group,
     callback = function(event)
-        -- Skip if path is a protocol (e.g., git:, fzf:)
+        -- skip if path is a protocol (e.g., git:, fzf:)
         if event.match:match("^%w%w+:[\\/][\\/]") then return end
         local file = vim.uv.fs_realpath(event.match) or event.match
         local dir = vim.fn.fnamemodify(file, ":p:h") -- parent directory
@@ -961,49 +961,14 @@ vim.api.nvim_create_autocmd("CmdlineChanged", {
 })
 
 -- =========================================================
--- !!! ui/theme
--- =========================================================
-
-local theme = {}
-
-theme.colors = {
-    fg_main  = "#AAB3C0",
-    fg_mid   = "#6e6e87",
-    bg_mid   = "#9ec1a3",
-    bg_mid2  = "#6e6e87",
-    bg_deep  = "#40404f",
-    bg_deep3 = "#25252d",
-}
-
-theme.aux_colors = {
-    macro_statusline = "#aa5565",
-    cursorline_bg = "#2a2a33",
-    accent = "#87afaf",
-}
-
-function theme.colorscheme()
-    vim.o.background = "dark"
-    vim.cmd.colorscheme("habamax")
-
-    vim.api.nvim_set_hl(0, "Function", { fg = theme.colors.bg_mid })
-    vim.api.nvim_set_hl(0, "Module", { fg = theme.colors.bg_mid })
-    vim.api.nvim_set_hl(0, "Property", { fg = theme.colors.bg_mid })
-    vim.api.nvim_set_hl(0, "@lsp.type.variable", { fg = theme.colors.bg_mid })
-    vim.api.nvim_set_hl(0, "Normal", { bg = theme.colors.bg_deep3 })
-end
-
--- apply it
-theme.colorscheme()
-
--- =========================================================
 -- !!! ui/icons
 -- =========================================================
 
-local icons             = {}
+local icons      = {}
 
-icons.border            = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
+icons.border     = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
 
-icons.indent            = {
+icons.indent     = {
     big_thick = "█",
     med_thick = "▊",
     sma_thick = "▐",
@@ -1013,7 +978,7 @@ icons.indent            = {
     dotted_alt = "⋮",
 }
 
-icons.git               = {
+icons.git        = {
     add = "",
     branch = "",
     diff = "",
@@ -1030,7 +995,7 @@ icons.git               = {
     conflict = "",
 }
 
-icons.ui                = {
+icons.ui         = {
     location = "󰟙",
     file = "",
     wordcount = "",
@@ -1048,7 +1013,7 @@ icons.ui                = {
     virtual_env = "",
 }
 
-icons.lang              = {
+icons.lang       = {
     python = { icon = "", color = "#FED141" },
     config = { icon = "", color = "#6e6e6e" },
     haskell = { icon = "", color = "#C678DD" },
@@ -1078,28 +1043,7 @@ icons.lang              = {
     jsx = { icon = "", color = "#61dafb" },
 }
 
-icons.noice             = {
-    title = "",
-    cmd = "",
-    search_down = " ",
-    search = "",
-    search_up = " ",
-    filter = "󰈳",
-    lua = "",
-    help = "",
-}
-
-icons.telescope         = {
-    prompt_prefix = " ",
-    selection_caret = " ",
-}
-
-icons.trident           = {
-    main_icon = "󰆹",
-    fallback = "",
-}
-
-icons.diagn             = {
+icons.diagn      = {
     error = "󰯈",
     warning = "",
     information = "",
@@ -1107,7 +1051,7 @@ icons.diagn             = {
     hint = "",
 }
 
-icons.modes             = {
+icons.modes      = {
     n = "",
     i = "",
     v = "",
@@ -1123,21 +1067,40 @@ icons.modes             = {
     t = "",
 }
 
-icons.dap               = {
-    Breakp = "󰝥",
-    BreakpCond = "󰟃",
-    BreakpReje = "",
-    LogPoint = "",
-    Pause = "",
-    Play = "",
-    RunLast = "↻",
-    StepBack = "",
-    StepInto = "󰆹",
-    StepOut = "󰆸",
-    StepOver = "󰆷",
-    Stopped = "",
-    Terminate = "󰝤",
+-- =========================================================
+-- !!! ui/theme
+-- =========================================================
+
+local theme      = {}
+
+theme.colors     = {
+    fg_main  = "#AAB3C0",
+    fg_mid   = "#6e6e87",
+    bg_mid   = "#9ec1a3",
+    bg_mid2  = "#6e6e87",
+    bg_deep  = "#40404f",
+    bg_deep3 = "#25252d",
 }
+
+theme.aux_colors = {
+    macro_statusline = "#aa5565",
+    cursorline_bg = "#2a2a33",
+    accent = "#87afaf",
+}
+
+function theme.theme()
+    vim.o.background = "dark"
+    vim.cmd.colorscheme("habamax")
+
+    vim.api.nvim_set_hl(0, "Function", { fg = theme.colors.bg_mid })
+    vim.api.nvim_set_hl(0, "Module", { fg = theme.colors.bg_mid })
+    vim.api.nvim_set_hl(0, "Property", { fg = theme.colors.bg_mid })
+    vim.api.nvim_set_hl(0, "@lsp.type.variable", { fg = theme.colors.bg_mid })
+    vim.api.nvim_set_hl(0, "Normal", { bg = theme.colors.bg_deep3 })
+end
+
+-- apply it
+theme.theme()
 
 -- =========================================================
 -- !!! ui/colorscheme
@@ -1229,7 +1192,6 @@ local override_groups = {
     Substitute       = { bg = colors.bg_deep },
     QuickFixLine     = { ctermbg = 0 },
 
-    -- biscuit-nvim
     BiscuitColor     = { fg = colors.bg_deep, bg = aux_col.cursorline_bg },
 }
 
@@ -1321,7 +1283,6 @@ local function word_count()
 end
 
 local function mode_icon()
-    -- return (icons.modes[vim.fn.mode()] .. " ") or (" " .. vim.fn.mode():upper())
     return (icons.modes[vim.fn.mode()] .. " ") or (" " .. vim.fn.mode():upper())
 end
 
