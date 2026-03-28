@@ -35,7 +35,7 @@ require("core.plugins.diag").setup()          -- buff diagn. picker
 require("core.plugins.buff").setup()          -- open buff picker
 
 require("core.plugins.snippets").setup({      -- snippets (expand with c-x)
-    issue = "*brakoll\t - d: $0, p: 0, t: feature, s: open",
+    issue = "*brakoll - d: $0, p: 0, t: feature, s: open",
 })
 
 -- =========================================================

@@ -199,18 +199,16 @@ map("v", "<S-o>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 -- =========================================================
 -- lsp
 
-map("n", "K", function() vim.lsp.buf.hover({ border = "rounded" }) end, opts)
-map("n", "<C-k>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end, opts)
+map("n", "K", function() vim.lsp.buf.hover({ border = "rounded" }) end)
+map("n", "<C-k>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end)
 
 map("n", "å", function()
-    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
+    local bufnr = vim.api.nvim_get_current_buf()
+    vim.lsp.inlay_hint.enable(
+        not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }),
+        { bufnr = bufnr }
+    )
 end, { desc = "Toggle Inlay Hints" })
 
-local M = {}
-function M.setup_lsp_keymaps(bufnr)
-    local opts = { noremap = true, silent = true, buffer = bufnr }
-    map("n", "gd", vim.lsp.buf.definition, opts)
-    map("n", "gr", vim.lsp.buf.references, opts)
-end
-
-return M
+map("n", "gd", vim.lsp.buf.definition)
+map("n", "gr", vim.lsp.buf.references)

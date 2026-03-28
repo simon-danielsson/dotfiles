@@ -27,18 +27,18 @@ function M.setup(defs, opts)
             if match(before, trigger) then
                 local start_col = col - #trigger
 
-                -- Delete just the trigger text before the cursor.
-                -- nvim_buf_set_text() uses 0-based row/col indices.
+                -- delete just the trigger text before the cursor
+                -- nvim_buf_set_text() uses 0-based row/col indices
                 vim.api.nvim_buf_set_text(0, row - 1, start_col, row - 1, col, { "" })
 
-                -- Put cursor where the trigger started, then expand snippet.
+                -- put cursor where trigger started, then expand snippet
                 vim.api.nvim_win_set_cursor(0, { row, start_col })
                 vim.snippet.expand(defs[trigger])
                 return
             end
         end
 
-        -- Optional fallback: insert literal <C-x> if no trigger matched
+        -- optional fallback: insert literal <C-x> if no trigger matched
         vim.api.nvim_feedkeys(vim.keycode(key), "n", false)
     end, { desc = "Expand snippet trigger" })
 end

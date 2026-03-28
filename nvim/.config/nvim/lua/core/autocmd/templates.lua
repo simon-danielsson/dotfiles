@@ -1,7 +1,5 @@
 local autocmd = vim.api.nvim_create_autocmd
 
--- ==== Templates ====
-
 local template_dir = vim.fn.stdpath("config") .. "/templates"
 
 autocmd("BufNewFile", {
