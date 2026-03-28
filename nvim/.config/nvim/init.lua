@@ -1240,10 +1240,7 @@ end
 -- !!! ui/statusline
 -- =========================================================
 
-local colors               = theme.colors
 local aux_colors           = theme.aux_colors
-
-local autocmd              = vim.api.nvim_create_autocmd
 
 -- ==== git ====
 
@@ -1488,15 +1485,12 @@ end
 local function can_auto_close_quote(line, pos, quote)
     local prev = line:sub(pos - 1, pos - 1)
     local next = line:sub(pos, pos)
-
     if is_escaped(line, pos) then
         return false
     end
-
     if is_word_char(prev) or is_word_char(next) then
         return false
     end
-
     return true
 end
 
@@ -1573,23 +1567,18 @@ function autopairs.open(char)
         if next == char and not is_escaped(line, c) then
             return "<Right>"
         end
-
         if not can_auto_close_quote(line, c, char) then
             return char
         end
-
         return char .. char .. "<Left>"
     end
-
     local close = autopairs.pairs[char]
     if not close then
         return char
     end
-
     if has_unmatched_closer_ahead(char, close) then
         return char
     end
-
     return char .. close .. "<Left>"
 end
 
@@ -1605,11 +1594,9 @@ function autopairs.backspace()
     local c = col()
     local prev = get_char_at(c - 1)
     local next = get_char_at(c)
-
     if autopairs.pairs[prev] == next or (autopairs.quotes[prev] and prev == next) then
         return "<BS><Del>"
     end
-
     return "<BS>"
 end
 
@@ -1617,20 +1604,17 @@ function autopairs.newline()
     local c = col()
     local prev = get_char_at(c - 1)
     local next = get_char_at(c)
-
     if autopairs.pairs[prev] == next then
         return "<CR><Esc>O"
     end
-
     return "<CR>"
 end
 
 function autopairs.setup()
     local expr = { expr = true, noremap = true }
-
-    for o, c in pairs(autopairs.pairs) do
-        map("i", o, function()
-            return autopairs.open(o)
+    for y, c in pairs(autopairs.pairs) do
+        map("i", y, function()
+            return autopairs.open(y)
         end, expr)
 
         map("i", c, function()
