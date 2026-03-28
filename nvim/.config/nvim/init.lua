@@ -30,13 +30,20 @@ opt.wrap           = true
 opt.linebreak      = true
 o.breakindent      = true
 opt.showbreak      = '󱞩 '
-opt.scrolloff      = 999
-opt.virtualedit    = "onemore"
-opt.sidescrolloff  = 6
-o.smoothscroll     = true
+
+autocmd("FileType", {
+    pattern = { "qf", "help", "netrw", "man" },
+    callback = function()
+        vim.opt_local.scrolloff = 3
+    end,
+})
+
+opt.virtualedit   = "onemore"
+opt.sidescrolloff = 6
+o.smoothscroll    = true
 
 -- clipboard
-opt.clipboard      = 'unnamedplus'
+opt.clipboard     = 'unnamedplus'
 
 -- editing
 opt.iskeyword:append({ "-", "_" })
@@ -48,7 +55,6 @@ opt.splitbelow = true
 opt.autochdir  = false
 opt.splitright = true
 o.equalalways  = true
-opt.inccommand = 'split'
 opt.hidden     = true
 opt.diffopt    = {
     "filler",
@@ -83,14 +89,6 @@ opt.listchars     = {
 }
 
 opt.fillchars     = {
-    eob       = " ",
-    diff      = "╱",
-    msgsep    = "─",
-    foldsep   = "│",
-    foldclose = "",
-    foldopen  = "",
-}
-opt.fillchars     = {
     horiz     = "─",
     horizup   = "┴",
     horizdown = "┬",
@@ -99,12 +97,12 @@ opt.fillchars     = {
     vertright = "├",
     verthoriz = "┼",
     fold      = "─",
-    eob       = " ",
-    diff      = " ",
-    msgsep    = " ",
+    diff      = "╱",
+    msgsep    = "─",
     foldsep   = "│",
-    foldclose = "",
-    foldopen  = "",
+    foldclose = "",
+    foldopen  = "",
+    eob       = " ",
 }
 
 -- folds
@@ -120,8 +118,8 @@ opt.ignorecase  = true
 opt.smartcase   = true
 opt.incsearch   = true
 opt.wildmenu    = true
-opt.wildmode    = "longest:full,full"
 opt.wildoptions = "pum,fuzzy"
+opt.wildmode    = "noselect:lastused,full"
 opt.wildignore:append({ "*.o", "*.obj",
     "*.pyc", "*.class", "*.jar" })
 
@@ -734,6 +732,22 @@ vim.api.nvim_create_autocmd("InsertLeave", {
     desc = "Enable relative line numbers in normal mode",
 })
 
+autocmd("FileType", {
+    group = ui_group,
+    callback = function()
+        local ok = pcall(function()
+            vim.treesitter.get_parser(0)
+        end)
+        if ok then
+            vim.opt_local.foldmethod = "expr"
+            vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+        else
+            vim.opt_local.foldmethod = "indent"
+            vim.opt_local.foldexpr = "0"
+        end
+    end,
+})
+
 -- =========================================================
 -- !!! lsp/lsp
 -- =========================================================
@@ -951,8 +965,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 -- commandline
 
-vim.opt.wildmode = "noselect:lastused,full"
-vim.opt.wildoptions = "pum"
 vim.api.nvim_create_autocmd("CmdlineChanged", {
     pattern = { ":", "/", "?" },
     callback = function()
@@ -3462,4 +3474,14 @@ end
 
 snippets.setup({ -- snippets (expand with c-x)
     issue = "*brakoll - d: $0, p: 0, t: feature, s: open",
+})
+
+-- =========================================================
+-- !!! modules/snippets
+-- =========================================================
+
+vim.pack.add({
+    {
+        src = "https://github.com/nvim-treesitter/nvim-treesitter.git"
+    }
 })
