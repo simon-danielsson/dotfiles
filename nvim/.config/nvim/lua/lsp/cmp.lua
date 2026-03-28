@@ -2,6 +2,8 @@ vim.opt.completeopt = { "noselect", "menu", "menuone", "popup" }
 vim.o.inccommand    = 'nosplit'
 vim.opt.pumborder   = "rounded"
 
+-- code
+
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -21,5 +23,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.lsp.completion.enable(true, client.id, args.buf, {
             autotrigger = true,
         })
+    end,
+})
+
+-- commandline
+
+vim.opt.wildmode = "noselect:lastused,full"
+vim.opt.wildoptions = "pum"
+vim.api.nvim_create_autocmd("CmdlineChanged", {
+    pattern = { ":", "/", "?" },
+    callback = function()
+        vim.fn.wildtrigger()
     end,
 })
