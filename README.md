@@ -2,7 +2,7 @@
   
 I had previously been using ghostty/tmux as my main development setup, but as of march 2026 I have switched to [cmux](https://github.com/manaflow-ai/cmux).  
   
-My neovim config is based around a no-plugins philosophy - lsp, completion, file-pickers, syntax highlighting and so on is all being done through native means. This is because I'm of the opinion that neovim feels a bit snappier and responsive with no plugins installed.  
+My neovim config is based around a no-plugins philosophy - lsp, completion, file-pickers, syntax highlighting and so on is all being done through native means. This is because I'm of the opinion that neovim feels a bit snappier and responsive with no plugins installed. I also like keeping my entire config contained in a single file for portability.
   
 Another philosophy I have is that my most commonly used terminal tooling should be created by myself - tools such as ls, [cloc](https://github.com/AlDanial/cloc), issue tracking, the bash prompt and so on. Not out of necessity of course, I just think it's fun to build my own tooling since it's an easy gateway into learning more about how computers work and why/how our tools work the way they do!
   
