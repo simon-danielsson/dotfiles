@@ -30,20 +30,14 @@ opt.wrap           = true
 opt.linebreak      = true
 o.breakindent      = true
 opt.showbreak      = '󱞩 '
+opt.scrolloff      = 99
 
-autocmd("FileType", {
-    pattern = { "qf", "help", "netrw", "man" },
-    callback = function()
-        vim.opt_local.scrolloff = 3
-    end,
-})
-
-opt.virtualedit   = "onemore"
-opt.sidescrolloff = 6
-o.smoothscroll    = true
+opt.virtualedit    = "onemore"
+opt.sidescrolloff  = 6
+o.smoothscroll     = true
 
 -- clipboard
-opt.clipboard     = 'unnamedplus'
+opt.clipboard      = 'unnamedplus'
 
 -- editing
 opt.iskeyword:append({ "-", "_" })
@@ -3477,11 +3471,11 @@ snippets.setup({ -- snippets (expand with c-x)
 })
 
 -- =========================================================
--- !!! modules/snippets
+-- !!! plugins
 -- =========================================================
 
 vim.pack.add({
     {
         src = "https://github.com/nvim-treesitter/nvim-treesitter.git"
-    }
+    },
 })
