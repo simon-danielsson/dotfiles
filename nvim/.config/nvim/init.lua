@@ -287,11 +287,6 @@ map('n', '<Right>', '<cmd>vertical resize -4<cr>',
 map("n", "<Esc>", "<cmd>nohlsearch<CR>",
     { desc = "Clear search highlights" })
 
-map('n', '<leader>å', function()
-        vim.cmd('restart')
-    end,
-    { desc = 'Restart Neovim' })
-
 -- macros
 
 map("n", "ä", function()
@@ -372,8 +367,8 @@ map("i", "<Tab>", "<C-t>", { desc = "Indent line in insert mode" })
 map("i", "<S-Tab>", "<C-d>", { desc = "Outdent line in insert mode" })
 
 -- Move selected lines up/down in visual mode using Shift and navigation keys
-map("v", "<S-e>", ":m '>+2<CR>gv=gv", { desc = "Move selection down" })
 map("v", "<S-o>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+map("v", "<S-e>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 
 -- lsp
 
@@ -673,18 +668,6 @@ autocmd("TermClose", {
 
 local ui_group = augroup("UiCommands", { clear = true })
 
-vim.api.nvim_create_autocmd("FileType", {
-    group = ui_group,
-    pattern = {
-        "markdown",
-        "json",
-        "jsonc",
-        "json5"
-    },
-    callback = function() vim.opt_local.conceallevel = 0 end,
-    desc = "Disable conceal in Markdown and JSON files"
-})
-
 autocmd("VimResized", {
     group = ui_group,
     callback = function()
@@ -700,30 +683,6 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
         if vim.o.filetype == 'help' then vim.cmd.wincmd('L') end
     end,
     desc = "Open help window in a vertical split to the right",
-})
-
-vim.api.nvim_create_autocmd("InsertEnter", {
-    group = ui_group,
-    pattern = "*",
-    callback = function()
-        if vim.api.nvim_win_get_config(0).relative ~= "" then
-            return
-        end
-        vim.wo.relativenumber = false
-    end,
-    desc = "Disable relative line numbers in insert mode",
-})
-
-vim.api.nvim_create_autocmd("InsertLeave", {
-    group = ui_group,
-    pattern = "*",
-    callback = function()
-        if vim.api.nvim_win_get_config(0).relative ~= "" then
-            return
-        end
-        vim.wo.relativenumber = true
-    end,
-    desc = "Enable relative line numbers in normal mode",
 })
 
 autocmd("FileType", {
@@ -745,6 +704,8 @@ autocmd("FileType", {
 -- =========================================================
 -- !!! lsp/lsp
 -- =========================================================
+
+vim.lsp.document_color.enable(true, nil, { style = '■ ' })
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -934,6 +895,7 @@ vim.opt.pumborder   = "rounded"
 
 -- code
 
+vim.lsp.inline_completion.enable(true, vim.lsp._capability.all)
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -1229,47 +1191,20 @@ end
 -- !!! ui/statusline
 -- =========================================================
 
-local aux_colors           = theme.aux_colors
+local aux_colors   = theme.aux_colors
 
--- ==== git ====
-
-local git_cache            = { status = "", last_update = 0 }
-local max_repo_name_length = 15
-
-local function git_info()
-    local now = vim.loop.hrtime() / 1e9
-    if now - git_cache.last_update > 2 then
-        git_cache.last_update = now
-        local branch = vim.fn.system("git branch --show-current 2>/dev/null"):gsub("\n", "")
-        if branch == "" then
-            git_cache.status = ""
-        else
-            local toplevel = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("\n", "")
-            local repo = vim.fn.fnamemodify(toplevel, ":t")
-            if #repo > max_repo_name_length then
-                repo = repo:sub(1, max_repo_name_length) .. "..."
-            end
-            local parts = {
-                "│ " .. (icons.git.repo or "") .. " " .. repo,
-                (icons.git.branch or "") .. " " .. branch
-            }
-            git_cache.status = table.concat(parts, " ")
-        end
-    end
-    return git_cache.status
-end
-
--- ==== utilities ====
+-- utilities
 
 _G.macro_recording = ""
 autocmd("RecordingEnter", {
     callback = function()
         local reg = vim.fn.reg_recording()
         if reg ~= "" then
-            _G.macro_recording = " ██" .. ""
+            _G.macro_recording = "██"
         end
     end,
 })
+
 autocmd("RecordingLeave", {
     callback = function()
         _G.macro_recording = ""
@@ -1282,35 +1217,7 @@ local function word_count()
         return ""
     end
     local wc = vim.fn.wordcount()
-    return wc.words > 0 and (" " .. wc.words .. " words │ ") or ""
-end
-
-local function mode_icon()
-    return (icons.modes[vim.fn.mode()] .. " ") or (" " .. vim.fn.mode():upper())
-end
-
-local function lsp_info()
-    local clients = vim.lsp.get_clients({ bufnr = 0 })
-    if #clients > 0 then
-        return " │ " .. icons.ui.gear .. " " .. clients[1].name .. " "
-    end
-    return ""
-end
-
--- ==== file ====
-
-for ft, entry in pairs(icons.lang) do
-    vim.api.nvim_set_hl(0, "FileIcon_" .. ft, { fg = entry.color, bg = "none" })
-end
-local function file_type_icon()
-    local ft = vim.bo.filetype
-    local entry = icons.lang[ft]
-    if entry then
-        local hl = " %#FileIcon_" .. ft .. "#"
-        return hl .. entry.icon .. "%*"
-    else
-        return " " .. icons.ui.unrec_file
-    end
+    return wc.words > 0 and (" " .. wc.words .. " words ") or ""
 end
 
 local function short_filepath()
@@ -1325,28 +1232,12 @@ local function short_filepath()
 end
 
 local function file_type_filename()
-    local ft = vim.bo.filetype
-    local entry = icons.lang[ft]
-    local hl = entry and "%#FileIcon_" .. ft .. "#" or "%#StatusFilename#"
+    local hl = "%#StatusFilename#"
     return hl .. " " .. short_filepath() .. " " .. "%*"
 end
 
--- ==== scrollbar ====
+-- highlights
 
-local SBAR = { "󱃓 ", "󰪞 ", "󰪟 ", "󰪠 ", "󰪡 ", "󰪢 ", "󰪣 ", "󰪤 ", "󰪥 " }
-
-local function scrollbar()
-    local cur = vim.api.nvim_win_get_cursor(0)[1]
-    local total = vim.api.nvim_buf_line_count(0)
-    if total == 0 then return "" end
-    local idx = math.floor((cur - 1) / total * #SBAR) + 1
-    idx = math.max(1, math.min(idx, #SBAR))
-    return "%#StatusScrollbar# " .. SBAR[idx]:rep(1) .. "%*"
-end
-
--- ==== highlights ====
-
--- local g_bg = "none"
 local g_bg = aux_col.cursorline_bg
 
 local statusline_highlights = {
@@ -1355,37 +1246,26 @@ local statusline_highlights = {
     StatusLineNormal = { fg = colors.fg_main, bg = g_bg, bold = false },
     StatusLineTermNC = { fg = colors.fg_main, bg = g_bg, bold = false },
     StatusFilename   = { fg = colors.fg_main, bg = g_bg, bold = false },
-    StatusFileType   = { fg = colors.fg_main, bg = g_bg, bold = false },
-    StatusKey        = { fg = colors.fg_mid, bg = g_bg, bold = false },
-    ColumnPercentage = { fg = colors.fg_main, bg = g_bg, bold = true },
-    endBit           = { fg = colors.bg_deep2, bg = g_bg, },
-    StatusPosition   = { fg = colors.fg_mid, bg = g_bg, bold = false },
-    StatusMode       = { fg = colors.fg_mid, bg = g_bg },
-    StatusScrollbar  = { fg = aux_colors.accent, bg = g_bg, bold = true },
-    StatusSelection  = { fg = colors.fg_mid, bg = g_bg, bold = false },
-    StatusGit        = { fg = colors.fg_mid, bg = g_bg },
-    StatusLsp        = { fg = colors.fg_mid, bg = g_bg },
+    StatusPosition   = { fg = colors.fg_main, bg = g_bg, bold = false },
+    StatusWords      = { fg = colors.fg_mid, bg = g_bg, bold = false },
+    StatusMode       = { fg = colors.fg_main, bg = g_bg },
     MacroRec         = { fg = aux_colors.macro_statusline, bg = "none" },
 }
+
 for group, opts in pairs(statusline_highlights) do
     vim.api.nvim_set_hl(0, group, opts)
 end
 
--- ==== assembly ====
+-- assembly
 
 _G.Statusline = function()
     local parts = {
-        "%#StatusMode#  " .. mode_icon() .. " │",
-        "%#StatusFileType#" .. file_type_icon() .. "",
         file_type_filename(),
-        "%#StatusGit#" .. git_info(),
-        "%#StatusLsp#" .. lsp_info() .. "",
         "%=",
     }
 
-    table.insert(parts, "%#StatusMode#" .. word_count())
-    table.insert(parts, "%#StatusPosition#" .. "%l:" .. "%c")
-    table.insert(parts, scrollbar())
+    table.insert(parts, "%#StatusWords#" .. word_count())
+    table.insert(parts, "%#StatusPosition#" .. "%l:" .. "%c " .. "%P ")
     if _G.macro_recording ~= "" then
         table.insert(parts, "%#MacroRec#" .. "" .. _G.macro_recording)
     end
@@ -2469,122 +2349,6 @@ end
 biscuits.setup()
 
 -- =========================================================
--- !!! modules/hexbg
--- =========================================================
-
-local hexbg = {}
-
-local ns = vim.api.nvim_create_namespace("hexbg")
-local group_cache = {}
-
-local PATTERNS = {
-    "#%x%x%x%x%x%x%f[^%x]", -- #RRGGBB, only if not followed by another hex char
-    "#%x%x%x%f[^%x]",       -- #RGB, only if not followed by another hex char
-}
-
-local function normalize_hex(hex)
-    hex = hex:upper()
-
-    if #hex == 4 then
-        local r = hex:sub(2, 2)
-        local g = hex:sub(3, 3)
-        local b = hex:sub(4, 4)
-        return ("#%s%s%s%s%s%s"):format(r, r, g, g, b, b)
-    end
-
-    return hex
-end
-
-local function luminance(hex)
-    hex = normalize_hex(hex)
-    local r = tonumber(hex:sub(2, 3), 16)
-    local g = tonumber(hex:sub(4, 5), 16)
-    local b = tonumber(hex:sub(6, 7), 16)
-    return 0.299 * r + 0.587 * g + 0.114 * b
-end
-
-local function highlight_group_for(hex)
-    hex = normalize_hex(hex)
-
-    if group_cache[hex] then
-        return group_cache[hex]
-    end
-
-    local name = "HexBg_" .. hex:sub(2)
-    local fg = luminance(hex) > 186 and "#000000" or "#FFFFFF"
-
-    vim.api.nvim_set_hl(0, name, {
-        fg = fg,
-        bg = hex,
-    })
-
-    group_cache[hex] = name
-    return name
-end
-
-local function add_matches_for_line(bufnr, lnum, line)
-    for _, pat in ipairs(PATTERNS) do
-        local start = 1
-
-        while true do
-            local s, e = line:find(pat, start)
-            if not s then
-                break
-            end
-
-            local hex = line:sub(s, e)
-            local hl = highlight_group_for(hex)
-
-            -- start_col is 0-based, end_col is exclusive
-            vim.api.nvim_buf_add_highlight(bufnr, ns, hl, lnum, s - 1, e)
-
-            start = e + 1
-        end
-    end
-end
-
-function hexbg.refresh(bufnr)
-    bufnr = bufnr or vim.api.nvim_get_current_buf()
-
-    if not vim.api.nvim_buf_is_valid(bufnr) then
-        return
-    end
-
-    vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
-
-    local line_count = vim.api.nvim_buf_line_count(bufnr)
-    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, line_count, false)
-
-    for i, line in ipairs(lines) do
-        add_matches_for_line(bufnr, i - 1, line)
-    end
-end
-
-function hexbg.setup()
-    local hex_augroup = vim.api.nvim_create_augroup("HexBg", { clear = true })
-
-    vim.api.nvim_create_autocmd({
-        "BufEnter",
-        "TextChanged",
-        "TextChangedI",
-        "InsertLeave",
-    }, {
-        group = hex_augroup,
-        callback = function(args)
-            vim.schedule(function()
-                hexbg.refresh(args.buf)
-            end)
-        end,
-    })
-
-    vim.schedule(function()
-        hexbg.refresh()
-    end)
-end
-
-hexbg.setup()
-
--- =========================================================
 -- !!! modules/recentfiles
 -- =========================================================
 
@@ -3468,14 +3232,4 @@ end
 
 snippets.setup({ -- snippets (expand with c-x)
     issue = "*brakoll - d: $0, p: 0, t: feature, s: open",
-})
-
--- =========================================================
--- !!! plugins
--- =========================================================
-
-vim.pack.add({
-    {
-        src = "https://github.com/nvim-treesitter/nvim-treesitter.git"
-    },
 })

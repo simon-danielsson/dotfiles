@@ -4,9 +4,14 @@ export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 . "$HOME/.cargo/env"
 export PATH="$PATH:/Users/simondanielsson/.local/bin"
 export PATH="$HOME/.ghcup/bin:$PATH"
+export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
+
+# emacs
+export PATH="$HOME/.config/emacs/bin:$PATH"
+export PATH="/Applications/MacPorts/Emacs.app/Contents/MacOS:$PATH"
 
 if [ -f ~/bash_aliases.sh ]; then
-	source ~/bash_aliases.sh
+    source ~/bash_aliases.sh
 fi
 
 _raket() {
