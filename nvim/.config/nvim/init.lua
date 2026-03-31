@@ -3568,7 +3568,6 @@ function _G.my_tabline()
             local name = vim.api.nvim_buf_get_name(bufnr)
             if name ~= "" then
                 name = vim.fn.fnamemodify(name, ":t")
-                -- separator between buffers
                 local sep = " "
                 if not first then
                     s = s .. "%#TabLineFill#" .. sep
