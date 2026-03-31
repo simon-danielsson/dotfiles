@@ -1099,8 +1099,15 @@ end
 
 function _G.short_filepath()
     local path = vim.fn.expand("%:p")
+
+    local home = vim.loop.os_homedir()
+    if path:sub(1, #home) == home then
+        path = "~" .. path:sub(#home + 1)
+    end
+
     local parts = vim.split(path, "/", { trimempty = true })
     local count = #parts
+
     return table.concat({
         parts[count - 2] or "",
         parts[count - 1] or "",
@@ -3573,7 +3580,6 @@ end
 
 snippets.setup({ -- snippets (expand with c-x)
     issue = "*brakoll - d: $0, p: 0, t: feature, s: open",
-
 })
 
 -- =========================================================
