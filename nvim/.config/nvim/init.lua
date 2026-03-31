@@ -643,6 +643,21 @@ autocmd("TermClose", {
 
 local ui_group = augroup("UiCommands", { clear = true })
 
+local function clear_cmdline_after(delay)
+    vim.defer_fn(function()
+        if vim.api.nvim_get_mode().mode == "n" then
+            vim.cmd("echo ''")
+        end
+    end, delay)
+end
+vim.api.nvim_create_autocmd("CmdlineLeave", {
+    group = ui_group,
+    callback = function()
+        clear_cmdline_after(4000) -- 4 seconds
+    end,
+    desc = "auto-clear messages after cmdline leave",
+})
+
 autocmd("VimResized", {
     group = ui_group,
     callback = function()
@@ -680,6 +695,8 @@ autocmd("FileType", {
 -- !!! lsp/lsp
 -- =========================================================
 
+-- preview color on hex/rgb codes etc.
+-- (only works with lsps that support this, ex: css_ls)
 vim.lsp.document_color.enable(true, nil, { style = '■ ' })
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
