@@ -287,25 +287,6 @@ map('n', '<Right>', '<cmd>vertical resize -4<cr>',
 map("n", "<Esc>", "<cmd>nohlsearch<CR>",
     { desc = "Clear search highlights" })
 
--- macros
-
-map("n", "ä", function()
-        local reg = vim.fn.reg_recording()
-        if reg == "q" then
-            -- Stop recording
-            vim.cmd("normal! q")
-        else
-            -- Overwrite previous recording
-            vim.cmd("normal! qq")
-        end
-    end,
-    { desc = "Start/stop recording macro in @q" })
-
-map("n", "Ä", function()
-        vim.cmd("normal! @q")
-    end,
-    { desc = "Play macro in @q once" })
-
 -- folds
 
 map('n', 'za', 'za',
@@ -560,6 +541,8 @@ local function ensure_terminal(cmd)
     vim.cmd("startinsert")
 end
 
+local run_compile_keymap = "<leader>c"
+
 local function run_build_or_fallback(build_path, fallback_cmd)
     -- Check if build.sh exists
     local stat = vim.loop.fs_stat(build_path)
@@ -577,7 +560,7 @@ autocmd("FileType", {
     group = term_group,
     pattern = "python",
     callback = function()
-        map("n", "<leader>m", function()
+        map("n", run_compile_keymap, function()
             vim.cmd('write')
             local python = vim.env.VIRTUAL_ENV and (vim.env.VIRTUAL_ENV .. "/bin/python") or "python3.14"
             local file = vim.fn.expand("%")
@@ -593,7 +576,7 @@ autocmd("FileType", {
     group = term_group,
     pattern = "haskell",
     callback = function()
-        map("n", "<leader>m", function()
+        map("n", run_compile_keymap, function()
             vim.cmd('write')
             vim.lsp.buf.format({ async = true })
             local file = vim.fn.expand("%")
@@ -611,7 +594,7 @@ autocmd("FileType", {
     group = term_group,
     pattern = "c",
     callback = function()
-        map("n", "<leader>m", function()
+        map("n", run_compile_keymap, function()
             vim.cmd('write')
             local file = vim.fn.expand("%")
             local outfile = vim.fn.expand("%:r") -- same name, no extension
@@ -628,7 +611,7 @@ autocmd("FileType", {
     group = term_group,
     pattern = "rust",
     callback = function()
-        map("n", "<leader>m", function()
+        map("n", run_compile_keymap, function()
             vim.cmd('write')
             -- build.sh is in parent directory for Rust projects
             local build_path = vim.fn.expand("%:p:h") .. "/../build.sh"
@@ -892,10 +875,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.completeopt = { "noselect", "menu", "menuone", "popup" }
 vim.o.inccommand    = 'nosplit'
 vim.opt.pumborder   = "rounded"
-
 -- code
 
-vim.lsp.inline_completion.enable(true, vim.lsp._capability.all)
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -3188,6 +3169,351 @@ function buffers.setup(opts)
 end
 
 buffers.setup()
+
+-- =========================================================
+-- !!! modules/marks
+-- =========================================================
+
+local marks = {}
+
+local defaults = {
+    title = "marks",
+    open_cmd = "copen",
+    qf_mappings = true,
+    keymap = "<leader>m",
+    desc = "Open marks picker",
+    notify = false,
+
+    include_local = true,
+    include_global = true,
+    include_builtin = false,
+}
+
+marks.config = vim.deepcopy(defaults)
+
+local qf_ns = vim.api.nvim_create_namespace("MarksQuickfix")
+local local_mark_hl = "QfMarkLocal"
+local global_mark_hl = "QfMarkGlobal"
+
+local function map(mode, lhs, rhs, opts)
+    vim.keymap.set(mode, lhs, rhs, opts)
+end
+
+local function get_opts(opts)
+    return vim.tbl_deep_extend("force", {}, marks.config, opts or {})
+end
+
+local function normalize_path(path)
+    return vim.fn.fnamemodify(path, ":~:.")
+end
+
+local function define_qf_highlights()
+    vim.api.nvim_set_hl(0, local_mark_hl, { link = "String" })
+    vim.api.nvim_set_hl(0, global_mark_hl, { link = "Identifier" })
+end
+
+local function get_line_text(bufnr, lnum)
+    if not bufnr or bufnr <= 0 or lnum <= 0 then
+        return ""
+    end
+
+    if not vim.api.nvim_buf_is_valid(bufnr) then
+        return ""
+    end
+
+    local ok, lines = pcall(vim.api.nvim_buf_get_lines, bufnr, lnum - 1, lnum, false)
+    if not ok or not lines or not lines[1] then
+        return ""
+    end
+
+    return vim.trim(lines[1])
+end
+
+local function is_builtin_mark(mark)
+    if not mark or #mark == 0 then
+        return true
+    end
+
+    local ch = mark:sub(-1)
+
+    -- keep only file/user marks by default
+    return not ch:match("[%a%d]")
+end
+
+local function is_local_mark(mark)
+    local ch = mark:sub(-1)
+    return ch:match("%l") ~= nil
+end
+
+local function is_global_mark(mark)
+    local ch = mark:sub(-1)
+    return ch:match("%u") ~= nil or ch:match("%d") ~= nil
+end
+
+local function mark_pos_to_item(markinfo)
+    -- getmarklist() entries typically include:
+    --   mark = "'a"
+    --   pos = {bufnr, lnum, col, off}
+    --   file = "/abs/path"   (for file/global marks when buffer isn't loaded)
+    local pos = markinfo.pos or {}
+    local bufnr = pos[1] or 0
+    local lnum = pos[2] or 1
+    local col = pos[3] or 1
+    local mark = markinfo.mark or ""
+
+    local filename = ""
+    if bufnr > 0 and vim.api.nvim_buf_is_valid(bufnr) then
+        filename = vim.api.nvim_buf_get_name(bufnr)
+    end
+    if filename == "" then
+        filename = markinfo.file or ""
+    end
+
+    if bufnr <= 0 and filename ~= "" then
+        bufnr = vim.fn.bufnr(filename, false)
+    end
+
+    local text = ""
+    if bufnr > 0 then
+        text = get_line_text(bufnr, lnum)
+    end
+    if text == "" then
+        text = filename ~= "" and normalize_path(filename) or "[No text]"
+    end
+
+    return {
+        bufnr = bufnr > 0 and bufnr or nil,
+        filename = (bufnr <= 0 and filename ~= "") and filename or nil,
+        lnum = lnum,
+        col = col,
+        text = text,
+        user_data = {
+            mark = mark,
+            local_mark = is_local_mark(mark),
+            global_mark = is_global_mark(mark),
+        },
+    }
+end
+
+local function collect_marks(opts)
+    local items = {}
+    local seen = {}
+
+    local function add_mark_entries(entries)
+        for _, markinfo in ipairs(entries or {}) do
+            local mark = markinfo.mark or ""
+            local suffix = mark:sub(-1)
+
+            if suffix ~= "" then
+                local keep = true
+
+                if not opts.include_builtin and is_builtin_mark(mark) then
+                    keep = false
+                end
+
+                if keep and is_local_mark(mark) and not opts.include_local then
+                    keep = false
+                end
+
+                if keep and is_global_mark(mark) and not opts.include_global then
+                    keep = false
+                end
+
+                if keep then
+                    local item = mark_pos_to_item(markinfo)
+                    local key = table.concat({
+                        item.user_data.mark or "",
+                        item.filename or "",
+                        tostring(item.bufnr or 0),
+                        tostring(item.lnum or 0),
+                        tostring(item.col or 0),
+                    }, ":")
+
+                    if not seen[key] then
+                        seen[key] = true
+                        items[#items + 1] = item
+                    end
+                end
+            end
+        end
+    end
+
+    if opts.include_local then
+        add_mark_entries(vim.fn.getmarklist(vim.api.nvim_get_current_buf()))
+    end
+
+    if opts.include_global then
+        add_mark_entries(vim.fn.getmarklist())
+    end
+
+    table.sort(items, function(a, b)
+        local am = (a.user_data and a.user_data.mark) or ""
+        local bm = (b.user_data and b.user_data.mark) or ""
+        return am < bm
+    end)
+
+    return items
+end
+
+local function apply_qf_line_highlights(bufnr, qf_id)
+    vim.api.nvim_buf_clear_namespace(bufnr, qf_ns, 0, -1)
+
+    local qf_items = vim.fn.getqflist({ id = qf_id, items = 1 }).items or {}
+
+    for i, item in ipairs(qf_items) do
+        local ud = item.user_data or {}
+
+        if ud.local_mark then
+            vim.api.nvim_buf_set_extmark(bufnr, qf_ns, i - 1, 0, {
+                line_hl_group = local_mark_hl,
+                priority = 10,
+            })
+        elseif ud.global_mark then
+            vim.api.nvim_buf_set_extmark(bufnr, qf_ns, i - 1, 0, {
+                line_hl_group = global_mark_hl,
+                priority = 10,
+            })
+        end
+    end
+end
+
+function marks.quickfix_text(info)
+    local qf_items = vim.fn.getqflist({ id = info.id, items = 1 }).items or {}
+    local lines = {}
+
+    for i = info.start_idx, info.end_idx do
+        local item = qf_items[i]
+        if item then
+            local name = ""
+
+            if item.bufnr and item.bufnr > 0 then
+                name = vim.api.nvim_buf_get_name(item.bufnr)
+            elseif item.filename then
+                name = item.filename
+            end
+
+            local path = normalize_path(name ~= "" and name or "[No Name]")
+            local lnum = item.lnum or 0
+            local col = item.col or 0
+            local text = item.text or ""
+            local mark = (item.user_data and item.user_data.mark) or "?"
+
+            lines[#lines + 1] = string.format("%s %s:%d:%d: %s", mark, path, lnum, col, text)
+        end
+    end
+
+    return lines
+end
+
+function marks.setqflist(opts)
+    opts = get_opts(opts)
+
+    local items = collect_marks(opts)
+
+    if vim.tbl_isempty(items) then
+        if opts.notify then
+            vim.notify("No marks found", vim.log.levels.INFO)
+        end
+        return false
+    end
+
+    _G.marks_quickfix_text = marks.quickfix_text
+
+    vim.fn.setqflist({}, " ", {
+        title = opts.title,
+        items = items,
+        quickfixtextfunc = "v:lua.marks_quickfix_text",
+    })
+
+    return true
+end
+
+function marks.open(opts)
+    opts = get_opts(opts)
+
+    if not marks.setqflist(opts) then
+        return
+    end
+
+    vim.cmd(opts.open_cmd)
+end
+
+local function jump_to_qf_item()
+    local item = vim.fn.getqflist()[vim.fn.line(".")]
+    if not item then
+        return
+    end
+
+    local target_buf = item.bufnr
+    local target_file = item.filename
+    local lnum = math.max(item.lnum or 1, 1)
+    local col = math.max(item.col or 1, 1)
+
+    vim.cmd("cclose")
+
+    if target_buf and target_buf > 0 and vim.api.nvim_buf_is_valid(target_buf) then
+        vim.api.nvim_set_current_buf(target_buf)
+    elseif target_file and target_file ~= "" then
+        vim.cmd.edit(vim.fn.fnameescape(target_file))
+        target_buf = vim.api.nvim_get_current_buf()
+    else
+        return
+    end
+
+    local line_count = vim.api.nvim_buf_line_count(0)
+    lnum = math.min(lnum, line_count)
+
+    local line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1] or ""
+    col = math.min(col, math.max(#line, 1))
+
+    vim.api.nvim_win_set_cursor(0, { lnum, math.max(col - 1, 0) })
+    vim.cmd("normal! zv")
+end
+
+function marks.setup(opts)
+    marks.config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
+
+    define_qf_highlights()
+
+    if marks.config.keymap then
+        map("n", marks.config.keymap, function()
+            marks.open()
+        end, { desc = marks.config.desc })
+    end
+
+    if marks.config.qf_mappings then
+        local group = vim.api.nvim_create_augroup("MarksQuickfix", { clear = true })
+
+        vim.api.nvim_create_autocmd("FileType", {
+            group = group,
+            pattern = "qf",
+            callback = function(args)
+                local qf_info = vim.fn.getqflist({ id = 0, title = 1, items = 0 })
+                if qf_info.title ~= marks.config.title then
+                    return
+                end
+
+                vim.bo[args.buf].buflisted = false
+
+                apply_qf_line_highlights(args.buf, qf_info.id)
+
+                map("n", "q", "<cmd>cclose<cr>", {
+                    buffer = args.buf,
+                    silent = true,
+                    desc = "Close marks picker",
+                })
+
+                map("n", "<CR>", jump_to_qf_item, {
+                    buffer = args.buf,
+                    silent = true,
+                    desc = "Open mark and close list",
+                })
+            end,
+        })
+    end
+end
+
+marks.setup()
 
 -- =========================================================
 -- !!! modules/snippets
