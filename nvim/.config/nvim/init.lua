@@ -913,11 +913,11 @@ vim.api.nvim_create_autocmd("CmdlineChanged", {
 -- !!! ui/icons
 -- =========================================================
 
-local icons      = {}
+local icons       = {}
 
-icons.border     = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
+icons.border      = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
 
-icons.indent     = {
+icons.indent      = {
     big_thick = "█",
     med_thick = "▊",
     sma_thick = "▐",
@@ -927,24 +927,7 @@ icons.indent     = {
     dotted_alt = "⋮",
 }
 
-icons.git        = {
-    add = "",
-    branch = "",
-    diff = "",
-    git = "󰊢",
-    ignore = "",
-    modify = "",
-    delete = "",
-    rename = "",
-    repo = "",
-    unmerged = "󰘬",
-    untracked = "󰞋",
-    unstaged = "",
-    staged = "",
-    conflict = "",
-}
-
-icons.ui         = {
+icons.ui          = {
     location = "󰟙",
     file = "",
     wordcount = "",
@@ -962,67 +945,21 @@ icons.ui         = {
     virtual_env = "",
 }
 
-icons.lang       = {
-    python = { icon = "", color = "#FED141" },
-    config = { icon = "", color = "#6e6e6e" },
-    haskell = { icon = "", color = "#C678DD" },
-    javascript = { icon = "", color = "#F6DE42" },
-    html = { icon = "", color = "#E34C26" },
-    css = { icon = "", color = "#28AAE1" },
-    json = { icon = "", color = "#cbcb41" },
-    markdown = { icon = "", color = "#036F36" },
-    vim = { icon = "", color = "#019833" },
-    sh = { icon = "", color = "#89e051" },
-    gd = { icon = "", color = "#478cbf" },
-    gdscript = { icon = "", color = "#478cbf" },
-    toml = { icon = "", color = "#9C4221" },
-    yaml = { icon = "", color = "#C678dd" },
-    dockerfile = { icon = "", color = "#0db7ed" },
-    go = { icon = "󰊠", color = "#00ADD8" },
-    rust = { icon = "", color = "#DEA584" },
-    typst = { icon = "", color = "#dea584" },
-    c = { icon = "", color = "#6798D1" },
-    cpp = { icon = "", color = "#00599C" },
-    lua = { icon = "", color = "#51A1FF" },
-    java = { icon = "", color = "#F34335" },
-    php = { icon = "", color = "#8892be" },
-    ruby = { icon = "", color = "#701516" },
-    swift = { icon = "", color = "#ffac45" },
-    tsx = { icon = "", color = "#2b7489" },
-    jsx = { icon = "", color = "#61dafb" },
-}
-
-icons.diagn      = {
-    error = "󰯈",
-    warning = "",
-    information = "",
+icons.diagn       = {
+    error = "",
+    warning = "",
+    information = "",
     question = "",
-    hint = "",
-}
-
-icons.modes      = {
-    n = "",
-    i = "",
-    v = "",
-    V = "",
-    ["\22"] = "󰈚",
-    c = "",
-    s = "",
-    S = "",
-    ["\19"] = "󰈚",
-    R = "",
-    r = "",
-    ["!"] = "",
-    t = "",
+    hint = "",
 }
 
 -- =========================================================
 -- !!! ui/theme
 -- =========================================================
 
-local theme      = {}
+local theme       = {}
 
-theme.colors     = {
+theme.colors      = {
     fg_main  = "#AAB3C0",
     fg_mid   = "#6e6e87",
     bg_mid   = "#87afaf",
@@ -1031,10 +968,17 @@ theme.colors     = {
     bg_deep3 = "#25252d",
 }
 
-theme.aux_colors = {
-    macro_statusline = "#aa5565",
+theme.aux_colors  = {
+    macro_statusline = "#f38ba8",
     cursorline_bg = "#2a2a33",
     accent = "#87afaf",
+}
+
+theme.diag_colors = {
+    error = "#f38ba8",
+    warning = "#f9e2af",
+    info = "#89b4fa",
+    hint = "#5FAF5F",
 }
 
 function theme.theme()
@@ -1165,6 +1109,20 @@ local floating_menus = {
 }
 
 for group, opts in pairs(floating_menus) do
+    set_hl(group, opts)
+end
+
+-- highlight overrides: diagnostics
+
+local diagnostics = {
+    DiagnosticError = { fg = theme.diag_colors.error },
+    DiagnosticWarn  = { fg = theme.diag_colors.warning },
+    DiagnosticInfo  = { fg = theme.diag_colors.info },
+    DiagnosticHint  = { fg = theme.diag_colors.hint
+    },
+}
+
+for group, opts in pairs(diagnostics) do
     set_hl(group, opts)
 end
 
@@ -1331,7 +1289,7 @@ local function is_escaped(line, pos)
     return count % 2 == 1
 end
 
-local function can_auto_close_quote(line, pos, quote)
+local function can_auto_close_quote(line, pos, _)
     local prev = line:sub(pos - 1, pos - 1)
     local next = line:sub(pos, pos)
     if is_escaped(line, pos) then
@@ -1409,9 +1367,7 @@ end
 function autopairs.open(char)
     local line = getline()
     local c = col()
-    local prev = get_char_at(c - 1)
     local next = get_char_at(c)
-
     if autopairs.quotes[char] then
         if next == char and not is_escaped(line, c) then
             return "<Right>"
