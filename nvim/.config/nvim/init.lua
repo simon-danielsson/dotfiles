@@ -3516,6 +3516,217 @@ end
 marks.setup()
 
 -- =========================================================
+-- !!! modules/grep
+-- =========================================================
+
+vim.opt.grepprg = "grep -RIn $* ."
+
+local grep_picker = {}
+
+local defaults = {
+    title = "Grep Results",
+    open_cmd = "copen",
+    qf_mappings = true,
+    keymap = "<leader>g",
+    desc = "Run grep and open results in qf",
+    notify = false,
+    prompt = "Grep > ",
+}
+
+grep_picker.config = vim.deepcopy(defaults)
+
+local qf_ns = vim.api.nvim_create_namespace("GrepQuickfix")
+local current_line_hl = "QfGrepLine"
+
+local function map(mode, lhs, rhs, opts)
+    vim.keymap.set(mode, lhs, rhs, opts)
+end
+
+local function get_opts(opts)
+    return vim.tbl_deep_extend("force", {}, grep_picker.config, opts or {})
+end
+
+local function normalize_path(path)
+    return vim.fn.fnamemodify(path, ":~:.")
+end
+
+local function define_qf_highlights()
+    vim.api.nvim_set_hl(0, current_line_hl, { link = "Search" })
+end
+
+local function get_qf_items()
+    return vim.fn.getqflist({ id = 0, items = 1 }).items or {}
+end
+
+local function apply_qf_line_highlights(bufnr, qf_id)
+    vim.api.nvim_buf_clear_namespace(bufnr, qf_ns, 0, -1)
+
+    local qf_items = vim.fn.getqflist({ id = qf_id, items = 1 }).items or {}
+
+    for i, _ in ipairs(qf_items) do
+        vim.api.nvim_buf_set_extmark(bufnr, qf_ns, i - 1, 0, {
+            line_hl_group = current_line_hl,
+            priority = 10,
+        })
+    end
+end
+
+function grep_picker.quickfix_text(info)
+    local qf_items = vim.fn.getqflist({ id = info.id, items = 1 }).items or {}
+    local lines = {}
+
+    for i = info.start_idx, info.end_idx do
+        local item = qf_items[i]
+        if item then
+            local name = ""
+
+            if item.bufnr and item.bufnr > 0 then
+                name = vim.api.nvim_buf_get_name(item.bufnr)
+            elseif item.filename then
+                name = item.filename
+            end
+
+            local path = normalize_path(name ~= "" and name or "")
+            local lnum = item.lnum or 0
+            local col = item.col or 0
+            local text = vim.trim(item.text or "")
+
+            lines[#lines + 1] = string.format("%s:%d:%d: %s", path, lnum, col, text)
+        end
+    end
+
+    return lines
+end
+
+local function jump_to_qf_item()
+    local item = get_qf_items()[vim.fn.line(".")]
+    if not item then
+        return
+    end
+
+    local target_buf = item.bufnr
+    local target_file = item.filename
+    local lnum = math.max(item.lnum or 1, 1)
+    local col = math.max(item.col or 1, 1)
+
+    vim.cmd("cclose")
+
+    if target_buf and target_buf > 0 and vim.api.nvim_buf_is_valid(target_buf) then
+        vim.api.nvim_set_current_buf(target_buf)
+    elseif target_file and target_file ~= "" then
+        vim.cmd.edit(vim.fn.fnameescape(target_file))
+        target_buf = vim.api.nvim_get_current_buf()
+    else
+        return
+    end
+
+    local line_count = vim.api.nvim_buf_line_count(0)
+    lnum = math.min(lnum, line_count)
+
+    local line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1] or ""
+    col = math.min(col, math.max(#line, 1))
+
+    vim.api.nvim_win_set_cursor(0, { lnum, math.max(col - 1, 0) })
+    vim.cmd("normal! zv")
+end
+
+local function has_results()
+    local items = get_qf_items()
+    return not vim.tbl_isempty(items)
+end
+
+function grep_picker.run(query, opts)
+    opts = get_opts(opts)
+
+    if not query or vim.trim(query) == "" then
+        if opts.notify then
+            vim.notify("Grep cancelled", vim.log.levels.INFO)
+        end
+        return
+    end
+
+    _G.grep_picker_quickfix_text = grep_picker.quickfix_text
+
+    vim.cmd("silent grep! " .. vim.fn.fnameescape(query))
+
+    if not has_results() then
+        if opts.notify then
+            vim.notify("No grep results found", vim.log.levels.INFO)
+        end
+        return
+    end
+
+    vim.fn.setqflist({}, "a", {
+        title = opts.title,
+        quickfixtextfunc = "v:lua.grep_picker_quickfix_text",
+    })
+
+    vim.cmd(opts.open_cmd)
+end
+
+function grep_picker.prompt(opts)
+    opts = get_opts(opts)
+
+    vim.ui.input({
+        prompt = opts.prompt,
+    }, function(input)
+        if input == nil or vim.trim(input) == "" then
+            if opts.notify then
+                vim.notify("Grep cancelled", vim.log.levels.INFO)
+            end
+            return
+        end
+
+        grep_picker.run(input, opts)
+    end)
+end
+
+function grep_picker.setup(opts)
+    grep_picker.config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
+
+    define_qf_highlights()
+
+    if grep_picker.config.keymap then
+        map("n", grep_picker.config.keymap, function()
+            grep_picker.prompt()
+        end, { desc = grep_picker.config.desc })
+    end
+
+    if grep_picker.config.qf_mappings then
+        local group = vim.api.nvim_create_augroup("GrepQuickfix", { clear = true })
+
+        vim.api.nvim_create_autocmd("FileType", {
+            group = group,
+            pattern = "qf",
+            callback = function(args)
+                local qf_info = vim.fn.getqflist({ id = 0, title = 1, items = 0 })
+                if qf_info.title ~= grep_picker.config.title then
+                    return
+                end
+
+                vim.bo[args.buf].buflisted = false
+
+                apply_qf_line_highlights(args.buf, qf_info.id)
+
+                map("n", "q", "<cmd>cclose<cr>", {
+                    buffer = args.buf,
+                    silent = true,
+                    desc = "Close grep results",
+                })
+
+                map("n", "<CR>", jump_to_qf_item, {
+                    buffer = args.buf,
+                    silent = true,
+                    desc = "Open grep result and close list",
+                })
+            end,
+        })
+    end
+end
+
+grep_picker.setup()
+
+-- =========================================================
 -- !!! modules/snippets
 -- =========================================================
 
