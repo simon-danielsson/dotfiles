@@ -936,24 +936,6 @@ icons.indent     = {
     dotted_alt = "⋮",
 }
 
-icons.ui         = {
-    location = "󰟙",
-    file = "",
-    wordcount = "",
-    memory = "",
-    unrec_file = "",
-    rec_macro = "󰻂",
-    arrow_left = "",
-    arrow_right = "",
-    arrow_up = "",
-    arrow_down = "",
-    gear = "",
-    folder = "󰷏",
-    time = "",
-    quit = "󰈆",
-    virtual_env = "",
-}
-
 -- =========================================================
 -- !!! ui/theme
 -- =========================================================
@@ -978,12 +960,6 @@ theme.aux_colors = {
 function theme.theme()
     vim.o.background = "dark"
     vim.cmd.colorscheme("habamax")
-
-    vim.api.nvim_set_hl(0, "Function", { fg = theme.colors.bg_mid })
-    vim.api.nvim_set_hl(0, "Module", { fg = theme.colors.bg_mid })
-    vim.api.nvim_set_hl(0, "Property", { fg = theme.colors.bg_mid })
-    vim.api.nvim_set_hl(0, "@lsp.type.variable", { fg = theme.colors.bg_mid })
-    vim.api.nvim_set_hl(0, "Normal", { bg = theme.colors.bg_deep3 })
 end
 
 theme.theme()
@@ -1019,16 +995,17 @@ local override_groups = {
 
     CursorLine       = { bg = aux_col.cursorline_bg },
     LspInlayHint     = { fg = colors.fg_mid },
-    TermNormal       = { fg = colors.fg_mid, bg = colors.bg_mid },
-    StatusLineNC     = { bg = colors.bg_mid },
-    StatusLineNormal = { bg = colors.bg_mid },
+    TermNormal       = { fg = colors.fg_main, bg = colors.bg_mid },
+    StatusLineNC     = { fg = colors.fg_main, bg = colors.bg_mid },
+    StatusLineNormal = { fg = colors.fg_main, bg = colors.bg_mid },
     LineNr           = { fg = colors.bg_deep, bg = "none" },
     LineNrBelow      = { fg = colors.bg_deep, bg = "none" },
     CursorLineNr     = { fg = colors.fg_main, bold = true },
     LineNrAbove      = { fg = colors.bg_deep, bg = "none" },
     Comment          = { fg = colors.fg_mid, bold = false },
     IndentGuide      = { fg = colors.bg_deep, bold = false },
-    NormalNC         = { bg = colors.bg_deep3, fg = colors.fg_mid },
+    NormalNC         = { bg = colors.bg_deep3, fg = colors.fg_main },
+    Normal           = { bg = colors.bg_deep3, fg = colors.fg_main },
 
     WinSeparator     = { bg = "none", fg = aux_col.cursorline_bg },
     ToolbarButton    = { bg = colors.fg_main, bold = true, reverse = true },
@@ -1767,13 +1744,7 @@ local defaults = {
 
     exclude_filetypes = {
         help = true,
-        lazy = true,
-        mason = true,
-        snacks_dashboard = true,
-        dashboard = true,
-        alpha = true,
         netrw = true,
-        Trouble = true,
     },
 
     exclude_buftypes = {
