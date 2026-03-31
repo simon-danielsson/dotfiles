@@ -1047,7 +1047,7 @@ end
 
 local override_groups = {
     -- tabline
-    TabLine          = { fg = colors.fg_mid, bg = colors.bg_deep3 },
+    TabLine          = { fg = colors.fg_mid, bg = aux_col.cursorline_bg },
     TabLineFill      = { bg = colors.bg_deep3 },
     TabLineSel       = { fg = colors.fg_main, bg = aux_col.cursorline_bg, bold = true },
     TabLineIcon      = { fg = aux_col.accent, bg = aux_col.cursorline_bg, bold = true },
@@ -3732,17 +3732,24 @@ vim.o.showtabline = 2
 
 function _G.my_tabline()
     local s = ""
+    local first = true
 
     for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
         if vim.bo[bufnr].buflisted then
             local name = vim.api.nvim_buf_get_name(bufnr)
 
-            -- skip unnamed buffers
             if name ~= "" then
                 name = vim.fn.fnamemodify(name, ":t")
 
+                -- separator between buffers
+                if not first then
+                    s = s .. "%#TabLineFill# "
+                end
+                first = false
+
+                -- buffer highlight
                 if bufnr == vim.api.nvim_get_current_buf() then
-                    s = s .. "%#TabLineIcon#" .. "" .. "%#TabLineSel#"
+                    s = s .. "%#TabLineSel#"
                 else
                     s = s .. "%#TabLine#"
                 end

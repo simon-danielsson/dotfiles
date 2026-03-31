@@ -1,9 +1,15 @@
+# homebrew
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 export LESS='--mouse --wheel-lines=1'
+# bob nvim version manager
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+# cargo
 . "$HOME/.cargo/env"
+# manually installed binaries
 export PATH="$PATH:/Users/simondanielsson/.local/bin"
+# haskell
 export PATH="$HOME/.ghcup/bin:$PATH"
+# sqlite
 export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
 
 # emacs
@@ -26,18 +32,3 @@ PROMPT_COMMAND=_raket
 # }
 # PROMPT_COMMAND=_raket
 
-# source ~/bash_prompt.sh
-# PROMPT_COMMAND='PS1="$(/Users/simondanielsson/dev/rust/raket/target/release/raket)"'
-# PROMPT_COMMAND='PS1="$(raket)"'
-
-# if [ -z "$TMUX" ]; then
-# 	if tmux has-session -t main 2>/dev/null; then
-# 		exec tmux attach-session -t main
-# 	else
-# 		tmux new-session -d -s main -c ~
-# 		tmux new-window -t main -n system -c ~ "glances" || true
-# 		tmux new-window -t main -n journal -c ~/journal "bash -i -c journal" || true
-# 		tmux select-window -t main:1
-# 		exec tmux attach-session -t main
-# 	fi
-# fi
