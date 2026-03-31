@@ -99,12 +99,6 @@ opt.fillchars     = {
     eob       = " ",
 }
 
--- folds
-opt.foldcolumn    = "2"
-o.foldmethod      = "expr"
-o.foldlevelstart  = 99
-o.foldenable      = false
-
 -- search
 opt.path:append("*")
 opt.hlsearch    = true
@@ -185,6 +179,27 @@ autocmd("BufEnter", {
 })
 
 -- =========================================================
+-- !!! general/folds
+-- =========================================================
+
+opt.foldcolumn   = "2"
+o.foldmethod     = "marker"
+o.foldlevelstart = 99
+o.foldenable     = false
+
+map('n', 'zz', 'za',
+    { desc = "Toggle fold under cursor" })
+
+map({ 'n', 'v' }, 'zn', 'zf',
+    { desc = "New fold" })
+
+map('n', 'zo', 'zR',
+    { desc = "Open all folds" })
+
+map('n', 'zc', 'zM',
+    { desc = "Close all folds" })
+
+-- =========================================================
 -- !!! general/keymaps
 -- =========================================================
 
@@ -263,17 +278,6 @@ map('t', '<Esc><Esc>', '<C-\\><C-n>',
 
 map("n", "<Esc>", "<cmd>nohlsearch<CR>",
     { desc = "Clear search highlights" })
-
--- folds
-
-map('n', 'za', 'za',
-    { desc = "Toggle fold under cursor" })
-
-map('n', 'zo', 'zR',
-    { desc = "Open all folds" })
-
-map('n', 'zc', 'zM',
-    { desc = "Close all folds" })
 
 -- editing
 
@@ -673,22 +677,6 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
         if vim.o.filetype == 'help' then vim.cmd.wincmd('L') end
     end,
     desc = "Open help window in a vertical split to the right",
-})
-
-autocmd("FileType", {
-    group = ui_group,
-    callback = function()
-        local ok = pcall(function()
-            vim.treesitter.get_parser(0)
-        end)
-        if ok then
-            vim.opt_local.foldmethod = "expr"
-            vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-        else
-            vim.opt_local.foldmethod = "indent"
-            vim.opt_local.foldexpr = "0"
-        end
-    end,
 })
 
 -- =========================================================
