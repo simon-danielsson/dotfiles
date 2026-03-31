@@ -922,11 +922,11 @@ vim.api.nvim_create_autocmd("CmdlineChanged", {
 -- !!! ui/icons
 -- =========================================================
 
-local icons       = {}
+local icons      = {}
 
-icons.border      = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
+icons.border     = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
 
-icons.indent      = {
+icons.indent     = {
     big_thick = "█",
     med_thick = "▊",
     sma_thick = "▐",
@@ -936,7 +936,7 @@ icons.indent      = {
     dotted_alt = "⋮",
 }
 
-icons.ui          = {
+icons.ui         = {
     location = "󰟙",
     file = "",
     wordcount = "",
@@ -954,21 +954,13 @@ icons.ui          = {
     virtual_env = "",
 }
 
-icons.diagn       = {
-    error = "",
-    warning = "",
-    information = "",
-    question = "",
-    hint = "",
-}
-
 -- =========================================================
 -- !!! ui/theme
 -- =========================================================
 
-local theme       = {}
+local theme      = {}
 
-theme.colors      = {
+theme.colors     = {
     fg_main  = "#AAB3C0",
     fg_mid   = "#6e6e87",
     bg_mid   = "#87afaf",
@@ -977,17 +969,10 @@ theme.colors      = {
     bg_deep3 = "#25252d",
 }
 
-theme.aux_colors  = {
+theme.aux_colors = {
     macro_statusline = "#f38ba8",
     cursorline_bg = "#2a2a33",
     accent = "#87afaf",
-}
-
-theme.diag_colors = {
-    error = "#f38ba8",
-    warning = "#f9e2af",
-    info = "#89b4fa",
-    hint = "#B087B0",
 }
 
 function theme.theme()
@@ -1007,53 +992,16 @@ theme.theme()
 -- !!! ui/colorscheme
 -- =========================================================
 
-local colors            = theme.colors
-local aux_col           = theme.aux_colors
-
--- terminal colors
-vim.g.terminal_color_0  = "#1e1e2e"      -- black
-vim.g.terminal_color_1  = "#f38ba8"      -- red
-vim.g.terminal_color_2  = "#a6e3a1"      -- green
-vim.g.terminal_color_3  = "#f9e2af"      -- yellow
-vim.g.terminal_color_4  = "#89b4fa"      -- blue
-vim.g.terminal_color_5  = "#f5c2e7"      -- magenta
-vim.g.terminal_color_6  = "#94e2d5"      -- cyan
-vim.g.terminal_color_7  = colors.fg_main -- white
-vim.g.terminal_color_8  = colors.fg_mid
-vim.g.terminal_color_9  = "#f38ba8"      -- bright red
-vim.g.terminal_color_10 = "#a6e3a1"      -- bright green
-vim.g.terminal_color_11 = "#f9e2af"      -- bright yellow
-vim.g.terminal_color_12 = "#89b4fa"      -- bright blue
-vim.g.terminal_color_13 = "#f5c2e7"      -- bright magenta
-vim.g.terminal_color_14 = "#94e2d5"      -- bright cyan
-vim.g.terminal_color_15 = colors.fg_main
+local colors  = theme.colors
+local aux_col = theme.aux_colors
 
 -- borders
-vim.g.border            = icons.border
-
--- diagnostics
-local diag_icons        = {
-    [vim.diagnostic.severity.ERROR] = icons.diagn.error,
-    [vim.diagnostic.severity.WARN]  = icons.diagn.warning,
-    [vim.diagnostic.severity.INFO]  = icons.diagn.information,
-    [vim.diagnostic.severity.HINT]  = icons.diagn.hint,
-}
+vim.g.border  = icons.border
 
 -- diagnostics display
 vim.diagnostic.config({
     float = { border = "rounded" },
-    signs = { text = diag_icons },
 })
-
--- diagnostic signs in sign column
-for name, icon in pairs({
-    DiagnosticSignError = diag_icons[vim.diagnostic.severity.ERROR],
-    DiagnosticSignWarn  = diag_icons[vim.diagnostic.severity.WARN],
-    DiagnosticSignInfo  = diag_icons[vim.diagnostic.severity.INFO],
-    DiagnosticSignHint  = diag_icons[vim.diagnostic.severity.HINT],
-}) do
-    vim.fn.sign_define(name, { text = icon, texthl = name })
-end
 
 -- highlight overrides: general
 
@@ -1103,6 +1051,25 @@ for group, opts in pairs(override_groups) do
     set_hl(group, opts)
 end
 
+-- highlight overrides: statusline
+
+local g_bg = aux_col.cursorline_bg
+
+local statusline_highlights = {
+    StatusLine       = { fg = colors.fg_main, bg = g_bg, bold = false },
+    StatusLineNC     = { fg = colors.fg_main, bg = g_bg, bold = false },
+    StatusLineNormal = { fg = colors.fg_main, bg = g_bg, bold = false },
+    StatusLineTermNC = { fg = colors.fg_main, bg = g_bg, bold = false },
+    StatusFilename   = { fg = colors.fg_main, bg = g_bg, bold = false },
+    StatusPosition   = { fg = colors.fg_main, bg = g_bg, bold = false },
+    StatusWords      = { fg = colors.fg_mid, bg = g_bg, bold = false },
+    StatusMode       = { fg = colors.fg_main, bg = g_bg },
+}
+
+for group, opts in pairs(statusline_highlights) do
+    vim.api.nvim_set_hl(0, group, opts)
+end
+
 -- highlight overrides: floating menus
 
 local floating_menus = {
@@ -1126,127 +1093,27 @@ for group, opts in pairs(floating_menus) do
     set_hl(group, opts)
 end
 
--- highlight overrides: diagnostics
-
-local diagnostics = {
-    DiagnosticError = { fg = theme.diag_colors.error },
-    DiagnosticWarn  = { fg = theme.diag_colors.warning },
-    DiagnosticInfo  = { fg = theme.diag_colors.info },
-    DiagnosticHint  = { fg = theme.diag_colors.hint },
-}
-
-for group, opts in pairs(diagnostics) do
-    set_hl(group, opts)
-end
-
 -- =========================================================
 -- !!! ui/statusline
 -- =========================================================
 
-local aux_colors   = theme.aux_colors
-
--- utilities
-
-_G.macro_recording = ""
-autocmd("RecordingEnter", {
-    callback = function()
-        local reg = vim.fn.reg_recording()
-        if reg ~= "" then
-            _G.macro_recording = "██"
-        end
-    end,
-})
-
-autocmd("RecordingLeave", {
-    callback = function()
-        _G.macro_recording = ""
-    end,
-})
-
-local function word_count()
-    local ext = vim.fn.expand("%:e")
-    if ext ~= "md" and ext ~= "typ" and ext ~= "txt" then
-        return ""
-    end
-    local wc = vim.fn.wordcount()
-    return wc.words > 0 and (" " .. wc.words .. " words ") or ""
-end
-
-local function short_filepath()
+function _G.short_filepath()
     local path = vim.fn.expand("%:p")
     local parts = vim.split(path, "/", { trimempty = true })
     local count = #parts
     return table.concat({
         parts[count - 2] or "",
         parts[count - 1] or "",
-        parts[count] or ""
+        parts[count] or "",
     }, "/")
 end
 
-local function file_type_filename()
-    local hl = "%#StatusFilename#"
-    return hl .. " " .. short_filepath() .. " " .. "%*"
-end
+local stl = vim.go.statusline
 
--- highlights
+stl = stl:gsub("%%<%%f", "%%{%v:lua.short_filepath()%}", 1)
+stl = stl:gsub("%%f", "%%{%v:lua.short_filepath()%}", 1)
 
-local g_bg = aux_col.cursorline_bg
-
-local statusline_highlights = {
-    StatusLine       = { fg = colors.fg_main, bg = g_bg, bold = false },
-    StatusLineNC     = { fg = colors.fg_main, bg = g_bg, bold = false },
-    StatusLineNormal = { fg = colors.fg_main, bg = g_bg, bold = false },
-    StatusLineTermNC = { fg = colors.fg_main, bg = g_bg, bold = false },
-    StatusFilename   = { fg = colors.fg_main, bg = g_bg, bold = false },
-    StatusPosition   = { fg = colors.fg_main, bg = g_bg, bold = false },
-    StatusWords      = { fg = colors.fg_mid, bg = g_bg, bold = false },
-    StatusMode       = { fg = colors.fg_main, bg = g_bg },
-    MacroRec         = { fg = aux_colors.macro_statusline, bg = "none" },
-}
-
-for group, opts in pairs(statusline_highlights) do
-    vim.api.nvim_set_hl(0, group, opts)
-end
-
--- assembly
-
-_G.Statusline = function()
-    local parts = {
-        file_type_filename(),
-        "%=",
-    }
-
-    table.insert(parts, "%#StatusWords#" .. word_count())
-    table.insert(parts, "%#StatusPosition#" .. "%l:" .. "%c " .. "%P ")
-    if _G.macro_recording ~= "" then
-        table.insert(parts, "%#MacroRec#" .. "" .. _G.macro_recording)
-    end
-
-    return table.concat(parts)
-end
-
-vim.api.nvim_create_autocmd("TermClose", {
-    callback = function()
-        vim.opt_local.statusline = "%!v:lua.Statusline()"
-    end,
-})
-
-vim.api.nvim_create_autocmd("TermOpen", {
-    callback = function()
-        vim.opt_local.winhighlight = "Normal:Normal,StatusLine:Normal,StatusLineNC:Normal"
-        vim.opt_local.statusline = " "
-    end,
-})
-
-vim.api.nvim_create_autocmd("BufEnter", {
-    callback = function()
-        if vim.bo.filetype == "netrw" then
-            vim.opt_local.statusline = " "
-        else
-            vim.opt_local.statusline = "%!v:lua.Statusline()"
-        end
-    end,
-})
+vim.go.statusline = " " .. stl .. " "
 
 -- =========================================================
 -- !!! modules/autopairs
@@ -2758,13 +2625,6 @@ local severity_to_type = {
     [vim.diagnostic.severity.HINT] = "N",
 }
 
-local severity_to_icon = {
-    [vim.diagnostic.severity.ERROR] = icons.diagn.error,
-    [vim.diagnostic.severity.WARN] = icons.diagn.warning,
-    [vim.diagnostic.severity.INFO] = icons.diagn.information,
-    [vim.diagnostic.severity.HINT] = icons.diagn.hint,
-}
-
 local severity_to_hl = {
     [vim.diagnostic.severity.ERROR] = "QfDiagError",
     [vim.diagnostic.severity.WARN] = "QfDiagWarn",
@@ -2849,8 +2709,7 @@ function diag.quickfix_text(info)
             local path = normalize_path(name)
             local lnum = item.lnum or 0
             local col = item.col or 0
-            local severity = item.user_data and item.user_data.severity
-            local icon = severity_to_icon[severity] or (item.type or "")
+            local icon = item.type or ""
             local text = item.text or ""
 
             lines[#lines + 1] = string.format("%s:%d:%d: %s %s", path, lnum, col, icon, text)
@@ -3503,8 +3362,6 @@ local defaults = {
 }
 
 grep_picker.config = vim.deepcopy(defaults)
-
-local qf_ns = vim.api.nvim_create_namespace("GrepQuickfix")
 
 local function map(mode, lhs, rhs, opts)
     vim.keymap.set(mode, lhs, rhs, opts)
