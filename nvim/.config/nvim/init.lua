@@ -3742,12 +3742,13 @@ function _G.my_tabline()
                 name = vim.fn.fnamemodify(name, ":t")
 
                 -- separator between buffers
+                local sep = " "
+
                 if not first then
-                    s = s .. "%#TabLineFill# "
+                    s = s .. "%#TabLineFill#" .. sep
                 end
                 first = false
 
-                -- buffer highlight
                 if bufnr == vim.api.nvim_get_current_buf() then
                     s = s .. "%#TabLineSel#"
                 else
