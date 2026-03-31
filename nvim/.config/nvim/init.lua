@@ -226,13 +226,24 @@ map("n", "}", "}zz",
 map("n", "{", "{zz",
         { desc = "Previous empty line (centered)" })
 
+local function on_jump(diagnostic, bufnr)
+        if not diagnostic then
+                return
+        end
+        vim.schedule(function()
+                vim.diagnostic.open_float(bufnr, {
+                        scope = "line",
+                        pos = { diagnostic.lnum, diagnostic.col },
+                })
+        end)
+end
 map("n", "<C-e>", function()
-        vim.diagnostic.goto_prev()
+        vim.diagnostic.jump({ count = -1, on_jump = on_jump })
         vim.cmd("normal! zz")
 end, { desc = "Go to previous diagnostic" })
 
 map("n", "<C-o>", function()
-        vim.diagnostic.goto_next()
+        vim.diagnostic.jump({ count = 1, on_jump = on_jump })
         vim.cmd("normal! zz")
 end, { desc = "Go to next diagnostic" })
 
