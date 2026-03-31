@@ -247,40 +247,17 @@ map("n", "<leader>f", function()
     vim.cmd("Explore " .. vim.fn.fnameescape(dir))
 end)
 
-map("n", ";", function()
-    local bufs = vim.api.nvim_list_bufs()
-    -- Filter only listed and loaded buffers
-    local open_bufs = {}
-    for _, bufnr in ipairs(bufs) do
-        if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_option(bufnr, "buflisted") then
-            table.insert(open_bufs, bufnr)
-        end
-    end
-    if #open_bufs == 0 then return end
-    local current = vim.api.nvim_get_current_buf()
-    local idx = nil
-    for i, bufnr in ipairs(open_bufs) do
-        if bufnr == current then
-            idx = i
-            break
-        end
-    end
-    local next_idx = (idx % #open_bufs) + 1
-    vim.api.nvim_set_current_buf(open_bufs[next_idx])
-end, { desc = "Cycle through open buffers" })
+map("n", "<Left>", "<cmd>bprevious<cr>", { desc = "Go to prev buffer" })
+map("n", "<Right>", "<cmd>bnext<cr>", { desc = "Go to next buffer" })
 
-map('t', '<Esc><Esc>', '<C-\\><C-n>',
-    { desc = 'Exit terminal mode' })
+map("n", "<c-b>", "<cmd>bd<cr>", { desc = "close buffer" })
 
 map("n", ",", function()
     vim.cmd("wincmd w")
 end, { desc = "Cycle through splits" })
 
-map('n', '<Left>', '<cmd>vertical resize +4<cr>',
-    { desc = 'Increase Window Width' })
-
-map('n', '<Right>', '<cmd>vertical resize -4<cr>',
-    { desc = 'Decrease Window Width' })
+map('t', '<Esc><Esc>', '<C-\\><C-n>',
+    { desc = 'Exit terminal mode' })
 
 -- general
 
@@ -427,6 +404,7 @@ autocmd("BufNewFile", {
         if vim.fn.filereadable(template_file) == 0 then
             template_file = string.format("%s/%s", template_dir, file:match("^.+(%..+)$") or "")
         end
+
         if vim.fn.filereadable(template_file) == 1 then
             vim.cmd("0r " .. template_file)
         end
@@ -438,6 +416,20 @@ autocmd("BufNewFile", {
 -- =========================================================
 
 local files_group = augroup("FileCommands", { clear = true })
+
+vim.api.nvim_create_autocmd("BufReadPost", {
+    callback = function()
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+            local name = vim.api.nvim_buf_get_name(buf)
+            local bt = vim.api.nvim_buf_get_option(buf, "buftype")
+
+            if name == "" and bt == "" then
+                pcall(vim.api.nvim_buf_delete, buf, { force = true })
+            end
+        end
+    end,
+    desc = "auto delete intro screen",
+})
 
 autocmd({ "BufEnter", "BufWritePre" }, {
     group = files_group,
@@ -978,7 +970,7 @@ theme.diag_colors = {
     error = "#f38ba8",
     warning = "#f9e2af",
     info = "#89b4fa",
-    hint = "#5FAF5F",
+    hint = "#B087B0",
 }
 
 function theme.theme()
@@ -1054,6 +1046,12 @@ local function set_hl(group, opts)
 end
 
 local override_groups = {
+    -- tabline
+    TabLine          = { fg = colors.fg_mid, bg = colors.bg_deep3 },
+    TabLineFill      = { bg = colors.bg_deep3 },
+    TabLineSel       = { fg = colors.fg_main, bg = aux_col.cursorline_bg, bold = true },
+    TabLineIcon      = { fg = aux_col.accent, bg = aux_col.cursorline_bg, bold = true },
+
     CursorLine       = { bg = aux_col.cursorline_bg },
     LspInlayHint     = { fg = colors.fg_mid },
     TermNormal       = { fg = colors.fg_mid, bg = colors.bg_mid },
@@ -1066,14 +1064,13 @@ local override_groups = {
     Comment          = { fg = colors.fg_mid, bold = false },
     IndentGuide      = { fg = colors.bg_deep, bold = false },
     NormalNC         = { bg = colors.bg_deep3, fg = colors.fg_mid },
-    TabLine          = { bg = colors.bg_deep },
-    TabLineFill      = { bg = colors.bg_deep },
-    TabLineSel       = { bg = colors.fg_mid, bold = true },
+
     WinSeparator     = { bg = "none", fg = aux_col.cursorline_bg },
     ToolbarButton    = { bg = colors.fg_main, bold = true, reverse = true },
     EndOfBuffer      = { bg = "none" },
     ColorColumn      = { ctermbg = 0, bg = colors.bg_deep },
     VertSplit        = { ctermbg = 0, bg = "none", fg = "none" },
+
     -- popup menu
     Visual           = { bg = colors.bg_deep },
     CurSearch        = { bg = aux_col.accent, fg = colors.bg_deep3 },
@@ -1118,8 +1115,7 @@ local diagnostics = {
     DiagnosticError = { fg = theme.diag_colors.error },
     DiagnosticWarn  = { fg = theme.diag_colors.warning },
     DiagnosticInfo  = { fg = theme.diag_colors.info },
-    DiagnosticHint  = { fg = theme.diag_colors.hint
-    },
+    DiagnosticHint  = { fg = theme.diag_colors.hint },
 }
 
 for group, opts in pairs(diagnostics) do
@@ -3725,4 +3721,39 @@ end
 
 snippets.setup({ -- snippets (expand with c-x)
     issue = "*brakoll - d: $0, p: 0, t: feature, s: open",
+
 })
+
+-- =========================================================
+-- !!! modules/tabline
+-- =========================================================
+
+vim.o.showtabline = 2
+
+function _G.my_tabline()
+    local s = ""
+
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.bo[bufnr].buflisted then
+            local name = vim.api.nvim_buf_get_name(bufnr)
+
+            -- skip unnamed buffers
+            if name ~= "" then
+                name = vim.fn.fnamemodify(name, ":t")
+
+                if bufnr == vim.api.nvim_get_current_buf() then
+                    s = s .. "%#TabLineIcon#" .. "" .. "%#TabLineSel#"
+                else
+                    s = s .. "%#TabLine#"
+                end
+
+                s = s .. " " .. name .. " "
+            end
+        end
+    end
+
+    s = s .. "%#TabLineFill#"
+    return s
+end
+
+vim.o.tabline = "%!v:lua.my_tabline()"
