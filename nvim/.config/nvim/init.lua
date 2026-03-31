@@ -789,7 +789,8 @@ vim.lsp.config('lua_ls', {
                                 version = 'LuaJIT',
                         },
                         diagnostics = {
-                                globals = { 'vim' }, -- rec nvim api
+                                globals = { 'vim' },
+                                disable = { "redefined-local" },
                         },
                         workspace = {
                                 checkThirdParty = false,
