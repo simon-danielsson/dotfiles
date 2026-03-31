@@ -426,8 +426,7 @@ autocmd("BufReadPost", {
         callback = function()
                 for _, buf in ipairs(vim.api.nvim_list_bufs()) do
                         local name = vim.api.nvim_buf_get_name(buf)
-                        local bt = vim.api.nvim_buf_get_option(buf, "buftype")
-
+                        local bt = vim.bo[buf].buftype
                         if name == "" and bt == "" then
                                 pcall(vim.api.nvim_buf_delete, buf, { force = true })
                         end
@@ -2272,20 +2271,18 @@ function recentfiles.setup(opts)
                                 vim.api.nvim_buf_clear_namespace(args.buf, ns, 0, -1)
 
                                 local lines = vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)
-
                                 for i, line in ipairs(lines) do
                                         local file, path = line:match("^(%S+)%s+(.*)$")
 
                                         if file and path then
+                                                local row = i - 1
                                                 local file_end = #file
                                                 local path_start = line:find(path, 1, true) - 1
 
-                                                vim.api.nvim_buf_add_highlight(args.buf, ns, "Normal", i - 1, 0, file_end)
-                                                vim.api.nvim_buf_add_highlight(args.buf, ns, "Comment", i - 1, path_start,
-                                                        -1)
+                                                vim.hl.range(args.buf, ns, "Normal", { row, 0 }, { row, file_end })
+                                                vim.hl.range(args.buf, ns, "Comment", { row, path_start }, { row, #line })
                                         end
                                 end
-
                                 vim.bo[args.buf].buflisted = false
 
                                 map("n", "q", "<cmd>cclose<cr>", {
@@ -2935,12 +2932,12 @@ function buffers.setup(opts)
                                         local file, path = line:match("^(%S+)%s+(.*)$")
 
                                         if file and path then
+                                                local row = i - 1
                                                 local file_end = #file
                                                 local path_start = line:find(path, 1, true) - 1
 
-                                                vim.api.nvim_buf_add_highlight(args.buf, ns, "Normal", i - 1, 0, file_end)
-                                                vim.api.nvim_buf_add_highlight(args.buf, ns, "Comment", i - 1, path_start,
-                                                        -1)
+                                                vim.hl.range(args.buf, ns, "Normal", { row, 0 }, { row, file_end })
+                                                vim.hl.range(args.buf, ns, "Comment", { row, path_start }, { row, #line })
                                         end
                                 end
 
