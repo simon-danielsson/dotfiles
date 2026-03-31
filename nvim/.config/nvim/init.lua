@@ -3488,7 +3488,7 @@ marks.setup()
 -- !!! modules/grep
 -- =========================================================
 
-vim.opt.grepprg = "grep -RIn $* ."
+vim.opt.grepprg = "rg --vimgrep -uu"
 
 local grep_picker = {}
 
@@ -3505,7 +3505,6 @@ local defaults = {
 grep_picker.config = vim.deepcopy(defaults)
 
 local qf_ns = vim.api.nvim_create_namespace("GrepQuickfix")
-local current_line_hl = "QfGrepLine"
 
 local function map(mode, lhs, rhs, opts)
     vim.keymap.set(mode, lhs, rhs, opts)
@@ -3519,25 +3518,8 @@ local function normalize_path(path)
     return vim.fn.fnamemodify(path, ":~:.")
 end
 
-local function define_qf_highlights()
-    vim.api.nvim_set_hl(0, current_line_hl, { link = "Search" })
-end
-
 local function get_qf_items()
     return vim.fn.getqflist({ id = 0, items = 1 }).items or {}
-end
-
-local function apply_qf_line_highlights(bufnr, qf_id)
-    vim.api.nvim_buf_clear_namespace(bufnr, qf_ns, 0, -1)
-
-    local qf_items = vim.fn.getqflist({ id = qf_id, items = 1 }).items or {}
-
-    for i, _ in ipairs(qf_items) do
-        vim.api.nvim_buf_set_extmark(bufnr, qf_ns, i - 1, 0, {
-            line_hl_group = current_line_hl,
-            priority = 10,
-        })
-    end
 end
 
 function grep_picker.quickfix_text(info)
@@ -3653,8 +3635,6 @@ end
 function grep_picker.setup(opts)
     grep_picker.config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
 
-    define_qf_highlights()
-
     if grep_picker.config.keymap then
         map("n", grep_picker.config.keymap, function()
             grep_picker.prompt()
@@ -3674,8 +3654,6 @@ function grep_picker.setup(opts)
                 end
 
                 vim.bo[args.buf].buflisted = false
-
-                apply_qf_line_highlights(args.buf, qf_info.id)
 
                 map("n", "q", "<cmd>cclose<cr>", {
                     buffer = args.buf,
