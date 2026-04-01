@@ -912,11 +912,11 @@ autocmd("CmdlineChanged", {
 -- !!! ui/icons
 -- =========================================================
 
-local icons      = {}
+local icons  = {}
 
-icons.border     = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
+icons.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
 
-icons.indent     = {
+icons.indent = {
         big_thick = "█",
         med_thick = "▊",
         sma_thick = "▐",
@@ -930,134 +930,97 @@ icons.indent     = {
 -- !!! ui/theme
 -- =========================================================
 
-local theme      = {}
-
-theme.colors     = {
-        fg_main  = "#AAB3C0",
-        fg_mid   = "#6e6e87",
-        bg_mid   = "#87afaf",
-        bg_mid2  = "#6e6e87",
-        bg_deep  = "#40404f",
-        bg_deep3 = "#25252d",
-}
-
-theme.aux_colors = {
-        macro_statusline = "#f38ba8",
-        cursorline_bg = "#2a2a33",
-        accent = "#87afaf",
-}
-
-function theme.theme()
-        vim.o.background = "dark"
-        vim.cmd.colorscheme("habamax")
-end
-
-theme.theme()
-
--- =========================================================
--- !!! ui/colorscheme
--- =========================================================
-
-local colors  = theme.colors
-local aux_col = theme.aux_colors
-
 -- borders
-vim.g.border  = icons.border
+vim.g.border = icons.border
 
 -- diagnostics display
 vim.diagnostic.config({
         float = { border = "rounded" },
 })
 
--- highlight overrides: general
+local theme   = {}
 
--- helper
-local function set_hl(group, opts)
-        shl(0, group, opts)
+theme.colors  = {
+        fg_1 = "#AAB3C0",
+        fg_2 = "#6e6e87",
+        mg_1 = "#40404f",
+        bg_1 = "#2a2a33",
+        bg_2 = "#25252d",
+}
+
+theme.accents = {
+        a1 = "#87afaf",
+}
+
+function theme.theme()
+        vim.o.background = "dark"
+        vim.cmd.colorscheme("sorbet")
 end
 
-local override_groups = {
+theme.theme()
+
+local overrides = {
+        -- line numbers
+        LineNr           = { fg = theme.colors.mg_1, bg = "none" },
+        CursorLineNr     = { fg = theme.colors.fg_1, bg = "none" },
+
         -- tabline
-        TabLine          = { fg = colors.fg_mid, bg = aux_col.cursorline_bg },
-        TabLineFill      = { bg = colors.bg_deep3 },
-        TabLineSel       = { fg = colors.fg_main, bg = aux_col.cursorline_bg, bold = true },
-        TabLineIcon      = { fg = aux_col.accent, bg = aux_col.cursorline_bg, bold = true },
+        TabLine          = { fg = theme.colors.fg_2, bg = theme.colors.bg_1 },
+        TabLineSel       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1 },
+        TabLineFill      = { bg = theme.colors.bg_2 },
 
-        CursorLine       = { bg = aux_col.cursorline_bg },
-        LspInlayHint     = { fg = colors.fg_mid },
-        TermNormal       = { fg = colors.fg_main, bg = colors.bg_mid },
-        StatusLineNC     = { fg = colors.fg_main, bg = colors.bg_mid },
-        StatusLineNormal = { fg = colors.fg_main, bg = colors.bg_mid },
-        LineNr           = { fg = colors.bg_deep, bg = "none" },
-        LineNrBelow      = { fg = colors.bg_deep, bg = "none" },
-        CursorLineNr     = { fg = colors.fg_main, bold = true },
-        LineNrAbove      = { fg = colors.bg_deep, bg = "none" },
-        Comment          = { fg = colors.fg_mid, bold = false },
-        IndentGuide      = { fg = colors.bg_deep, bold = false },
-        NormalNC         = { bg = colors.bg_deep3, fg = colors.fg_main },
-        Normal           = { bg = colors.bg_deep3, fg = colors.fg_main },
+        -- hints
+        Comment          = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
+        IndentGuide      = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
+        Biscuit          = { fg = theme.colors.mg_1, bg = theme.colors.bg_1 },
 
-        WinSeparator     = { bg = "none", fg = aux_col.cursorline_bg },
-        ToolbarButton    = { bg = colors.fg_main, bold = true, reverse = true },
-        EndOfBuffer      = { bg = "none" },
-        ColorColumn      = { ctermbg = 0, bg = colors.bg_deep },
+        -- normal
+        Normal           = { fg = theme.colors.fg_1, bg = theme.colors.bg_2 },
+        NormalNC         = { link = "Normal" },
+
+        -- cursor
+        CursorLine       = { bg = theme.colors.bg_1 },
+
+        -- quickfix
+        QuickFixLine     = { ctermbg = 0 },
+        qfFileName       = { fg = theme.colors.fg_1 },
+
+        -- float
+        NormalFloat      = { fg = theme.colors.fg_1, bg = "none" },
+        FloatBorder      = { fg = theme.colors.fg_2, bg = "none" },
+
+        -- splits
+        WinSeparator     = { bg = "none", fg = theme.colors.bg_1 },
+        EndOfBuffer      = { link = "WinSeparator" },
+        ColorColumn      = { ctermbg = 0, bg = theme.colors.mg_1 },
         VertSplit        = { ctermbg = 0, bg = "none", fg = "none" },
 
         -- popup menu
-        Visual           = { bg = colors.bg_deep },
-        CurSearch        = { bg = aux_col.accent, fg = colors.bg_deep3 },
-        IncSearch        = { bg = aux_col.accent, fg = colors.bg_deep3 },
-        Search           = { bg = aux_col.accent, fg = colors.bg_deep3 },
-        Substitute       = { bg = colors.bg_deep },
-        QuickFixLine     = { ctermbg = 0 },
+        Pmenu            = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
+        PmenuSel         = { bg = theme.colors.mg_1, fg = theme.colors.fg_1 },
+        PmenuKind        = { bg = theme.colors.bg_2, fg = theme.colors.fg_1 },
+        PmenuExtra       = { bg = theme.colors.bg_2, fg = theme.colors.fg_1 },
+        PmenuMatch       = { bg = theme.colors.mg_1, fg = theme.colors.fg_1 },
+        PmenuKindSel     = { bg = theme.colors.mg_1, bold = true },
+        PmenuMatchSel    = { link = "PmenuKindSel" },
+        PmenuExtraSel    = { link = "PmenuKindSel" },
+        PmenuSbar        = { bg = theme.colors.bg_2 },
+        PmenuThumb       = { link = "PmenuThumb" },
+        PmenuBorder      = { fg = theme.colors.fg_2, bg = "none" },
 
-        BiscuitColor     = { fg = colors.bg_deep, bg = aux_col.cursorline_bg },
+        -- statusline
+        StatusLine       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = false },
+        StatusLineNC     = { link = "StatusLine" },
+        StatusLineNormal = { link = "StatusLine" },
+        StatusLineTermNC = { link = "StatusLine" },
+        StatusFilename   = { link = "StatusLine" },
+        StatusPosition   = { link = "StatusLine" },
+        StatusWords      = { link = "StatusLine" },
+        StatusMode       = { link = "StatusLine" },
 }
 
-for group, opts in pairs(override_groups) do
-        set_hl(group, opts)
-end
-
--- highlight overrides: statusline
-
-local g_bg = aux_col.cursorline_bg
-
-local statusline_highlights = {
-        StatusLine       = { fg = colors.fg_main, bg = g_bg, bold = false },
-        StatusLineNC     = { fg = colors.fg_main, bg = g_bg, bold = false },
-        StatusLineNormal = { fg = colors.fg_main, bg = g_bg, bold = false },
-        StatusLineTermNC = { fg = colors.fg_main, bg = g_bg, bold = false },
-        StatusFilename   = { fg = colors.fg_main, bg = g_bg, bold = false },
-        StatusPosition   = { fg = colors.fg_main, bg = g_bg, bold = false },
-        StatusWords      = { fg = colors.fg_mid, bg = g_bg, bold = false },
-        StatusMode       = { fg = colors.fg_main, bg = g_bg },
-}
-
-for group, opts in pairs(statusline_highlights) do
+for group, opts in pairs(overrides) do
         shl(0, group, opts)
-end
-
--- highlight overrides: floating menus
-
-local floating_menus = {
-        NormalFloat   = { fg = colors.fg_main, bg = "none" },
-        FloatBorder   = { fg = colors.fg_mid, bg = "none" },
-
-        Pmenu         = { bg = colors.bg_deep3, fg = colors.fg_mid },
-        PmenuSel      = { bg = colors.bg_deep, fg = colors.fg_main },
-        PmenuKind     = { bg = colors.bg_deep3, fg = colors.fg_main },
-        PmenuExtra    = { bg = colors.bg_deep3, fg = colors.fg_main },
-        PmenuMatch    = { bg = colors.bg_deep, fg = colors.fg_main },
-        PmenuKindSel  = { bg = colors.bg_deep, fg = aux_col.accent, bold = true },
-        PmenuExtraSel = { bg = colors.bg_deep, fg = colors.fg_main, bold = true },
-        PmenuMatchSel = { bg = colors.bg_deep, fg = aux_col.accent, bold = true },
-        PmenuSbar     = { bg = colors.bg_deep3 },
-        PmenuThumb    = { bg = colors.bg_deep3 },
-        PmenuBorder   = { fg = colors.fg_mid, bg = "none" },
-}
-
-for group, opts in pairs(floating_menus) do
-        set_hl(group, opts)
 end
 
 -- =========================================================
@@ -1950,7 +1913,7 @@ local config = {
         enabled = true,
         cursor_line_only = true,
         prefix = "",
-        hl = "BiscuitColor",
+        hl = "Biscuit",
         max_length = 60,
         max_scan = 300,
 }
