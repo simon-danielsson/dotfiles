@@ -350,6 +350,140 @@ map("n", "gd", vim.lsp.buf.definition)
 map("n", "gr", vim.lsp.buf.references)
 
 -- =========================================================
+-- !!! ui/theme
+-- =========================================================
+
+-- borders
+vim.g.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
+
+-- diagnostics display
+vim.diagnostic.config({
+        float = { border = "rounded" },
+})
+
+local theme   = {}
+
+theme.colors  = {
+        fg_1 = "#AAB3C0",
+        fg_2 = "#6e6e87",
+        mg_1 = "#40404f",
+        bg_1 = "#2a2a33",
+        bg_2 = "#25252d",
+}
+
+theme.accents = {
+        a1 = "#91a5b5",
+        a2 = "#dc977e",
+        a3 = "#bb9cd5",
+        a5 = "#6f9ec2",
+}
+
+function theme.theme()
+        vim.o.background = "dark"
+        vim.cmd.colorscheme("habamax")
+end
+
+theme.theme()
+
+local overrides = {
+        -- line numbers
+        LineNr           = { fg = theme.colors.mg_1, bg = "none" },
+        LineNrAbove      = { link = "LineNr" },
+        LineNrBelow      = { link = "LineNr" },
+        CursorLineNr     = { fg = theme.colors.fg_1, bg = "none" },
+        SignColumn       = { bg = theme.colors.bg_2 },
+        FoldColumn       = { link = "SignColumn" },
+
+        -- tabline
+        TabLine          = { fg = theme.colors.fg_2, bg = theme.colors.bg_1 },
+        TabLineSel       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = false, underline = true, sp = theme.colors.mg_1 },
+        TabLineFill      = { bg = theme.colors.bg_2 },
+
+        -- hints
+        Comment          = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
+        IndentGuide      = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
+        Biscuit          = { fg = theme.colors.mg_1, bg = theme.colors.bg_1 },
+
+        -- normal
+        Normal           = { fg = theme.colors.fg_1, bg = theme.colors.bg_2 },
+        NormalNC         = { link = "Normal" },
+
+        -- cursor
+        CursorLine       = { bg = theme.colors.bg_1 },
+
+        -- quickfix
+        QuickFixLine     = { ctermbg = 0 },
+        qfFileName       = { fg = theme.colors.fg_1 },
+
+        -- float
+        NormalFloat      = { link = "CursorLineNr" },
+        FloatBorder      = { fg = theme.colors.fg_2, bg = "none" },
+
+        -- splits
+        WinSeparator     = { fg = theme.colors.mg_1, bg = "none" },
+        EndOfBuffer      = { link = "CursorLineNr" },
+        ColorColumn      = { ctermbg = 0, bg = theme.colors.mg_1 },
+        VertSplit        = { ctermbg = 0, bg = "none", fg = "none" },
+
+        -- popup menu
+        Pmenu            = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
+        PmenuSel         = { bg = theme.colors.mg_1, fg = theme.colors.fg_1 },
+        PmenuKind        = { bg = theme.colors.bg_2, fg = theme.colors.fg_1 },
+        PmenuExtra       = { bg = theme.colors.bg_2, fg = theme.colors.fg_1 },
+        PmenuMatch       = { bg = theme.colors.mg_1, fg = theme.colors.fg_1 },
+        PmenuKindSel     = { bg = theme.colors.mg_1, bold = true },
+        PmenuMatchSel    = { link = "PmenuKindSel" },
+        PmenuExtraSel    = { link = "PmenuKindSel" },
+        PmenuThumb       = { link = "PmenuKindSel" },
+        PmenuSbar        = { bg = theme.colors.bg_2 },
+        PmenuBorder      = { fg = theme.colors.fg_2, bg = "none" },
+
+        -- statusline
+        StatusLine       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = false },
+        StatusLineNormal = { link = "StatusLine" },
+        StatusLineNC     = { link = "StatusLine" },
+        StatusLineTerm   = { link = "StatusLine" },
+        StatusLineTermNC = { link = "StatusLine" },
+        StatusFilename   = { link = "StatusLine" },
+        StatusPosition   = { link = "StatusLine" },
+        StatusWords      = { link = "StatusLine" },
+        StatusMode       = { link = "StatusLine" },
+}
+
+for group, opts in pairs(overrides) do
+        shl(0, group, opts)
+end
+
+-- =========================================================
+-- !!! ui/statusline
+-- =========================================================
+
+function _G.short_filepath()
+        local path = vim.fn.expand("%:p")
+
+        local home = vim.loop.os_homedir()
+        if path:sub(1, #home) == home then
+                path = "~" .. path:sub(#home + 1)
+        end
+
+        local parts = vim.split(path, "/", { trimempty = true })
+        local count = #parts
+
+        return table.concat({
+                parts[count - 2] or "",
+                parts[count - 1] or "",
+                parts[count] or "",
+        }, "/")
+end
+
+local stl = vim.go.statusline
+
+stl = stl:gsub("%%<%%f", "%%{%v:lua.short_filepath()%}", 1)
+stl = stl:gsub("%%f", "%%{%v:lua.short_filepath()%}", 1)
+
+vim.go.statusline = " " .. stl .. " "
+
+-- =========================================================
 -- !!! autocommands/write
 -- =========================================================
 
@@ -684,6 +818,15 @@ autocmd('BufWinEnter', {
 -- !!! lsp/lsp
 -- =========================================================
 
+autocmd("FileType", {
+        pattern = { "markdown", "text" },
+        callback = function()
+                vim.opt_local.spell = true
+                vim.opt_local.spelllang = { "en" }
+        end,
+        desc = "spell checking inside markdown and text files",
+})
+
 -- preview color on hex/rgb codes etc.
 -- (only works with lsps that support this, ex: css_ls)
 vim.lsp.document_color.enable(true, nil, { style = '■ ' })
@@ -713,6 +856,15 @@ vim.lsp.config('rust_analyzer', {
         },
 })
 vim.lsp.enable('rust_analyzer')
+
+-- markdown
+vim.lsp.config('marksman', {
+        cmd = { 'marksman', 'server' },
+        filetypes = { 'markdown' },
+        root_markers = { '.git' },
+        capabilities = capabilities,
+})
+vim.lsp.enable('marksman')
 
 -- python
 vim.lsp.config('pyright', {
@@ -822,13 +974,6 @@ vim.lsp.config('html', {
 })
 vim.lsp.enable('html')
 
--- spell-checking
-vim.lsp.config['harper'] = {
-        cmd = { 'harper-ls', '--stdio' },
-        filetypes = { 'markdown', 'text', 'tex', 'typst' }
-}
-vim.lsp.enable('harper')
-
 -- =========================================================
 -- !!! lsp/format
 -- =========================================================
@@ -907,139 +1052,6 @@ autocmd("CmdlineChanged", {
                 vim.fn.wildtrigger()
         end,
 })
-
--- =========================================================
--- !!! ui/theme
--- =========================================================
-
--- borders
-vim.g.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
-
--- diagnostics display
-vim.diagnostic.config({
-        float = { border = "rounded" },
-})
-
-local theme   = {}
-
-theme.colors  = {
-        fg_1 = "#AAB3C0",
-        fg_2 = "#6e6e87",
-        mg_1 = "#40404f",
-        bg_1 = "#2a2a33",
-        bg_2 = "#25252d",
-}
-
-theme.accents = {
-        a1 = "#738ba1",
-        a2 = "#dc977e",
-        a3 = "#996fa0",
-        a4 = "#bb9cd5",
-        a5 = "#96AFC6",
-}
-
-function theme.theme()
-        vim.o.background = "dark"
-        vim.cmd.colorscheme("habamax")
-end
-
-theme.theme()
-
--- core overrides
-local overrides = {
-        -- line numbers
-        LineNr           = { fg = theme.colors.mg_1, bg = "none" },
-        CursorLineNr     = { fg = theme.colors.fg_1, bg = "none" },
-        SignColumn       = { bg = theme.colors.bg_2 },
-        FoldColumn       = { link = "SignColumn" },
-
-        -- tabline
-        TabLine          = { fg = theme.colors.fg_2, bg = theme.colors.bg_1 },
-        TabLineSel       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1 },
-        TabLineFill      = { bg = theme.colors.bg_2 },
-
-        -- hints
-        Comment          = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
-        IndentGuide      = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
-        Biscuit          = { fg = theme.colors.mg_1, bg = theme.colors.bg_1 },
-
-        -- normal
-        Normal           = { fg = theme.colors.fg_1, bg = theme.colors.bg_2 },
-        NormalNC         = { link = "Normal" },
-
-        -- cursor
-        CursorLine       = { bg = theme.colors.bg_1 },
-
-        -- quickfix
-        QuickFixLine     = { ctermbg = 0 },
-        qfFileName       = { fg = theme.colors.fg_1 },
-
-        -- float
-        NormalFloat      = { link = "CursorLineNr" },
-        FloatBorder      = { fg = theme.colors.fg_2, bg = "none" },
-
-        -- splits
-        WinSeparator     = { link = "CursorLineNr" },
-        EndOfBuffer      = { link = "CursorLineNr" },
-        ColorColumn      = { ctermbg = 0, bg = theme.colors.mg_1 },
-        VertSplit        = { ctermbg = 0, bg = "none", fg = "none" },
-
-        -- popup menu
-        Pmenu            = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
-        PmenuSel         = { bg = theme.colors.mg_1, fg = theme.colors.fg_1 },
-        PmenuKind        = { bg = theme.colors.bg_2, fg = theme.colors.fg_1 },
-        PmenuExtra       = { bg = theme.colors.bg_2, fg = theme.colors.fg_1 },
-        PmenuMatch       = { bg = theme.colors.mg_1, fg = theme.colors.fg_1 },
-        PmenuKindSel     = { bg = theme.colors.mg_1, bold = true },
-        PmenuMatchSel    = { link = "PmenuKindSel" },
-        PmenuExtraSel    = { link = "PmenuKindSel" },
-        PmenuSbar        = { bg = theme.colors.bg_2 },
-        PmenuThumb       = { link = "PmenuThumb" },
-        PmenuBorder      = { fg = theme.colors.fg_2, bg = "none" },
-
-        -- statusline
-        StatusLine       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = false },
-        StatusLineNC     = { link = "StatusLine" },
-        StatusLineNormal = { link = "StatusLine" },
-        StatusLineTermNC = { link = "StatusLine" },
-        StatusFilename   = { link = "StatusLine" },
-        StatusPosition   = { link = "StatusLine" },
-        StatusWords      = { link = "StatusLine" },
-        StatusMode       = { link = "StatusLine" },
-}
-
-for group, opts in pairs(overrides) do
-        shl(0, group, opts)
-end
-
--- =========================================================
--- !!! ui/statusline
--- =========================================================
-
-function _G.short_filepath()
-        local path = vim.fn.expand("%:p")
-
-        local home = vim.loop.os_homedir()
-        if path:sub(1, #home) == home then
-                path = "~" .. path:sub(#home + 1)
-        end
-
-        local parts = vim.split(path, "/", { trimempty = true })
-        local count = #parts
-
-        return table.concat({
-                parts[count - 2] or "",
-                parts[count - 1] or "",
-                parts[count] or "",
-        }, "/")
-end
-
-local stl = vim.go.statusline
-
-stl = stl:gsub("%%<%%f", "%%{%v:lua.short_filepath()%}", 1)
-stl = stl:gsub("%%f", "%%{%v:lua.short_filepath()%}", 1)
-
-vim.go.statusline = " " .. stl .. " "
 
 -- =========================================================
 -- !!! modules/autopairs
@@ -3493,6 +3505,30 @@ end
 
 snippets.setup({ -- snippets (expand with c-x)
         issue = "*brakoll - d: $0, p: 0, t: feature, s: open",
+})
+
+-- =========================================================
+-- !!! modules/undotree
+-- =========================================================
+
+vim.cmd("packadd nvim.undotree")
+map("n", "<leader>u", function()
+        require("undotree").open({
+                command = math.floor(vim.api.nvim_win_get_width(0) / 3) .. "vnew",
+        })
+end, { desc = "Undotree toggle" })
+
+-- =========================================================
+-- !!! modules/get_lsp
+-- =========================================================
+
+autocmd("LspAttach", {
+        callback = function(args)
+                local client = vim.lsp.get_client_by_id(args.data.client_id)
+                if client then
+                        print("LSP attached: " .. client.name)
+                end
+        end,
 })
 
 -- =========================================================
