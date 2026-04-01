@@ -19,6 +19,8 @@ My neovim config is based around a no-plugins philosophy - lsp, completion, pick
   
 #### Features of my neovim config
 - netrw sensible defaults
+- undotree
+- spell checking in md/txt files
 - file templates
 - in-editor annotations
 - grep picker via quickfix
