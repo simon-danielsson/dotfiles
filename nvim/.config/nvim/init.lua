@@ -938,9 +938,9 @@ vim.diagnostic.config({
         float = { border = "rounded" },
 })
 
-local theme     = {}
+local theme   = {}
 
-theme.colors    = {
+theme.colors  = {
         fg_1 = "#AAB3C0",
         fg_2 = "#6e6e87",
         mg_1 = "#40404f",
@@ -948,7 +948,7 @@ theme.colors    = {
         bg_2 = "#25252d",
 }
 
-theme.accents   = {
+theme.accents = {
         a1 = "#738ba1",
         a2 = "#dc977e",
         a3 = "#996fa0",
@@ -956,28 +956,12 @@ theme.accents   = {
         a5 = "#96AFC6",
 }
 
-local vim_theme = "habamax"
-
 function theme.theme()
         vim.o.background = "dark"
-        vim.cmd.colorscheme(vim_theme)
+        vim.cmd.colorscheme("habamax")
 end
 
 theme.theme()
-
--- treesitter overrides
-vim.api.nvim_create_autocmd("ColorScheme", {
-        pattern = vim_theme,
-        callback = function()
-                vim.api.nvim_set_hl(0, "Function", { fg = theme.accents.a1 })
-                vim.api.nvim_set_hl(0, "String", { link = "Function" })
-                vim.api.nvim_set_hl(0, "Identifier", { fg = theme.accents.a2 })
-                -- vim.api.nvim_set_hl(0, "@lsp", { fg = theme.accents.a5 })
-                vim.api.nvim_set_hl(0, "@variable", { fg = theme.accents.a4 })
-        end,
-})
-vim.o.background = "dark"
-vim.cmd.colorscheme(vim_theme)
 
 -- core overrides
 local overrides = {
