@@ -439,7 +439,7 @@ local overrides = {
         PmenuBorder      = { fg = theme.colors.fg_2, bg = "none" },
 
         -- statusline
-        StatusLine       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = false },
+        StatusLine       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = false, underline = true, sp = theme.colors.mg_1 },
         StatusLineNormal = { link = "StatusLine" },
         StatusLineNC     = { link = "StatusLine" },
         StatusLineTerm   = { link = "StatusLine" },
@@ -3519,7 +3519,7 @@ map("n", "<leader>u", function()
 end, { desc = "Undotree toggle" })
 
 -- =========================================================
--- !!! modules/get_lsp
+-- !!! modules/lsp_attach
 -- =========================================================
 
 autocmd("LspAttach", {
