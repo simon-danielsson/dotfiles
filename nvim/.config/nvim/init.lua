@@ -260,11 +260,11 @@ map("n", "<Right>", "<cmd>bnext<cr>", { desc = "Go to next buffer" })
 map("n", "<c-b>", function()
         local bufs = vim.fn.getbufinfo({ buflisted = 1 })
         if #bufs == 1 then
-                vim.cmd("update")  -- save if needed
-                vim.cmd("quit")    -- exit nvim
+                vim.cmd("update")
+                vim.cmd("quit")
         else
-                vim.cmd("update")  -- save if needed
-                vim.cmd("bdelete") -- close buffer
+                vim.cmd("update")
+                vim.cmd("bdelete")
         end
 end, { desc = "save & close buffer (or quit if last)" })
 
