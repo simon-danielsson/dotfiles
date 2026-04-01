@@ -909,29 +909,11 @@ autocmd("CmdlineChanged", {
 })
 
 -- =========================================================
--- !!! ui/icons
--- =========================================================
-
-local icons  = {}
-
-icons.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
-
-icons.indent = {
-        big_thick = "█",
-        med_thick = "▊",
-        sma_thick = "▐",
-        double = "║",
-        thin = "│",
-        dotted = "┊",
-        dotted_alt = "⋮",
-}
-
--- =========================================================
 -- !!! ui/theme
 -- =========================================================
 
 -- borders
-vim.g.border = icons.border
+vim.g.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
 
 -- diagnostics display
 vim.diagnostic.config({
