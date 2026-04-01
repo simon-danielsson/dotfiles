@@ -993,12 +993,12 @@ local overrides = {
         qfFileName       = { fg = theme.colors.fg_1 },
 
         -- float
-        NormalFloat      = { fg = theme.colors.fg_1, bg = "none" },
+        NormalFloat      = { link = "CursorLineNr" },
         FloatBorder      = { fg = theme.colors.fg_2, bg = "none" },
 
         -- splits
-        WinSeparator     = { bg = "none", fg = theme.colors.bg_1 },
-        EndOfBuffer      = { link = "WinSeparator" },
+        WinSeparator     = { link = "CursorLineNr" },
+        EndOfBuffer      = { link = "CursorLineNr" },
         ColorColumn      = { ctermbg = 0, bg = theme.colors.mg_1 },
         VertSplit        = { ctermbg = 0, bg = "none", fg = "none" },
 
