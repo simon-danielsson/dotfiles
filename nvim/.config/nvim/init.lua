@@ -396,7 +396,7 @@ local overrides = {
 
         -- tabline
         TabLine          = { fg = theme.colors.fg_2, bg = theme.colors.bg_1 },
-        TabLineSel       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = false, underline = true, sp = theme.colors.mg_1 },
+        TabLineSel       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = true },
         TabLineFill      = { bg = theme.colors.bg_2 },
 
         -- hints
@@ -439,7 +439,7 @@ local overrides = {
         PmenuBorder      = { fg = theme.colors.fg_2, bg = "none" },
 
         -- statusline
-        StatusLine       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = false, underline = true, sp = theme.colors.mg_1 },
+        StatusLine       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = false },
         StatusLineNormal = { link = "StatusLine" },
         StatusLineNC     = { link = "StatusLine" },
         StatusLineTerm   = { link = "StatusLine" },
