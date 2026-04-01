@@ -15,7 +15,7 @@ My keyboard is a [Keebart Corne Choc Pro](https://www.keebart.com/products/corne
 ### Development setup
 I had previously been using ghostty/tmux as my main development setup, but as of march 2026 I have switched to [cmux](https://github.com/manaflow-ai/cmux). Cmux offers a sleeker appearance, has more sensible defaults than tmux, and still uses ghostty as a backend.
   
-My neovim config is based around a no-plugins philosophy - lsp, completion, pickers, syntax highlighting and so on is all being done through native means. This is because I'm of the opinion that neovim feels a bit snappier and responsive with no plugins installed. I like keeping my entire config contained in a single file for the sake of portability.
+My neovim config is based around a no-plugins philosophy - lsp, completion, pickers, syntax highlighting and so on is all being done through native means. This is because I'm of the opinion that neovim feels a bit snappier and responsive with no plugins installed. I also like keeping my entire config contained in a single file for the sake of portability.
   
 #### Features of my neovim config
 - netrw sensible defaults
