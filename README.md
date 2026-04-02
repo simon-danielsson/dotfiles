@@ -13,7 +13,7 @@ My keyboard is a [Keebart Corne Choc Pro](https://www.keebart.com/products/corne
 ---
   
 ### Development setup
-I had previously been using ghostty/tmux as my main development setup, but as of march 2026 I have switched to [cmux](https://github.com/manaflow-ai/cmux). Cmux offers a sleeker appearance, has more sensible defaults than tmux, and still uses ghostty as a backend.
+I had previously been using ghostty/tmux as my main development setup, but switched to [cmux](https://github.com/manaflow-ai/cmux) during march of 2026. Cmux offers a sleeker appearance, has more sensible defaults than tmux, and still uses ghostty as a backend.
   
 My neovim config is based around a no-plugins philosophy (I do use the [everforest](https://github.com/sainnhe/everforest/tree/master) theme though, but that doesn't count!). I also like keeping my entire config contained in a single file for the sake of portability, and I'm trying to cut down on LoC wherever possible.
   
