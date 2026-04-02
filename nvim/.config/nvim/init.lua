@@ -2,36 +2,26 @@
 -- !!! aliases
 -- =========================================================
 
-local opt          = vim.opt
-local g            = vim.g
-local o            = vim.o
-local cmd          = vim.cmd
-local autocmd      = vim.api.nvim_create_autocmd
-local augroup      = vim.api.nvim_create_augroup
-local map          = vim.keymap.set
-local shl          = vim.api.nvim_set_hl
+local opt          = vim.opt; local g = vim.g
+local o            = vim.o; local cmd = vim.cmd
+local map          = vim.keymap.set; local shl = vim.api.nvim_set_hl
+local autocmd      = vim.api.nvim_create_autocmd; local augroup = vim.api.nvim_create_augroup
 
 -- =========================================================
 -- !!! general/options
 -- =========================================================
 
 -- line numbers
-opt.number         = true
-opt.relativenumber = true
+opt.number         = true; opt.relativenumber = true
 
 -- indenting
-o.expandtab        = true
-o.smartindent      = true
-o.autoindent       = true
-opt.tabstop        = 4
-opt.shiftwidth     = 4
-opt.softtabstop    = 4
+o.expandtab        = true; o.smartindent = true
+o.autoindent       = true; opt.tabstop = 4
+opt.shiftwidth     = 4; opt.softtabstop = 4
 
 -- wrapping & linebreaks
-opt.wrap           = true
-opt.linebreak      = true
-o.breakindent      = true
-opt.showbreak      = '󱞩 '
+opt.wrap           = true; opt.linebreak = true
+o.breakindent      = true; opt.showbreak = '󱞩 '
 opt.scrolloff      = 99
 
 opt.virtualedit    = "onemore"
@@ -47,10 +37,8 @@ opt.backspace     = "indent,eol,start"
 opt.modifiable    = true
 
 -- windows, splits & buffers
-opt.splitbelow    = true
-opt.autochdir     = true
-opt.splitright    = true
-o.equalalways     = true
+opt.splitbelow    = true; opt.autochdir = true
+opt.splitright    = true; o.equalalways = true
 opt.hidden        = true
 opt.diffopt       = {
     "filler",
@@ -60,28 +48,20 @@ opt.diffopt       = {
 }
 
 -- cursor & statusline
-opt.mouse         = "a"
-opt.cursorline    = true
-o.showmode        = false
-o.laststatus      = 3
+opt.mouse         = "a"; opt.cursorline = true; o.showmode = false; o.laststatus = 3
 opt.guicursor     = "n-v-c:block-blinkwait700-blinkoff400-blinkon250,i:ver25-blinkwait700-blinkoff400-blinkon250,r:hor20"
 
 -- appearance
-o.signcolumn      = 'yes:1'
-opt.winborder     = "rounded"
-opt.termguicolors = true
-o.encoding        = "utf-8"
-opt.numberwidth   = 4
-opt.showmatch     = true
+o.signcolumn      = 'yes:1'; opt.winborder = "rounded"
+opt.termguicolors = true; o.encoding = "utf-8"
+opt.numberwidth   = 4; opt.showmatch = true
 
 opt.list          = true
-
 opt.listchars     = {
     tab = "│ ",
     trail = "•",
     nbsp = " ",
 }
-
 opt.fillchars     = {
     horiz     = "─",
     horizup   = "┴",
@@ -100,31 +80,17 @@ opt.fillchars     = {
 }
 
 -- search
-opt.path:append("*")
-opt.hlsearch    = true
-opt.ignorecase  = true
-opt.smartcase   = true
-opt.incsearch   = true
-opt.wildmenu    = true
-opt.wildoptions = "pum,fuzzy"
+opt.path:append("*"); opt.hlsearch = true; opt.ignorecase = true; opt.smartcase = true
+opt.incsearch   = true; opt.wildmenu = true; opt.wildoptions = "pum,fuzzy"
 opt.wildmode    = "noselect:lastused,full"
 opt.wildignore:append({ "*.o", "*.obj",
     "*.pyc", "*.class", "*.jar" })
 
 -- file handling
-opt.shada       = "'100,<50,s10,h,:1000,@1000"
-opt.undofile    = true
-opt.backup      = false
-opt.writebackup = false
-opt.swapfile    = false
-opt.updatetime  = 100
-opt.timeoutlen  = 200
-opt.ttimeoutlen = 0
-opt.autoread    = true
-opt.autowrite   = false
-opt.confirm     = false
-local undodir   = vim.fn.expand("~/.vim/undodir")
-vim.opt.undodir = undodir
+opt.shada       = "'100,<50,s10,h,:1000,@1000"; opt.undofile = true; opt.backup = false
+opt.writebackup = false; opt.swapfile = false; opt.updatetime = 100; opt.timeoutlen = 200
+opt.ttimeoutlen = 0; opt.autoread = true; opt.autowrite = false; opt.confirm = false
+local undodir   = vim.fn.expand("~/.vim/undodir"); vim.opt.undodir = undodir
 if vim.fn.isdirectory(undodir) == 0 then
     vim.fn.mkdir(undodir, "p")
 end
@@ -133,10 +99,7 @@ end
 -- !!! general/netrw
 -- =========================================================
 
-g.netrw_liststyle     = 3
-g.netrw_banner        = 0
-g.netrw_preview       = 1
-g.netrw_keepdir       = 0
+g.netrw_liststyle     = 3; g.netrw_banner = 0; g.netrw_preview = 1; g.netrw_keepdir = 0
 g.netrw_sort_sequence = [[[/]$,\<core\%(\.\d\+\)\=,\.(c|h|cpp|hpp|lua|py|rs|go|ts|js)$,*]]
 shl(0, "netrwMarkFile", { link = "Visual" })
 
@@ -165,10 +128,7 @@ autocmd("BufEnter", {
 -- !!! general/folds
 -- =========================================================
 
-opt.foldcolumn   = "2"
-o.foldmethod     = "marker"
-o.foldlevelstart = 99
-o.foldenable     = false
+opt.foldcolumn   = "2"; o.foldmethod = "marker"; o.foldlevelstart = 99; o.foldenable = false
 
 map('n', 'zz', 'za',
     { desc = "Toggle fold under cursor" })
@@ -187,8 +147,7 @@ map('n', 'zc', 'zM',
 -- =========================================================
 
 -- leader
-vim.g.mapleader      = " "
-vim.g.maplocalleader = " "
+vim.g.mapleader      = " "; vim.g.maplocalleader = " "
 
 -- navigation: local
 map("n", "i", "<Nop>")
@@ -346,8 +305,7 @@ map("n", "å", function()
     )
 end, { desc = "Toggle Inlay Hints" })
 
-map("n", "gd", vim.lsp.buf.definition)
-map("n", "gr", vim.lsp.buf.references)
+map("n", "gd", vim.lsp.buf.definition); map("n", "gr", vim.lsp.buf.references)
 
 -- =========================================================
 -- !!! ui/theme
@@ -604,9 +562,7 @@ autocmd("TextYankPost", {
 
 local term_group = augroup("TermCommands", { clear = true })
 
-local term_buf = nil
-local term_win = nil
-local term_job = nil
+local term_buf = nil; local term_win = nil; local term_job = nil
 
 local function ensure_terminal(cmd)
     local cwd = vim.fn.expand('%:p:h')
@@ -783,8 +739,7 @@ autocmd('BufWinEnter', {
 autocmd("FileType", {
     pattern = { "markdown", "text" },
     callback = function()
-        vim.opt_local.spell = true
-        vim.opt_local.spelllang = { "en" }
+        vim.opt_local.spell = true; vim.opt_local.spelllang = { "en" }
     end,
     desc = "spell checking inside markdown and text files",
 })
@@ -979,10 +934,9 @@ autocmd("BufWritePre", {
 -- =========================================================
 
 vim.opt.completeopt = { "noselect", "menu", "menuone", "popup" }
-vim.o.inccommand    = 'nosplit'
-vim.opt.pumborder   = "rounded"
--- code
+vim.o.inccommand    = 'nosplit'; vim.opt.pumborder = "rounded"
 
+-- code
 autocmd("LspAttach", {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -1007,7 +961,6 @@ autocmd("LspAttach", {
 })
 
 -- commandline
-
 autocmd("CmdlineChanged", {
     pattern = { ":", "/", "?" },
     callback = function()
@@ -1020,14 +973,12 @@ autocmd("CmdlineChanged", {
 -- =========================================================
 
 local autopairs = {}
-
 autopairs.pairs = {
     ["("] = ")",
     ["["] = "]",
     ["{"] = "}",
     ["<"] = ">",
 }
-
 autopairs.quotes = {
     ["'"] = true,
     ['"'] = true,
@@ -1082,8 +1033,7 @@ local function can_auto_close_quote(line, pos, _)
 end
 
 local function build_pair_stack_until(line, stop_pos)
-    local stack = {}
-    local active_quote = nil
+    local stack = {}; local active_quote = nil
 
     for i = 1, stop_pos do
         local ch = line:sub(i, i)
@@ -1105,16 +1055,12 @@ local function build_pair_stack_until(line, stop_pos)
             end
         end
     end
-
     return stack, active_quote
 end
 
 local function has_unmatched_closer_ahead(open, close)
-    local line = getline()
-    local cursor_col = col()
-
+    local line = getline(); local cursor_col = col()
     local stack, active_quote = build_pair_stack_until(line, cursor_col - 1)
-
     for i = cursor_col, #line do
         local ch = line:sub(i, i)
 
@@ -1145,9 +1091,7 @@ local function has_unmatched_closer_ahead(open, close)
 end
 
 function autopairs.open(char)
-    local line = getline()
-    local c = col()
-    local next = get_char_at(c)
+    local line = getline(); local c = col(); local next = get_char_at(c)
     if autopairs.quotes[char] then
         if next == char and not is_escaped(line, c) then
             return "<Right>"
@@ -1176,9 +1120,7 @@ function autopairs.close(char)
 end
 
 function autopairs.backspace()
-    local c = col()
-    local prev = get_char_at(c - 1)
-    local next = get_char_at(c)
+    local c = col(); local prev = get_char_at(c - 1); local next = get_char_at(c)
     if autopairs.pairs[prev] == next or (autopairs.quotes[prev] and prev == next) then
         return "<BS><Del>"
     end
@@ -1186,9 +1128,7 @@ function autopairs.backspace()
 end
 
 function autopairs.newline()
-    local c = col()
-    local prev = get_char_at(c - 1)
-    local next = get_char_at(c)
+    local c = col(); local prev = get_char_at(c - 1); local next = get_char_at(c)
     if autopairs.pairs[prev] == next then
         return "<CR><Esc>O"
     end
@@ -1206,7 +1146,6 @@ function autopairs.setup()
             return autopairs.close(c)
         end, expr)
     end
-
     for q, _ in pairs(autopairs.quotes) do
         map("i", q, function()
             return autopairs.open(q)
@@ -1223,10 +1162,7 @@ autopairs.setup()
 -- !!! modules/flash
 -- =========================================================
 
-local flash = {}
-
-local ns = vim.api.nvim_create_namespace("flash")
-
+local flash = {}; local ns = vim.api.nvim_create_namespace("flash")
 local defaults = {
     labels = "ashtfmneoiqdrwlup",
     min_pattern_for_labels = 2,
@@ -1247,7 +1183,6 @@ local defaults = {
 }
 
 local config = vim.deepcopy(defaults)
-
 local state = {
     active = false,
     winid = nil,
@@ -1258,7 +1193,6 @@ local state = {
     label_map = {},
     view = nil,
 }
-
 local function clear_ns()
     if state.bufnr and vim.api.nvim_buf_is_valid(state.bufnr) then
         vim.api.nvim_buf_clear_namespace(state.bufnr, ns, 0, -1)
@@ -1343,14 +1277,12 @@ local function snapshot_view()
         top = vim.fn.line("w0", winid)
         bot = vim.fn.line("w$", winid)
     end
-
     local lines = vim.api.nvim_buf_get_lines(bufnr, top - 1, bot, false)
     local normalized = {}
 
     for i, line in ipairs(lines) do
         normalized[i] = normalize(line)
     end
-
     state.view = {
         top = top,
         bot = bot,
@@ -1364,21 +1296,15 @@ local function collect_matches_full(pattern)
         return {}
     end
 
-    local out = {}
-    local curline, curcol = current_cursor(state.winid)
-    local needle = normalize(pattern)
+    local out = {}; local curline, curcol = current_cursor(state.winid); local needle = normalize(pattern)
 
     for i, line in ipairs(state.view.lines) do
-        local lnum = state.view.top + i - 1
-        local hay = state.view.normalized[i]
-        local start = 1
-
+        local lnum = state.view.top + i - 1; local hay = state.view.normalized[i]; local start = 1
         while true do
             local s, e = hay:find(needle, start, true)
             if not s then
                 break
             end
-
             local col0 = s - 1
             if not (lnum == curline and col0 == curcol) then
                 out[#out + 1] = {
@@ -1394,11 +1320,9 @@ local function collect_matches_full(pattern)
                     return out
                 end
             end
-
             start = s + 1
         end
     end
-
     return out
 end
 
@@ -1407,15 +1331,12 @@ local function filter_matches_incremental(matches, pattern)
         return {}
     end
 
-    local out = {}
-    local needle = normalize(pattern)
-    local needle_len = #needle
+    local out = {}; local needle = normalize(pattern); local needle_len = #needle
 
     for _, m in ipairs(matches) do
         local hay = state.view.normalized[m.row]
         local s1 = m.col + 1
         local e1 = s1 + needle_len - 1
-
         if hay:sub(s1, e1) == needle then
             local next_char = char_at_byte(state.view.lines[m.row], e1 + 1)
             out[#out + 1] = {
@@ -1426,13 +1347,11 @@ local function filter_matches_incremental(matches, pattern)
                 next_char = next_char,
                 label = nil,
             }
-
             if #out >= config.max_matches then
                 return out
             end
         end
     end
-
     return out
 end
 
@@ -1442,7 +1361,6 @@ local function sort_matches(matches)
     table.sort(matches, function(a, b)
         local da = math.abs(a.lnum - curline) * 1000 + math.abs(a.col - curcol)
         local db = math.abs(b.lnum - curline) * 1000 + math.abs(b.col - curcol)
-
         if da ~= db then
             return da < db
         end
@@ -1465,11 +1383,9 @@ end
 
 local function compute_reserved(matches, limit)
     local reserved = {}
-
     if not config.reserve_labels_by_next_char then
         return reserved
     end
-
     local n = math.min(#matches, limit or #matches)
     for i = 1, n do
         local m = matches[i]
@@ -1477,27 +1393,21 @@ local function compute_reserved(matches, limit)
             reserved[normalize(m.next_char)] = true
         end
     end
-
     return reserved
 end
 
 local function assign_labels(matches, reserved)
     local label_map = {}
-
     for _, m in ipairs(matches) do
         m.label = nil
     end
-
     if char_count(state.pattern) < config.min_pattern_for_labels then
         return label_map
     end
-
     local labels = available_labels(reserved)
-
     if #labels == 0 then
         labels = utf8_chars(config.labels)
     end
-
     local n = math.min(#matches, #labels)
     for i = 1, n do
         local label = labels[i]
@@ -1514,9 +1424,7 @@ local function refresh_state(mode)
     else
         state.matches = collect_matches_full(state.pattern)
     end
-
     sort_matches(state.matches)
-
     local label_count = char_count(config.labels)
     state.reserved = compute_reserved(state.matches, label_count)
     state.label_map = assign_labels(state.matches, state.reserved)
@@ -1527,13 +1435,11 @@ local function render_prompt()
         { config.prompt .. " ", config.prompt_hl },
         { state.pattern,        "Normal" },
     }
-
     if char_count(state.pattern) < config.min_pattern_for_labels then
         parts[#parts + 1] = { "  [type more]", config.note_hl }
     else
         parts[#parts + 1] = { "  [next chars continue, labels jump]", config.note_hl }
     end
-
     if config.show_counts_in_prompt then
         parts[#parts + 1] = {
             ("  [matches:%d labels:%d]"):format(#state.matches, vim.tbl_count(state.label_map)),
@@ -1554,7 +1460,6 @@ local function render()
             hl_group = (i == 1) and config.highlight.current or config.highlight.match,
             priority = 200,
         }
-
         if m.label then
             opts.virt_text = { { m.label, config.highlight.label } }
             opts.virt_text_pos = "overlay"
@@ -1572,7 +1477,6 @@ local function jump_to(match)
     if not match then
         return
     end
-
     local winid = state.winid
     reset()
     vim.api.nvim_win_set_cursor(winid, { match.lnum, match.col })
@@ -1580,7 +1484,6 @@ end
 
 local function handle_printable(ch)
     local key = normalize(ch)
-
     if char_count(state.pattern) >= config.min_pattern_for_labels then
         local labeled = state.label_map[key]
         if labeled then
@@ -1591,7 +1494,6 @@ local function handle_printable(ch)
 
     state.pattern = state.pattern .. ch
     refresh_state("grow")
-
     if config.jump_on_unique and #state.matches == 1 then
         jump_to(state.matches[1])
     end
@@ -1636,7 +1538,6 @@ end
 
 function flash.setup(opts)
     config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
-
     map({ "n", "x", "o" }, "s", function()
         flash.jump()
     end, { desc = "flash-like jump" })
@@ -1648,21 +1549,16 @@ flash.setup()
 -- !!! modules/indent_guides
 -- =========================================================
 
-local indent_guides = {}
-
-local ns = vim.api.nvim_create_namespace("native_indent_guides")
-
+local indent_guides = {}; local ns = vim.api.nvim_create_namespace("native_indent_guides")
 local defaults = {
     char = "│",
     highlight = "IndentGuide",
     show_first_level = true,
     show_blanklines = true,
-
     exclude_filetypes = {
         help = true,
         netrw = true,
     },
-
     exclude_buftypes = {
         terminal = true,
         prompt = true,
@@ -1671,12 +1567,10 @@ local defaults = {
     },
 }
 
-local config = vim.deepcopy(defaults)
-local enabled = true
+local config = vim.deepcopy(defaults); local enabled = true
 
 local function is_excluded(bufnr)
-    local ft = vim.bo[bufnr].filetype
-    local bt = vim.bo[bufnr].buftype
+    local ft = vim.bo[bufnr].filetype; local bt = vim.bo[bufnr].buftype
     return config.exclude_filetypes[ft] or config.exclude_buftypes[bt]
 end
 
@@ -1693,9 +1587,7 @@ local function get_line(bufnr, lnum)
 end
 
 local function leading_ws_width(line, tabstop)
-    local width = 0
-    local i = 1
-
+    local width = 0; local i = 1
     while i <= #line do
         local ch = line:sub(i, i)
         if ch == " " then
@@ -1707,15 +1599,11 @@ local function leading_ws_width(line, tabstop)
         end
         i = i + 1
     end
-
     return width
 end
 
 local function leading_ws_cells(line, tabstop)
-    local cells = {}
-    local vcol = 0
-    local i = 1
-
+    local cells = {}; local vcol = 0; local i = 1
     while i <= #line do
         local ch = line:sub(i, i)
         if ch == " " then
@@ -1732,7 +1620,6 @@ local function leading_ws_cells(line, tabstop)
         end
         i = i + 1
     end
-
     return cells, vcol
 end
 
@@ -1742,14 +1629,12 @@ end
 
 local function get_blankline_indent(bufnr, lnum)
     local tabstop = vim.bo[bufnr].tabstop
-
     for prev = lnum - 1, 1, -1 do
         local line = get_line(bufnr, prev)
         if line and not is_blank(line) then
             return leading_ws_width(line, tabstop)
         end
     end
-
     return 0
 end
 
@@ -1778,7 +1663,6 @@ function indent_guides.setup(opts)
     vim.api.nvim_create_user_command("IndentGuidesEnable", function()
         indent_guides.enable()
     end, {})
-
     vim.api.nvim_create_user_command("IndentGuidesDisable", function()
         indent_guides.disable()
     end, {})
@@ -1792,7 +1676,6 @@ function indent_guides.setup(opts)
             if not enabled then
                 return false
             end
-
             if not vim.api.nvim_win_is_valid(winid) then
                 return false
             end
@@ -1800,7 +1683,6 @@ function indent_guides.setup(opts)
             if is_excluded(bufnr) then
                 return false
             end
-
             if vim.wo[winid].diff then
                 return false
             end
@@ -1808,7 +1690,6 @@ function indent_guides.setup(opts)
             if not vim.bo[bufnr].modifiable and vim.bo[bufnr].buftype == "" then
                 return false
             end
-
             return true
         end,
 
@@ -1817,16 +1698,13 @@ function indent_guides.setup(opts)
                 return
             end
 
-            local lnum = row + 1
-            local line = get_line(bufnr, lnum)
+            local lnum = row + 1; local line = get_line(bufnr, lnum)
             if not line then
                 return
             end
 
-            local sw = get_shiftwidth(bufnr)
-            local tabstop = vim.bo[bufnr].tabstop
+            local sw = get_shiftwidth(bufnr); local tabstop = vim.bo[bufnr].tabstop
             local start = config.show_first_level and 0 or sw
-
             local cells, indent_width
 
             if is_blank(line) then
@@ -1841,7 +1719,6 @@ function indent_guides.setup(opts)
             else
                 cells, indent_width = leading_ws_cells(line, tabstop)
             end
-
             if indent_width <= 0 then
                 return
             end
@@ -1868,10 +1745,7 @@ indent_guides.setup()
 -- !!! modules/biscuits
 -- =========================================================
 
-local biscuits = {}
-
-local ns = vim.api.nvim_create_namespace("native_biscuits")
-
+local biscuits = {}; local ns = vim.api.nvim_create_namespace("native_biscuits")
 local config = {
     enabled = true,
     cursor_line_only = true,
@@ -1940,8 +1814,7 @@ local function is_lua_closer(s)
 end
 
 local function count_char(s, ch)
-    local n = 0
-    local i = 1
+    local n = 0; local i = 1
     while i <= #s do
         if s:sub(i, i) == ch then
             n = n + 1
@@ -1952,8 +1825,7 @@ local function count_char(s, ch)
 end
 
 local function find_lua_opener(bufnr, row)
-    local depth = 0
-    local start = math.max(0, row - config.max_scan)
+    local depth = 0; local start = math.max(0, row - config.max_scan)
 
     for r = row, start, -1 do
         local l = line(bufnr, r)
@@ -1961,7 +1833,6 @@ local function find_lua_opener(bufnr, row)
         if is_lua_closer(l) then
             depth = depth + 1
         end
-
         if is_lua_opener(l) then
             depth = depth - 1
             if depth == 0 then
@@ -1969,34 +1840,27 @@ local function find_lua_opener(bufnr, row)
             end
         end
     end
-
     return nil
 end
 
 local function find_pair_opener(bufnr, row, open_ch, close_ch)
-    local depth = 0
-    local start = math.max(0, row - config.max_scan)
-
+    local depth = 0; local start = math.max(0, row - config.max_scan)
     for r = row, start, -1 do
         local l = line(bufnr, r)
         depth = depth + count_char(l, close_ch)
         depth = depth - count_char(l, open_ch)
-
         if depth <= 0 and l:find(open_ch, 1, true) then
             return shorten(l)
         end
     end
-
     return nil
 end
 
 local function find_biscuit_text(bufnr, row)
-    local cur = line(bufnr, row)
-    local kind = classify_closer(cur)
+    local cur = line(bufnr, row); local kind = classify_closer(cur)
     if not kind then
         return nil
     end
-
     if kind == "lua_end" then
         return find_lua_opener(bufnr, row)
     elseif kind == "brace" then
@@ -2006,7 +1870,6 @@ local function find_biscuit_text(bufnr, row)
     elseif kind == "bracket" then
         return find_pair_opener(bufnr, row, "[", "]")
     end
-
     return nil
 end
 
@@ -2014,12 +1877,10 @@ local function draw_for_window(winid)
     if not config.enabled or not vim.api.nvim_win_is_valid(winid) then
         return
     end
-
     local bufnr = vim.api.nvim_win_get_buf(winid)
     clear(bufnr)
 
-    local top = vim.fn.line("w0", winid) - 1
-    local bot = vim.fn.line("w$", winid) - 1
+    local top = vim.fn.line("w0", winid) - 1; local bot = vim.fn.line("w$", winid) - 1
     local cur = vim.api.nvim_win_get_cursor(winid)[1] - 1
 
     for row = top, bot do
@@ -2042,7 +1903,6 @@ end
 
 function biscuits.setup(opts)
     config = vim.tbl_extend("force", config, opts or {})
-
     local aug = vim.api.nvim_create_augroup("NativeBiscuits", { clear = true })
 
     vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "BufEnter", "TextChanged", "TextChangedI" }, {
@@ -2051,7 +1911,6 @@ function biscuits.setup(opts)
             draw_for_window(vim.api.nvim_get_current_win())
         end,
     })
-
     vim.api.nvim_create_user_command("BiscuitsRefresh", function()
         biscuits.refresh()
     end, {})
@@ -2066,7 +1925,6 @@ biscuits.setup()
 local function normalize_path(path)
     return vim.fn.fnamemodify(path or "", ":~:.")
 end
-
 local function qf_jump_to_current_line()
     cmd.cc({ count = vim.fn.line(".") })
     pcall(cmd, "cclose")
@@ -2090,8 +1948,7 @@ local function create_qf_picker(spec)
     end
 
     function picker.quickfix_text(info)
-        local qf_items = vim.fn.getqflist({ id = info.id, items = 1 }).items or {}
-        local lines = {}
+        local qf_items = vim.fn.getqflist({ id = info.id, items = 1 }).items or {}; local lines = {}
 
         for i = info.start_idx, info.end_idx do
             local item = qf_items[i]
@@ -2099,15 +1956,11 @@ local function create_qf_picker(spec)
                 lines[#lines + 1] = spec.format_item(item, i, qf_items, normalize_path)
             end
         end
-
         return lines
     end
 
     function picker.setqflist(opts)
-        opts = get_opts(opts)
-
-        local items = spec.collect(opts) or {}
-
+        opts = get_opts(opts); local items = spec.collect(opts) or {}
         if vim.tbl_isempty(items) then
             if opts.notify then
                 vim.notify(opts.empty_message or ("No " .. string.lower(opts.title) .. " found"), vim.log.levels.INFO)
@@ -2116,7 +1969,6 @@ local function create_qf_picker(spec)
         end
 
         _G[qftf_name] = picker.quickfix_text
-
         local payload = {
             title = opts.title,
             items = items,
@@ -2126,7 +1978,6 @@ local function create_qf_picker(spec)
         if spec.after_setqflist then
             spec.after_setqflist(payload, opts, items)
         end
-
         vim.fn.setqflist({}, " ", payload)
         return true
     end
@@ -2141,7 +1992,6 @@ local function create_qf_picker(spec)
 
     function picker.setup(opts)
         picker.config = vim.tbl_deep_extend("force", picker.config, opts or {})
-
         if picker.config.keymap then
             map("n", picker.config.keymap, function()
                 picker.open()
@@ -2150,7 +2000,6 @@ local function create_qf_picker(spec)
 
         if picker.config.qf_mappings then
             local group = vim.api.nvim_create_augroup("QfPicker_" .. (spec.name or picker.config.title), { clear = true })
-
             vim.api.nvim_create_autocmd("FileType", {
                 group = group,
                 pattern = "qf",
@@ -2161,7 +2010,6 @@ local function create_qf_picker(spec)
                     end
 
                     vim.bo[args.buf].buflisted = false
-
                     if spec.decorate_qf then
                         spec.decorate_qf(args.buf, qf_info.id, picker.config)
                     end
@@ -2172,17 +2020,6 @@ local function create_qf_picker(spec)
                         desc = "Close " .. string.lower(picker.config.title),
                     })
 
-                    -- map("n", "<CR>", function()
-                    --     if spec.on_select then
-                    --         spec.on_select(args.buf, qf_info.id, picker.config)
-                    --     else
-                    --         qf_jump_to_current_line()
-                    --     end
-                    -- end, {
-                    --     buffer = args.buf,
-                    --     silent = true,
-                    --     desc = "Open selection and close list",
-                    -- })
                     map("n", "<CR>", qf_jump_to_current_line, {
                         buffer = args.buf,
                         silent = true,
@@ -2233,7 +2070,6 @@ end
 
 local jumps = create_qf_picker({
     name = "jumps",
-
     defaults = {
         title = "Jumplist",
         keymap = "<leader>j",
@@ -2243,21 +2079,17 @@ local jumps = create_qf_picker({
     },
 
     collect = function(opts)
-        local result = vim.fn.getjumplist()
-        local jumplist = result[1] or {}
-        local current_idx = result[2] or -1
-        local items = {}
+        local result = vim.fn.getjumplist(); local jumplist = result[1] or {}
+        local current_idx = result[2] or -1; local items = {}
 
         for i, jump in ipairs(jumplist) do
-            local bufnr = jump.bufnr or 0
-            local filename = get_bufname_from_jump(jump)
+            local bufnr = jump.bufnr or 0; local filename = get_bufname_from_jump(jump)
 
             if bufnr <= 0 and filename ~= "" then
                 bufnr = vim.fn.bufnr(filename, false)
             end
 
-            local lnum = jump.lnum or 1
-            local col = jump.col or 1
+            local lnum = jump.lnum or 1; local col = jump.col or 1
 
             local text = ""
             if bufnr > 0 then
@@ -2266,7 +2098,6 @@ local jumps = create_qf_picker({
             if text == "" then
                 text = filename ~= "" and normalize_path(filename) or "[No text]"
             end
-
             items[#items + 1] = {
                 bufnr = bufnr > 0 and bufnr or nil,
                 filename = (bufnr <= 0 and filename ~= "") and filename or nil,
@@ -2290,7 +2121,6 @@ local jumps = create_qf_picker({
         elseif item.filename then
             name = item.filename
         end
-
         local path = normalize(name ~= "" and name or "[No Name]")
         local mark = (item.user_data and item.user_data.current) and "●" or " "
         return string.format("%s %s:%d:%d: %s",
@@ -2300,7 +2130,6 @@ local jumps = create_qf_picker({
     decorate_qf = function(bufnr, qf_id)
         vim.api.nvim_buf_clear_namespace(bufnr, jumps_qf_ns, 0, -1)
         local qf_items = vim.fn.getqflist({ id = qf_id, items = 1 }).items or {}
-
         for i, item in ipairs(qf_items) do
             if item.user_data and item.user_data.current then
                 vim.api.nvim_buf_set_extmark(bufnr, jumps_qf_ns, i - 1, 0, {
@@ -2311,16 +2140,13 @@ local jumps = create_qf_picker({
         end
     end,
 })
-
 jumps.setup()
 
 -- =========================================================
 -- !!! modules/marks
 -- =========================================================
 
-shl(0, "QfMarkLocal", { link = "String" })
-shl(0, "QfMarkGlobal", { link = "Identifier" })
-
+shl(0, "QfMarkLocal", { link = "String" }); shl(0, "QfMarkGlobal", { link = "Identifier" })
 local marks_qf_ns = vim.api.nvim_create_namespace("MarksQuickfix")
 
 local function get_line_text(bufnr, lnum)
@@ -2356,11 +2182,8 @@ local function is_global_mark(mark)
 end
 
 local function mark_pos_to_item(markinfo)
-    local pos = markinfo.pos or {}
-    local bufnr = pos[1] or 0
-    local lnum = pos[2] or 1
-    local col = pos[3] or 1
-    local mark = markinfo.mark or ""
+    local pos = markinfo.pos or {}; local bufnr = pos[1] or 0
+    local lnum = pos[2] or 1; local col = pos[3] or 1; local mark = markinfo.mark or ""
 
     local filename = ""
     if bufnr > 0 and vim.api.nvim_buf_is_valid(bufnr) then
@@ -2372,7 +2195,6 @@ local function mark_pos_to_item(markinfo)
     if bufnr <= 0 and filename ~= "" then
         bufnr = vim.fn.bufnr(filename, false)
     end
-
     local text = ""
     if bufnr > 0 then
         text = get_line_text(bufnr, lnum)
@@ -2409,17 +2231,14 @@ local marks = create_qf_picker({
     },
 
     collect = function(opts)
-        local items = {}
-        local seen = {}
+        local items = {}; local seen = {}
 
         local function add_mark_entries(entries)
             for _, markinfo in ipairs(entries or {}) do
-                local mark = markinfo.mark or ""
-                local suffix = mark:sub(-1)
+                local mark = markinfo.mark or ""; local suffix = mark:sub(-1)
 
                 if suffix ~= "" then
                     local keep = true
-
                     if not opts.include_builtin and is_builtin_mark(mark) then
                         keep = false
                     end
@@ -2455,7 +2274,6 @@ local marks = create_qf_picker({
         if opts.include_global then
             add_mark_entries(vim.fn.getmarklist())
         end
-
         table.sort(items, function(a, b)
             local am = (a.user_data and a.user_data.mark) or ""
             local bm = (b.user_data and b.user_data.mark) or ""
@@ -2472,7 +2290,6 @@ local marks = create_qf_picker({
         elseif item.filename then
             name = item.filename
         end
-
         local path = normalize(name ~= "" and name or "[No Name]")
         local mark = (item.user_data and item.user_data.mark) or "?"
         return string.format("%s %s:%d:%d: %s",
@@ -2484,8 +2301,8 @@ local marks = create_qf_picker({
         local qf_items = vim.fn.getqflist({ id = qf_id, items = 1 }).items or {}
 
         for i, item in ipairs(qf_items) do
-            local ud = item.user_data or {}
-            local hl = ud.local_mark and "QfMarkLocal" or ud.global_mark and "QfMarkGlobal" or nil
+            local ud = item.user_data or {}; local hl = ud.local_mark and "QfMarkLocal" or
+                ud.global_mark and "QfMarkGlobal" or nil
             if hl then
                 vim.api.nvim_buf_set_extmark(bufnr, marks_qf_ns, i - 1, 0, {
                     line_hl_group = hl,
@@ -2495,7 +2312,6 @@ local marks = create_qf_picker({
         end
     end,
 })
-
 marks.setup()
 
 -- =========================================================
@@ -2534,10 +2350,8 @@ local diag = create_qf_picker({
     },
 
     collect = function()
-        local bufnr = vim.api.nvim_get_current_buf()
-        local diagnostics = vim.diagnostic.get(bufnr)
+        local bufnr = vim.api.nvim_get_current_buf(); local diagnostics = vim.diagnostic.get(bufnr)
         local items = {}
-
         for _, d in ipairs(diagnostics) do
             items[#items + 1] = {
                 bufnr = bufnr,
@@ -2558,13 +2372,11 @@ local diag = create_qf_picker({
             if a.col ~= b.col then return a.col < b.col end
             return (a.text or "") < (b.text or "")
         end)
-
         return items
     end,
 
     format_item = function(item, _, _, normalize)
-        local name = item.bufnr > 0 and vim.api.nvim_buf_get_name(item.bufnr) or ""
-        local path = normalize(name)
+        local name = item.bufnr > 0 and vim.api.nvim_buf_get_name(item.bufnr) or ""; local path = normalize(name)
         return string.format("%s:%d:%d: %s %s",
             path, item.lnum or 0, item.col or 0, item.type or "", item.text or "")
     end,
@@ -2574,8 +2386,7 @@ local diag = create_qf_picker({
         local qf_items = vim.fn.getqflist({ id = qf_id, items = 1 }).items or {}
 
         for i, item in ipairs(qf_items) do
-            local severity = item.user_data and item.user_data.severity
-            local hl = severity_to_hl[severity]
+            local severity = item.user_data and item.user_data.severity; local hl = severity_to_hl[severity]
             if hl then
                 vim.api.nvim_buf_set_extmark(bufnr, diag_qf_ns, i - 1, 0, {
                     line_hl_group = hl,
@@ -2585,7 +2396,6 @@ local diag = create_qf_picker({
         end
     end,
 })
-
 diag.setup()
 
 -- =========================================================
@@ -2604,9 +2414,7 @@ local recentfiles = create_qf_picker({
     },
 
     collect = function(opts)
-        local items = {}
-        local seen = {}
-        local current = vim.api.nvim_buf_get_name(0)
+        local items = {}; local seen = {}; local current = vim.api.nvim_buf_get_name(0)
 
         for _, path in ipairs(vim.v.oldfiles or {}) do
             local skip =
@@ -2614,7 +2422,6 @@ local recentfiles = create_qf_picker({
                 or vim.fn.filereadable(path) ~= 1
                 or seen[path]
                 or (opts.exclude_current and path == current)
-
             if not skip then
                 seen[path] = true
                 items[#items + 1] = {
@@ -2630,8 +2437,7 @@ local recentfiles = create_qf_picker({
     end,
 
     format_item = function(item, _, _, normalize)
-        local name = item.filename or item.text or ""
-        local file = vim.fn.fnamemodify(name, ":t")
+        local name = item.filename or item.text or ""; local file = vim.fn.fnamemodify(name, ":t")
         local dir = normalize(vim.fn.fnamemodify(name, ":h"))
         if dir ~= "" and not dir:match("/$") then
             dir = dir .. "/"
@@ -2656,7 +2462,6 @@ local recentfiles = create_qf_picker({
         end
     end,
 })
-
 recentfiles.setup()
 
 -- =========================================================
@@ -2673,10 +2478,8 @@ local buffers = create_qf_picker({
         exclude_current = true,
         empty_message = "No open buffers found",
     },
-
     collect = function(opts)
-        local items = {}
-        local current = vim.api.nvim_get_current_buf()
+        local items = {}; local current = vim.api.nvim_get_current_buf()
         local listed = vim.fn.getbufinfo({ buflisted = 1 })
 
         table.sort(listed, function(a, b)
@@ -2684,13 +2487,11 @@ local buffers = create_qf_picker({
         end)
 
         for _, bufinfo in ipairs(listed) do
-            local name = bufinfo.name or ""
-            local buftype = vim.bo[bufinfo.bufnr].buftype
+            local name = bufinfo.name or ""; local buftype = vim.bo[bufinfo.bufnr].buftype
             local skip =
                 name == ""
                 or buftype ~= ""
                 or (opts.exclude_current and bufinfo.bufnr == current)
-
             if not skip then
                 items[#items + 1] = {
                     bufnr = bufinfo.bufnr,
@@ -2713,7 +2514,6 @@ local buffers = create_qf_picker({
         end
         return string.format("%-25s %s", file, dir)
     end,
-
     decorate_qf = function(bufnr)
         local ns = vim.api.nvim_create_namespace("OpenBuffersHighlight")
         vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
@@ -2731,16 +2531,13 @@ local buffers = create_qf_picker({
         end
     end,
 })
-
 buffers.setup()
 
 -- =========================================================
 -- !!! modules/grep
 -- =========================================================
 
-vim.opt.grepprg = "rg --vimgrep -uu"
-
-local grep_picker = {}
+vim.opt.grepprg = "rg --vimgrep -uu"; local grep_picker = {}
 
 local defaults = {
     title = "Grep Results",
@@ -2751,7 +2548,6 @@ local defaults = {
     notify = false,
     prompt = "Grep > ",
 }
-
 grep_picker.config = vim.deepcopy(defaults)
 
 local function map(mode, lhs, rhs, opts)
@@ -2767,8 +2563,7 @@ local function get_qf_items()
 end
 
 function grep_picker.quickfix_text(info)
-    local qf_items = vim.fn.getqflist({ id = info.id, items = 1 }).items or {}
-    local lines = {}
+    local qf_items = vim.fn.getqflist({ id = info.id, items = 1 }).items or {}; local lines = {}
 
     for i = info.start_idx, info.end_idx do
         local item = qf_items[i]
@@ -2780,16 +2575,12 @@ function grep_picker.quickfix_text(info)
             elseif item.filename then
                 name = item.filename
             end
-
-            local path = normalize_path(name ~= "" and name or "")
-            local lnum = item.lnum or 0
-            local col = item.col or 0
-            local text = vim.trim(item.text or "")
+            local path = normalize_path(name ~= "" and name or ""); local lnum = item.lnum or 0
+            local col = item.col or 0; local text = vim.trim(item.text or "")
 
             lines[#lines + 1] = string.format("%s:%d:%d: %s", path, lnum, col, text)
         end
     end
-
     return lines
 end
 
@@ -2799,13 +2590,9 @@ local function jump_to_qf_item()
         return
     end
 
-    local target_buf = item.bufnr
-    local target_file = item.filename
-    local lnum = math.max(item.lnum or 1, 1)
-    local col = math.max(item.col or 1, 1)
-
+    local target_buf = item.bufnr; local target_file = item.filename
+    local lnum = math.max(item.lnum or 1, 1); local col = math.max(item.col or 1, 1)
     cmd("cclose")
-
     if target_buf and target_buf > 0 and vim.api.nvim_buf_is_valid(target_buf) then
         vim.api.nvim_set_current_buf(target_buf)
     elseif target_file and target_file ~= "" then
@@ -2820,7 +2607,6 @@ local function jump_to_qf_item()
 
     local line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1] or ""
     col = math.min(col, math.max(#line, 1))
-
     vim.api.nvim_win_set_cursor(0, { lnum, math.max(col - 1, 0) })
     cmd("normal! zv")
 end
@@ -2841,9 +2627,7 @@ function grep_picker.run(query, opts)
     end
 
     _G.grep_picker_quickfix_text = grep_picker.quickfix_text
-
     cmd("silent grep! " .. vim.fn.fnameescape(query))
-
     if not has_results() then
         if opts.notify then
             vim.notify("No grep results found", vim.log.levels.INFO)
@@ -2855,13 +2639,11 @@ function grep_picker.run(query, opts)
         title = opts.title,
         quickfixtextfunc = "v:lua.grep_picker_quickfix_text",
     })
-
     cmd(opts.open_cmd)
 end
 
 function grep_picker.prompt(opts)
     opts = get_opts(opts)
-
     vim.ui.input({
         prompt = opts.prompt,
     }, function(input)
@@ -2878,7 +2660,6 @@ end
 
 function grep_picker.setup(opts)
     grep_picker.config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
-
     if grep_picker.config.keymap then
         map("n", grep_picker.config.keymap, function()
             grep_picker.prompt()
@@ -2896,7 +2677,6 @@ function grep_picker.setup(opts)
                 if qf_info.title ~= grep_picker.config.title then
                     return
                 end
-
                 vim.bo[args.buf].buflisted = false
 
                 map("n", "q", "<cmd>cclose<cr>", {
@@ -2922,18 +2702,15 @@ grep_picker.setup()
 -- =========================================================
 
 local snippets = {}
-
 ---@param defs table<string, string>  -- trigger -> snippet body
 ---@param opts? { modes?: string|string[], key?: string, match?: fun(before: string, trigger: string): boolean }
 function snippets.setup(defs, opts)
     opts = opts or {}
 
-    local modes = opts.modes or "i"
-    local key = opts.key or "<C-x>"
+    local modes = opts.modes or "i"; local key = opts.key or "<C-x>"
     local match = opts.match or function(before, trigger)
         return before:sub(- #trigger) == trigger
     end
-
     local triggers = vim.tbl_keys(defs)
     table.sort(triggers, function(a, b)
         return #a > #b
@@ -2941,9 +2718,7 @@ function snippets.setup(defs, opts)
 
     map(modes, key, function()
         local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-        local line = vim.api.nvim_get_current_line()
-        local before = line:sub(1, col)
-
+        local line = vim.api.nvim_get_current_line(); local before = line:sub(1, col)
         for _, trigger in ipairs(triggers) do
             if match(before, trigger) then
                 local start_col = col - #trigger
@@ -2991,10 +2766,8 @@ autocmd("LspAttach", {
 -- =========================================================
 
 vim.o.showtabline = 2
-
 function _G.my_tabline()
-    local s = ""
-    local first = true
+    local s = ""; local first = true
 
     for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
         if vim.bo[bufnr].buflisted then
@@ -3015,7 +2788,6 @@ function _G.my_tabline()
             end
         end
     end
-
     s = s .. "%#TabLineFill#"
     return s
 end
