@@ -407,6 +407,7 @@ local overrides = {
     PmenuBorder      = { fg = theme.colors.fg_2, bg = "none" },
 
     -- statusline
+    StatuslineLSP    = { fg = theme.colors.mg_1, bg = theme.colors.bg_1 },
     StatusLine       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = false },
     StatusLineNormal = { link = "StatusLine" },
     StatusLineNC     = { link = "StatusLine" },
@@ -426,17 +427,21 @@ end
 -- !!! ui/statusline
 -- =========================================================
 
-function _G.short_filepath()
-    local path = vim.fn.expand("%:p")
+local function active_lsp_client()
+    local clients = vim.lsp.get_clients({ bufnr = 0 })
+    if #clients > 0 then
+        return clients[1].name
+    end
+    return ""
+end
 
-    local home = vim.loop.os_homedir()
+local function short_filepath()
+    local path = vim.fn.expand("%:p"); local home = vim.loop.os_homedir()
     if path:sub(1, #home) == home then
         path = "~" .. path:sub(#home + 1)
     end
-
     local parts = vim.split(path, "/", { trimempty = true })
     local count = #parts
-
     return table.concat({
         parts[count - 2] or "",
         parts[count - 1] or "",
@@ -444,11 +449,24 @@ function _G.short_filepath()
     }, "/")
 end
 
+function _G.statusline_insert()
+    local file = short_filepath(); local lsp = active_lsp_client()
+    if lsp == "" then
+        return file
+    end
+    return table.concat({
+        file,
+        " ",
+        "%#StatusLineLsp#",
+        lsp,
+        "%*",
+
+    })
+end
+
 local stl = vim.go.statusline
-
-stl = stl:gsub("%%<%%f", "%%{%v:lua.short_filepath()%}", 1)
-stl = stl:gsub("%%f", "%%{%v:lua.short_filepath()%}", 1)
-
+stl = stl:gsub("%%<%%f", "%%{%%v:lua.statusline_insert()%%}", 1)
+stl = stl:gsub("%%f", "%%{%%v:lua.statusline_insert()%%}", 1)
 vim.go.statusline = " " .. stl .. " "
 
 -- =========================================================
@@ -2765,19 +2783,6 @@ map("n", "<leader>u", function()
         command = math.floor(vim.api.nvim_win_get_width(0) / 3) .. "vnew",
     })
 end, { desc = "Undotree toggle" })
-
--- =========================================================
--- !!! modules/lsp_attach
--- =========================================================
-
-autocmd("LspAttach", {
-    callback = function(args)
-        local client = vim.lsp.get_client_by_id(args.data.client_id)
-        if client then
-            print("LSP attached: " .. client.name)
-        end
-    end,
-})
 
 -- =========================================================
 -- !!! modules/tabline
