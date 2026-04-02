@@ -392,7 +392,10 @@ local overrides = {
     LineNrBelow      = { link = "LineNr" },
     CursorLineNr     = { fg = theme.colors.fg_1, bg = "none" },
     SignColumn       = { bg = theme.colors.bg_2 },
+
+    -- folds
     FoldColumn       = { link = "SignColumn" },
+    Folded           = { fg = theme.colors.fg_2, bg = theme.colors.bg_1 },
 
     -- tabline
     TabLine          = { fg = theme.colors.fg_2, bg = theme.colors.bg_1 },
