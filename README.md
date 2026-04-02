@@ -1,7 +1,7 @@
 ## A swedish development environment.
   
 ### Computer 
-I use an Apple Macbook Pro M3 (2023) for everything that I do - but I also use some different Linux machines as well. On my Linux machines I'm using voidlinux/i3 (the most perfect workflow that exists), and I'm emulating that workflow on my mac by using tools such as [aerospace](https://github.com/nikitabobko/AeroSpace) and [simplebar](https://github.com/Jean-Tinland/simple-bar).
+I use an Apple Macbook Pro M3 (2023) for everything that I do - but I also use some different Linux machines as well. On my Linux machines I'm using i3 (the most perfect wm in existance), and I'm emulating that on my mac with tools such as [aerospace](https://github.com/nikitabobko/AeroSpace) and [simplebar](https://github.com/Jean-Tinland/simple-bar).
   
 I live in the terminal most of the time, and my philosophy regarding terminal tools is that my most commonly used programs should be created by myself - tools such as ls, [cloc](https://github.com/AlDanial/cloc), issue tracking, the bash prompt and so on. Not out of necessity of course; I just think it's fun to build my own tooling since it's an easy gateway into learning more about how computers work and why/how our tools work the way they do!
   
