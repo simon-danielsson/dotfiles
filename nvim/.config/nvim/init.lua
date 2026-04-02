@@ -361,9 +361,10 @@ local overrides = {
     Folded           = { fg = theme.colors.fg_2, bg = theme.colors.bg_1 },
 
     -- tabline
-    TabLine          = { fg = theme.colors.fg_2, bg = theme.colors.bg_1 },
+    TabLine          = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
     TabLineSel       = { fg = spec_hl.fg, bg = theme.colors.bg_1 },
-    TabLineFill      = { bg = theme.colors.bg_2 },
+    TabLineFill      = { fg = theme.colors.mg_1, bg = theme.colors.bg_1 },
+    TabLineFillEmpty = { bg = theme.colors.bg_2 },
     TabLineLSP       = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
 
     -- hints
@@ -2434,7 +2435,9 @@ local recentfiles = create_qf_picker({
     },
 
     collect = function(opts)
-        local items = {}; local seen = {}; local current = vim.api.nvim_buf_get_name(0)
+        local items = {}
+        local seen = {}
+        local current = vim.api.nvim_buf_get_name(0)
 
         for _, path in ipairs(vim.v.oldfiles or {}) do
             local skip =
@@ -2442,12 +2445,11 @@ local recentfiles = create_qf_picker({
                 or vim.fn.filereadable(path) ~= 1
                 or seen[path]
                 or (opts.exclude_current and path == current)
+
             if not skip then
                 seen[path] = true
                 items[#items + 1] = {
                     filename = path,
-                    lnum = 1,
-                    col = 1,
                     text = path,
                 }
             end
@@ -2791,7 +2793,7 @@ function _G.my_tabline()
             local name = vim.api.nvim_buf_get_name(bufnr)
             if name ~= "" then
                 name = vim.fn.fnamemodify(name, ":t")
-                local sep = " "
+                local sep = ""
                 if not first then
                     s = s .. "%#TabLineFill#" .. sep
                 end
@@ -2807,7 +2809,7 @@ function _G.my_tabline()
         end
     end
     local lsp = active_lsp_client()
-    s = s .. "%#TabLineFill#%="
+    s = s .. "%#TabLineFillEmpty#%="
     if lsp ~= "" then
         s = s .. "%#TabLineLsp# " .. lsp .. " "
     end
