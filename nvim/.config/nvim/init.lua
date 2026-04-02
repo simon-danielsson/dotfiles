@@ -577,13 +577,13 @@ local term_buf = nil; local term_win = nil; local term_job = nil
 local function ensure_terminal(cmd)
     local cwd = vim.fn.expand('%:p:h')
     if not term_buf or not vim.api.nvim_buf_is_valid(term_buf) then
-        cmd("botright 15split | terminal")
+        vim.cmd("botright 15split | terminal")
         term_buf = vim.api.nvim_get_current_buf()
         term_win = vim.api.nvim_get_current_win()
         term_job = vim.b.terminal_job_id
     else
         if not vim.api.nvim_win_is_valid(term_win) then
-            cmd("botright 15split")
+            vim.cmd("botright 15split")
             vim.api.nvim_set_current_buf(term_buf)
             term_win = vim.api.nvim_get_current_win()
         else
@@ -596,7 +596,7 @@ local function ensure_terminal(cmd)
     if cmd and term_job then
         vim.fn.chansend(term_job, cmd .. "\n")
     end
-    cmd("startinsert")
+    vim.cmd("startinsert")
 end
 
 local run_compile_keymap = "<leader>c"
@@ -911,6 +911,30 @@ vim.lsp.config('html', {
     capabilities = capabilities,
 })
 vim.lsp.enable('html')
+
+vim.lsp.config("copilot", {
+    cmd = { "copilot-language-server", "--stdio" },
+    root_markers = { ".git" },
+    init_options = {
+        editorInfo = {
+            name = "Neovim",
+            version = tostring(vim.version()),
+        },
+        editorPluginInfo = {
+            name = "Neovim",
+            version = tostring(vim.version()),
+        },
+    },
+})
+
+vim.lsp.enable("copilot")
+vim.lsp.inline_completion.enable()
+
+vim.keymap.set("i", "<Tab>", function()
+    if not vim.lsp.inline_completion.get() then
+        return "<Tab>"
+    end
+end, { expr = true })
 
 -- =========================================================
 -- !!! lsp/format
@@ -2517,9 +2541,6 @@ local buffers = create_qf_picker({
             if not skip then
                 items[#items + 1] = {
                     bufnr = bufinfo.bufnr,
-                    lnum = 1,
-                    col = 1,
-                    text = bufinfo.name,
                 }
             end
         end
@@ -2787,22 +2808,8 @@ autocmd("LspAttach", {
 -- !!! modules/tabline
 -- =========================================================
 
-local function trunc(str, max_len)
-    if vim.fn.strdisplaywidth(str) <= max_len then
-        return str
-    end
-    if max_len <= 1 then
-        return "…"
-    end
-    return vim.fn.strcharpart(str, 0, max_len - 1) .. "…"
-end
-
 local function center_text(text, width)
     local text_width = vim.fn.strdisplaywidth(text)
-    if text_width >= width then
-        return trunc(text, width)
-    end
-
     local total_pad = width - text_width; local left = math.floor(total_pad / 2)
     local right = total_pad - left
     return string.rep(" ", left) .. text .. string.rep(" ", right)

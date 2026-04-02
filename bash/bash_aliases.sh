@@ -44,29 +44,50 @@ alias vimconf="cd ~/dotfiles/nvim/.config/nvim"
 alias vimpack="cd ~/.local/share/nvim/site/pack/core/opt"
 
 # neovim
-NVIM="bob run nightly"
-alias nvim=$NVIM
-alias v=$NVIM
-alias vi=$NVIM
-alias nvm=$NVIM
-alias vni=$NVIM
-alias nvimim=$NVIM
-alias nv=$NVIM
-alias nvi=$NVIM
-alias vim=$NVIM
-alias nivm=$NVIM
-alias vnim=$NVIM
-alias nvmi=$NVIM
-alias nim=$NVIM
-alias invm=$NVIM
+NVIM="bob run stable"
+alias nvimstable=$NVIM
+
+NVIMS="VIMRUNTIME=/Users/simondanielsson/dev/source_code/neovim/runtime /Users/simondanielsson/dev/source_code/neovim/build/bin/nvim"
+alias nvim=$NVIMS
 
 # === general ===
 
-# cmatrix screensaver
-alias matrix="cmatrix -u 9 -C white -s"
+jump() {
+  local entries=(
+    $'config - dotfiles\t'"$HOME/dotfiles"
+    $'person - notes\t'"$HOME/notes"
+    $'config - nvim\t'"$HOME/dotfiles/nvim/.config/nvim"
+    $'source - nvim\t'"$HOME/dev/source_code/neovim"
+    $'develo - rust\t'"$HOME/dev/rust"
+  )
 
-# invert pdf
-alias invpdf="~/dotfiles/scripts/invert-pdf.sh"
+  local selected label target
+
+  selected="$(
+    printf '%s\n' "${entries[@]}" \
+      | fzf --prompt="shortcut > " \
+            --height=40% \
+            --reverse \
+            --border \
+            --delimiter=$'\t' \
+            --with-nth=1
+  )" || return
+
+  label="${selected%%$'\t'*}"
+  target="${selected#*$'\t'}"
+
+  # Expand ~ if used
+  eval "target=\"$target\""
+
+  if [[ -d "$target" ]]; then
+    cd "$target" || return
+  elif [[ -f "$target" ]]; then
+    nvim "$target"
+  else
+    printf 'Not found: %s\n' "$target" >&2
+    return 1
+  fi
+}
 
 # get size of current dir
 size() {
