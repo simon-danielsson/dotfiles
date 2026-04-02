@@ -22,11 +22,8 @@ opt.shiftwidth     = 4; opt.softtabstop = 4
 -- wrapping & linebreaks
 opt.wrap           = true; opt.linebreak = true
 o.breakindent      = true; opt.showbreak = '󱞩 '
-opt.scrolloff      = 99
-
-opt.virtualedit    = "onemore"
-opt.sidescrolloff  = 6
-opt.smoothscroll   = true
+opt.scrolloff      = 99; opt.virtualedit = "onemore"
+opt.sidescrolloff  = 6; opt.smoothscroll = true
 
 -- clipboard
 opt.clipboard      = 'unnamedplus'
@@ -48,7 +45,7 @@ opt.diffopt       = {
 }
 
 -- cursor & statusline
-opt.mouse         = "a"; opt.cursorline = true; o.showmode = false; o.laststatus = 3
+opt.mouse         = "a"; opt.cursorline = true; o.showmode = true; o.laststatus = 3
 opt.guicursor     = "n-v-c:block-blinkwait700-blinkoff400-blinkon250,i:ver25-blinkwait700-blinkoff400-blinkon250,r:hor20"
 
 -- appearance
@@ -350,6 +347,7 @@ end
 
 theme.theme()
 
+local spec_hl = vim.api.nvim_get_hl(0, { name = "Special" })
 local overrides = {
     -- line numbers
     LineNr           = { fg = theme.colors.mg_1, bg = "none" },
@@ -364,8 +362,9 @@ local overrides = {
 
     -- tabline
     TabLine          = { fg = theme.colors.fg_2, bg = theme.colors.bg_1 },
-    TabLineSel       = { fg = theme.accents.a2, bg = theme.colors.bg_1, bold = false },
+    TabLineSel       = { fg = spec_hl.fg, bg = theme.colors.bg_1 },
     TabLineFill      = { bg = theme.colors.bg_2 },
+    TabLineLSP       = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
 
     -- hints
     Comment          = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
@@ -407,7 +406,6 @@ local overrides = {
     PmenuBorder      = { fg = theme.colors.fg_2, bg = "none" },
 
     -- statusline
-    StatuslineLSP    = { fg = theme.colors.mg_1, bg = theme.colors.bg_1 },
     StatusLine       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = false },
     StatusLineNormal = { link = "StatusLine" },
     StatusLineNC     = { link = "StatusLine" },
@@ -427,14 +425,6 @@ end
 -- !!! ui/statusline
 -- =========================================================
 
-local function active_lsp_client()
-    local clients = vim.lsp.get_clients({ bufnr = 0 })
-    if #clients > 0 then
-        return clients[1].name
-    end
-    return ""
-end
-
 local function short_filepath()
     local path = vim.fn.expand("%:p"); local home = vim.loop.os_homedir()
     if path:sub(1, #home) == home then
@@ -450,16 +440,10 @@ local function short_filepath()
 end
 
 function _G.statusline_insert()
-    local file = short_filepath(); local lsp = active_lsp_client()
-    if lsp == "" then
-        return file
-    end
+    local file = short_filepath()
     return table.concat({
-        file,
-        " ",
-        "%#StatusLineLsp#",
-        lsp,
         "%*",
+        file,
 
     })
 end
@@ -2788,9 +2772,19 @@ end, { desc = "Undotree toggle" })
 -- !!! modules/tabline
 -- =========================================================
 
+vim.o.tabline = "%!v:lua.my_tabline()"
+local function active_lsp_client()
+    local clients = vim.lsp.get_clients({ bufnr = 0 })
+    if #clients > 0 then
+        return clients[1].name
+    end
+    return ""
+end
+
 vim.o.showtabline = 2
 function _G.my_tabline()
-    local s = ""; local first = true
+    local s = ""
+    local first = true
 
     for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
         if vim.bo[bufnr].buflisted then
@@ -2807,11 +2801,17 @@ function _G.my_tabline()
                 else
                     s = s .. "%#TabLine#"
                 end
+
                 s = s .. " " .. name .. " "
             end
         end
     end
-    s = s .. "%#TabLineFill#"
+    local lsp = active_lsp_client()
+    s = s .. "%#TabLineFill#%="
+    if lsp ~= "" then
+        s = s .. "%#TabLineLsp# " .. lsp .. " "
+    end
+
     return s
 end
 
