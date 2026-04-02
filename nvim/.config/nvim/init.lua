@@ -336,9 +336,16 @@ theme.accents = {
     a5 = "#6f9ec2",
 }
 
+vim.pack.add({
+    {
+        src = "https://github.com/sainnhe/everforest"
+    },
+})
+
 function theme.theme()
     vim.o.background = "dark"
-    cmd.colorscheme("habamax")
+    vim.g.everforest_background = 'soft'
+    cmd.colorscheme("everforest")
 end
 
 theme.theme()
