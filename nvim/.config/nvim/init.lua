@@ -781,6 +781,17 @@ vim.lsp.config('rust_analyzer', {
 })
 vim.lsp.enable('rust_analyzer')
 
+-- bash
+vim.lsp.config('bashls', {
+    cmd = { 'bash-language-server', 'start' },
+    filetypes = { 'bash', 'sh' },
+    root_markers = { '.git' },
+    settings = {
+        bashIde = {},
+    },
+})
+vim.lsp.enable('bashls')
+
 -- markdown
 vim.lsp.config('marksman', {
     cmd = { 'marksman', 'server' },
