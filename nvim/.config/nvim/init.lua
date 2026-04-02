@@ -330,10 +330,10 @@ theme.colors  = {
 }
 
 theme.accents = {
-    a1 = "#91a5b5",
-    a2 = "#dc977e",
+    a1 = "#83C093",
+    a2 = "#E67E80",
     a3 = "#bb9cd5",
-    a5 = "#6f9ec2",
+    a5 = "#7EBBB3",
 }
 
 vim.pack.add({
@@ -364,7 +364,7 @@ local overrides = {
 
     -- tabline
     TabLine          = { fg = theme.colors.fg_2, bg = theme.colors.bg_1 },
-    TabLineSel       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = true },
+    TabLineSel       = { fg = theme.accents.a2, bg = theme.colors.bg_1, bold = false },
     TabLineFill      = { bg = theme.colors.bg_2 },
 
     -- hints
