@@ -48,6 +48,7 @@ NVIM="bob run nightly"
 alias nvim=$NVIM
 alias v=$NVIM
 alias vi=$NVIM
+alias nvm=$NVIM
 alias vni=$NVIM
 alias nvimim=$NVIM
 alias nv=$NVIM
