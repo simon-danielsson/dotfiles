@@ -330,24 +330,25 @@ theme.accents = {
     a1 = "#83C093",
     a2 = "#E67E80",
     a3 = "#bb9cd5",
-    a5 = "#7EBBB3",
 }
 
 vim.pack.add({
     {
         src = "https://github.com/sainnhe/everforest"
     },
+    {
+        src = "https://github.com/vague-theme/vague.nvim"
+    },
 })
 
 function theme.theme()
-    vim.o.background = "dark"
-    vim.g.everforest_background = 'soft'
-    cmd.colorscheme("everforest")
+    vim.o.background = "light"
+    -- vim.g.everforest_background = 'soft'
+    cmd.colorscheme("vague")
 end
 
 theme.theme()
 
-local spec_hl = vim.api.nvim_get_hl(0, { name = "Special" })
 local overrides = {
     -- line numbers
     LineNr           = { fg = theme.colors.mg_1, bg = "none" },
@@ -362,10 +363,9 @@ local overrides = {
 
     -- tabline
     TabLine          = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
-    TabLineSel       = { fg = spec_hl.fg, bg = theme.colors.bg_1 },
+    TabLineSel       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1 },
     TabLineFill      = { fg = theme.colors.mg_1, bg = theme.colors.bg_1 },
-    TabLineFillEmpty = { bg = theme.colors.bg_2 },
-    TabLineLSP       = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
+    TabLineSep       = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
 
     -- hints
     Comment          = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
@@ -2771,50 +2771,113 @@ map("n", "<leader>u", function()
 end, { desc = "Undotree toggle" })
 
 -- =========================================================
+-- !!! modules/lsp_attach
+-- =========================================================
+
+autocmd("LspAttach", {
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client then
+            print("LSP attached: " .. client.name)
+        end
+    end,
+})
+
+-- =========================================================
 -- !!! modules/tabline
 -- =========================================================
 
-vim.o.tabline = "%!v:lua.my_tabline()"
-local function active_lsp_client()
-    local clients = vim.lsp.get_clients({ bufnr = 0 })
-    if #clients > 0 then
-        return clients[1].name
+local function trunc(str, max_len)
+    if vim.fn.strdisplaywidth(str) <= max_len then
+        return str
     end
-    return ""
+    if max_len <= 1 then
+        return "…"
+    end
+    return vim.fn.strcharpart(str, 0, max_len - 1) .. "…"
+end
+
+local function center_text(text, width)
+    local text_width = vim.fn.strdisplaywidth(text)
+    if text_width >= width then
+        return trunc(text, width)
+    end
+
+    local total_pad = width - text_width; local left = math.floor(total_pad / 2)
+    local right = total_pad - left
+    return string.rep(" ", left) .. text .. string.rep(" ", right)
 end
 
 vim.o.showtabline = 2
+
 function _G.my_tabline()
-    local s = ""
-    local first = true
+    local current = vim.api.nvim_get_current_buf(); local buffers = {}
 
     for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
         if vim.bo[bufnr].buflisted then
             local name = vim.api.nvim_buf_get_name(bufnr)
-            if name ~= "" then
+            if name == "" then
+                name = "[No Name]"
+            else
                 name = vim.fn.fnamemodify(name, ":t")
-                local sep = ""
-                if not first then
-                    s = s .. "%#TabLineFill#" .. sep
-                end
-                first = false
-                if bufnr == vim.api.nvim_get_current_buf() then
-                    s = s .. "%#TabLineSel#"
-                else
-                    s = s .. "%#TabLine#"
-                end
-
-                s = s .. " " .. name .. " "
             end
+            table.insert(buffers, { bufnr = bufnr, name = name })
         end
     end
-    local lsp = active_lsp_client()
-    s = s .. "%#TabLineFillEmpty#%="
-    if lsp ~= "" then
-        s = s .. "%#TabLineLsp# " .. lsp .. " "
+
+    local total_width = vim.o.columns
+    local count = #buffers
+    if count == 0 then
+        local s = "%#TabLineFill#"
+        s = s .. string.rep(" ", math.max(0, total_width))
+        s = s .. "%="
+        return s
     end
 
+    local sep = ""; local sep_width = vim.fn.strdisplaywidth(sep)
+    local total_sep_width = math.max(0, count - 1) * sep_width
+    local content_width = math.max(1, total_width - total_sep_width)
+    local base_width = math.floor(content_width / count)
+    local remainder = content_width % count
+
+    local s = ""
+    for i, buf in ipairs(buffers) do
+        if i > 1 then
+            s = s .. "%#TabLineSep#" .. sep
+        end
+        local cell_width = base_width
+        if i <= remainder then
+            cell_width = cell_width + 1
+        end
+        if buf.bufnr == current then
+            s = s .. "%#TabLineSel#"
+        else
+            s = s .. "%#TabLine#"
+        end
+
+        s = s .. center_text(buf.name, math.max(cell_width, 1))
+    end
+    s = s .. "%#TabLineFill#%="
     return s
 end
 
 vim.o.tabline = "%!v:lua.my_tabline()"
+
+local function update_tabline_visibility()
+    local count = 0
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.bo[bufnr].buflisted then
+            count = count + 1
+            if count > 1 then break end
+        end
+    end
+    vim.o.showtabline = (count > 1) and 2 or 0
+end
+
+vim.api.nvim_create_autocmd({
+    "BufAdd",
+    "BufDelete",
+    "BufEnter",
+}, {
+    callback = update_tabline_visibility,
+})
