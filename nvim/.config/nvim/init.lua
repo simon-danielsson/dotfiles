@@ -351,71 +351,72 @@ theme.theme()
 
 local overrides = {
     -- line numbers
-    LineNr           = { fg = theme.colors.mg_1, bg = "none" },
-    LineNrAbove      = { link = "LineNr" },
-    LineNrBelow      = { link = "LineNr" },
-    CursorLineNr     = { fg = theme.colors.fg_1, bg = "none" },
-    SignColumn       = { bg = theme.colors.bg_2 },
+    LineNr              = { fg = theme.colors.mg_1, bg = "none" },
+    LineNrAbove         = { link = "LineNr" },
+    LineNrBelow         = { link = "LineNr" },
+    CursorLineNr        = { fg = theme.colors.fg_1, bg = "none" },
+    SignColumn          = { bg = theme.colors.bg_2 },
 
     -- folds
-    FoldColumn       = { link = "SignColumn" },
-    Folded           = { fg = theme.colors.fg_2, bg = theme.colors.bg_1 },
+    FoldColumn          = { link = "SignColumn" },
+    Folded              = { fg = theme.colors.fg_2, bg = theme.colors.bg_1 },
 
     -- tabline
-    TabLine          = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
-    TabLineSel       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1 },
-    TabLineFill      = { fg = theme.colors.mg_1, bg = theme.colors.bg_1 },
-    TabLineSep       = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
+    TabLine             = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
+    TabLineSel          = { fg = theme.colors.fg_1, bg = theme.colors.bg_1 },
+    TabLineFill         = { fg = theme.colors.mg_1, bg = theme.colors.bg_1 },
+    TabLineSep          = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
 
     -- hints
-    Comment          = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
-    IndentGuide      = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
-    Biscuit          = { fg = theme.colors.mg_1, bg = theme.colors.bg_1 },
+    Comment             = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
+    IndentGuide         = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
+    LspInlineCompletion = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
+    Biscuit             = { fg = theme.colors.mg_1, bg = theme.colors.bg_1 },
 
     -- normal
-    Normal           = { fg = theme.colors.fg_1, bg = theme.colors.bg_2 },
-    NormalNC         = { link = "Normal" },
+    Normal              = { fg = theme.colors.fg_1, bg = theme.colors.bg_2 },
+    NormalNC            = { link = "Normal" },
 
     -- cursor
-    CursorLine       = { bg = theme.colors.bg_1 },
+    CursorLine          = { bg = theme.colors.bg_1 },
 
     -- quickfix
-    QuickFixLine     = { ctermbg = 0 },
-    qfFileName       = { fg = theme.colors.fg_1 },
+    QuickFixLine        = { ctermbg = 0 },
+    qfFileName          = { fg = theme.colors.fg_1 },
 
     -- float
-    NormalFloat      = { link = "CursorLineNr" },
-    FloatBorder      = { fg = theme.colors.fg_2, bg = "none" },
+    NormalFloat         = { link = "CursorLineNr" },
+    FloatBorder         = { fg = theme.colors.fg_2, bg = "none" },
 
     -- splits
-    WinSeparator     = { fg = theme.colors.mg_1, bg = "none" },
-    EndOfBuffer      = { link = "CursorLineNr" },
-    ColorColumn      = { ctermbg = 0, bg = theme.colors.mg_1 },
-    VertSplit        = { ctermbg = 0, bg = "none", fg = "none" },
+    WinSeparator        = { fg = theme.colors.mg_1, bg = "none" },
+    EndOfBuffer         = { link = "CursorLineNr" },
+    ColorColumn         = { ctermbg = 0, bg = theme.colors.mg_1 },
+    VertSplit           = { ctermbg = 0, bg = "none", fg = "none" },
 
     -- popup menu
-    Pmenu            = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
-    PmenuSel         = { bg = theme.colors.mg_1, fg = theme.colors.fg_1 },
-    PmenuKind        = { bg = theme.colors.bg_2, fg = theme.colors.fg_1 },
-    PmenuExtra       = { bg = theme.colors.bg_2, fg = theme.colors.fg_1 },
-    PmenuMatch       = { bg = theme.colors.mg_1, fg = theme.colors.fg_1 },
-    PmenuKindSel     = { bg = theme.colors.mg_1, bold = true },
-    PmenuMatchSel    = { link = "PmenuKindSel" },
-    PmenuExtraSel    = { link = "PmenuKindSel" },
-    PmenuThumb       = { link = "PmenuKindSel" },
-    PmenuSbar        = { bg = theme.colors.bg_2 },
-    PmenuBorder      = { fg = theme.colors.fg_2, bg = "none" },
+    Pmenu               = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
+    PmenuSel            = { bg = theme.colors.mg_1, fg = theme.colors.fg_1 },
+    PmenuKind           = { bg = theme.colors.bg_2, fg = theme.colors.fg_1 },
+    PmenuExtra          = { bg = theme.colors.bg_2, fg = theme.colors.fg_1 },
+    PmenuMatch          = { bg = theme.colors.mg_1, fg = theme.colors.fg_1 },
+    PmenuKindSel        = { bg = theme.colors.mg_1, bold = true },
+    PmenuMatchSel       = { link = "PmenuKindSel" },
+    PmenuExtraSel       = { link = "PmenuKindSel" },
+    PmenuThumb          = { link = "PmenuKindSel" },
+    PmenuSbar           = { bg = theme.colors.bg_2 },
+    PmenuBorder         = { fg = theme.colors.fg_2, bg = "none" },
 
     -- statusline
-    StatusLine       = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = false },
-    StatusLineNormal = { link = "StatusLine" },
-    StatusLineNC     = { link = "StatusLine" },
-    StatusLineTerm   = { link = "StatusLine" },
-    StatusLineTermNC = { link = "StatusLine" },
-    StatusFilename   = { link = "StatusLine" },
-    StatusPosition   = { link = "StatusLine" },
-    StatusWords      = { link = "StatusLine" },
-    StatusMode       = { link = "StatusLine" },
+    StatusLine          = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = false },
+    StatusLineNormal    = { link = "StatusLine" },
+    StatusLineNC        = { link = "StatusLine" },
+    StatusLineTerm      = { link = "StatusLine" },
+    StatusLineTermNC    = { link = "StatusLine" },
+    StatusFilename      = { link = "StatusLine" },
+    StatusPosition      = { link = "StatusLine" },
+    StatusWords         = { link = "StatusLine" },
+    StatusMode          = { link = "StatusLine" },
 }
 
 for group, opts in pairs(overrides) do
@@ -761,180 +762,174 @@ vim.lsp.document_color.enable(true, nil, { style = '■ ' })
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-vim.lsp.config('*', {
-    capabilities = {
-        textDocument = {
-            completion = {
-                completionItem = {
-                    snippetSupport = true,
+local lsp_servers = {
+    rust_analyzer = {
+        cmd = { 'rust-analyzer' },
+        filetypes = { 'rust' },
+        root_markers = { 'Cargo.toml', 'rust-project.json', '.git' },
+        settings = {
+            ['rust-analyzer'] = {},
+        },
+    },
+
+    bashls = {
+        cmd = { 'bash-language-server', 'start' },
+        filetypes = { 'bash', 'sh' },
+        root_markers = { '.git' },
+        settings = {
+            bashIde = {},
+        },
+    },
+
+    marksman = {
+        cmd = { 'marksman', 'server' },
+        filetypes = { 'markdown' },
+        root_markers = { '.git' },
+        capabilities = capabilities,
+    },
+
+    pyright = {
+        cmd = { 'pyright-langserver', '--stdio' },
+        filetypes = { 'python' },
+        root_markers = {
+            'pyproject.toml',
+            'setup.py',
+            '.git',
+        },
+        settings = {
+            python = {
+                analysis = {
+                    typeCheckingMode = "basic",
+                    autoSearchPaths = true,
+                    useLibraryCodeForTypes = true,
                 },
             },
         },
     },
-})
 
--- rust
-vim.lsp.config('rust_analyzer', {
-    cmd = { 'rust-analyzer' },
-    filetypes = { 'rust' },
-    root_markers = { 'Cargo.toml', 'rust-project.json', '.git' },
-    settings = {
-        ['rust-analyzer'] = {},
-    },
-})
-vim.lsp.enable('rust_analyzer')
-
--- bash
-vim.lsp.config('bashls', {
-    cmd = { 'bash-language-server', 'start' },
-    filetypes = { 'bash', 'sh' },
-    root_markers = { '.git' },
-    settings = {
-        bashIde = {},
-    },
-})
-vim.lsp.enable('bashls')
-
--- markdown
-vim.lsp.config('marksman', {
-    cmd = { 'marksman', 'server' },
-    filetypes = { 'markdown' },
-    root_markers = { '.git' },
-    capabilities = capabilities,
-})
-vim.lsp.enable('marksman')
-
--- python
-vim.lsp.config('pyright', {
-    cmd = { 'pyright-langserver', '--stdio' },
-    filetypes = { 'python' },
-    root_markers = {
-        'pyproject.toml',
-        'setup.py',
-        '.git',
-    },
-    settings = {
-        python = {
-            analysis = {
-                typeCheckingMode = "basic", -- or "strict"
-                autoSearchPaths = true,
-                useLibraryCodeForTypes = true,
-            },
+    clangd = {
+        cmd = {
+            'clangd',
+            '--background-index',
+            '--clang-tidy',
+            '--completion-style=detailed',
+            '--header-insertion=iwyu',
+        },
+        filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
+        root_markers = {
+            'compile_commands.json',
+            'compile_flags.txt',
+            '.git',
         },
     },
-})
-vim.lsp.enable('pyright')
 
--- c/c++
-vim.lsp.config('clangd', {
-    cmd = {
-        'clangd',
-        '--background-index',
-        '--clang-tidy',
-        '--completion-style=detailed',
-        '--header-insertion=iwyu',
-    },
-    filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
-    root_markers = {
-        'compile_commands.json',
-        'compile_flags.txt',
-        '.git',
-    },
-})
-vim.lsp.enable('clangd')
-
--- js/ts
-vim.lsp.config('tsserver', {
-    cmd = { 'typescript-language-server', '--stdio' },
-    filetypes = {
-        'javascript',
-        'javascriptreact',
-        'typescript',
-        'typescriptreact',
-    },
-    root_markers = { 'package.json', 'tsconfig.json', '.git' },
-    settings = {
-        typescript = {
-            inlayHints = {
-                includeInlayParameterNameHints = "all",
-            },
+    tsserver = {
+        cmd = { 'typescript-language-server', '--stdio' },
+        filetypes = {
+            'javascript',
+            'javascriptreact',
+            'typescript',
+            'typescriptreact',
         },
-        javascript = {
-            inlayHints = {
-                includeInlayParameterNameHints = "all",
-            },
-        },
-    },
-})
-vim.lsp.enable('tsserver')
-
--- lua
-vim.lsp.config('lua_ls', {
-    cmd = { 'lua-language-server' },
-    filetypes = { 'lua' },
-    root_markers = { '.git', '.luarc.json', '.luarc.jsonc' },
-    settings = {
-        Lua = {
-            runtime = {
-                version = 'LuaJIT',
-            },
-            diagnostics = {
-                globals = { 'vim' },
-                disable = { "redefined-local" },
-            },
-            workspace = {
-                checkThirdParty = false,
-                library = {
-                    vim.env.VIMRUNTIME,
+        root_markers = { 'package.json', 'tsconfig.json', '.git' },
+        settings = {
+            typescript = {
+                inlayHints = {
+                    includeInlayParameterNameHints = "all",
                 },
             },
-            telemetry = {
-                enable = false,
+            javascript = {
+                inlayHints = {
+                    includeInlayParameterNameHints = "all",
+                },
             },
         },
     },
-})
-vim.lsp.enable('lua_ls')
 
--- css
-vim.lsp.config('cssls', {
-    cmd = { 'vscode-css-language-server', '--stdio' },
-    filetypes = { 'css', 'scss', 'less' },
-    capabilities = capabilities,
-})
-vim.lsp.enable('cssls')
-
--- html
-vim.lsp.config('html', {
-    cmd = { 'vscode-html-language-server', '--stdio' },
-    filetypes = { 'html' },
-    capabilities = capabilities,
-})
-vim.lsp.enable('html')
-
-vim.lsp.config("copilot", {
-    cmd = { "copilot-language-server", "--stdio" },
-    root_markers = { ".git" },
-    init_options = {
-        editorInfo = {
-            name = "Neovim",
-            version = tostring(vim.version()),
-        },
-        editorPluginInfo = {
-            name = "Neovim",
-            version = tostring(vim.version()),
+    lua_ls = {
+        cmd = { 'lua-language-server' },
+        filetypes = { 'lua' },
+        root_markers = { '.git', '.luarc.json', '.luarc.jsonc' },
+        settings = {
+            Lua = {
+                runtime = {
+                    version = 'LuaJIT',
+                },
+                diagnostics = {
+                    globals = { 'vim' },
+                    disable = { 'redefined-local' },
+                },
+                workspace = {
+                    checkThirdParty = false,
+                    library = {
+                        vim.env.VIMRUNTIME,
+                    },
+                },
+                telemetry = {
+                    enable = false,
+                },
+            },
         },
     },
-})
 
-vim.lsp.enable("copilot")
-vim.lsp.inline_completion.enable()
+    cssls = {
+        cmd = { 'vscode-css-language-server', '--stdio' },
+        filetypes = { 'css', 'scss', 'less' },
+        capabilities = capabilities,
+    },
 
-vim.keymap.set("i", "<Tab>", function()
-    if not vim.lsp.inline_completion.get() then
-        return "<Tab>"
+    html = {
+        cmd = { 'vscode-html-language-server', '--stdio' },
+        filetypes = { 'html' },
+        capabilities = capabilities,
+    },
+
+    copilot = {
+        cmd = { 'copilot-language-server', '--stdio' },
+        root_markers = { '.git' },
+        filetypes = {
+            'lua',
+            'python',
+            'javascript',
+            'typescript',
+            'javascriptreact',
+            'typescriptreact',
+            'go',
+            'rust',
+            'c',
+            'cpp',
+            'java',
+        },
+
+        init_options = {
+            editorInfo = {
+                name = "Neovim",
+                version = tostring(vim.version()),
+            },
+            editorPluginInfo = {
+                name = "Neovim",
+                version = tostring(vim.version()),
+            },
+        },
+
+        on_attach = function(client, bufnr)
+            if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion, bufnr) then
+                vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
+            end
+        end,
+    },
+}
+
+for name, config in pairs(lsp_servers) do
+    vim.lsp.config(name, config)
+    vim.lsp.enable(name)
+end
+
+vim.keymap.set("i", "<C-l>", function()
+    if not vim.lsp.inline_completion.get({ bufnr = 0 }) then
+        return "<C-l>"
     end
-end, { expr = true })
+end, { expr = true, desc = "Accept Copilot" })
 
 -- =========================================================
 -- !!! lsp/format
