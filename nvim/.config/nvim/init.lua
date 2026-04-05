@@ -2370,17 +2370,10 @@ local defaults = {
 }
 grep_picker.config = vim.deepcopy(defaults)
 
-local function map(mode, lhs, rhs, opts)
-    vim.keymap.set(mode, lhs, rhs, opts)
-end
-
-local function get_opts(opts)
-    return vim.tbl_deep_extend("force", {}, grep_picker.config, opts or {})
-end
-
-local function get_qf_items()
-    return vim.fn.getqflist({ id = 0, items = 1 }).items or {}
-end
+local function map(mode, lhs, rhs, opts) vim.keymap.set(mode, lhs, rhs, opts) end
+local function get_opts(opts) return vim.tbl_deep_extend("force", {}, grep_picker.config, opts or {}) end
+local function get_qf_items() return vim.fn.getqflist({ id = 0, items = 1 }).items or {} end
+local function normalize_path(path) return vim.fn.fnamemodify(path or "", ":~:.") end
 
 function grep_picker.quickfix_text(info)
     local qf_items = vim.fn.getqflist({ id = info.id, items = 1 }).items or {}; local lines = {}
@@ -2576,6 +2569,7 @@ autocmd("LspAttach", {
             print("LSP attached: " .. client.name)
         end
     end,
+    desc = "notify at LSP client attach",
 })
 
 -- =========================================================
@@ -2616,7 +2610,7 @@ function _G.my_tabline()
     end
 
     local sep = ""; local sep_width = vim.fn.strdisplaywidth(sep); local total_sep_width = math.max(0, count - 1) *
-    sep_width
+        sep_width
     local content_width = math.max(1, total_width - total_sep_width); local base_width = math.floor(content_width / count)
     local remainder = content_width % count
 
