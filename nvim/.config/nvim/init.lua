@@ -115,29 +115,17 @@ autocmd({ "FileType", "BufWinEnter" }, {
 })
 
 -- close netrw preview on bufenter
-autocmd("BufEnter", {
-    callback = function()
-        cmd("pclose")
-    end,
-})
+autocmd("BufEnter", { callback = function() cmd("pclose") end, })
 
 -- =========================================================
 -- !!! general/folds
 -- =========================================================
 
 opt.foldcolumn   = "2"; o.foldmethod = "marker"; o.foldlevelstart = 99; o.foldenable = false
-
-map('n', 'zz', 'za',
-    { desc = "Toggle fold under cursor" })
-
-map({ 'n', 'v' }, 'zn', 'zf',
-    { desc = "New fold" })
-
-map('n', 'zo', 'zR',
-    { desc = "Open all folds" })
-
-map('n', 'zc', 'zM',
-    { desc = "Close all folds" })
+map('n', 'zz', 'za', { desc = "Toggle fold under cursor" })
+map({ 'n', 'v' }, 'zn', 'zf', { desc = "New fold" })
+map('n', 'zo', 'zR', { desc = "Open all folds" })
+map('n', 'zc', 'zM', { desc = "Close all folds" })
 
 -- =========================================================
 -- !!! general/keymaps
@@ -152,11 +140,9 @@ map("n", "I", "<Nop>")
 map("n", "o", "<Nop>")
 map("n", "O", "<Nop>")
 
-map({ "n", "v" }, "n", "h",
-    { desc = "Move left" })
+map({ "n", "v" }, "n", "h", { desc = "Move left" })
 
-map({ "n", "v" }, "i", "l",
-    { desc = "Move right" })
+map({ "n", "v" }, "i", "l", { desc = "Move right" })
 
 map({ 'n', 'v' }, 'o', "v:count == 0 ? 'gk' : 'k'",
     {
@@ -230,13 +216,11 @@ map("n", ",", function()
     cmd("wincmd w")
 end, { desc = "Cycle through splits" })
 
-map('t', '<Esc><Esc>', '<C-\\><C-n>',
-    { desc = 'Exit terminal mode' })
+map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- general
 
-map("n", "<Esc>", "<cmd>nohlsearch<CR>",
-    { desc = "Clear search highlights" })
+map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 
 -- editing
 
@@ -312,12 +296,9 @@ map("n", "gd", vim.lsp.buf.definition); map("n", "gr", vim.lsp.buf.references)
 vim.g.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
 
 -- diagnostics display
-vim.diagnostic.config({
-    float = { border = "rounded" },
-})
+vim.diagnostic.config({ float = { border = "rounded" }, })
 
 local theme   = {}
-
 theme.colors  = {
     fg_1 = "#AAB3C0",
     fg_2 = "#6e6e87",
@@ -325,7 +306,6 @@ theme.colors  = {
     bg_1 = "#2a2a33",
     bg_2 = "#25252d",
 }
-
 theme.accents = {
     a1 = "#83C093",
     a2 = "#E67E80",
@@ -337,7 +317,6 @@ vim.pack.add({
         src = "https://github.com/vague-theme/vague.nvim"
     },
 })
-
 require("vague").setup({
     italic = false,
 })
@@ -432,8 +411,7 @@ local function short_filepath()
     if path:sub(1, #home) == home then
         path = "~" .. path:sub(#home + 1)
     end
-    local parts = vim.split(path, "/", { trimempty = true })
-    local count = #parts
+    local parts = vim.split(path, "/", { trimempty = true }); local count = #parts
     return table.concat({
         parts[count - 2] or "",
         parts[count - 1] or "",
@@ -443,11 +421,7 @@ end
 
 function _G.statusline_insert()
     local file = short_filepath()
-    return table.concat({
-        "%*",
-        file,
-
-    })
+    return table.concat({ "%*", file, })
 end
 
 local stl = vim.go.statusline
@@ -477,14 +451,12 @@ autocmd("BufWritePre", {
     group = write_group,
     pattern = "*",
     callback = function()
-        local ft = vim.bo.filetype
-        local ext = vim.fn.expand("%:e")
+        local ft = vim.bo.filetype; local ext = vim.fn.expand("%:e")
         if ft == "markdown" or ft == "yaml" or ext == "html" or ext == "RPP" or ext == "reamake" or ext:lower() == "csv" then
             return
         end
         local pos = vim.api.nvim_win_get_cursor(0)
-        cmd([[silent! %s/\s\+$//e]])
-        cmd([[silent! %s/\(\n\)\{3,}/\r\r/e]])
+        cmd([[silent! %s/\s\+$//e]]); cmd([[silent! %s/\(\n\)\{3,}/\r\r/e]])
         vim.api.nvim_win_set_cursor(0, pos)
     end,
     desc = "Trim trailing whitespace and collapse multiple empty lines",
@@ -508,8 +480,7 @@ local files_group = augroup("FileCommands", { clear = true })
 autocmd("BufReadPost", {
     callback = function()
         for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-            local name = vim.api.nvim_buf_get_name(buf)
-            local bt = vim.bo[buf].buftype
+            local name = vim.api.nvim_buf_get_name(buf); local bt = vim.bo[buf].buftype
             if name == "" and bt == "" then
                 pcall(vim.api.nvim_buf_delete, buf, { force = true })
             end
@@ -550,8 +521,7 @@ autocmd("BufReadPost", {
         if vim.bo.filetype == "commit" then
             return
         end
-        local mark = vim.api.nvim_buf_get_mark(0, '"')
-        local lcount = vim.api.nvim_buf_line_count(0)
+        local mark = vim.api.nvim_buf_get_mark(0, '"'); local lcount = vim.api.nvim_buf_line_count(0)
         if mark[1] > 0 and mark[1] <= lcount then
             pcall(vim.api.nvim_win_set_cursor, 0, mark)
         end
@@ -561,9 +531,7 @@ autocmd("BufReadPost", {
 
 autocmd("TextYankPost", {
     group = cursor_group,
-    callback = function()
-        vim.highlight.on_yank()
-    end,
+    callback = function() vim.highlight.on_yank() end,
     desc = "Highlight yanked text",
 })
 
@@ -572,7 +540,6 @@ autocmd("TextYankPost", {
 -- =========================================================
 
 local term_group = augroup("TermCommands", { clear = true })
-
 local term_buf = nil; local term_win = nil; local term_job = nil
 
 local function ensure_terminal(cmd)
@@ -603,7 +570,7 @@ end
 local run_compile_keymap = "<leader>c"
 
 local function run_build_or_fallback(build_path, fallback_cmd)
-    -- Check if build.sh exists
+    -- check if build.sh exists
     local stat = vim.loop.fs_stat(build_path)
     if stat then
         -- build.sh exists
@@ -638,8 +605,7 @@ autocmd("FileType", {
         map("n", run_compile_keymap, function()
             cmd('write')
             vim.lsp.buf.format({ async = true })
-            local file = vim.fn.expand("%")
-            local outfile = vim.fn.expand("%:r") -- same name, no extension
+            local file = vim.fn.expand("%"); local outfile = vim.fn.expand("%:r") -- same name, no extension
             local build_path = vim.fn.expand("%:p:h") .. "/build.sh"
             local fallback_cmd = string.format("ghc \"%s\" && ./\"%s\"",
                 file, outfile)
@@ -655,8 +621,7 @@ autocmd("FileType", {
     callback = function()
         map("n", run_compile_keymap, function()
             cmd('write')
-            local file = vim.fn.expand("%")
-            local outfile = vim.fn.expand("%:r") -- same name, no extension
+            local file = vim.fn.expand("%"); local outfile = vim.fn.expand("%:r") -- same name, no extension
             local build_path = vim.fn.expand("%:p:h") .. "/build.sh"
             local fallback_cmd = string.format("gcc -std=c23 -Wall -Wextra -O2 \"%s\" -o \"%s\" && ./\"%s\"",
                 file, outfile, outfile)
@@ -673,8 +638,7 @@ autocmd("FileType", {
         map("n", run_compile_keymap, function()
             cmd('write')
             -- build.sh is in parent directory for Rust projects
-            local build_path = vim.fn.expand("%:p:h") .. "/../build.sh"
-            local fallback_cmd = "cargo run"
+            local build_path = vim.fn.expand("%:p:h") .. "/../build.sh"; local fallback_cmd = "cargo run"
             run_build_or_fallback(build_path, fallback_cmd)
         end, { buffer = true, desc = "Run Rust project" })
     end,
@@ -697,8 +661,7 @@ autocmd("TermClose", {
     group = term_group,
     callback = function()
         if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
-            cmd("bdelete! " .. term_buf)
-            term_buf, term_win, term_job = nil, nil, nil
+            cmd("bdelete! " .. term_buf); term_buf, term_win, term_job = nil, nil, nil
         end
     end,
     desc = "Close terminal buffer on process exit",
@@ -720,17 +683,13 @@ end
 
 autocmd("CmdlineLeave", {
     group = ui_group,
-    callback = function()
-        clear_cmdline_after(4000) -- 4 seconds
-    end,
+    callback = function() clear_cmdline_after(4000) end,
     desc = "auto-clear messages after cmdline leave",
 })
 
 autocmd("VimResized", {
     group = ui_group,
-    callback = function()
-        cmd("tabdo wincmd =")
-    end,
+    callback = function() cmd("tabdo wincmd =") end,
     desc = "Auto-resize splits when window is resized",
 })
 
@@ -921,8 +880,7 @@ local lsp_servers = {
 }
 
 for name, config in pairs(lsp_servers) do
-    vim.lsp.config(name, config)
-    vim.lsp.enable(name)
+    vim.lsp.config(name, config); vim.lsp.enable(name)
 end
 
 vim.keymap.set("i", "<C-l>", function()
@@ -948,11 +906,8 @@ autocmd("BufWritePre", {
             ["ana"]      = true,
             [""]         = true,
         }
-        if ignore[ft] then
-            return
-        end
-        local has_lsp = #vim.lsp.get_clients({ bufnr = 0 }) > 0
-        local pos = vim.api.nvim_win_get_cursor(0)
+        if ignore[ft] then return end
+        local has_lsp = #vim.lsp.get_clients({ bufnr = 0 }) > 0; local pos = vim.api.nvim_win_get_cursor(0)
         if has_lsp then
             vim.lsp.buf.format({ async = false })
         end
@@ -980,9 +935,7 @@ vim.o.inccommand    = 'nosplit'; vim.opt.pumborder = "rounded"
 autocmd("LspAttach", {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
-        if not client then
-            return
-        end
+        if not client then return end
 
         local cp = client.server_capabilities.completionProvider
         if cp then
@@ -994,18 +947,14 @@ autocmd("LspAttach", {
             end
         end
 
-        vim.lsp.completion.enable(true, client.id, args.buf, {
-            autotrigger = true,
-        })
+        vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true, })
     end,
 })
 
 -- commandline
 autocmd("CmdlineChanged", {
     pattern = { ":", "/", "?" },
-    callback = function()
-        vim.fn.wildtrigger()
-    end,
+    callback = function() vim.fn.wildtrigger() end,
 })
 
 -- =========================================================
@@ -1051,18 +1000,15 @@ local function is_word_char(c)
 end
 
 local function is_escaped(line, pos)
-    local count = 0
-    pos = pos - 1
+    local count = 0; pos = pos - 1
     while pos > 0 and line:sub(pos, pos) == "\\" do
-        count = count + 1
-        pos = pos - 1
+        count = count + 1; pos = pos - 1
     end
     return count % 2 == 1
 end
 
 local function can_auto_close_quote(line, pos, _)
-    local prev = line:sub(pos - 1, pos - 1)
-    local next = line:sub(pos, pos)
+    local prev = line:sub(pos - 1, pos - 1); local next = line:sub(pos, pos)
     if is_escaped(line, pos) then
         return false
     end
@@ -1191,9 +1137,7 @@ function autopairs.setup()
             return autopairs.open(q)
         end, expr)
     end
-
-    map("i", "<BS>", autopairs.backspace, expr)
-    map("i", "<CR>", autopairs.newline, expr)
+    map("i", "<BS>", autopairs.backspace, expr); map("i", "<CR>", autopairs.newline, expr)
 end
 
 autopairs.setup()
@@ -1252,29 +1196,12 @@ local function reset()
     pcall(cmd, "redraw")
 end
 
-local function is_cancel(ch)
-    return ch == vim.keycode("<Esc>") or ch == vim.keycode("<C-c>")
-end
-
-local function is_backspace(ch)
-    return ch == vim.keycode("<BS>") or ch == vim.keycode("<Del>")
-end
-
-local function is_printable(ch)
-    return type(ch) == "string" and vim.fn.strchars(ch) == 1
-end
-
-local function normalize(s)
-    return config.case_sensitive and s or s:lower()
-end
-
-local function char_count(s)
-    return vim.fn.strchars(s)
-end
-
-local function char_sub(s, start_char, len)
-    return vim.fn.strcharpart(s, start_char, len)
-end
+local function is_cancel(ch) return ch == vim.keycode("<Esc>") or ch == vim.keycode("<C-c>") end
+local function is_backspace(ch) return ch == vim.keycode("<BS>") or ch == vim.keycode("<Del>") end
+local function is_printable(ch) return type(ch) == "string" and vim.fn.strchars(ch) == 1 end
+local function normalize(s) return config.case_sensitive and s or s:lower() end
+local function char_count(s) return vim.fn.strchars(s) end
+local function char_sub(s, start_char, len) return vim.fn.strcharpart(s, start_char, len) end
 
 local function drop_last_char(s)
     local n = char_count(s)
@@ -1285,8 +1212,7 @@ local function drop_last_char(s)
 end
 
 local function utf8_chars(s)
-    local out = {}
-    local n = char_count(s)
+    local out = {}; local n = char_count(s)
     for i = 0, n - 1 do
         out[#out + 1] = char_sub(s, i, 1)
     end
@@ -1332,12 +1258,9 @@ local function snapshot_view()
 end
 
 local function collect_matches_full(pattern)
-    if pattern == "" or not state.view then
-        return {}
-    end
+    if pattern == "" or not state.view then return {} end
 
     local out = {}; local curline, curcol = current_cursor(state.winid); local needle = normalize(pattern)
-
     for i, line in ipairs(state.view.lines) do
         local lnum = state.view.top + i - 1; local hay = state.view.normalized[i]; local start = 1
         while true do
@@ -1367,12 +1290,9 @@ local function collect_matches_full(pattern)
 end
 
 local function filter_matches_incremental(matches, pattern)
-    if pattern == "" or not state.view then
-        return {}
-    end
+    if pattern == "" or not state.view then return {} end
 
     local out = {}; local needle = normalize(pattern); local needle_len = #needle
-
     for _, m in ipairs(matches) do
         local hay = state.view.normalized[m.row]
         local s1 = m.col + 1
@@ -1397,7 +1317,6 @@ end
 
 local function sort_matches(matches)
     local curline, curcol = current_cursor(state.winid)
-
     table.sort(matches, function(a, b)
         local da = math.abs(a.lnum - curline) * 1000 + math.abs(a.col - curcol)
         local db = math.abs(b.lnum - curline) * 1000 + math.abs(b.col - curcol)
@@ -1423,9 +1342,7 @@ end
 
 local function compute_reserved(matches, limit)
     local reserved = {}
-    if not config.reserve_labels_by_next_char then
-        return reserved
-    end
+    if not config.reserve_labels_by_next_char then return reserved end
     local n = math.min(#matches, limit or #matches)
     for i = 1, n do
         local m = matches[i]
@@ -1514,11 +1431,8 @@ local function render()
 end
 
 local function jump_to(match)
-    if not match then
-        return
-    end
-    local winid = state.winid
-    reset()
+    if not match then return end
+    local winid = state.winid; reset()
     vim.api.nvim_win_set_cursor(winid, { match.lnum, match.col })
 end
 
@@ -1532,8 +1446,7 @@ local function handle_printable(ch)
         end
     end
 
-    state.pattern = state.pattern .. ch
-    refresh_state("grow")
+    state.pattern = state.pattern .. ch; refresh_state("grow")
     if config.jump_on_unique and #state.matches == 1 then
         jump_to(state.matches[1])
     end
@@ -1541,14 +1454,9 @@ end
 
 function flash.jump()
     reset()
-
-    state.active = true
-    state.winid = vim.api.nvim_get_current_win()
-    state.bufnr = vim.api.nvim_get_current_buf()
-    state.pattern = ""
-
-    snapshot_view()
-    render()
+    state.active = true; state.winid = vim.api.nvim_get_current_win()
+    state.bufnr = vim.api.nvim_get_current_buf(); state.pattern = ""
+    snapshot_view(); render()
 
     while state.active do
         local ok, ch = pcall(vim.fn.getcharstr)
@@ -1556,7 +1464,6 @@ function flash.jump()
             reset()
             return
         end
-
         if is_cancel(ch) then
             reset()
             return
@@ -1578,9 +1485,7 @@ end
 
 function flash.setup(opts)
     config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
-    map({ "n", "x", "o" }, "s", function()
-        flash.jump()
-    end, { desc = "flash-like jump" })
+    map({ "n", "x", "o" }, "s", function() flash.jump() end, { desc = "flash-like jump" })
 end
 
 flash.setup()
@@ -1616,9 +1521,7 @@ end
 
 local function get_shiftwidth(bufnr)
     local sw = vim.bo[bufnr].shiftwidth
-    if sw == 0 then
-        sw = vim.bo[bufnr].tabstop
-    end
+    if sw == 0 then sw = vim.bo[bufnr].tabstop end
     return math.max(sw, 1)
 end
 
@@ -1678,9 +1581,7 @@ local function get_blankline_indent(bufnr, lnum)
     return 0
 end
 
-function indent_guides.refresh()
-    cmd("redraw")
-end
+function indent_guides.refresh() cmd("redraw") end
 
 function indent_guides.enable()
     enabled = true
@@ -1700,33 +1601,16 @@ end
 function indent_guides.setup(opts)
     config = vim.tbl_deep_extend("force", config, opts or {})
 
-    vim.api.nvim_create_user_command("IndentGuidesEnable", function()
-        indent_guides.enable()
-    end, {})
-    vim.api.nvim_create_user_command("IndentGuidesDisable", function()
-        indent_guides.disable()
-    end, {})
-
-    vim.api.nvim_create_user_command("IndentGuidesToggle", function()
-        indent_guides.toggle()
-    end, {})
+    vim.api.nvim_create_user_command("IndentGuidesEnable", function() indent_guides.enable() end, {})
+    vim.api.nvim_create_user_command("IndentGuidesDisable", function() indent_guides.disable() end, {})
+    vim.api.nvim_create_user_command("IndentGuidesToggle", function() indent_guides.toggle() end, {})
 
     vim.api.nvim_set_decoration_provider(ns, {
         on_win = function(_, winid, bufnr)
-            if not enabled then
-                return false
-            end
-            if not vim.api.nvim_win_is_valid(winid) then
-                return false
-            end
-
-            if is_excluded(bufnr) then
-                return false
-            end
-            if vim.wo[winid].diff then
-                return false
-            end
-
+            if not enabled then return false end
+            if not vim.api.nvim_win_is_valid(winid) then return false end
+            if is_excluded(bufnr) then return false end
+            if vim.wo[winid].diff then return false end
             if not vim.bo[bufnr].modifiable and vim.bo[bufnr].buftype == "" then
                 return false
             end
@@ -1734,34 +1618,24 @@ function indent_guides.setup(opts)
         end,
 
         on_line = function(_, _, bufnr, row)
-            if not enabled or is_excluded(bufnr) then
-                return
-            end
+            if not enabled or is_excluded(bufnr) then return end
 
             local lnum = row + 1; local line = get_line(bufnr, lnum)
-            if not line then
-                return
-            end
+            if not line then return end
 
             local sw = get_shiftwidth(bufnr); local tabstop = vim.bo[bufnr].tabstop
-            local start = config.show_first_level and 0 or sw
-            local cells, indent_width
+            local start = config.show_first_level and 0 or sw; local cells, indent_width
 
             if is_blank(line) then
-                if not config.show_blanklines then
-                    return
-                end
-                indent_width = get_blankline_indent(bufnr, lnum)
-                cells = {}
+                if not config.show_blanklines then return end
+                indent_width = get_blankline_indent(bufnr, lnum); cells = {}
                 for col = 0, indent_width - 1 do
                     cells[col] = true
                 end
             else
                 cells, indent_width = leading_ws_cells(line, tabstop)
             end
-            if indent_width <= 0 then
-                return
-            end
+            if indent_width <= 0 then return end
 
             for col = start, indent_width - 1, sw do
                 if cells[col] then
@@ -1809,32 +1683,18 @@ end
 
 local function shorten(s)
     s = squeeze(s)
-    if #s > config.max_length then
-        return s:sub(1, config.max_length) .. "…"
-    end
+    if #s > config.max_length then return s:sub(1, config.max_length) .. "…" end
     return s
 end
 
-local function clear(bufnr)
-    vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
-end
+local function clear(bufnr) vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1) end
 
 local function classify_closer(s)
     s = trim(s)
-
-    if s:match("^end[%s;,%)}%]]*$") then
-        return "lua_end"
-    end
-    if s:match("^[}]") then
-        return "brace"
-    end
-    if s:match("^[)]") then
-        return "paren"
-    end
-    if s:match("^[]]") then
-        return "bracket"
-    end
-
+    if s:match("^end[%s;,%)}%]]*$") then return "lua_end" end
+    if s:match("^[}]") then return "brace" end
+    if s:match("^[)]") then return "paren" end
+    if s:match("^[]]") then return "bracket" end
     return nil
 end
 
@@ -1869,7 +1729,6 @@ local function find_lua_opener(bufnr, row)
 
     for r = row, start, -1 do
         local l = line(bufnr, r)
-
         if is_lua_closer(l) then
             depth = depth + 1
         end
@@ -1887,8 +1746,7 @@ local function find_pair_opener(bufnr, row, open_ch, close_ch)
     local depth = 0; local start = math.max(0, row - config.max_scan)
     for r = row, start, -1 do
         local l = line(bufnr, r)
-        depth = depth + count_char(l, close_ch)
-        depth = depth - count_char(l, open_ch)
+        depth = depth + count_char(l, close_ch); depth = depth - count_char(l, open_ch)
         if depth <= 0 and l:find(open_ch, 1, true) then
             return shorten(l)
         end
@@ -1898,9 +1756,7 @@ end
 
 local function find_biscuit_text(bufnr, row)
     local cur = line(bufnr, row); local kind = classify_closer(cur)
-    if not kind then
-        return nil
-    end
+    if not kind then return nil end
     if kind == "lua_end" then
         return find_lua_opener(bufnr, row)
     elseif kind == "brace" then
@@ -1917,8 +1773,7 @@ local function draw_for_window(winid)
     if not config.enabled or not vim.api.nvim_win_is_valid(winid) then
         return
     end
-    local bufnr = vim.api.nvim_win_get_buf(winid)
-    clear(bufnr)
+    local bufnr = vim.api.nvim_win_get_buf(winid); clear(bufnr)
 
     local top = vim.fn.line("w0", winid) - 1; local bot = vim.fn.line("w$", winid) - 1
     local cur = vim.api.nvim_win_get_cursor(winid)[1] - 1
@@ -1937,9 +1792,7 @@ local function draw_for_window(winid)
     end
 end
 
-function biscuits.refresh()
-    draw_for_window(vim.api.nvim_get_current_win())
-end
+function biscuits.refresh() draw_for_window(vim.api.nvim_get_current_win()) end
 
 function biscuits.setup(opts)
     config = vim.tbl_extend("force", config, opts or {})
@@ -1947,13 +1800,9 @@ function biscuits.setup(opts)
 
     vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "BufEnter", "TextChanged", "TextChangedI" }, {
         group = aug,
-        callback = function()
-            draw_for_window(vim.api.nvim_get_current_win())
-        end,
+        callback = function() draw_for_window(vim.api.nvim_get_current_win()) end,
     })
-    vim.api.nvim_create_user_command("BiscuitsRefresh", function()
-        biscuits.refresh()
-    end, {})
+    vim.api.nvim_create_user_command("BiscuitsRefresh", function() biscuits.refresh() end, {})
 end
 
 biscuits.setup()
@@ -2014,8 +1863,7 @@ local function create_qf_picker(spec)
     local opts = function(o) return vim.tbl_deep_extend("force", {}, picker.config, o or {}) end
 
     function picker.quickfix_text(info)
-        local items = fn.getqflist({ id = info.id, items = 1 }).items or {}
-        local out = {}
+        local items = fn.getqflist({ id = info.id, items = 1 }).items or {}; local out = {}
         for i = info.start_idx, info.end_idx do
             if items[i] then out[#out + 1] = spec.format_item(items[i], i, items, norm) end
         end
@@ -2036,9 +1884,7 @@ local function create_qf_picker(spec)
         return true
     end
 
-    function picker.open(o)
-        if picker.setqflist(o) then cmd((opts(o)).open_cmd) end
-    end
+    function picker.open(o) if picker.setqflist(o) then cmd((opts(o)).open_cmd) end end
 
     function picker.setup(o)
         picker.config = vim.tbl_deep_extend("force", picker.config, o or {})
@@ -2085,8 +1931,7 @@ local jumps = create_qf_picker({
     },
 
     collect = function(o)
-        local jl, idx = unpack(fn.getjumplist())
-        local items = {}
+        local jl, idx = unpack(fn.getjumplist()); local items = {}
         for i, j in ipairs(jl or {}) do
             local b, name = j.bufnr or 0, bufname(j)
             if b <= 0 and name ~= "" then b = fn.bufnr(name, false) end
@@ -2600,8 +2445,7 @@ function _G.my_tabline()
         end
     end
 
-    local total_width = vim.o.columns
-    local count = #buffers
+    local total_width = vim.o.columns; local count = #buffers
     if count == 0 then
         local s = "%#TabLineFill#"
         s = s .. string.rep(" ", math.max(0, total_width))
