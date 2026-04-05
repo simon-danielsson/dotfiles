@@ -1959,119 +1959,109 @@ end
 biscuits.setup()
 
 -- =========================================================
--- !!! factory/qf_picker
+-- !!! modules/qf_picker
 -- =========================================================
 
-local function normalize_path(path)
-    return vim.fn.fnamemodify(path or "", ":~:.")
+local api, fn, cmd = vim.api, vim.fn, vim.cmd
+local map = vim.keymap.set
+
+local norm = function(p) return fn.fnamemodify(p or "", ":~:.") end
+local line = function(buf, lnum)
+    if not (buf and buf > 0 and lnum > 0 and api.nvim_buf_is_valid(buf)) then return "" end
+    local ok, s = pcall(api.nvim_buf_get_lines, buf, lnum - 1, lnum, false)
+    return ok and s and s[1] and vim.trim(s[1]) or ""
 end
-local function qf_jump_to_current_line()
-    cmd.cc({ count = vim.fn.line(".") })
-    pcall(cmd, "cclose")
+local jump_cur = function()
+    cmd.cc({ count = fn.line(".") }); pcall(cmd, "cclose")
+end
+local bufname = function(item)
+    local b = item.bufnr or 0
+    if b > 0 then
+        local n = api.nvim_buf_get_name(b)
+        if n ~= "" then return n end
+    end
+    return item.filename or ""
+end
+local filedir = function(name)
+    local file, dir = fn.fnamemodify(name, ":t"), norm(fn.fnamemodify(name, ":h"))
+    return file, dir ~= "" and (dir:match("/$") and dir or dir .. "/") or dir
+end
+local hl_split_cols = function(buf, ns)
+    api.nvim_buf_clear_namespace(buf, ns, 0, -1)
+    for i, s in ipairs(api.nvim_buf_get_lines(buf, 0, -1, false)) do
+        local f, p = s:match("^(%S+)%s+(.*)$")
+        if f and p then
+            local r, c = i - 1, s:find(p, 1, true) - 1
+            vim.hl.range(buf, ns, "Normal", { r, 0 }, { r, #f })
+            vim.hl.range(buf, ns, "Comment", { r, c }, { r, #s })
+        end
+    end
 end
 
 local function create_qf_picker(spec)
-    local picker = {}
-    picker.config = vim.tbl_deep_extend("force", {
-        title = "Picker",
-        open_cmd = "copen",
-        qf_mappings = true,
-        notify = false,
-        keymap = nil,
-        desc = nil,
-    }, spec.defaults or {})
+    local picker = {
+        config = vim.tbl_deep_extend("force", {
+            title = "Picker",
+            open_cmd = "copen",
+            qf_mappings = true,
+            notify = false,
+            keymap = nil,
+            desc = nil,
+        }, spec.defaults or {}),
+    }
 
-    local qftf_name = "_qf_picker_textfunc_" .. (spec.name or tostring(math.random(1, 999999)))
-
-    local function get_opts(opts)
-        return vim.tbl_deep_extend("force", {}, picker.config, opts or {})
-    end
+    local qftf = "_qf_picker_textfunc_" .. (spec.name or tostring(math.random(1, 999999)))
+    local opts = function(o) return vim.tbl_deep_extend("force", {}, picker.config, o or {}) end
 
     function picker.quickfix_text(info)
-        local qf_items = vim.fn.getqflist({ id = info.id, items = 1 }).items or {}; local lines = {}
-
+        local items = fn.getqflist({ id = info.id, items = 1 }).items or {}
+        local out = {}
         for i = info.start_idx, info.end_idx do
-            local item = qf_items[i]
-            if item then
-                lines[#lines + 1] = spec.format_item(item, i, qf_items, normalize_path)
-            end
+            if items[i] then out[#out + 1] = spec.format_item(items[i], i, items, norm) end
         end
-        return lines
+        return out
     end
 
-    function picker.setqflist(opts)
-        opts = get_opts(opts); local items = spec.collect(opts) or {}
+    function picker.setqflist(o)
+        o = opts(o)
+        local items = spec.collect(o) or {}
         if vim.tbl_isempty(items) then
-            if opts.notify then
-                vim.notify(opts.empty_message or ("No " .. string.lower(opts.title) .. " found"), vim.log.levels.INFO)
-            end
-            return false
+            if o.notify then vim.notify(o.empty_message or ("No " .. o.title:lower() .. " found"), vim.log.levels.INFO) end
+            return
         end
-
-        _G[qftf_name] = picker.quickfix_text
-        local payload = {
-            title = opts.title,
-            items = items,
-            quickfixtextfunc = "v:lua." .. qftf_name,
-        }
-
-        if spec.after_setqflist then
-            spec.after_setqflist(payload, opts, items)
-        end
-        vim.fn.setqflist({}, " ", payload)
+        _G[qftf] = picker.quickfix_text
+        local payload = { title = o.title, items = items, quickfixtextfunc = "v:lua." .. qftf }
+        if spec.after_setqflist then spec.after_setqflist(payload, o, items) end
+        fn.setqflist({}, " ", payload)
         return true
     end
 
-    function picker.open(opts)
-        opts = get_opts(opts)
-        if not picker.setqflist(opts) then
-            return
-        end
-        cmd(opts.open_cmd)
+    function picker.open(o)
+        if picker.setqflist(o) then cmd((opts(o)).open_cmd) end
     end
 
-    function picker.setup(opts)
-        picker.config = vim.tbl_deep_extend("force", picker.config, opts or {})
+    function picker.setup(o)
+        picker.config = vim.tbl_deep_extend("force", picker.config, o or {})
         if picker.config.keymap then
-            map("n", picker.config.keymap, function()
-                picker.open()
-            end, { desc = picker.config.desc or picker.config.title })
+            map("n", picker.config.keymap, picker.open, { desc = picker.config.desc or picker.config.title })
         end
+        if not picker.config.qf_mappings then return end
 
-        if picker.config.qf_mappings then
-            local group = vim.api.nvim_create_augroup("QfPicker_" .. (spec.name or picker.config.title), { clear = true })
-            vim.api.nvim_create_autocmd("FileType", {
-                group = group,
-                pattern = "qf",
-                callback = function(args)
-                    local qf_info = vim.fn.getqflist({ id = 0, title = 1, items = 0 })
-                    if qf_info.title ~= picker.config.title then
-                        return
-                    end
-
-                    vim.bo[args.buf].buflisted = false
-                    if spec.decorate_qf then
-                        spec.decorate_qf(args.buf, qf_info.id, picker.config)
-                    end
-
-                    map("n", "q", "<cmd>cclose<cr>", {
-                        buffer = args.buf,
-                        silent = true,
-                        desc = "Close " .. string.lower(picker.config.title),
-                    })
-
-                    map("n", "<CR>", qf_jump_to_current_line, {
-                        buffer = args.buf,
-                        silent = true,
-                        desc = "Open selection",
-                    })
-
-                    if spec.qf_mappings then
-                        spec.qf_mappings(args.buf, qf_info.id, picker.config)
-                    end
-                end,
-            })
-        end
+        local group = api.nvim_create_augroup("QfPicker_" .. (spec.name or picker.config.title), { clear = true })
+        api.nvim_create_autocmd("FileType", {
+            group = group,
+            pattern = "qf",
+            callback = function(args)
+                local qf = fn.getqflist({ id = 0, title = 1, items = 0 })
+                if qf.title ~= picker.config.title then return end
+                vim.bo[args.buf].buflisted = false
+                if spec.decorate_qf then spec.decorate_qf(args.buf, qf.id, picker.config) end
+                map("n", "q", "<cmd>cclose<cr>",
+                    { buffer = args.buf, silent = true, desc = "Close " .. picker.config.title:lower() })
+                map("n", "<CR>", jump_cur, { buffer = args.buf, silent = true, desc = "Open selection" })
+                if spec.qf_mappings then spec.qf_mappings(args.buf, qf.id, picker.config) end
+            end,
+        })
     end
 
     return picker
@@ -2082,31 +2072,7 @@ end
 -- =========================================================
 
 shl(0, "QfJumpCurrent", { link = "Visual" })
-local jumps_qf_ns = vim.api.nvim_create_namespace("JumpListQuickfix")
-
-local function get_bufname_from_jump(item)
-    if item.bufnr and item.bufnr > 0 then
-        local name = vim.api.nvim_buf_get_name(item.bufnr)
-        if name ~= "" then
-            return name
-        end
-    end
-    return item.filename or ""
-end
-
-local function get_jump_line_text(bufnr, lnum)
-    if not bufnr or bufnr <= 0 or lnum <= 0 then
-        return ""
-    end
-    if not vim.api.nvim_buf_is_valid(bufnr) then
-        return ""
-    end
-    local ok, lines = pcall(vim.api.nvim_buf_get_lines, bufnr, lnum - 1, lnum, false)
-    if not ok or not lines or not lines[1] then
-        return ""
-    end
-    return vim.trim(lines[1])
-end
+local jumps_ns = api.nvim_create_namespace("JumpListQuickfix")
 
 local jumps = create_qf_picker({
     name = "jumps",
@@ -2118,64 +2084,38 @@ local jumps = create_qf_picker({
         empty_message = "No jumps found in current window",
     },
 
-    collect = function(opts)
-        local result = vim.fn.getjumplist(); local jumplist = result[1] or {}
-        local current_idx = result[2] or -1; local items = {}
-
-        for i, jump in ipairs(jumplist) do
-            local bufnr = jump.bufnr or 0; local filename = get_bufname_from_jump(jump)
-
-            if bufnr <= 0 and filename ~= "" then
-                bufnr = vim.fn.bufnr(filename, false)
-            end
-
-            local lnum = jump.lnum or 1; local col = jump.col or 1
-
-            local text = ""
-            if bufnr > 0 then
-                text = get_jump_line_text(bufnr, lnum)
-            end
-            if text == "" then
-                text = filename ~= "" and normalize_path(filename) or "[No text]"
-            end
+    collect = function(o)
+        local jl, idx = unpack(fn.getjumplist())
+        local items = {}
+        for i, j in ipairs(jl or {}) do
+            local b, name = j.bufnr or 0, bufname(j)
+            if b <= 0 and name ~= "" then b = fn.bufnr(name, false) end
+            local lnum, col = j.lnum or 1, j.col or 1
+            local text = b > 0 and line(b, lnum) or ""
+            if text == "" then text = name ~= "" and norm(name) or "[No text]" end
             items[#items + 1] = {
-                bufnr = bufnr > 0 and bufnr or nil,
-                filename = (bufnr <= 0 and filename ~= "") and filename or nil,
+                bufnr = b > 0 and b or nil,
+                filename = (b <= 0 and name ~= "") and name or nil,
                 lnum = lnum,
                 col = col,
                 text = text,
-                user_data = {
-                    jump_index = i,
-                    current = opts.include_current and (i == (current_idx + 1)) or false,
-                },
+                user_data = { jump_index = i, current = o.include_current and i == idx + 1 or false },
             }
         end
-
         return items
     end,
 
     format_item = function(item, _, _, normalize)
-        local name = ""
-        if item.bufnr and item.bufnr > 0 then
-            name = vim.api.nvim_buf_get_name(item.bufnr)
-        elseif item.filename then
-            name = item.filename
-        end
-        local path = normalize(name ~= "" and name or "[No Name]")
-        local mark = (item.user_data and item.user_data.current) and "●" or " "
-        return string.format("%s %s:%d:%d: %s",
-            mark, path, item.lnum or 0, item.col or 0, item.text or "")
+        local p = normalize((bufname(item) ~= "" and bufname(item)) or "[No Name]")
+        local m = item.user_data and item.user_data.current and "●" or " "
+        return ("%s %s:%d:%d: %s"):format(m, p, item.lnum or 0, item.col or 0, item.text or "")
     end,
 
-    decorate_qf = function(bufnr, qf_id)
-        vim.api.nvim_buf_clear_namespace(bufnr, jumps_qf_ns, 0, -1)
-        local qf_items = vim.fn.getqflist({ id = qf_id, items = 1 }).items or {}
-        for i, item in ipairs(qf_items) do
+    decorate_qf = function(buf, id)
+        api.nvim_buf_clear_namespace(buf, jumps_ns, 0, -1)
+        for i, item in ipairs(fn.getqflist({ id = id, items = 1 }).items or {}) do
             if item.user_data and item.user_data.current then
-                vim.api.nvim_buf_set_extmark(bufnr, jumps_qf_ns, i - 1, 0, {
-                    line_hl_group = "QfJumpCurrent",
-                    priority = 10,
-                })
+                api.nvim_buf_set_extmark(buf, jumps_ns, i - 1, 0, { line_hl_group = "QfJumpCurrent", priority = 10 })
             end
         end
     end,
@@ -2186,80 +2126,37 @@ jumps.setup()
 -- !!! modules/marks
 -- =========================================================
 
-shl(0, "QfMarkLocal", { link = "String" }); shl(0, "QfMarkGlobal", { link = "Identifier" })
-local marks_qf_ns = vim.api.nvim_create_namespace("MarksQuickfix")
+shl(0, "QfMarkLocal", { link = "String" })
+shl(0, "QfMarkGlobal", { link = "Identifier" })
+local marks_ns = api.nvim_create_namespace("MarksQuickfix")
 
-local function get_line_text(bufnr, lnum)
-    if not bufnr or bufnr <= 0 or lnum <= 0 then
-        return ""
-    end
-    if not vim.api.nvim_buf_is_valid(bufnr) then
-        return ""
-    end
-    local ok, lines = pcall(vim.api.nvim_buf_get_lines, bufnr, lnum - 1, lnum, false)
-    if not ok or not lines or not lines[1] then
-        return ""
-    end
-    return vim.trim(lines[1])
+local mark_kind = function(m)
+    local c = (m or ""):sub(-1)
+    if c == "" or not c:match("[%a%d]") then return "builtin" end
+    if c:match("%l") then return "local" end
+    if c:match("[%u%d]") then return "global" end
 end
 
-local function is_builtin_mark(mark)
-    if not mark or #mark == 0 then
-        return true
-    end
-    local ch = mark:sub(-1)
-    return not ch:match("[%a%d]")
-end
-
-local function is_local_mark(mark)
-    local ch = mark:sub(-1)
-    return ch:match("%l") ~= nil
-end
-
-local function is_global_mark(mark)
-    local ch = mark:sub(-1)
-    return ch:match("%u") ~= nil or ch:match("%d") ~= nil
-end
-
-local function mark_pos_to_item(markinfo)
-    local pos = markinfo.pos or {}; local bufnr = pos[1] or 0
-    local lnum = pos[2] or 1; local col = pos[3] or 1; local mark = markinfo.mark or ""
-
-    local filename = ""
-    if bufnr > 0 and vim.api.nvim_buf_is_valid(bufnr) then
-        filename = vim.api.nvim_buf_get_name(bufnr)
-    end
-    if filename == "" then
-        filename = markinfo.file or ""
-    end
-    if bufnr <= 0 and filename ~= "" then
-        bufnr = vim.fn.bufnr(filename, false)
-    end
-    local text = ""
-    if bufnr > 0 then
-        text = get_line_text(bufnr, lnum)
-    end
-    if text == "" then
-        text = filename ~= "" and normalize_path(filename) or "[No text]"
-    end
-
+local mark_item = function(mi)
+    local pos, b, m = mi.pos or {}, (mi.pos or {})[1] or 0, mi.mark or ""
+    local lnum, col = pos[2] or 1, pos[3] or 1
+    local name = (b > 0 and api.nvim_buf_is_valid(b)) and api.nvim_buf_get_name(b) or mi.file or ""
+    if b <= 0 and name ~= "" then b = fn.bufnr(name, false) end
+    local text = b > 0 and line(b, lnum) or ""
+    if text == "" then text = name ~= "" and norm(name) or "[No text]" end
+    local kind = mark_kind(m)
     return {
-        bufnr = bufnr > 0 and bufnr or nil,
-        filename = (bufnr <= 0 and filename ~= "") and filename or nil,
+        bufnr = b > 0 and b or nil,
+        filename = (b <= 0 and name ~= "") and name or nil,
         lnum = lnum,
         col = col,
         text = text,
-        user_data = {
-            mark = mark,
-            local_mark = is_local_mark(mark),
-            global_mark = is_global_mark(mark),
-        },
+        user_data = { mark = m, local_mark = kind == "local", global_mark = kind == "global" },
     }
 end
 
 local marks = create_qf_picker({
     name = "marks",
-
     defaults = {
         title = "marks",
         keymap = "<leader>m",
@@ -2270,84 +2167,39 @@ local marks = create_qf_picker({
         empty_message = "No marks found",
     },
 
-    collect = function(opts)
-        local items = {}; local seen = {}
-
-        local function add_mark_entries(entries)
-            for _, markinfo in ipairs(entries or {}) do
-                local mark = markinfo.mark or ""; local suffix = mark:sub(-1)
-
-                if suffix ~= "" then
-                    local keep = true
-                    if not opts.include_builtin and is_builtin_mark(mark) then
-                        keep = false
-                    end
-                    if keep and is_local_mark(mark) and not opts.include_local then
-                        keep = false
-                    end
-                    if keep and is_global_mark(mark) and not opts.include_global then
-                        keep = false
-                    end
-
-                    if keep then
-                        local item = mark_pos_to_item(markinfo)
-                        local key = table.concat({
-                            item.user_data.mark or "",
-                            item.filename or "",
-                            tostring(item.bufnr or 0),
-                            tostring(item.lnum or 0),
-                            tostring(item.col or 0),
-                        }, ":")
-
-                        if not seen[key] then
-                            seen[key] = true
-                            items[#items + 1] = item
-                        end
-                    end
+    collect = function(o)
+        local items, seen = {}, {}
+        local function add(xs)
+            for _, mi in ipairs(xs or {}) do
+                local m, k = mi.mark or "", mark_kind(mi.mark)
+                if m ~= "" and ((k == "builtin" and o.include_builtin) or (k == "local" and o.include_local) or (k == "global" and o.include_global)) then
+                    local it = mark_item(mi)
+                    local key = table.concat(
+                        { it.user_data.mark or "", it.filename or "", it.bufnr or 0, it.lnum or 0, it.col or 0 }, ":")
+                    if not seen[key] then seen[key], items[#items + 1] = true, it end
                 end
             end
         end
-
-        if opts.include_local then
-            add_mark_entries(vim.fn.getmarklist(vim.api.nvim_get_current_buf()))
-        end
-        if opts.include_global then
-            add_mark_entries(vim.fn.getmarklist())
-        end
-        table.sort(items, function(a, b)
-            local am = (a.user_data and a.user_data.mark) or ""
-            local bm = (b.user_data and b.user_data.mark) or ""
-            return am < bm
-        end)
-
+        if o.include_local then add(fn.getmarklist(api.nvim_get_current_buf())) end
+        if o.include_global then add(fn.getmarklist()) end
+        table.sort(items, function(a, b) return (a.user_data.mark or "") < (b.user_data.mark or "") end)
         return items
     end,
 
     format_item = function(item, _, _, normalize)
-        local name = ""
-        if item.bufnr and item.bufnr > 0 then
-            name = vim.api.nvim_buf_get_name(item.bufnr)
-        elseif item.filename then
-            name = item.filename
-        end
-        local path = normalize(name ~= "" and name or "[No Name]")
-        local mark = (item.user_data and item.user_data.mark) or "?"
-        return string.format("%s %s:%d:%d: %s",
-            mark, path, item.lnum or 0, item.col or 0, item.text or "")
+        return ("%s %s:%d:%d: %s"):format(
+            (item.user_data and item.user_data.mark) or "?",
+            normalize((bufname(item) ~= "" and bufname(item)) or "[No Name]"),
+            item.lnum or 0, item.col or 0, item.text or ""
+        )
     end,
 
-    decorate_qf = function(bufnr, qf_id)
-        vim.api.nvim_buf_clear_namespace(bufnr, marks_qf_ns, 0, -1)
-        local qf_items = vim.fn.getqflist({ id = qf_id, items = 1 }).items or {}
-
-        for i, item in ipairs(qf_items) do
-            local ud = item.user_data or {}; local hl = ud.local_mark and "QfMarkLocal" or
-                ud.global_mark and "QfMarkGlobal" or nil
+    decorate_qf = function(buf, id)
+        api.nvim_buf_clear_namespace(buf, marks_ns, 0, -1)
+        for i, item in ipairs(fn.getqflist({ id = id, items = 1 }).items or {}) do
+            local u = item.user_data or {}; local hl = u.local_mark and "QfMarkLocal" or u.global_mark and "QfMarkGlobal"
             if hl then
-                vim.api.nvim_buf_set_extmark(bufnr, marks_qf_ns, i - 1, 0, {
-                    line_hl_group = hl,
-                    priority = 10,
-                })
+                api.nvim_buf_set_extmark(buf, marks_ns, i - 1, 0, { line_hl_group = hl, priority = 10 })
             end
         end
     end,
@@ -2355,24 +2207,24 @@ local marks = create_qf_picker({
 marks.setup()
 
 -- =========================================================
--- !!! modules/diag
+-- !!! modules/diagnostics
 -- =========================================================
 
-shl(0, "QfDiagError", { link = "DiagnosticError" })
-shl(0, "QfDiagWarn", { link = "DiagnosticWarn" })
-shl(0, "QfDiagInfo", { link = "DiagnosticInfo" })
-shl(0, "QfDiagHint", { link = "DiagnosticHint" })
+for k, v in pairs({
+    QfDiagError = "DiagnosticError",
+    QfDiagWarn  = "DiagnosticWarn",
+    QfDiagInfo  = "DiagnosticInfo",
+    QfDiagHint  = "DiagnosticHint",
+}) do shl(0, k, { link = v }) end
 
-local diag_qf_ns = vim.api.nvim_create_namespace("BufferDiagnosticsQuickfix")
-
-local severity_to_type = {
+local diag_ns = api.nvim_create_namespace("BufferDiagnosticsQuickfix")
+local sev_type = {
     [vim.diagnostic.severity.ERROR] = "E",
     [vim.diagnostic.severity.WARN]  = "W",
     [vim.diagnostic.severity.INFO]  = "I",
     [vim.diagnostic.severity.HINT]  = "N",
 }
-
-local severity_to_hl = {
+local sev_hl = {
     [vim.diagnostic.severity.ERROR] = "QfDiagError",
     [vim.diagnostic.severity.WARN]  = "QfDiagWarn",
     [vim.diagnostic.severity.INFO]  = "QfDiagInfo",
@@ -2381,7 +2233,6 @@ local severity_to_hl = {
 
 local diag = create_qf_picker({
     name = "diag",
-
     defaults = {
         title = "Diagnostics",
         keymap = "<leader>d",
@@ -2390,48 +2241,40 @@ local diag = create_qf_picker({
     },
 
     collect = function()
-        local bufnr = vim.api.nvim_get_current_buf(); local diagnostics = vim.diagnostic.get(bufnr)
-        local items = {}
-        for _, d in ipairs(diagnostics) do
+        local b, items = api.nvim_get_current_buf(), {}
+        for _, d in ipairs(vim.diagnostic.get(b)) do
             items[#items + 1] = {
-                bufnr = bufnr,
+                bufnr = b,
                 lnum = d.lnum + 1,
                 col = d.col + 1,
-                end_lnum = d.end_lnum and (d.end_lnum + 1) or nil,
-                end_col = d.end_col and (d.end_col + 1) or nil,
+                end_lnum = d.end_lnum and d.end_lnum + 1 or nil,
+                end_col = d.end_col and d.end_col + 1 or nil,
                 text = d.message,
-                type = severity_to_type[d.severity],
-                user_data = {
-                    severity = d.severity,
-                },
+                type = sev_type[d.severity],
+                user_data = { severity = d.severity },
             }
         end
-
         table.sort(items, function(a, b)
-            if a.lnum ~= b.lnum then return a.lnum < b.lnum end
-            if a.col ~= b.col then return a.col < b.col end
-            return (a.text or "") < (b.text or "")
+            return a.lnum < b.lnum
+                or a.lnum == b.lnum and (a.col < b.col
+                    or a.col == b.col and (a.text or "") < (b.text or ""))
         end)
         return items
     end,
 
     format_item = function(item, _, _, normalize)
-        local name = item.bufnr > 0 and vim.api.nvim_buf_get_name(item.bufnr) or ""; local path = normalize(name)
-        return string.format("%s:%d:%d: %s %s",
-            path, item.lnum or 0, item.col or 0, item.type or "", item.text or "")
+        return ("%s:%d:%d: %s %s"):format(
+            normalize(item.bufnr > 0 and api.nvim_buf_get_name(item.bufnr) or ""),
+            item.lnum or 0, item.col or 0, item.type or "", item.text or ""
+        )
     end,
 
-    decorate_qf = function(bufnr, qf_id)
-        vim.api.nvim_buf_clear_namespace(bufnr, diag_qf_ns, 0, -1)
-        local qf_items = vim.fn.getqflist({ id = qf_id, items = 1 }).items or {}
-
-        for i, item in ipairs(qf_items) do
-            local severity = item.user_data and item.user_data.severity; local hl = severity_to_hl[severity]
+    decorate_qf = function(buf, id)
+        api.nvim_buf_clear_namespace(buf, diag_ns, 0, -1)
+        for i, item in ipairs(fn.getqflist({ id = id, items = 1 }).items or {}) do
+            local hl = sev_hl[item.user_data and item.user_data.severity]
             if hl then
-                vim.api.nvim_buf_set_extmark(bufnr, diag_qf_ns, i - 1, 0, {
-                    line_hl_group = hl,
-                    priority = 10,
-                })
+                api.nvim_buf_set_extmark(buf, diag_ns, i - 1, 0, { line_hl_group = hl, priority = 10 })
             end
         end
     end,
@@ -2442,9 +2285,10 @@ diag.setup()
 -- !!! modules/recentfiles
 -- =========================================================
 
+local recent_ns = api.nvim_create_namespace("RecentFilesHighlight")
+
 local recentfiles = create_qf_picker({
     name = "recentfiles",
-
     defaults = {
         title = "Recent files",
         keymap = "<leader>r",
@@ -2453,65 +2297,33 @@ local recentfiles = create_qf_picker({
         empty_message = "No recent files found",
     },
 
-    collect = function(opts)
-        local items = {}
-        local seen = {}
-        local current = vim.api.nvim_buf_get_name(0)
-
-        for _, path in ipairs(vim.v.oldfiles or {}) do
-            local skip =
-                path == ""
-                or vim.fn.filereadable(path) ~= 1
-                or seen[path]
-                or (opts.exclude_current and path == current)
-
-            if not skip then
-                seen[path] = true
-                items[#items + 1] = {
-                    filename = path,
-                    text = path,
-                }
+    collect = function(o)
+        local items, seen, cur = {}, {}, api.nvim_buf_get_name(0)
+        for _, p in ipairs(vim.v.oldfiles or {}) do
+            if p ~= "" and fn.filereadable(p) == 1 and not seen[p] and not (o.exclude_current and p == cur) then
+                seen[p], items[#items + 1] = true, { filename = p, text = p }
             end
         end
-
         return items
     end,
 
-    format_item = function(item, _, _, normalize)
-        local name = item.filename or item.text or ""; local file = vim.fn.fnamemodify(name, ":t")
-        local dir = normalize(vim.fn.fnamemodify(name, ":h"))
-        if dir ~= "" and not dir:match("/$") then
-            dir = dir .. "/"
-        end
-        return string.format("%-25s %s", file, dir)
+    format_item = function(item)
+        local f, d = filedir(item.filename or item.text or "")
+        return ("%-25s %s"):format(f, d)
     end,
 
-    decorate_qf = function(bufnr)
-        local ns = vim.api.nvim_create_namespace("RecentFilesHighlight")
-        vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
-
-        local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-        for i, line in ipairs(lines) do
-            local file, path = line:match("^(%S+)%s+(.*)$")
-            if file and path then
-                local row = i - 1
-                local file_end = #file
-                local path_start = line:find(path, 1, true) - 1
-                vim.hl.range(bufnr, ns, "Normal", { row, 0 }, { row, file_end })
-                vim.hl.range(bufnr, ns, "Comment", { row, path_start }, { row, #line })
-            end
-        end
-    end,
+    decorate_qf = function(buf) hl_split_cols(buf, recent_ns) end,
 })
 recentfiles.setup()
 
 -- =========================================================
--- !!! modules/buff
+-- !!! modules/buffers
 -- =========================================================
+
+local buffers_ns = api.nvim_create_namespace("OpenBuffersHighlight")
 
 local buffers = create_qf_picker({
     name = "buffers",
-
     defaults = {
         title = "Open buffers",
         keymap = "<leader>b",
@@ -2519,55 +2331,25 @@ local buffers = create_qf_picker({
         exclude_current = true,
         empty_message = "No open buffers found",
     },
-    collect = function(opts)
-        local items = {}; local current = vim.api.nvim_get_current_buf()
-        local listed = vim.fn.getbufinfo({ buflisted = 1 })
 
-        table.sort(listed, function(a, b)
-            return (a.lastused or 0) > (b.lastused or 0)
-        end)
-
-        for _, bufinfo in ipairs(listed) do
-            local name = bufinfo.name or ""; local buftype = vim.bo[bufinfo.bufnr].buftype
-            local skip =
-                name == ""
-                or buftype ~= ""
-                or (opts.exclude_current and bufinfo.bufnr == current)
-            if not skip then
-                items[#items + 1] = {
-                    bufnr = bufinfo.bufnr,
-                }
+    collect = function(o)
+        local items, cur = {}, api.nvim_get_current_buf(); local listed = fn.getbufinfo({ buflisted = 1 })
+        table.sort(listed, function(a, b) return (a.lastused or 0) > (b.lastused or 0) end)
+        for _, bi in ipairs(listed) do
+            local name, bt = bi.name or "", vim.bo[bi.bufnr].buftype
+            if name ~= "" and bt == "" and not (o.exclude_current and bi.bufnr == cur) then
+                items[#items + 1] = { bufnr = bi.bufnr }
             end
         end
-
         return items
     end,
 
-    format_item = function(item, _, _, normalize)
-        local name = item.bufnr > 0 and vim.api.nvim_buf_get_name(item.bufnr) or item.text or ""
-        local file = vim.fn.fnamemodify(name, ":t")
-        local dir = normalize(vim.fn.fnamemodify(name, ":h"))
-        if dir ~= "" and not dir:match("/$") then
-            dir = dir .. "/"
-        end
-        return string.format("%-25s %s", file, dir)
+    format_item = function(item)
+        local f, d = filedir(item.bufnr > 0 and api.nvim_buf_get_name(item.bufnr) or item.text or "")
+        return ("%-25s %s"):format(f, d)
     end,
-    decorate_qf = function(bufnr)
-        local ns = vim.api.nvim_create_namespace("OpenBuffersHighlight")
-        vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
 
-        local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-        for i, line in ipairs(lines) do
-            local file, path = line:match("^(%S+)%s+(.*)$")
-            if file and path then
-                local row = i - 1
-                local file_end = #file
-                local path_start = line:find(path, 1, true) - 1
-                vim.hl.range(bufnr, ns, "Normal", { row, 0 }, { row, file_end })
-                vim.hl.range(bufnr, ns, "Comment", { row, path_start }, { row, #line })
-            end
-        end
-    end,
+    decorate_qf = function(buf) hl_split_cols(buf, buffers_ns) end,
 })
 buffers.setup()
 
@@ -2639,10 +2421,8 @@ local function jump_to_qf_item()
     else
         return
     end
-
     local line_count = vim.api.nvim_buf_line_count(0)
     lnum = math.min(lnum, line_count)
-
     local line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1] or ""
     col = math.min(col, math.max(#line, 1))
     vim.api.nvim_win_set_cursor(0, { lnum, math.max(col - 1, 0) })
@@ -2663,7 +2443,6 @@ function grep_picker.run(query, opts)
         end
         return
     end
-
     _G.grep_picker_quickfix_text = grep_picker.quickfix_text
     cmd("silent grep! " .. vim.fn.fnameescape(query))
     if not has_results() then
@@ -2836,10 +2615,9 @@ function _G.my_tabline()
         return s
     end
 
-    local sep = ""; local sep_width = vim.fn.strdisplaywidth(sep)
-    local total_sep_width = math.max(0, count - 1) * sep_width
-    local content_width = math.max(1, total_width - total_sep_width)
-    local base_width = math.floor(content_width / count)
+    local sep = ""; local sep_width = vim.fn.strdisplaywidth(sep); local total_sep_width = math.max(0, count - 1) *
+    sep_width
+    local content_width = math.max(1, total_width - total_sep_width); local base_width = math.floor(content_width / count)
     local remainder = content_width % count
 
     local s = ""
