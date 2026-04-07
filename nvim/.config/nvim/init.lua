@@ -567,7 +567,7 @@ local function ensure_terminal(cmd)
     vim.cmd("startinsert")
 end
 
-local run_compile_keymap = "<leader>c"
+local run_compile_keymap = "<leader>m"
 
 local function run_build_or_fallback(build_path, fallback_cmd)
     -- check if build.sh exists
@@ -843,40 +843,40 @@ local lsp_servers = {
         capabilities = capabilities,
     },
 
-    copilot = {
-        cmd = { 'copilot-language-server', '--stdio' },
-        root_markers = { '.git' },
-        filetypes = {
-            'lua',
-            'python',
-            'javascript',
-            'typescript',
-            'javascriptreact',
-            'typescriptreact',
-            'go',
-            'rust',
-            'c',
-            'cpp',
-            'java',
-        },
-
-        init_options = {
-            editorInfo = {
-                name = "Neovim",
-                version = tostring(vim.version()),
-            },
-            editorPluginInfo = {
-                name = "Neovim",
-                version = tostring(vim.version()),
-            },
-        },
-
-        on_attach = function(client, bufnr)
-            if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion, bufnr) then
-                vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
-            end
-        end,
-    },
+    -- copilot = {
+    --     cmd = { 'copilot-language-server', '--stdio' },
+    --     root_markers = { '.git' },
+    --     filetypes = {
+    --         'lua',
+    --         'python',
+    --         'javascript',
+    --         'typescript',
+    --         'javascriptreact',
+    --         'typescriptreact',
+    --         'go',
+    --         'rust',
+    --         'c',
+    --         'cpp',
+    --         'java',
+    --     },
+    --
+    --     init_options = {
+    --         editorInfo = {
+    --             name = "Neovim",
+    --             version = tostring(vim.version()),
+    --         },
+    --         editorPluginInfo = {
+    --             name = "Neovim",
+    --             version = tostring(vim.version()),
+    --         },
+    --     },
+    --
+    --     on_attach = function(client, bufnr)
+    --         if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion, bufnr) then
+    --             vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
+    --         end
+    --     end,
+    -- },
 }
 
 for name, config in pairs(lsp_servers) do
@@ -2004,7 +2004,7 @@ local marks = create_qf_picker({
     name = "marks",
     defaults = {
         title = "marks",
-        keymap = "<leader>m",
+        keymap = "<leader>M",
         desc = "Open marks picker",
         include_local = true,
         include_global = true,
@@ -2407,15 +2407,15 @@ end, { desc = "Undotree toggle" })
 -- !!! modules/lsp_attach
 -- =========================================================
 
-autocmd("LspAttach", {
-    callback = function(args)
-        local client = vim.lsp.get_client_by_id(args.data.client_id)
-        if client then
-            print("LSP attached: " .. client.name)
-        end
-    end,
-    desc = "notify at LSP client attach",
-})
+-- autocmd("LspAttach", {
+--     callback = function(args)
+--         local client = vim.lsp.get_client_by_id(args.data.client_id)
+--         if client then
+--             print("LSP attached: " .. client.name)
+--         end
+--     end,
+--     desc = "notify at LSP client attach",
+-- })
 
 -- =========================================================
 -- !!! modules/tabline

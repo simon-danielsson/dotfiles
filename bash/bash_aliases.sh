@@ -52,6 +52,9 @@ alias nvim=$NVIMS
 
 # === general ===
 
+alias exti="exit"
+alias xti="exit"
+
 jump() {
   local entries=(
     $'config - dotfiles\t'"$HOME/dotfiles"
