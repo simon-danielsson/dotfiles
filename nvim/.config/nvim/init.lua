@@ -842,52 +842,11 @@ local lsp_servers = {
         filetypes = { 'html' },
         capabilities = capabilities,
     },
-
-    -- copilot = {
-    --     cmd = { 'copilot-language-server', '--stdio' },
-    --     root_markers = { '.git' },
-    --     filetypes = {
-    --         'lua',
-    --         'python',
-    --         'javascript',
-    --         'typescript',
-    --         'javascriptreact',
-    --         'typescriptreact',
-    --         'go',
-    --         'rust',
-    --         'c',
-    --         'cpp',
-    --         'java',
-    --     },
-    --
-    --     init_options = {
-    --         editorInfo = {
-    --             name = "Neovim",
-    --             version = tostring(vim.version()),
-    --         },
-    --         editorPluginInfo = {
-    --             name = "Neovim",
-    --             version = tostring(vim.version()),
-    --         },
-    --     },
-    --
-    --     on_attach = function(client, bufnr)
-    --         if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion, bufnr) then
-    --             vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
-    --         end
-    --     end,
-    -- },
 }
 
 for name, config in pairs(lsp_servers) do
     vim.lsp.config(name, config); vim.lsp.enable(name)
 end
-
-vim.keymap.set("i", "<C-l>", function()
-    if not vim.lsp.inline_completion.get({ bufnr = 0 }) then
-        return "<C-l>"
-    end
-end, { expr = true, desc = "Accept Copilot" })
 
 -- =========================================================
 -- !!! lsp/format
@@ -2407,15 +2366,15 @@ end, { desc = "Undotree toggle" })
 -- !!! modules/lsp_attach
 -- =========================================================
 
--- autocmd("LspAttach", {
---     callback = function(args)
---         local client = vim.lsp.get_client_by_id(args.data.client_id)
---         if client then
---             print("LSP attached: " .. client.name)
---         end
---     end,
---     desc = "notify at LSP client attach",
--- })
+autocmd("LspAttach", {
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client then
+            print("LSP attached: " .. client.name)
+        end
+    end,
+    desc = "notify at LSP client attach",
+})
 
 -- =========================================================
 -- !!! modules/tabline
