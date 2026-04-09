@@ -621,8 +621,8 @@ autocmd("FileType", {
     callback = function()
         map("n", run_compile_keymap, function()
             cmd('write')
-            local file = vim.fn.expand("%"); local outfile = vim.fn.expand("%:r") -- same name, no extension
-            local build_path = vim.fn.expand("%:p:h") .. "/build.sh"
+            local file = vim.fn.expand("%"); local outfile = vim.fn.expand("%:r")
+            local build_path = vim.fn.expand("%:p:h") .. "/../build.sh"
             local fallback_cmd = string.format("gcc -std=c23 -Wall -Wextra -O2 \"%s\" -o \"%s\" && ./\"%s\"",
                 file, outfile, outfile)
             run_build_or_fallback(build_path, fallback_cmd)
@@ -638,7 +638,8 @@ autocmd("FileType", {
         map("n", run_compile_keymap, function()
             cmd('write')
             -- build.sh is in parent directory for Rust projects
-            local build_path = vim.fn.expand("%:p:h") .. "/../build.sh"; local fallback_cmd = "cargo run"
+            local build_path = vim.fn.expand("%:p:h") .. "/../build.sh"
+            local fallback_cmd = "cargo run"
             run_build_or_fallback(build_path, fallback_cmd)
         end, { buffer = true, desc = "Run Rust project" })
     end,
