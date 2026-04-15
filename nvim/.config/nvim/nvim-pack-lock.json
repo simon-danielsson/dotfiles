@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "c3.nvim": {
+      "rev": "83e0065bf2eeb409507245193f9e48b390aaaeaa",
+      "src": "https://github.com/wstucco/c3.nvim"
+    },
     "copilot.vim": {
       "rev": "a12fd5672110c8aa7e3c8419e28c96943ca179be",
       "src": "https://github.com/github/copilot.vim"

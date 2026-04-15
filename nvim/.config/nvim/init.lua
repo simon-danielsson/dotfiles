@@ -630,6 +630,22 @@ autocmd("FileType", {
     end,
 })
 
+-- Odin
+autocmd("FileType", {
+    group = term_group,
+    pattern = "odin",
+    callback = function()
+        map("n", run_compile_keymap, function()
+            cmd('write')
+            local file = vim.fn.expand("%"); local outfile = vim.fn.expand("%:r")
+            local build_path = vim.fn.expand("%:p:h") .. "/../build.sh"
+            local fallback_cmd = string.format("echo \"no build.sh was found\"",
+                file, outfile, outfile)
+            run_build_or_fallback(build_path, fallback_cmd)
+        end, { buffer = true, desc = "Compile and run C file" })
+    end,
+})
+
 -- Rust
 autocmd("FileType", {
     group = term_group,
@@ -722,6 +738,13 @@ vim.lsp.document_color.enable(true, nil, { style = '■ ' })
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+-- nvim doesn't recognize odin files as of yet...
+vim.filetype.add({
+    extension = {
+        odin = "odin",
+    },
+})
+
 local lsp_servers = {
     rust_analyzer = {
         cmd = { 'rust-analyzer' },
@@ -729,6 +752,15 @@ local lsp_servers = {
         root_markers = { 'Cargo.toml', 'rust-project.json', '.git' },
         settings = {
             ['rust-analyzer'] = {},
+        },
+    },
+
+    ols = {
+        cmd = { 'ols' },
+        filetypes = { 'odin' },
+        root_markers = { 'ols.json', 'odinfmt.json', '.git' },
+        settings = {
+            ['ols'] = {},
         },
     },
 
@@ -874,6 +906,8 @@ autocmd("BufWritePre", {
         if ft == "c" then
             cmd("normal! gg=G")
         elseif ft == "rust" then
+            cmd("normal! gg=G")
+        elseif ft == "odin" then
             cmd("normal! gg=G")
         elseif not has_lsp then
             cmd("normal! gg=G")

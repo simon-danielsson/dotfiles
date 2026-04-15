@@ -9,6 +9,10 @@ export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 export PATH="$PATH:/Users/simondanielsson/.local/bin"
 # haskell
 export PATH="$HOME/.ghcup/bin:$PATH"
+
+# odin ols
+export PATH="$HOME/dotfiles/nvim/.config/nvim/lsp/ols:$PATH"
+
 # sqlite
 export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
 
