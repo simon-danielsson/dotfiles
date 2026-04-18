@@ -298,109 +298,40 @@ vim.g.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
 -- diagnostics display
 vim.diagnostic.config({ float = { border = "rounded" }, })
 
-local theme   = {}
-theme.colors  = {
+local theme  = {}
+theme.colors = {
     fg_1 = "#AAB3C0",
     fg_2 = "#6e6e87",
     mg_1 = "#40404f",
     bg_1 = "#2a2a33",
     bg_2 = "#25252d",
 }
-theme.accents = {
-    a1 = "#83C093",
-    a2 = "#E67E80",
-    a3 = "#bb9cd5",
-}
 
-vim.pack.add({
-    {
-        src = "https://github.com/vague-theme/vague.nvim"
-    },
-})
-
-require("vague").setup({
-    italic = false,
+require('dimma').setup({
+    transparent = false, -- if true, background is not set
+    bold = true,         -- disable bold globally
+    italic = false,      -- disable italic globally
 })
 
 function theme.theme()
     vim.o.background = "dark"
-    cmd.colorscheme("vague")
+    cmd.colorscheme("dimma")
 end
 
 theme.theme()
 
 local overrides = {
-    -- line numbers
-    LineNr              = { fg = theme.colors.mg_1, bg = "none" },
-    LineNrAbove         = { link = "LineNr" },
-    LineNrBelow         = { link = "LineNr" },
-    CursorLineNr        = { fg = theme.colors.fg_1, bg = "none" },
-    SignColumn          = { bg = theme.colors.bg_2 },
-
-    -- folds
-    FoldColumn          = { link = "SignColumn" },
-    Folded              = { fg = theme.colors.fg_2, bg = theme.colors.bg_1 },
-
-    -- tabline
+    cErrInParen         = { link = "Normal" },
+    Whitespace          = { link = "Comment" },
     TabLine             = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
     TabLineSel          = { fg = theme.colors.fg_1, bg = theme.colors.bg_1 },
     TabLineFill         = { fg = theme.colors.mg_1, bg = theme.colors.bg_1 },
     TabLineSep          = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
-
-    -- hints
-    Comment             = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
-    IndentGuide         = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
-    LspInlineCompletion = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
-    Biscuit             = { fg = theme.colors.mg_1, bg = theme.colors.bg_1 },
-
-    -- normal
-    Normal              = { fg = theme.colors.fg_1, bg = theme.colors.bg_2 },
-    NormalNC            = { link = "Normal" },
-
-    -- LSP & Syntax
-    cErrInParen         = { link = "Normal" },
-    Whitespace          = { link = "Comment" },
-
-    -- cursor
-    CursorLine          = { bg = theme.colors.bg_1 },
-
-    -- quickfix
     QuickFixLine        = { ctermbg = 0 },
     qfFileName          = { fg = theme.colors.fg_1 },
-
-    -- float
-    NormalFloat         = { link = "CursorLineNr" },
-    FloatBorder         = { fg = theme.colors.fg_2, bg = "none" },
-
-    -- splits
-    WinSeparator        = { fg = theme.colors.mg_1, bg = "none" },
-    EndOfBuffer         = { link = "CursorLineNr" },
-    ColorColumn         = { ctermbg = 0, bg = theme.colors.mg_1 },
-    VertSplit           = { ctermbg = 0, bg = "none", fg = "none" },
-
-    -- popup menu
-    Pmenu               = { fg = theme.colors.fg_2, bg = theme.colors.bg_2 },
-    PmenuSel            = { bg = theme.colors.mg_1, fg = theme.colors.fg_1 },
-    PmenuKind           = { bg = theme.colors.bg_2, fg = theme.colors.fg_1 },
-    PmenuExtra          = { bg = theme.colors.bg_2, fg = theme.colors.fg_1 },
-    PmenuMatch          = { bg = theme.colors.mg_1, fg = theme.colors.fg_1 },
-    PmenuKindSel        = { bg = theme.colors.mg_1, bold = true },
-    PmenuMatchSel       = { link = "PmenuKindSel" },
-    PmenuExtraSel       = { link = "PmenuKindSel" },
-    PmenuThumb          = { link = "PmenuKindSel" },
-    PmenuSbar           = { bg = theme.colors.bg_2 },
-    PmenuBorder         = { fg = theme.colors.fg_2, bg = "none" },
-
-    -- statusline
-    StatusLine          = { fg = theme.colors.fg_1, bg = theme.colors.bg_1, bold = false },
-    StatusLineNormal    = { link = "StatusLine" },
-    StatusLineNC        = { link = "StatusLine" },
-    StatusLineTerm      = { link = "StatusLine" },
-    StatusLineTermNC    = { link = "StatusLine" },
-    StatusFilename      = { link = "StatusLine" },
-    StatusPosition      = { link = "StatusLine" },
-    StatusWords         = { link = "StatusLine" },
-    StatusMode          = { link = "StatusLine" },
+    IndentGuide         = { fg = theme.colors.mg_1 },
+    LspInlineCompletion = { fg = theme.colors.mg_1, bg = theme.colors.bg_2 },
+    Biscuit             = { fg = theme.colors.mg_1, bg = theme.colors.bg_1 },
 }
 
 for group, opts in pairs(overrides) do

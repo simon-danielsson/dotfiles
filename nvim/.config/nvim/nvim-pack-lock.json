@@ -1,8 +1,0 @@
-{
-  "plugins": {
-    "vague.nvim": {
-      "rev": "8751181a1aa431b4e8983b0a183afef5cbc08381",
-      "src": "https://github.com/vague-theme/vague.nvim"
-    }
-  }
-}
