@@ -50,53 +50,15 @@ alias nvimstable=$NVIM
 NVIMS="VIMRUNTIME=/Users/simondanielsson/dev/source_code/neovim/runtime /Users/simondanielsson/dev/source_code/neovim/build/bin/nvim"
 alias nvim=$NVIMS
 
+# touch init README.md file
+alias readme="~/dotfiles/scripts/init-readme.sh"
+
+# touch init LICENSE file
+alias license="~/dotfiles/scripts/init-license.sh"
+
 # create new cmake project derived from template
-cinit() {
-    if [ -z "$1" ]; then
-        echo "Usage: cinit <project_name>"
-        echo "Creates a new C project from template and regenerates build.sh."
-        return 1
-    fi
-
-    local name="$1"
-    local template_dir="$HOME/dev/c/[templates]/template"
-    local target_dir="$HOME/dev/c/$name"
-    local build_file="$target_dir/build.sh"
-
-    if [ ! -d "$template_dir" ]; then
-        echo "Error: Template directory not found: $template_dir"
-        return 1
-    fi
-
-    if [ -e "$target_dir" ]; then
-        echo "Error: Directory already exists: $target_dir"
-        return 1
-    fi
-
-    cp -r -- "$template_dir" "$target_dir" || {
-        echo "Error: Failed to copy template"
-        return 1
-    }
-
-    cat > "$build_file" <<EOF
-#!/usr/bin/env bash
-set -e
-
-project="$name"
-
-cd "\$HOME/dev/c/\$project"
-cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=1
-cmake --build build
-"\$HOME/dev/c/\$project/build/\$project"
-EOF
-
-    chmod +x "$build_file" || {
-        echo "Error: Failed to make build.sh executable"
-        return 1
-    }
-
-    echo "Project '$name' created at $target_dir"
-}
+alias newcmake="~/dotfiles/scripts/new-cmake_project.sh"
+alias newmake="~/dotfiles/scripts/new-makefile-project.sh"
 
 # === general ===
 

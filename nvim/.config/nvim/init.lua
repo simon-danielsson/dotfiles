@@ -356,6 +356,10 @@ local overrides = {
     Normal              = { fg = theme.colors.fg_1, bg = theme.colors.bg_2 },
     NormalNC            = { link = "Normal" },
 
+    -- LSP & Syntax
+    cErrInParen         = { link = "Normal" },
+    Whitespace          = { link = "Comment" },
+
     -- cursor
     CursorLine          = { bg = theme.colors.bg_1 },
 
