@@ -317,12 +317,13 @@ vim.pack.add({
         src = "https://github.com/vague-theme/vague.nvim"
     },
 })
+
 require("vague").setup({
     italic = false,
 })
 
 function theme.theme()
-    vim.o.background = "light"
+    vim.o.background = "dark"
     cmd.colorscheme("vague")
 end
 
