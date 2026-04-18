@@ -307,6 +307,12 @@ theme.colors = {
     bg_2 = "#25252d",
 }
 
+-- 'dimma' is my own modified version of vague.nvim
+-- I changed around some colors and added some highlight groups
+-- but apart from that everything is exactly the same.
+-- All credit goes to the creator and contributors of vague.nvim:
+-- https://github.com/vague-theme/vague.nvim
+
 require('dimma').setup({
     transparent = false, -- if true, background is not set
     bold = true,         -- disable bold globally
