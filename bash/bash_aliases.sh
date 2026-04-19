@@ -56,9 +56,8 @@ alias readme="~/dotfiles/scripts/init-readme.sh"
 # touch init LICENSE file
 alias license="~/dotfiles/scripts/init-license.sh"
 
-# create new cmake project derived from template
-alias newcmake="~/dotfiles/scripts/new-cmake_project.sh"
-alias newmake="~/dotfiles/scripts/new-makefile-project.sh"
+# create new nob c project derived from template
+alias nob="~/dotfiles/init_templates/nob/init.sh"
 
 # === general ===
 
