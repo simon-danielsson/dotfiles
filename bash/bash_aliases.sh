@@ -62,6 +62,8 @@ alias newmake="~/dotfiles/scripts/new-makefile-project.sh"
 
 # === general ===
 
+alias replace="~/dotfiles/scripts/find-and-replace.sh"
+
 alias exti="exit"
 alias xti="exit"
 
