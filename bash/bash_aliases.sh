@@ -44,11 +44,11 @@ alias vimconf="cd ~/dotfiles/nvim/.config/nvim"
 alias vimpack="cd ~/.local/share/nvim/site/pack/core/opt"
 
 # neovim
-NVIM="bob run stable"
-alias nvimstable=$NVIM
+NVIM="/opt/homebrew/Cellar/neovim/0.12.1/bin/nvim"
+alias nvim=$NVIM
 
 NVIMS="VIMRUNTIME=/Users/simondanielsson/dev/source_code/neovim/runtime /Users/simondanielsson/dev/source_code/neovim/build/bin/nvim"
-alias nvim=$NVIMS
+alias nvims=$NVIMS
 
 # touch init README.md file
 alias readme="~/dotfiles/scripts/init-readme.sh"

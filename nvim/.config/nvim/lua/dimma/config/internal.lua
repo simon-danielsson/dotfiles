@@ -1,4 +1,11 @@
 local M = {}
+local custom_c = {
+    fg_1 = "#AAB3C0",
+    fg_2 = "#6e6e87",
+    mg_1 = "#40404f",
+    bg_1 = "#2a2a33",
+    bg_2 = "#25252d",
+}
 
 ---@class DimmaColorscheme.InternalConfig
 local DEFAULT_SETTINGS = {
@@ -16,18 +23,24 @@ local DEFAULT_SETTINGS = {
 
     ---@class DimmaColorscheme.InternalConfig.colors
     colors = {
+        fg_1 = custom_c.fg_1,
+        fg_2 = custom_c.fg_2,
+        mg_1 = custom_c.mg_1,
+        bg_1 = custom_c.bg_1,
+        bg_2 = custom_c.bg_2,
+
         ---@type string
-        bg = "#25252d",
+        bg = custom_c.bg_2,
         ---@type string
-        inactiveBg = "#2a2a33",
+        inactiveBg = custom_c.bg_1,
         ---@type string
-        fg = "#aab3c0",
+        fg = custom_c.fg_1,
         ---@type string
-        floatBorder = "#40404f",
+        floatBorder = custom_c.mg_1,
         ---@type string
-        line = "#2a2a33",
+        line = custom_c.bg_1,
         ---@type string
-        comment = "#6e6e87",
+        comment = custom_c.fg_2,
         ---@type string
         builtin = "#b4d4cf",
         ---@type string
@@ -57,7 +70,7 @@ local DEFAULT_SETTINGS = {
         ---@type string
         type = "#9bb4bc",
         ---@type string
-        search = "#40404f",
+        search = custom_c.mg_1,
         ---@type string
         plus = "#7fa563",
         ---@type string
