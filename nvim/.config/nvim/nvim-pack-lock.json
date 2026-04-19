@@ -1,11 +1,7 @@
 {
   "plugins": {
-    "dimma": {
-      "rev": "8751181a1aa431b4e8983b0a183afef5cbc08381",
-      "src": "/Users/simondanielsson/dev/neovim/dimma.nvim"
-    },
     "dimma.nvim": {
-      "rev": "66d9b22a045e936624d598e9cb0e8efafe0f7a0c",
+      "rev": "49230631c6f256796475e42b361c3d10705fc91b",
       "src": "https://github.com/simon-danielsson/dimma.nvim"
     }
   }

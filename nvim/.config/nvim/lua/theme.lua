@@ -9,8 +9,8 @@ function M.setup()
     -- diagnostics display
     vim.diagnostic.config({ float = { border = "rounded" }, })
 
-    local theme  = {}
-    theme.colors = {
+    -- these colors are the ones used in dimma.nvim
+    local colors = {
         fg_1 = "#AAB3C0",
         fg_2 = "#6e6e87",
         mg_1 = "#40404f",
@@ -18,11 +18,6 @@ function M.setup()
         bg_2 = "#25252d",
     }
 
-    -- dimma.nvim is my own modified version of vague.nvim
-    -- I changed around some colors and added my own highlight groups
-    -- but apart from that everything is exactly the same, all credit
-    -- goes to the creator and contributors of vague.nvim:
-    -- https://github.com/vague-theme/vague.nvim
     vim.pack.add({
         {
             src = "https://github.com/simon-danielsson/dimma.nvim"
@@ -35,12 +30,7 @@ function M.setup()
         italic = false,      -- disable italic globally
     })
 
-    function theme.theme()
-        vim.o.background = "dark"
-        cmd.colorscheme("dimma")
-    end
-
-    theme.theme()
+    cmd.colorscheme("dimma")
 end
 
 return M
