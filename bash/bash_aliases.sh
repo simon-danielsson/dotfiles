@@ -61,8 +61,6 @@ alias nob="~/dotfiles/init_templates/nob/init.sh"
 
 # === general ===
 
-alias replace="~/dotfiles/scripts/find-and-replace.sh"
-
 alias exti="exit"
 alias xti="exit"
 
