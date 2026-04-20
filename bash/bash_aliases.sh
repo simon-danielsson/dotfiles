@@ -64,7 +64,7 @@ alias readme="~/dotfiles/scripts/init-readme.sh"
 alias license="~/dotfiles/scripts/init-license.sh"
 
 # create new nob c project derived from template
-alias nob="~/dotfiles/init_templates/nob/init.sh"
+alias nob="~/dotfiles/init_templates/nob_init.sh"
 
 # === general ===
 
