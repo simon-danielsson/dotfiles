@@ -74,22 +74,25 @@ function M.setup()
         vim.cmd("startinsert")
     end
 
-    -- search for build.sh in current and parent directories
-    -- if no build.sh was found, use fallback command
+    -- search for build.sh/dev in current and parent directories
+    -- if no build.sh/dev was found, use fallback command
     local function run_build_or_fallback(fallback_cmd)
         local dir = vim.fn.expand("%:p:h")
+        local candidates = { "build.sh", "dev" }
 
         for _ = 1, 4 do
             if not dir or dir == "" then
                 break
             end
 
-            local build_path = dir .. "/build.sh"
-            local stat = vim.loop.fs_stat(build_path)
+            for _, filename in ipairs(candidates) do
+                local path = dir .. "/" .. filename
+                local stat = vim.loop.fs_stat(path)
 
-            if stat and stat.type == "file" then
-                ensure_terminal("clear && bash " .. vim.fn.shellescape(build_path))
-                return
+                if stat and stat.type == "file" then
+                    ensure_terminal("clear && bash " .. vim.fn.shellescape(path))
+                    return
+                end
             end
 
             local parent = vim.fn.fnamemodify(dir, ":h")
@@ -100,7 +103,7 @@ function M.setup()
         end
 
         ensure_terminal(
-            'echo "build.sh not found, defaulting to regular build command" && ' .. fallback_cmd
+            'echo "No build.sh or dev file found, defaulting to regular build command" && ' .. fallback_cmd
         )
     end
 

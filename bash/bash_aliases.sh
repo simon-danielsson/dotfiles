@@ -34,6 +34,10 @@ commit() {
 
 # === dev ===
 
+dev() {
+  ./dev "$@"
+}
+
 # grep for [TODO] and print in term
 alias todo="~/dotfiles/scripts/todo.sh"
 
@@ -65,6 +69,7 @@ alias nob="~/dotfiles/init_templates/nob/init.sh"
 # === general ===
 
 alias exti="exit"
+alias eixt="exit"
 alias xti="exit"
 
 jump() {

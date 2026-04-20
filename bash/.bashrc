@@ -1,3 +1,6 @@
+# custom binaries
+export PATH='$PATH:$HOME/dotfiles/custom_bins:$PATH'
+
 # less config
 export LESS='--mouse --wheel-lines=1'
 
