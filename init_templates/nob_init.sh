@@ -1,21 +1,17 @@
 #!/usr/bin/env bash
-
 set -e
 
 error() {
-    echo "[ERROR] - $1"
-    exit 1
+    echo "[ERROR] - $1"; exit 1
 }
 
 # Usage check
 if [ -z "$1" ]; then
-    echo "Build a new C project with nob.h"
-    echo "Usage: nob <project_name>"
+    echo "Build a new C project with nob.h"; echo "Usage: nob <project_name>"
     exit 1
 fi
 
-name="$1"
-target_dir="$(pwd)/$name"
+name="$1"; target_dir="$(pwd)/$name"
 
 if [ -e "$target_dir" ]; then
     error "Directory already exists: $target_dir"
@@ -79,12 +75,10 @@ chmod +x "$target_dir/dev" || {
 }
 
 # generate README.md
-touch "$target_dir/README.md"
-echo "## $name" >> "$target_dir/README.md"
+touch "$target_dir/README.md"; echo "## $name" >> "$target_dir/README.md"
 
 # get latest version of nob.h from repo
-mkdir -p "$target_dir/nob"
-cd "$target_dir/nob"
+mkdir -p "$target_dir/nob"; cd "$target_dir/nob"
 curl -O https://raw.githubusercontent.com/tsoding/nob.h/refs/heads/main/nob.h 2>/dev/null || {
     error "Failed to curl nob.h from the nob.h github repo"
 mkdir
@@ -164,15 +158,13 @@ int main(int argc, char **argv) {
 EOF
 
 # get latest version of analib.h from repo
-mkdir -p "$target_dir/src/libs"
-cd "$target_dir/src/libs"
+mkdir -p "$target_dir/src/libs"; cd "$target_dir/src/libs"
 curl -O https://raw.githubusercontent.com/simon-danielsson/analib.h/refs/heads/main/analib.h 2>/dev/null || {
     error "Failed to curl analib.h from the analib.h github repo"
 }
 
 # generate main.h
-mkdir -p "$target_dir/src"
-touch "$target_dir/src/main.h"
+mkdir -p "$target_dir/src"; touch "$target_dir/src/main.h"
 cat > "$target_dir/src/main.h" <<EOF
 // program variables
 #define PRG_N "$name"
@@ -192,8 +184,7 @@ cat > "$target_dir/src/main.h" <<EOF
 EOF
 
 # generate main.c
-mkdir -p "$target_dir/src"
-touch "$target_dir/src/main.c"
+mkdir -p "$target_dir/src"; touch "$target_dir/src/main.c"
 cat > "$target_dir/src/main.c" <<EOF
 #include "main.h"
 
@@ -216,8 +207,7 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 EOF
 
 # initalize git
-cd "$target_dir"
-touch "$target_dir/.gitignore"
+cd "$target_dir"; touch "$target_dir/.gitignore"
 cat > "$target_dir/.gitignore" <<EOF
 build.sh
 nob/nob

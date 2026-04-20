@@ -69,12 +69,14 @@ alias nob="~/dotfiles/init_templates/nob_init.sh"
 # === general ===
 
 alias exti="exit"
+alias t="exit"
+alias xeti="exit"
 alias eixt="exit"
 alias xti="exit"
 
 jump() {
-  local entries=(
-    $'config - dotfiles\t'"$HOME/dotfiles"
+    local entries=(
+        $'config - dotfiles\t'"$HOME/dotfiles"
     $'person - notes\t'"$HOME/notes"
     $'config - nvim\t'"$HOME/dotfiles/nvim/.config/nvim"
     $'source - nvim\t'"$HOME/dev/source_code/neovim"
@@ -129,10 +131,13 @@ alias devicon=$DEV_PICKER
 alias dev=$DEV_PICKER
 
 # source .bashrc
-alias sbash="source ~/.bashrc"
+SBASH="source ~/.bashrc"
+alias sbash=$SBASH
+alias sb=$SBASH
+alias sba=$SBASH
 
 # fastfetch (doubles as clear and go back to home dir)
-alias ff="cd && clear && fastfetch"
+alias ff="cd && clear && fastfetch"; alias nf="cd && clear && fastfetch"
 
 # terminal cheat lookup
 cheat() {
