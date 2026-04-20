@@ -2,6 +2,11 @@
 
 set -e
 
+error() {
+    echo "[ERROR] - $1"
+    exit 1
+}
+
 # Usage check
 if [ -z "$1" ]; then
     echo "Descr: Builds a new C project with the nob build-system."
@@ -15,20 +20,17 @@ target_dir="$(pwd)/$name"
 
 # Check template exists
 if [ ! -d "$template_dir" ]; then
-    echo "Error: Template directory not found: $template_dir"
-    exit 1
+    error "Template directory not found: $template_dir"
 fi
 
 # Prevent overwrite
 if [ -e "$target_dir" ]; then
-    echo "Error: Directory already exists: $target_dir"
-    exit 1
+    error "Directory already exists: $target_dir"
 fi
 
 # Copy template
 cp -r -- "$template_dir" "$target_dir" || {
-    echo "Error: Failed to copy template"
-    exit 1
+    error "Failed to copy template"
 }
 
 # generate build.sh
@@ -45,8 +47,7 @@ EOF
 
 # Make executable
 chmod +x "$target_dir/build.sh" || {
-    echo "Error: Failed to make build.sh executable"
-    exit 1
+    error "Failed to make build.sh executable"
 }
 
 # generate README.md
@@ -55,7 +56,9 @@ echo "## $name" >> $target_dir/README.md
 
 # get latest version of nob.h from repo
 cd $target_dir/nob
-curl -O https://raw.githubusercontent.com/tsoding/nob.h/refs/heads/main/nob.h 2>/dev/null
+curl -O https://raw.githubusercontent.com/tsoding/nob.h/refs/heads/main/nob.h 2>/dev/null || {
+    error "Failed to curl nob.h from the nob.h github repo"
+}
 
 # remove init.sh from new project
 rm $target_dir/init.sh
