@@ -60,6 +60,25 @@ curl -O https://raw.githubusercontent.com/tsoding/nob.h/refs/heads/main/nob.h 2>
     error "Failed to curl nob.h from the nob.h github repo"
 }
 
+# get latest version of analib.h from repo
+mkdir $target_dir/src/libs
+cd $target_dir/src/libs
+curl -O https://raw.githubusercontent.com/simon-danielsson/analib.h/refs/heads/main/analib.h 2>/dev/null || {
+    error "Failed to curl analib.h from the analib.h github repo"
+}
+
+# generate main.h
+touch $target_dir/src/main.h
+cat > "$target_dir/src/main.h" <<EOF
+#define PRG_N "$name"
+#define PRG_V "0.1.0"
+#define PRG_L "Copyright © 2026 Simon Danielsson"
+#define PRG_R "https://github.com/simon-danielsson/$name"
+
+#define ANALIB_IMPLEMENTATION
+#include "./libs/analib.h"
+EOF
+
 # remove init.sh from new project
 rm $target_dir/init.sh
 

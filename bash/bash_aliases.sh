@@ -34,6 +34,9 @@ commit() {
 
 # === dev ===
 
+# grep for [TODO] and print in term
+alias todo="~/dotfiles/scripts/todo.sh"
+
 # safe mv command
 alias mv="mv -i"
 
