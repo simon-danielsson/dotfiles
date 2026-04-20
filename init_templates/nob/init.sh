@@ -53,6 +53,12 @@ chmod +x "$target_dir/build.sh" || {
 touch $target_dir/README.md
 echo "## $name" >> $target_dir/README.md
 
-echo "Project '$name' created at $target_dir"
+# get latest version of nob.h from repo
+cd $target_dir/nob
+curl -O https://raw.githubusercontent.com/tsoding/nob.h/refs/heads/main/nob.h 2>/dev/null
 
+# remove init.sh from new project
 rm $target_dir/init.sh
+
+echo "Project \"$name\" has been generated: $target_dir"
+
