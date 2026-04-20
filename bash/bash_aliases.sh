@@ -123,8 +123,8 @@ alias dev=$DEV_PICKER
 # source .bashrc
 alias sbash="source ~/.bashrc"
 
-# neofetch (doubles as clear and go back to home dir)
-alias nf="cd && clear && neofetch"
+# fastfetch (doubles as clear and go back to home dir)
+alias ff="cd && clear && fastfetch"
 
 # terminal cheat lookup
 cheat() {
