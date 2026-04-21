@@ -38,8 +38,7 @@ dev() {
   ./dev "$@"
 }
 
-# grep for [TODO] and print in term
-alias todo="~/dotfiles/scripts/todo.sh"
+alias jobb="$HOME/dev/c/jobb/build/main"
 
 # safe mv command
 alias mv="mv -i"
@@ -73,6 +72,18 @@ alias t="exit"
 alias xeti="exit"
 alias eixt="exit"
 alias xti="exit"
+
+# mupdf with invert as def (macOS = mupdf-gl, linux = mupdf)
+mupdf() {
+    if command -v mupdf-gl >/dev/null 2>&1; then
+        command mupdf-gl -I "$@"
+    elif command -v mupdf >/dev/null 2>&1; then
+        command mupdf -I "$@"
+    else
+        echo "mupdf not found" >&2
+        return 1
+    fi
+}
 
 jump() {
     local entries=(
@@ -249,18 +260,34 @@ s() {
     if [[ -d $target ]]; then
         cd "$target"
     elif [[ -f $target ]]; then
-        nvim "$target"
+        case "$target" in
+            *.pdf)
+                mupdf "$target" & disown
+                ;;
+            *)
+                nvim "$target"
+                ;;
+        esac
     fi
+
 }
 
 # global search from home directory
 unalias ss 2>/dev/null
 ss() {
     local target
-    target=$(fd --type f --type d --hidden . ~ | fzf --preview='[[ -d {} ]] && exa -al {} || bat --style=numbers {}') || return
+    target=$(fd --type f --type d --hidden . ~ | \
+        fzf --preview='[[ -d {} ]] && exa -al {} || bat --style=numbers {}') || return
     if [[ -d $target ]]; then
         cd "$target"
     elif [[ -f $target ]]; then
-        nvim "$target"
+        case "$target" in
+            *.pdf)
+                mupdf "$target" & disown
+                ;;
+            *)
+                nvim "$target"
+                ;;
+        esac
     fi
 }
