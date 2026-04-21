@@ -37,15 +37,21 @@ run() {
     ./build/$name
 }
 
+todo() {
+    \$HOME/dotfiles/custom_bins/jobb ./src
+}
+
+doc() {
+    echo "not implemented yet"
+}
+
 help() {
     echo "$ dev compile : compile project"
     echo "$ dev run     : run compiled binary"
-    echo "$ dev         : compile/run"
+    echo "$ dev         : compile & run"
+    echo "$ dev doc     : generate documentation"
+    echo "$ dev todo    : search for todo statements in source code"
     echo "$ dev help    : display help"
-}
-
-todo() {
-    jobb ./src
 }
 
 case "\$1" in
@@ -61,6 +67,12 @@ case "\$1" in
     ;;
   todo)
     todo
+    ;;
+  format)
+    format
+    ;;
+  todo)
+    doc
     ;;
   *)
     build
