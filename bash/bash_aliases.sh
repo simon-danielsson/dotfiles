@@ -38,7 +38,12 @@ dev() {
   ./dev "$@"
 }
 
+run() {
+  ./run "$@"
+}
+
 alias jobb="$HOME/dev/c/jobb/build/main"
+alias todo="$HOME/dev/c/jobb/build/main"
 
 # safe mv command
 alias mv="mv -i"
@@ -63,7 +68,7 @@ alias readme="~/dotfiles/scripts/init-readme.sh"
 alias license="~/dotfiles/scripts/init-license.sh"
 
 # create new nob c project derived from template
-alias nob="~/dotfiles/init_templates/nob_init.sh"
+alias cinit="~/dotfiles/init_templates/cinit.sh"
 
 # === general ===
 

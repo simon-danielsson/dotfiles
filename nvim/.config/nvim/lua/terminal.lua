@@ -78,7 +78,7 @@ function M.setup()
     -- if no build.sh/dev was found, use fallback command
     local function run_build_or_fallback(fallback_cmd)
         local dir = vim.fn.expand("%:p:h")
-        local candidates = { "build.sh", "dev" }
+        local candidates = { "build.sh", "dev", "run" }
 
         for _ = 1, 4 do
             if not dir or dir == "" then
