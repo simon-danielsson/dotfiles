@@ -68,7 +68,7 @@ alias readme="~/dotfiles/scripts/init-readme.sh"
 alias license="~/dotfiles/scripts/init-license.sh"
 
 # create new nob c project derived from template
-alias cinit="~/dotfiles/init_templates/cinit.sh"
+alias cinit="~/dev/bash/cinit/cinit.sh"
 
 # === general ===
 
@@ -76,6 +76,7 @@ alias exti="exit"
 alias t="exit"
 alias xeti="exit"
 alias eixt="exit"
+alias exi="exit"
 alias xti="exit"
 
 # mupdf with invert as def (macOS = mupdf-gl, linux = mupdf)
