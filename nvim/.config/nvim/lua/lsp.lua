@@ -45,6 +45,15 @@ function M.setup()
             },
         },
 
+        taplo = {
+            cmd = { 'taplo', 'lsp', 'stdio' },
+            filetypes = { 'toml' },
+            root_markers = { '.git' },
+            settings = {
+                ['taplo'] = {},
+            },
+        },
+
         bashls = {
             cmd = { 'bash-language-server', 'start' },
             filetypes = { 'bash', 'sh' },
@@ -175,7 +184,6 @@ function M.setup()
                 ["make"]     = true,
                 ["text"]     = true,
                 ["typ"]      = true,
-                ["toml"]     = true,
                 ["ana"]      = true,
                 [""]         = true,
             }

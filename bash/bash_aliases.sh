@@ -57,6 +57,7 @@ alias vimpack="cd ~/.local/share/nvim/site/pack/core/opt"
 # neovim
 NVIM="/opt/homebrew/Cellar/neovim/0.12.1/bin/nvim"
 alias nvim=$NVIM
+alias vnim=$NVIM
 
 NVIMS="VIMRUNTIME=/Users/simondanielsson/dev/source_code/neovim/runtime /Users/simondanielsson/dev/source_code/neovim/build/bin/nvim"
 alias nvims=$NVIMS
@@ -67,8 +68,19 @@ alias readme="~/dotfiles/scripts/init-readme.sh"
 # touch init LICENSE file
 alias license="~/dotfiles/scripts/init-license.sh"
 
-# create new nob c project derived from template
-alias cinit="~/dev/bash/cinit/cinit.sh"
+# new cenv project
+alias cinit="~/dev/bash/cenv/cenv-init.sh"
+cenv() {
+    local dir="$(pwd)"
+    while [[ "$dir" != "/" ]]; do
+    if [[ -f "$dir/.gitignore" ]]; then
+        (cd "$dir" && ./cenv "$@")
+        return
+    fi
+    dir="$(dirname "$dir")"
+    done
+    return 1
+}
 
 # === general ===
 
@@ -93,12 +105,12 @@ mupdf() {
 
 jump() {
     local entries=(
-        $'config - dotfiles\t'"$HOME/dotfiles"
-    $'person - notes\t'"$HOME/notes"
-    $'config - nvim\t'"$HOME/dotfiles/nvim/.config/nvim"
-    $'source - nvim\t'"$HOME/dev/source_code/neovim"
-    $'develo - rust\t'"$HOME/dev/rust"
-  )
+        $'downloads\t'"$HOME/Downloads"
+        $'dotfiles\t'"$HOME/dotfiles"
+        $'notes\t'"$HOME/notes"
+        $'nvim config\t'"$HOME/dotfiles/nvim/.config/nvim"
+        $'development\t'"$HOME/dev"
+      )
 
   local selected label target
 
@@ -217,8 +229,12 @@ n() {
 # copy working directory - add path of pwd to clipboard
 alias cwd='pwd | pbcopy'
 
-# recursively delete all .DS_Store files in current folder
-alias ds='find . -name ".DS_Store" -type f -delete'
+# recursively delete all trash files in current folder
+unalias ds 2>/dev/null
+ds() {
+    find . -name ".DS_Store" -type f -delete
+    find . -name "nvim.log" -type f -delete
+}
 
 # ls default
 alias ls='ls -paGAoh -D "%d-%m-%Y %H:%M" '

@@ -99,6 +99,9 @@ function M.setup()
     map("n", "<leader>,", [[:%s/<C-r><C-w>//gI<Left><Left><Left>]],
         { desc = "open %s//gI with cword" })
 
+    map({ "x", "v" }, "<leader>,", [[:s/<C-r><C-w>//gI<Left><Left><Left>]],
+        { desc = "open visual s//gI with cword" })
+
     map('n', 'x', '"_x',
         { desc = "Delete single character without yanking to register" })
 
