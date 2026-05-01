@@ -34,13 +34,13 @@
 # FeaturesPrevious article
 
 on-focus-changed = [
-  "exec-and-forget curl http://localhost:7776/aerospace/spaces/refresh",
+    "exec-and-forget curl http://localhost:7776/aerospace/spaces/refresh",
 ]
 
 exec-on-workspace-change = [
-  '/bin/zsh',
-  '-c',
-  'curl "http://localhost:7776/aerospace/spaces/refresh?space=$AEROSPACE_FOCUSED_WORKSPACE"',
+    '/bin/zsh',
+    '-c',
+    'curl "http://localhost:7776/aerospace/spaces/refresh?space=$AEROSPACE_FOCUSED_WORKSPACE"',
 ]
 
 # === general ===
@@ -69,18 +69,15 @@ persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 on-mode-changed = []
 
 [key-mapping]
-    preset = 'qwerty'
+preset = 'qwerty'
 
 [gaps]
-    inner.horizontal = 10
-    inner.vertical =   10
-    outer.left =       10
-    outer.bottom =     10
-    # 37 on the big screen, 7 on just the macbook (to account for space needed by simple-bar)
-    outer.top =        [{ monitor."built-in" = 15 },
-                        {monitor."main" = 45},
-                        37]
-    outer.right =      10
+inner.horizontal = 10
+inner.vertical = 10
+outer.left = 10
+outer.bottom = 10
+outer.top = [{ monitor."built-in" = 10 }, { monitor."main" = 10 }, 37]
+outer.right = 10
 
 # === binds ===
 
@@ -93,69 +90,61 @@ run = ['layout floating']
 
 [mode.main.binding]
 
-    # switch focus
-    alt-shift-n = 'focus left'
-    alt-shift-e = 'focus down'
-    alt-shift-o = 'focus up'
-    alt-shift-i = 'focus right'
+# switch focus
+alt-shift-n = 'focus left'
+alt-shift-e = 'focus down'
+alt-shift-o = 'focus up'
+alt-shift-i = 'focus right'
 
-    # switch focus (alt binds)
-    alt-shift-left = 'focus left'
-    alt-shift-down = 'focus down'
-    alt-shift-up = 'focus up'
-    alt-shift-right = 'focus right'
+# switch focus (alt binds)
+alt-shift-left = 'focus left'
+alt-shift-down = 'focus down'
+alt-shift-up = 'focus up'
+alt-shift-right = 'focus right'
 
-    # move window within active workspace
-    alt-shift-ctrl-n = 'move left'
-    alt-shift-ctrl-e = 'move down'
-    alt-shift-ctrl-o = 'move up'
-    alt-shift-ctrl-i = 'move right'
+# move window within active workspace
+alt-shift-ctrl-n = 'move left'
+alt-shift-ctrl-e = 'move down'
+alt-shift-ctrl-o = 'move up'
+alt-shift-ctrl-i = 'move right'
 
-    # move window within active workspace (alt binds)
-    alt-shift-ctrl-left = 'move left'
-    alt-shift-ctrl-down = 'move down'
-    alt-shift-ctrl-up = 'move up'
-    alt-shift-ctrl-right = 'move right'
+# move window within active workspace (alt binds)
+alt-shift-ctrl-left = 'move left'
+alt-shift-ctrl-down = 'move down'
+alt-shift-ctrl-up = 'move up'
+alt-shift-ctrl-right = 'move right'
 
-    # move window to diff workspace
-    cmd-alt-ctrl-right = [
-        'move-node-to-workspace next',
-        'workspace next'
-    ]
-    cmd-alt-ctrl-left  = [
-        'move-node-to-workspace prev',
-        'workspace prev'
-    ]
+# move window to diff workspace
+cmd-alt-ctrl-right = ['move-node-to-workspace next', 'workspace next']
+cmd-alt-ctrl-left = ['move-node-to-workspace prev', 'workspace prev']
 
-    # switch workspace
-    ctrl-shift-1 = 'workspace 1'
-    ctrl-shift-2 = 'workspace 2'
-    ctrl-shift-3 = 'workspace 3'
-    ctrl-shift-4 = 'workspace 4'
-    ctrl-shift-5 = 'workspace 5'
-    ctrl-shift-6 = 'workspace 6'
-    ctrl-shift-7 = 'workspace 7'
-    ctrl-shift-8 = 'workspace 8'
-    ctrl-shift-9 = 'workspace 9'
+# switch workspace
+ctrl-shift-1 = 'workspace 1'
+ctrl-shift-2 = 'workspace 2'
+ctrl-shift-3 = 'workspace 3'
+ctrl-shift-4 = 'workspace 4'
+ctrl-shift-5 = 'workspace 5'
+ctrl-shift-6 = 'workspace 6'
+ctrl-shift-7 = 'workspace 7'
+ctrl-shift-8 = 'workspace 8'
+ctrl-shift-9 = 'workspace 9'
 
-    # enter service mode
-    alt-shift-q = 'mode service'
+# enter service mode
+alt-shift-q = 'mode service'
 
 [mode.service.binding]
-    r = ['reload-config', 'mode main']
-    w = ['flatten-workspace-tree', 'mode main'] # reset layout
-    f = ['layout floating tiling', 'mode main'] # toggle floating and tiling layout
-    backspace = ['close-all-windows-but-current', 'mode main']
-        1 = ['move-node-to-workspace 1']
-        2 = ['move-node-to-workspace 2']
-        3 = ['move-node-to-workspace 3']
-        4 = ['move-node-to-workspace 4']
-        5 = ['move-node-to-workspace 5']
-        6 = ['move-node-to-workspace 6']
+r = ['reload-config', 'mode main']
+w = ['flatten-workspace-tree', 'mode main']                # reset layout
+f = ['layout floating tiling', 'mode main']                # toggle floating and tiling layout
+backspace = ['close-all-windows-but-current', 'mode main']
+1 = ['move-node-to-workspace 1']
+2 = ['move-node-to-workspace 2']
+3 = ['move-node-to-workspace 3']
+4 = ['move-node-to-workspace 4']
+5 = ['move-node-to-workspace 5']
+6 = ['move-node-to-workspace 6']
 
-    alt-shift-h = ['join-with left', 'mode main']
-    alt-shift-j = ['join-with down', 'mode main']
-    alt-shift-k = ['join-with up', 'mode main']
-    alt-shift-l = ['join-with right', 'mode main']
-
-
+alt-shift-h = ['join-with left', 'mode main']
+alt-shift-j = ['join-with down', 'mode main']
+alt-shift-k = ['join-with up', 'mode main']
+alt-shift-l = ['join-with right', 'mode main']

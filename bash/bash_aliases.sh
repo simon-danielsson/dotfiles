@@ -34,6 +34,28 @@ commit() {
 
 # === dev ===
 
+rm() {
+  local cwd
+  cwd="$(pwd -P)"
+
+  if [[ "$cwd" == "/" || "$cwd" == "$HOME" ]]; then
+    echo "🚨 Blocked: refusing to run rm from $cwd"
+    echo "Use 'permanent' if you really mean it."
+    return 1
+  fi
+
+  trash "$@"
+}
+
+permanent() {
+  echo "⚠️  Permanent delete (no Trash): $*"
+  read -p "Type DELETE to continue: " confirm
+  [[ "$confirm" != "DELETE" ]] && return 1
+
+  /bin/rm "$@"
+}
+
+alias del='/bin/rm'
 dev() {
   ./dev "$@"
 }
@@ -54,8 +76,8 @@ alias vimconf="cd ~/dotfiles/nvim/.config/nvim"
 # vim pack
 alias vimpack="cd ~/.local/share/nvim/site/pack/core/opt"
 
-# neovim
-NVIM="/opt/homebrew/Cellar/neovim/0.12.1/bin/nvim"
+# neovim via bob
+NVIM="bob run nightly"
 alias nvim=$NVIM
 alias vnim=$NVIM
 
@@ -70,14 +92,15 @@ alias license="~/dotfiles/scripts/init-license.sh"
 
 # new cenv project
 alias cinit="~/dev/bash/cenv/cenv-init.sh"
+alias cinitn="~/dev/c/cenv_toolkit/cenv_init.sh"
 cenv() {
     local dir="$(pwd)"
     while [[ "$dir" != "/" ]]; do
-    if [[ -f "$dir/.gitignore" ]]; then
-        (cd "$dir" && ./cenv "$@")
-        return
-    fi
-    dir="$(dirname "$dir")"
+        if [[ -f "$dir/.gitignore" ]]; then
+            (cd "$dir" && cenv "$@")
+            return
+        fi
+        dir="$(dirname "$dir")"
     done
     return 1
 }
