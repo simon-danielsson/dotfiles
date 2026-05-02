@@ -33,6 +33,7 @@ function M.setup()
             root_markers = { 'Cargo.toml', 'rust-project.json', '.git' },
             settings = {
                 ['rust-analyzer'] = {},
+                codelens = { enable = true },
             },
         },
 
@@ -42,6 +43,7 @@ function M.setup()
             root_markers = { 'ols.json', 'odinfmt.json', '.git' },
             settings = {
                 ['ols'] = {},
+                codelens = { enable = true },
             },
         },
 
@@ -51,6 +53,7 @@ function M.setup()
             root_markers = { '.git' },
             settings = {
                 ['taplo'] = {},
+                codelens = { enable = true },
             },
         },
 
@@ -60,6 +63,7 @@ function M.setup()
             root_markers = { '.git' },
             settings = {
                 bashIde = {},
+                codelens = { enable = true },
             },
         },
 
@@ -79,6 +83,7 @@ function M.setup()
                 '.git',
             },
             settings = {
+                codelens = { enable = true },
                 python = {
                     analysis = {
                         typeCheckingMode = "basic",
@@ -90,6 +95,9 @@ function M.setup()
         },
 
         clangd = {
+            settings = {
+                codelens = { enable = true },
+            },
             cmd = {
                 'clangd',
                 '--background-index',
@@ -116,11 +124,13 @@ function M.setup()
             root_markers = { 'package.json', 'tsconfig.json', '.git' },
             settings = {
                 typescript = {
+                    codelens = { enable = true },
                     inlayHints = {
                         includeInlayParameterNameHints = "all",
                     },
                 },
                 javascript = {
+                    codelens = { enable = true },
                     inlayHints = {
                         includeInlayParameterNameHints = "all",
                     },
@@ -134,6 +144,7 @@ function M.setup()
             root_markers = { '.git', '.luarc.json', '.luarc.jsonc' },
             settings = {
                 Lua = {
+                    codelens = { enable = true },
                     runtime = {
                         version = 'LuaJIT',
                     },
@@ -170,6 +181,13 @@ function M.setup()
     for name, config in pairs(lsp_servers) do
         vim.lsp.config(name, config); vim.lsp.enable(name)
     end
+
+    -- codelens
+    vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function()
+            vim.lsp.codelens.enable(true)
+        end,
+    })
 
     -- =========================================================
     -- !!! lsp/format

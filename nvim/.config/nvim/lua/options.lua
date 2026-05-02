@@ -16,7 +16,8 @@ function M.setup()
     -- wrapping & linebreaks
     opt.wrap           = true; opt.linebreak = true
     o.breakindent      = true; opt.showbreak = '󱞩 '
-    opt.scrolloff      = 99; opt.virtualedit = "onemore"
+    opt.scrolloff      = 99; opt.scrolloffpad = 1
+    opt.virtualedit    = "onemore"
     opt.sidescrolloff  = 6; opt.smoothscroll = true
     opt.textwidth      = 80
     opt.colorcolumn    = "80"
@@ -100,6 +101,16 @@ function M.setup()
     map({ 'n', 'v' }, 'zn', 'zf', { desc = "New fold" })
     map('n', 'zo', 'zR', { desc = "Open all folds" })
     map('n', 'zc', 'zM', { desc = "Close all folds" })
+
+    -- open inside nvim
+    vim.keymap.set("n", "gx", function()
+        vim.cmd("edit " .. vim.fn.expand("<cfile>"))
+    end)
+
+    -- open externally (macOS default)
+    vim.keymap.set("n", "gX", function()
+        vim.fn.jobstart({ "open", vim.fn.expand("<cfile>") }, { detach = true })
+    end)
 end
 
 return M

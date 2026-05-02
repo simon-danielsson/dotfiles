@@ -30,17 +30,11 @@ function M.setup()
             desc = "Move down (through wrapped lines)"
         })
 
-    map("n", ">", "nzzzv",
+    map("n", ">", "nzv",
         { desc = "Next search result (centered)" })
 
-    map("n", "<", "Nzzzv",
+    map("n", "<", "Nzv",
         { desc = "Previous search result (centered)" })
-
-    map("n", "}", "}zz",
-        { desc = "Next empty line (centered)" })
-
-    map("n", "{", "{zz",
-        { desc = "Previous empty line (centered)" })
 
     local function on_jump(diagnostic, bufnr)
         if not diagnostic then
@@ -55,12 +49,10 @@ function M.setup()
     end
     map("n", "<C-e>", function()
         vim.diagnostic.jump({ count = -1, on_jump = on_jump })
-        cmd("normal! zz")
     end, { desc = "Go to previous diagnostic" })
 
     map("n", "<C-o>", function()
         vim.diagnostic.jump({ count = 1, on_jump = on_jump })
-        cmd("normal! zz")
     end, { desc = "Go to next diagnostic" })
 
     -- navigation: global

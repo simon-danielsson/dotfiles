@@ -39,8 +39,8 @@ rm() {
   cwd="$(pwd -P)"
 
   if [[ "$cwd" == "/" || "$cwd" == "$HOME" ]]; then
-    echo "🚨 Blocked: refusing to run rm from $cwd"
-    echo "Use 'permanent' if you really mean it."
+    echo "'rm' command blocked: refusing to run rm from home dir"
+    echo "Use command 'permanent' if you really mean it."
     return 1
   fi
 
@@ -48,7 +48,7 @@ rm() {
 }
 
 permanent() {
-  echo "⚠️  Permanent delete (no Trash): $*"
+  echo "Permanent delete (no Trash): $*"
   read -p "Type DELETE to continue: " confirm
   [[ "$confirm" != "DELETE" ]] && return 1
 
