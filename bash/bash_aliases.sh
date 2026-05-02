@@ -90,19 +90,28 @@ alias readme="~/dotfiles/scripts/init-readme.sh"
 # touch init LICENSE file
 alias license="~/dotfiles/scripts/init-license.sh"
 
-# new cenv project
-alias cinit="~/dev/bash/cenv/cenv-init.sh"
-alias cinitn="~/dev/c/cenv_toolkit/cenv_init.sh"
+# cenv
 cenv() {
     local dir="$(pwd)"
+
     while [[ "$dir" != "/" ]]; do
-        if [[ -f "$dir/.gitignore" ]]; then
-            (cd "$dir" && cenv "$@")
+        if [[ -f "$dir/cenv" ]]; then
+            (cd "$dir" && ./cenv "$@")
             return
         fi
         dir="$(dirname "$dir")"
     done
+
+    echo "no project root found" >&2
     return 1
+}
+cinit() {
+    curl -O https://raw.githubusercontent.com/simon-danielsson/cenv/refs/heads/main/cenv-init.sh || {
+        error "failed to curl cenv-init.sh"
+    }
+    chmod +x ./cenv-init.sh
+    ./cenv-init.sh $1
+    rm cenv-init.sh
 }
 
 # === general ===
