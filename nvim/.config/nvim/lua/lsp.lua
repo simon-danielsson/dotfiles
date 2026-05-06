@@ -19,12 +19,19 @@ function M.setup()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-    -- nvim doesn't recognize odin files as of yet...
+    -- nvim doesn't recognize odin
     vim.filetype.add({
         extension = {
             odin = "odin",
         },
     })
+
+    -- clangd is annoying
+    vim.filetype.add({
+        extension = { h = 'c' },
+    })
+
+    vim.lsp.codelens.enable(true)
 
     local lsp_servers = {
         rust_analyzer = {
@@ -33,7 +40,18 @@ function M.setup()
             root_markers = { 'Cargo.toml', 'rust-project.json', '.git' },
             settings = {
                 ['rust-analyzer'] = {},
-                codelens = { enable = true },
+                lens = {
+                    enable = true,
+                    implementations = { enable = true },
+                    references = {
+                        adt = { enable = true },
+                        enumVariant = { enable = true },
+                        method = { enable = true },
+                        trait = { enable = true },
+                    },
+                    run = { enable = true },
+                },
+
             },
         },
 
@@ -101,11 +119,12 @@ function M.setup()
             cmd = {
                 'clangd',
                 '--background-index',
+                '--enable-config',
                 '--clang-tidy',
                 '--completion-style=detailed',
                 '--header-insertion=iwyu',
             },
-            filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
+            filetypes = { 'c', 'h', 'cpp', 'objc', 'objcpp' },
             root_markers = {
                 'compile_commands.json',
                 'compile_flags.txt',
@@ -198,12 +217,13 @@ function M.setup()
         callback = function()
             local ft = vim.bo.filetype
             local ignore = {
-                ["markdown"] = true,
-                ["make"]     = true,
-                ["text"]     = true,
-                ["typ"]      = true,
-                ["ana"]      = true,
-                [""]         = true,
+                ["markdown"]  = true,
+                ["make"]      = true,
+                ["text"]      = true,
+                ["typ"]       = true,
+                ["gitignore"] = true,
+                ["ana"]       = true,
+                [""]          = true,
             }
             if ignore[ft] then return end
             local has_lsp = #vim.lsp.get_clients({ bufnr = 0 }) > 0; local pos = vim.api.nvim_win_get_cursor(0)

@@ -34,6 +34,8 @@ commit() {
 
 # === dev ===
 
+alias rngb="$HOME/dev/c/rngb/build/release/*"
+
 rm() {
   local cwd
   cwd="$(pwd -P)"
@@ -94,7 +96,7 @@ alias license="~/dotfiles/scripts/init-license.sh"
 cenv() {
     local dir="$(pwd)"
 
-    while [[ "$dir" != "/" ]]; do
+    while [[ "$dir" != "$HOME" ]]; do
         if [[ -f "$dir/cenv" ]]; then
             (cd "$dir" && ./cenv "$@")
             return
