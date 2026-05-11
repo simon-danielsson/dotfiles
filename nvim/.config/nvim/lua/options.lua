@@ -5,6 +5,7 @@ local o   = vim.o
 local map = vim.keymap.set
 
 function M.setup()
+
     -- line numbers
     opt.number         = true; opt.relativenumber = true
 
@@ -18,7 +19,7 @@ function M.setup()
     o.breakindent      = true; opt.showbreak = '󱞩 '
     opt.scrolloff      = 99; opt.scrolloffpad = 1
     opt.virtualedit    = "onemore"
-    opt.sidescrolloff  = 6; opt.smoothscroll = true
+    opt.sidescrolloff  = 6; opt.smoothscroll = false
     opt.textwidth      = 80
     opt.colorcolumn    = "80"
 

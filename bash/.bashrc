@@ -8,8 +8,9 @@ export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PAT
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 # cargo
 . "$HOME/.cargo/env"
+
 # manually installed binaries
-export PATH="$PATH:/Users/simondanielsson/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
 # haskell
 export PATH="$HOME/.ghcup/bin:$PATH"
 
