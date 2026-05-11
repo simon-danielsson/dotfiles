@@ -5,9 +5,7 @@ local map     = vim.keymap.set
 local shl     = vim.api.nvim_set_hl
 local autocmd = vim.api.nvim_create_autocmd
 function M.setup()
-    -- =========================================================
-    -- !!! modules/autopairs
-    -- =========================================================
+    -- autopairs --------------------------------------------------------------
 
     local autopairs = {}
     autopairs.pairs = {
@@ -190,9 +188,7 @@ function M.setup()
 
     autopairs.setup()
 
-    -- =========================================================
-    -- !!! modules/flash
-    -- =========================================================
+    -- flash-------------------------------------------------------------------
 
     local flash = {}; local ns = vim.api.nvim_create_namespace("flash")
     local defaults = {
@@ -538,9 +534,7 @@ function M.setup()
 
     flash.setup()
 
-    -- =========================================================
-    -- !!! modules/indent_guides
-    -- =========================================================
+    -- indent_guides ----------------------------------------------------------
 
     local indent_guides = {}; local ns = vim.api.nvim_create_namespace("native_indent_guides")
     local defaults = {
@@ -703,9 +697,7 @@ function M.setup()
 
     indent_guides.setup()
 
-    -- =========================================================
-    -- !!! modules/biscuits
-    -- =========================================================
+    -- biscuits ---------------------------------------------------------------
 
     local biscuits = {}; local ns = vim.api.nvim_create_namespace("native_biscuits")
     local config = {
@@ -855,9 +847,7 @@ function M.setup()
 
     biscuits.setup()
 
-    -- =========================================================
-    -- !!! modules/qf_picker
-    -- =========================================================
+    -- qf_picker --------------------------------------------------------------
 
     local api, fn, cmd = vim.api, vim.fn, vim.cmd
     local map = vim.keymap.set
@@ -964,9 +954,7 @@ function M.setup()
         return picker
     end
 
-    -- =========================================================
-    -- !!! modules/jumps
-    -- =========================================================
+    -- qf jumps ---------------------------------------------------------------
 
     shl(0, "QfJumpCurrent", { link = "Visual" })
     local jumps_ns = api.nvim_create_namespace("JumpListQuickfix")
@@ -1018,9 +1006,7 @@ function M.setup()
     })
     jumps.setup()
 
-    -- =========================================================
-    -- !!! modules/marks
-    -- =========================================================
+    -- qf marks ---------------------------------------------------------------
 
     shl(0, "QfMarkLocal", { link = "String" })
     shl(0, "QfMarkGlobal", { link = "Identifier" })
@@ -1171,9 +1157,7 @@ function M.setup()
     })
     marks.setup()
 
-    -- =========================================================
-    -- !!! modules/diagnostics
-    -- =========================================================
+    -- qf diagnostics ---------------------------------------------------------
 
     for k, v in pairs({
         QfDiagError = "DiagnosticError",
@@ -1246,9 +1230,7 @@ function M.setup()
     })
     diag.setup()
 
-    -- =========================================================
-    -- !!! modules/recentfiles
-    -- =========================================================
+    -- qf recentfiles ---------------------------------------------------------
 
     local recent_ns = api.nvim_create_namespace("RecentFilesHighlight")
 
@@ -1281,9 +1263,7 @@ function M.setup()
     })
     recentfiles.setup()
 
-    -- =========================================================
-    -- !!! modules/buffers
-    -- =========================================================
+    -- qf buffers -------------------------------------------------------------
 
     local buffers_ns = api.nvim_create_namespace("OpenBuffersHighlight")
 
@@ -1318,9 +1298,7 @@ function M.setup()
     })
     buffers.setup()
 
-    -- =========================================================
-    -- !!! modules/grep
-    -- =========================================================
+    -- qf grep ----------------------------------------------------------------
 
     vim.opt.grepprg = "rg --vimgrep -uu"; local grep_picker = {}
 
@@ -1472,49 +1450,7 @@ function M.setup()
 
     grep_picker.setup()
 
-    -- =========================================================
-    -- !!! modules/snippets
-    -- =========================================================
-
-    local snippets = {}
-    ---@param defs table<string, string>  -- trigger -> snippet body
-    ---@param opts? { modes?: string|string[], key?: string, match?: fun(before: string, trigger: string): boolean }
-    function snippets.setup(defs, opts)
-        opts = opts or {}
-
-        local modes = opts.modes or "i"; local key = opts.key or "<C-x>"
-        local match = opts.match or function(before, trigger)
-            return before:sub(- #trigger) == trigger
-        end
-        local triggers = vim.tbl_keys(defs)
-        table.sort(triggers, function(a, b)
-            return #a > #b
-        end)
-
-        map(modes, key, function()
-            local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-            local line = vim.api.nvim_get_current_line(); local before = line:sub(1, col)
-            for _, trigger in ipairs(triggers) do
-                if match(before, trigger) then
-                    local start_col = col - #trigger
-                    vim.api.nvim_buf_set_text(0, row - 1, start_col, row - 1, col, { "" })
-                    vim.api.nvim_win_set_cursor(0, { row, start_col })
-                    vim.snippet.expand(defs[trigger])
-                    return
-                end
-            end
-
-            vim.api.nvim_feedkeys(vim.keycode(key), "n", false)
-        end, { desc = "Expand snippet trigger" })
-    end
-
-    snippets.setup({ -- snippets (expand with c-x)
-        issue = "*brakoll - d: $0, p: 0, t: feature, s: open",
-    })
-
-    -- =========================================================
-    -- !!! modules/undotree
-    -- =========================================================
+    -- undotree ---------------------------------------------------------------
 
     cmd("packadd nvim.undotree")
     map("n", "<leader>u", function()
@@ -1523,9 +1459,7 @@ function M.setup()
         })
     end, { desc = "Undotree toggle" })
 
-    -- =========================================================
-    -- !!! modules/lsp_attach
-    -- =========================================================
+    -- lsp_attach -------------------------------------------------------------
 
     autocmd("LspAttach", {
         callback = function(args)
@@ -1537,93 +1471,7 @@ function M.setup()
         desc = "notify at LSP client attach",
     })
 
-    -- =========================================================
-    -- !!! modules/tabline
-    -- =========================================================
-
-    -- local function center_text(text, width)
-    --     local text_width = vim.fn.strdisplaywidth(text)
-    --     local total_pad = width - text_width; local left = math.floor(total_pad / 2)
-    --     local right = total_pad - left
-    --     return string.rep(" ", left) .. text .. string.rep(" ", right)
-    -- end
-    --
-    -- vim.o.showtabline = 2
-    --
-    -- function _G.my_tabline()
-    --     local current = vim.api.nvim_get_current_buf(); local buffers = {}
-    --
-    --     for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-    --         if vim.bo[bufnr].buflisted then
-    --             local name = vim.api.nvim_buf_get_name(bufnr)
-    --             if name == "" then
-    --                 name = "[No Name]"
-    --             else
-    --                 name = vim.fn.fnamemodify(name, ":t")
-    --             end
-    --             table.insert(buffers, { bufnr = bufnr, name = name })
-    --         end
-    --     end
-    --
-    --     local total_width = vim.o.columns; local count = #buffers
-    --     if count == 0 then
-    --         local s = "%#TabLineFill#"
-    --         s = s .. string.rep(" ", math.max(0, total_width))
-    --         s = s .. "%="
-    --         return s
-    --     end
-    --
-    --     local sep = ""; local sep_width = vim.fn.strdisplaywidth(sep); local total_sep_width = math.max(0, count - 1) *
-    --         sep_width
-    --     local content_width = math.max(1, total_width - total_sep_width); local base_width = math.floor(content_width /
-    --         count)
-    --     local remainder = content_width % count
-    --
-    --     local s = ""
-    --     for i, buf in ipairs(buffers) do
-    --         if i > 1 then
-    --             s = s .. "%#TabLineSep#" .. sep
-    --         end
-    --         local cell_width = base_width
-    --         if i <= remainder then
-    --             cell_width = cell_width + 1
-    --         end
-    --         if buf.bufnr == current then
-    --             s = s .. "%#TabLineSel#"
-    --         else
-    --             s = s .. "%#TabLine#"
-    --         end
-    --
-    --         s = s .. center_text(buf.name, math.max(cell_width, 1))
-    --     end
-    --     s = s .. "%#TabLineFill#%="
-    --     return s
-    -- end
-    --
-    -- vim.o.tabline = "%!v:lua.my_tabline()"
-    --
-    -- local function update_tabline_visibility()
-    --     local count = 0
-    --     for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-    --         if vim.bo[bufnr].buflisted then
-    --             count = count + 1
-    --             if count > 1 then break end
-    --         end
-    --     end
-    --     vim.o.showtabline = (count > 1) and 2 or 0
-    -- end
-    --
-    -- vim.api.nvim_create_autocmd({
-    --     "BufAdd",
-    --     "BufDelete",
-    --     "BufEnter",
-    -- }, {
-    --     callback = update_tabline_visibility,
-    -- })
-
-    -- =========================================================
-    -- !!! modules/buflist
-    -- =========================================================
+    -- qf buffers -------------------------------------------------------------
 
     local buflist = {}
 

@@ -1,3 +1,9 @@
+vim.pack.add({
+    {
+        src = "https://github.com/simon-danielsson/dimma.nvim"
+    },
+})
+
 require('options').setup()
 require('netrw').setup()
 require('keymaps').setup()

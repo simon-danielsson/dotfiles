@@ -79,6 +79,7 @@ config.keys = {
         mods = "CMD",
         action = wezterm.action.ResetFontSize,
     },
+
     {
         key = "r",
         mods = "CMD",
@@ -91,6 +92,7 @@ config.keys = {
             end),
         },
     },
+
     {
         key = "d",
         mods = "CMD",
@@ -106,6 +108,7 @@ config.keys = {
         mods = "CMD|SHIFT",
         action = wezterm.action.ActivatePaneDirection "Right",
     },
+
     {
         key = "D",
         mods = "CMD|SHIFT",

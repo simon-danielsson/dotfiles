@@ -18,12 +18,6 @@ function M.setup()
         bg_2 = "#25252d",
     }
 
-    vim.pack.add({
-        {
-            src = "https://github.com/simon-danielsson/dimma.nvim"
-        },
-    })
-
     require('dimma').setup({
         transparent = false, -- if true, background is not set
         bold = true,         -- disable bold globally
