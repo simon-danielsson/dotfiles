@@ -1028,9 +1028,11 @@ function M.setup()
 
     local mark_kind = function(m)
         local c = (m or ""):sub(-1)
-        if c == "" or not c:match("[%a%d]") then return "builtin" end
+
         if c:match("%l") then return "local" end
-        if c:match("[%u%d]") then return "global" end
+        if c:match("%u") then return "global" end
+
+        return "builtin"
     end
 
     local mark_item = function(mi)
@@ -1055,7 +1057,7 @@ function M.setup()
         name = "marks",
         defaults = {
             title = "marks",
-            keymap = "<leader>M",
+            keymap = "<leader>m",
             desc = "Open marks picker",
             include_local = true,
             include_global = true,
@@ -1092,13 +1094,79 @@ function M.setup()
 
         decorate_qf = function(buf, id)
             api.nvim_buf_clear_namespace(buf, marks_ns, 0, -1)
+
             for i, item in ipairs(fn.getqflist({ id = id, items = 1 }).items or {}) do
-                local u = item.user_data or {}; local hl = u.local_mark and "QfMarkLocal" or
-                    u.global_mark and "QfMarkGlobal"
+                local u = item.user_data or {}
+                local hl = u.local_mark and "QfMarkLocal"
+                    or u.global_mark and "QfMarkGlobal"
+
                 if hl then
-                    api.nvim_buf_set_extmark(buf, marks_ns, i - 1, 0, { line_hl_group = hl, priority = 10 })
+                    api.nvim_buf_set_extmark(buf, marks_ns, i - 1, 0, {
+                        line_hl_group = hl,
+                        priority = 10,
+                    })
                 end
             end
+
+            vim.keymap.set("n", "d", function()
+                local qf = fn.getqflist({ id = id, items = 1 })
+                local items = qf.items or {}
+
+                local idx = fn.line(".")
+                local item = items[idx]
+                if not item then return end
+
+                local mark = item.user_data and item.user_data.mark
+                if not mark or mark == "" then return end
+
+                local delete_mark = function(item)
+                    local u = item.user_data or {}
+                    local mark = u.mark
+                    if not mark or mark == "" then return end
+
+                    if u.local_mark then
+                        local b = item.bufnr or api.nvim_get_current_buf()
+                        if b > 0 and api.nvim_buf_is_valid(b) then
+                            pcall(api.nvim_buf_del_mark, b, mark)
+                        end
+                    elseif u.global_mark then
+                        pcall(api.nvim_del_mark, mark)
+                    end
+                end
+
+                delete_mark(item)
+
+                table.remove(items, idx)
+
+                fn.setqflist({}, "r", {
+                    id = id,
+                    items = items,
+                })
+
+                local new_idx = math.min(idx, #items)
+                if new_idx > 0 then
+                    vim.cmd(("silent %dcc"):format(new_idx))
+                end
+
+                api.nvim_buf_clear_namespace(buf, marks_ns, 0, -1)
+
+                for i, it in ipairs(items) do
+                    local u = it.user_data or {}
+                    local hl = u.local_mark and "QfMarkLocal"
+                        or u.global_mark and "QfMarkGlobal"
+
+                    if hl then
+                        api.nvim_buf_set_extmark(buf, marks_ns, i - 1, 0, {
+                            line_hl_group = hl,
+                            priority = 10,
+                        })
+                    end
+                end
+            end, {
+                buffer = buf,
+                silent = true,
+                nowait = true,
+            })
         end,
     })
     marks.setup()

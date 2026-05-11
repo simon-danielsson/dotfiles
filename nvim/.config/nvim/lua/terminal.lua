@@ -6,7 +6,7 @@ local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 
 -- keymaps
-local run_compile = "<leader>m"
+local run_compile = "<leader>c"
 local open_term = "T"
 
 -- constants

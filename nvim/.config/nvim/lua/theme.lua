@@ -21,7 +21,7 @@ function M.setup()
     vim.pack.add({
         {
             src = "https://github.com/simon-danielsson/dimma.nvim"
-        }
+        },
     })
 
     require('dimma').setup({

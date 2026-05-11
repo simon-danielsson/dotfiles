@@ -1,4 +1,4 @@
-# === website management ===
+# website management ----------------------------------------------------------
 
 # create new blog post
 alias blog="~/dotfiles/scripts/create-new-blog-entry-for-website.sh"
@@ -9,68 +9,51 @@ alias blogdir="cd ~/dev/rust/website/src/blog/blog_entries/"
 # cd website repo
 alias website="cd ~/dev/rust/website/"
 
-# === brakoll issue tracker ===
+# external programs -----------------------------------------------------------
 
-# short
-alias b="brakoll"
-
-unalias commit 2>/dev/null
-commit() {
-    local id="$1"
-    brakoll cp $id
-    brakoll close $id
-
-    if command -v pbpaste >/dev/null; then
-        clip=$(pbpaste)
-    elif command -v xclip >/dev/null; then
-        clip=$(xclip -o -selection clipboard)
-    elif command -v wl-paste >/dev/null; then
-        clip=$(wl-paste)
-    fi
-
-    git add --all
-    git commit -a -m "$clip"
-}
-
-# === dev ===
-
+# generate a random color palette
 alias rngb="$HOME/dev/c/rngb/build/release/*"
 
-rm() {
-  local cwd
-  cwd="$(pwd -P)"
+# open devdocs.io in the min browser
+alias devdocs="open -a \"Min\" https://devdocs.io"
 
-  if [[ "$cwd" == "/" || "$cwd" == "$HOME" ]]; then
-    echo "'rm' command blocked: refusing to run rm from home dir"
-    echo "Use command 'permanent' if you really mean it."
-    return 1
-  fi
+# fastfetch (doubles as clear and go back to home dir)
+alias ff="cd && clear && fastfetch"; alias nf="cd && clear && fastfetch"
 
-  trash "$@"
+# mupdf with invert as def (macOS = mupdf-gl, linux = mupdf)
+mupdf() {
+    if command -v mupdf-gl >/dev/null 2>&1; then
+        command mupdf-gl -I "$@"
+    elif command -v mupdf >/dev/null 2>&1; then
+        command mupdf -I "$@"
+    else
+        echo "mupdf not found" >&2
+        return 1
+    fi
 }
 
-permanent() {
-  echo "Permanent delete (no Trash): $*"
-  read -p "Type DELETE to continue: " confirm
-  [[ "$confirm" != "DELETE" ]] && return 1
-
-  /bin/rm "$@"
+# terminal cheat lookup
+cheat() {
+    curl cheat.sh/$@
 }
 
-alias del='/bin/rm'
-dev() {
-  ./dev "$@"
+# shorten url
+shorten() {
+    curl -F url=$@ https://shorta.link
 }
 
-run() {
-  ./run "$@"
+# define word
+define() {
+    curl dict.org/d:$@
 }
 
-alias jobb="$HOME/dev/c/jobb/build/main"
+# get size of current dir
+size() {
+    dir_size=$(du -sh . | awk '{print $1}')
+    echo "Current directory size: $dir_size"
+}
+
 alias todo="$HOME/dev/c/jobb/build/main"
-
-# safe mv command
-alias mv="mv -i"
 
 # vim config
 alias vimconf="cd ~/dotfiles/nvim/.config/nvim"
@@ -78,21 +61,11 @@ alias vimconf="cd ~/dotfiles/nvim/.config/nvim"
 # vim pack
 alias vimpack="cd ~/.local/share/nvim/site/pack/core/opt"
 
-# neovim via bob
-NVIM="bob run nightly"
-alias nvim=$NVIM
-alias vnim=$NVIM
-
-NVIMS="VIMRUNTIME=/Users/simondanielsson/dev/source_code/neovim/runtime /Users/simondanielsson/dev/source_code/neovim/build/bin/nvim"
-alias nvims=$NVIMS
-
-# touch init README.md file
-alias readme="~/dotfiles/scripts/init-readme.sh"
-
 # touch init LICENSE file
 alias license="~/dotfiles/scripts/init-license.sh"
 
-# cenv
+# cenv c project generator and build-system -----------------------------------
+
 cenv() {
     local dir="$(pwd)"
 
@@ -116,8 +89,46 @@ cinit() {
     rm cenv-init.sh
 }
 
-# === general ===
+# emoji picker
+EM_PICKER="/Users/simondanielsson/dotfiles/scripts/emoji-picker.sh"
+alias emoji=$EM_PICKER
+alias em=$EM_PICKER
 
+# devicon picker
+DEV_PICKER="/Users/simondanielsson/dotfiles/scripts/devicon-picker.sh"
+alias devicon=$DEV_PICKER
+alias dev=$DEV_PICKER
+
+# general alias overrides -----------------------------------------------------
+
+# neovim via bob
+NVIM="bob run nightly"
+alias nvim=$NVIM
+alias vnim=$NVIM
+
+# add to clipboard
+alias clip="pbcopy"
+
+# source .bashrc
+SBASH="source ~/.bashrc"
+alias sbash=$SBASH
+alias sb=$SBASH
+alias sba=$SBASH
+
+# make running ./dev shell scripts easier
+dev() {
+  ./dev "$@"
+}
+
+# make running ./run shell scripts easier
+run() {
+  ./run "$@"
+}
+
+# safe mv command
+alias mv="mv -i"
+
+# i can't type the word "exit" properly
 alias exti="exit"
 alias t="exit"
 alias xeti="exit"
@@ -125,17 +136,45 @@ alias eixt="exit"
 alias exi="exit"
 alias xti="exit"
 
-# mupdf with invert as def (macOS = mupdf-gl, linux = mupdf)
-mupdf() {
-    if command -v mupdf-gl >/dev/null 2>&1; then
-        command mupdf-gl -I "$@"
-    elif command -v mupdf >/dev/null 2>&1; then
-        command mupdf -I "$@"
-    else
-        echo "mupdf not found" >&2
-        return 1
+# notes and journaling --------------------------------------------------------
+
+journal() {
+    local today=$(date +"%Y-%m-%d")
+    local dir="$HOME/journal"
+    local file="$dir/${today}.md"
+    local template="$dir/template.md"
+    mkdir -p "$dir"
+    # only copy template if the file doesn't already exist
+    if [ ! -f "$file" ]; then
+        if [ -f "$template" ]; then
+            cp "$template" "$file"
+        else
+            touch "$file"
+        fi
     fi
+    nvim "$file"
 }
+
+alias notes="cd ~/notes"
+n() {
+    local name="$*"
+    local today
+    today=$(date +"%Y-%m-%d")
+    local dir="$HOME/notes"
+    # if no arg given, default to "note"
+    if [ -z "$name" ]; then
+        name="note"
+    fi
+    # format arg
+    name=$(echo "$name" | xargs | tr -s ' ' '-' | sed 's/-$//' | tr '[:upper:]' '[:lower:]')
+    local file="$dir/${name}_${today}.md"
+    mkdir -p "$dir"
+    # create empty file if it doesn't exist
+    [ -f "$file" ] || touch "$file"
+    nvim "$file"
+}
+
+# directories and searching ---------------------------------------------------
 
 jump() {
     local entries=(
@@ -173,92 +212,6 @@ jump() {
     return 1
   fi
 }
-
-# get size of current dir
-size() {
-    dir_size=$(du -sh . | awk '{print $1}')
-    echo "Current directory size: $dir_size"
-}
-
-# add to clipboard
-alias clip="pbcopy"
-
-# emoji picker
-EM_PICKER="/Users/simondanielsson/dotfiles/scripts/emoji-picker.sh"
-alias emoji=$EM_PICKER
-alias em=$EM_PICKER
-
-# devicon picker
-DEV_PICKER="/Users/simondanielsson/dotfiles/scripts/devicon-picker.sh"
-alias devicon=$DEV_PICKER
-alias dev=$DEV_PICKER
-
-# source .bashrc
-SBASH="source ~/.bashrc"
-alias sbash=$SBASH
-alias sb=$SBASH
-alias sba=$SBASH
-
-# fastfetch (doubles as clear and go back to home dir)
-alias ff="cd && clear && fastfetch"; alias nf="cd && clear && fastfetch"
-
-# terminal cheat lookup
-cheat() {
-    curl cheat.sh/$@
-}
-
-# shorten url
-shorten() {
-    curl -F url=$@ https://shorta.link
-}
-
-# define word
-define() {
-    curl dict.org/d:$@
-}
-
-# === journal ===
-
-journal() {
-    local today=$(date +"%Y-%m-%d")
-    local dir="$HOME/journal"
-    local file="$dir/${today}.md"
-    local template="$dir/template.md"
-    mkdir -p "$dir"
-    # only copy template if the file doesn't already exist
-    if [ ! -f "$file" ]; then
-        if [ -f "$template" ]; then
-            cp "$template" "$file"
-        else
-            touch "$file"
-        fi
-    fi
-    nvim "$file"
-}
-
-# === notes ===
-
-alias notes="cd ~/notes"
-
-n() {
-    local name="$*"
-    local today
-    today=$(date +"%Y-%m-%d")
-    local dir="$HOME/notes"
-    # if no arg given, default to "note"
-    if [ -z "$name" ]; then
-        name="note"
-    fi
-    # format arg
-    name=$(echo "$name" | xargs | tr -s ' ' '-' | sed 's/-$//' | tr '[:upper:]' '[:lower:]')
-    local file="$dir/${name}_${today}.md"
-    mkdir -p "$dir"
-    # create empty file if it doesn't exist
-    [ -f "$file" ] || touch "$file"
-    nvim "$file"
-}
-
-# === directories and search ]===
 
 # copy working directory - add path of pwd to clipboard
 alias cwd='pwd | pbcopy'
@@ -347,3 +300,29 @@ ss() {
         esac
     fi
 }
+
+# i launched rm in $HOME once and i don't want it to happen again -------------
+
+# safe rm command
+rm() {
+  local cwd
+  cwd="$(pwd -P)"
+
+  if [[ "$cwd" == "/" || "$cwd" == "$HOME" ]]; then
+    echo "'rm' command blocked: refusing to run rm from home dir"
+    echo "Use command 'permanent' if you really mean it."
+    return 1
+  fi
+
+  trash "$@"
+}
+
+# safe rm command override
+permanent() {
+  echo "Permanent delete (no Trash): $*"
+  read -p "Type DELETE to continue: " confirm
+  [[ "$confirm" != "DELETE" ]] && return 1
+
+  /bin/rm "$@"
+}
+
