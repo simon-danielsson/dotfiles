@@ -6,7 +6,7 @@
 # @raycast.mode silent
 
 # Optional parameters:
-# @raycast.icon 🖥
+# @raycast.icon 🚀
 
 WEZTERM="$HOME/dev/source_code/wezterm/target/release/wezterm"
 

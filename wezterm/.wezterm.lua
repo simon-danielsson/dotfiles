@@ -7,15 +7,14 @@ config.enable_scroll_bar = false
 config.term = "xterm-256color"
 config.front_end = "OpenGL"
 config.min_scroll_bar_height = "2cell"
-config.scroll_to_bottom_on_input = true
-config.line_height = 1.0
-config.cell_width = 1.0
-config.animation_fps = 60
-config.cursor_blink_rate = 0
+
+config.cursor_blink_rate = 500
+config.cursor_blink_ease_in = "Constant"
+config.cursor_blink_ease_out = "Constant"
 
 -- colors ---------------------------------------------------------------------
 
-config.color_scheme = 'Nebula (base16)'
+config.color_scheme = 'Catppuccin Frappe'
 
 local custom_c = {
     fg_1 = "#AAB3C0",
@@ -26,6 +25,10 @@ local custom_c = {
 }
 
 config.colors = {
+    cursor_bg = custom_c.fg_1,
+    cursor_border = custom_c.fg_1,
+    cursor_fg = custom_c.bg_2,
+
     foreground = custom_c.fg_1,
     background = custom_c.bg_2,
     tab_bar = {
@@ -60,7 +63,6 @@ config.enable_kitty_keyboard = false
 config.enable_csi_u_key_encoding = false
 config.send_composed_key_when_left_alt_is_pressed = true
 config.send_composed_key_when_right_alt_is_pressed = true
--- config.disable_default_key_bindings = true
 config.keys = {
     {
         key = "+",
@@ -143,7 +145,6 @@ end)
 
 config.window_frame = {
     font = wezterm.font { family = 'Maple Mono NF', weight = "Bold" },
-    font_size = 10.0,
     active_titlebar_bg = custom_c.bg_1,
     inactive_titlebar_bg = custom_c.bg_1,
 
