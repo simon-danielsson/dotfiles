@@ -10,13 +10,17 @@
 
 WEZTERM="$HOME/dev/source_code/wezterm/target/release/wezterm"
 
-"$WEZTERM" start &
-
-sleep 0.1
+open -g -a "$WEZTERM" --args start
 
 osascript <<'APPLESCRIPT'
 tell application "System Events"
-  set frontmost of first process whose unix id is not 0 and name contains "wezterm" to true
+  repeat 20 times
+    set matches to processes whose name contains "wezterm"
+    if (count of matches) > 0 then
+      set frontmost of item 1 of matches to true
+      exit repeat
+    end if
+    delay 0.05
+  end repeat
 end tell
 APPLESCRIPT
-

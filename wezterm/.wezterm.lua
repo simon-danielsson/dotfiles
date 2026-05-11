@@ -56,6 +56,11 @@ config.font_size = 22
 
 -- keybindings ----------------------------------------------------------------
 
+config.enable_kitty_keyboard = false
+config.enable_csi_u_key_encoding = false
+config.send_composed_key_when_left_alt_is_pressed = true
+config.send_composed_key_when_right_alt_is_pressed = true
+-- config.disable_default_key_bindings = true
 config.keys = {
     {
         key = "+",
@@ -72,6 +77,48 @@ config.keys = {
         mods = "CMD",
         action = wezterm.action.ResetFontSize,
     },
+    {
+        key = "r",
+        mods = "CMD",
+        action = wezterm.action.PromptInputLine {
+            description = "rename tab",
+            action = wezterm.action_callback(function(window, _, line)
+                if line then
+                    window:active_tab():set_title(line)
+                end
+            end),
+        },
+    },
+    {
+        key = "d",
+        mods = "CMD",
+        action = wezterm.action.SplitHorizontal { domain = "CurrentPaneDomain" },
+    },
+    {
+        key = "N",
+        mods = "CMD|SHIFT",
+        action = wezterm.action.ActivatePaneDirection "Left",
+    },
+    {
+        key = "I",
+        mods = "CMD|SHIFT",
+        action = wezterm.action.ActivatePaneDirection "Right",
+    },
+    {
+        key = "D",
+        mods = "CMD|SHIFT",
+        action = wezterm.action.SplitVertical { domain = "CurrentPaneDomain" },
+    },
+    {
+        key = "E",
+        mods = "CMD|SHIFT",
+        action = wezterm.action.ActivatePaneDirection "Down",
+    },
+    {
+        key = "O",
+        mods = "CMD|SHIFT",
+        action = wezterm.action.ActivatePaneDirection "Up",
+    },
 }
 
 -- window ---------------------------------------------------------------------
@@ -82,7 +129,10 @@ config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = false
 
 wezterm.on("format-tab-title", function(tab)
-    local title = tab.active_pane.title
+    local title = tab.tab_title
+    if title == nil or #title == 0 then
+        title = tab.active_pane.title
+    end
     if #title < 10 then
         title = title .. string.rep(" ", 10 - #title)
     end
