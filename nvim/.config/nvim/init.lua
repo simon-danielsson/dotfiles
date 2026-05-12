@@ -1,8 +1,12 @@
+-- plugins --------------------------------------------------------------------
+
 vim.pack.add({
     {
         src = "https://github.com/simon-danielsson/dimma.nvim"
     },
 })
+
+-- native ---------------------------------------------------------------------
 
 require('options').setup()
 require('netrw').setup()

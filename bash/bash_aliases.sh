@@ -11,6 +11,9 @@ alias website="cd ~/dev/rust/website/"
 
 # external programs -----------------------------------------------------------
 
+# generate slide presentation
+alias visa="$HOME/dev/c/visa/build/release/*"
+
 # generate a random color palette
 alias rngb="$HOME/dev/c/rngb/build/release/*"
 
