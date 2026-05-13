@@ -31,8 +31,19 @@ inner.horizontal = 10
 inner.vertical = 10
 outer.left = 10
 outer.bottom = 10
-outer.top = [{ monitor."built-in" = 10 }, { monitor."main" = 10 }, 37]
+outer.top = [{ monitor."main" = 10 }, { monitor."secondary" = 10 }, 37]
 outer.right = 10
+
+[workspace-to-monitor-force-assignment]
+1 = 'main'
+2 = 'main'
+3 = 'main'
+4 = 'main'
+5 = 'main'
+6 = 'main'
+7 = 'secondary'
+8 = 'secondary'
+9 = 'secondary'
 
 # === binds ===
 

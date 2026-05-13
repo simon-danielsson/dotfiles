@@ -128,6 +128,8 @@ function M.setup()
                     local python = vim.env.VIRTUAL_ENV and (vim.env.VIRTUAL_ENV .. "/bin/python") or "python3"
                     local fallback_cmd = vim.fn.shellescape(python) .. " " .. vim.fn.shellescape(file)
                     run_build_or_fallback(fallback_cmd)
+                elseif args.match == "go" then
+                    run_build_or_fallback("go run *")
                 elseif args.match == "rust" then
                     run_build_or_fallback("cargo run")
                 elseif args.match == "haskell" then

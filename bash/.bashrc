@@ -9,6 +9,9 @@ export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 # cargo
 . "$HOME/.cargo/env"
 
+# go
+export PATH="$HOME/go/bin:$PATH"
+
 # manually installed binaries
 export PATH="$HOME/.local/bin:$PATH"
 # haskell

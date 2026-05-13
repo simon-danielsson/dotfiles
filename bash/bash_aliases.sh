@@ -83,6 +83,7 @@ cenv() {
     echo "no project root found" >&2
     return 1
 }
+
 cinit() {
     curl -O https://raw.githubusercontent.com/simon-danielsson/cenv/refs/heads/main/cenv-init.sh || {
         error "failed to curl cenv-init.sh"
