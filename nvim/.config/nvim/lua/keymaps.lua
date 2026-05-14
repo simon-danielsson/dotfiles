@@ -123,9 +123,12 @@ function M.setup()
         vim.api.nvim_win_set_cursor(0, { bottom, 0 })
     end, { desc = "Smart select paragraph" })
 
-    -- New insert mode bindings
+    -- new insert mode bindings
     map("n", "<leader>i", "i", { desc = "Insert before cursor" })
+    map("n", "<S-i>", "i", { desc = "Insert before cursor (alt)" })
+
     map("n", "<leader>I", "I", { desc = "Insert at line start" })
+
     map("n", "<leader>o", "o", { desc = "Open new line below" })
     map("n", "<leader>O", "O", { desc = "Open new line above" })
 
@@ -136,7 +139,7 @@ function M.setup()
     map("i", "<Tab>", "<C-t>", { desc = "Indent line in insert mode" })
     map("i", "<S-Tab>", "<C-d>", { desc = "Outdent line in insert mode" })
 
-    -- Move selected lines up/down in visual mode using Shift and navigation keys
+    -- move selected lines up/down in visual mode
     map("v", "<S-o>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
     map("v", "<S-e>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 
