@@ -100,7 +100,12 @@ run() {
 }
 
 cinit() {
-    $HOME/dotfiles/scripts/c-project-init.sh $1
+    curl -O https://raw.githubusercontent.com/simon-danielsson/c_template/refs/heads/main/init.sh || {
+        error "failed to curl cenv-init.sh"
+    }
+    chmod +x ./init.sh
+    ./init.sh $1
+    rm init.sh
 }
 
 # emoji picker
