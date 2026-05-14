@@ -134,11 +134,6 @@ dev() {
   ./dev "$@"
 }
 
-# make running ./run shell scripts easier
-run() {
-  ./run "$@"
-}
-
 # safe mv command
 alias mv="mv -i"
 

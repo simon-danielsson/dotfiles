@@ -171,21 +171,25 @@ chmod +x "$target_dir/run" || {
 # generate README.md
 touch "$target_dir/README.md"; echo "## $name" >> "$target_dir/README.md"
 
-# get latest version of analib.h from repo
-mkdir -p "$target_dir/src/libs"; cd "$target_dir/src/libs"
-curl -O https://raw.githubusercontent.com/simon-danielsson/ana.h/refs/heads/main/ana.h || {
-    error "Failed to curl from the ana.h github repo"
-}
-
 # generate main.h
 mkdir -p "$target_dir/src"; touch "$target_dir/src/main.h"
 cat > "$target_dir/src/main.h" <<EOF
 #ifndef MAIN_H
 #define MAIN_H
 
-// libraries ------------------------------------------------------------------
+#if defined(TEST)
+#define BUILD_TEST 1
+#else
+#define BUILD_TEST 0
+#endif
 
-#include "./libs/ana.h"
+#if defined(NDEBUG)
+#define BUILD_RELEASE 1
+#define BUILD_DEBUG 0
+#else
+#define BUILD_RELEASE 0
+#define BUILD_DEBUG 1
+#endif
 
 // standard libraries ---------------------------------------------------------
 
@@ -196,8 +200,6 @@ cat > "$target_dir/src/main.h" <<EOF
 #include <string.h>
 
 // semantics ------------------------------------------------------------------
-
-#define f_inline __attribute((always_inline)) inline
 
 typedef size_t usize;
 typedef int8_t i8;
@@ -223,7 +225,7 @@ typedef double f64;
 #pragma GCC diagnostic ignored "-Wunused-function"
 #endif
 
-// environment variables ------------------------------------------------------
+// project variables ----------------------------------------------------------
 
 #ifndef ENV_NAME // project name
 #define ENV_NAME "UNDEFINED"
@@ -244,18 +246,73 @@ typedef double f64;
 #define ENV_REPO "UNDEFINED"
 #endif
 
-#endif // MAIN_H
+// logging --------------------------------------------------------------------
 
+#define LOG_ANSI_RED "\x1b[4;31m"
+#define LOG_ANSI_GREEN "\x1b[4;32m"
+#define LOG_ANSI_YELLOW "\x1b[4;33m"
+#define LOG_ANSI_BLUE "\x1b[4;34m"
+#define LOG_ANSI_RESET "\x1b[0m"
+
+#ifndef __FILE_NAME__
+#define __FILE_NAME__ __FILE__
+#endif
+
+#define LOG_POS_DETAILS __FILE_NAME__, __LINE__, __func__
+#define LOG_PREFIX ""
+
+#if defined(NDEBUG)
+#define ASSERT(cond, do_abort) ((void)0)
+#define LOG(fmt, ...) ((void)0)
+#else
+#define ASSERT(cond, do_abort)                                                 \
+    do {                                                                         \
+        if ((cond)) {                                                              \
+            fprintf(stderr, "%s%sSUCCESS%s %s [%s:%d %s]\n", LOG_PREFIX,             \
+                    LOG_ANSI_GREEN, LOG_ANSI_RESET, #cond, LOG_POS_DETAILS);         \
+        } else {                                                                   \
+            fprintf(stderr, "%s%sFAILURE%s %s [%s:%d %s]\n", LOG_PREFIX,             \
+                    LOG_ANSI_RED, LOG_ANSI_RESET, #cond, LOG_POS_DETAILS);           \
+        }                                                                          \
+        if (!(cond) && (do_abort)) {                                               \
+            abort();                                                                 \
+        }                                                                          \
+    } while (0)
+
+#define LOG(fmt, ...)                                                          \
+    do {                                                                         \
+        fprintf(stderr, "%s%sLOG%s %s [%s:%d %s]\n", LOG_PREFIX, LOG_ANSI_BLUE,    \
+                LOG_ANSI_RESET, fmt __VA_OPT__(, ) __VA_ARGS__, LOG_POS_DETAILS);  \
+    } while (0)
+
+#endif
+
+// not implemented (todo msg that aborts the program)
+#define NOT_IMPL(fmt, ...)                                                     \
+    do {                                                                         \
+        fprintf(stderr, "%s%sNOT IMPL%s %s [%s:%d %s]\n", LOG_PREFIX,              \
+                LOG_ANSI_YELLOW, LOG_ANSI_RESET, fmt __VA_OPT__(, ) __VA_ARGS__,   \
+                LOG_POS_DETAILS);                                                  \
+        abort();                                                                   \
+    } while (0)
+
+#define PANIC(fmt, ...)                                                        \
+    do {                                                                         \
+        fprintf(stderr, "%s%sPANIC%s %s [%s:%d %s]\n", LOG_PREFIX, LOG_ANSI_RED,   \
+                LOG_ANSI_RESET, fmt __VA_OPT__(, ) __VA_ARGS__, LOG_POS_DETAILS);  \
+        abort();                                                                   \
+    } while (0)
+
+#endif // MAIN_H
 EOF
 
 # generate main.c
 mkdir -p "$target_dir/src"; touch "$target_dir/src/main.c"
 cat > "$target_dir/src/main.c" <<EOF
-#define ANA_IMPLEMENTATION
 #include "main.h"
 
 i32 main(void) {
-    printf("Hello, %s!", ENV_AUTHOR);
+    printf("Hello, %s!\n", ENV_AUTHOR);
     return 0;
 }
 EOF
