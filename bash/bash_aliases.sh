@@ -84,13 +84,23 @@ cenv() {
     return 1
 }
 
+run() {
+    local dir="$(pwd)"
+
+    while [[ "$dir" != "$HOME" ]]; do
+        if [[ -f "$dir/run" ]]; then
+            (cd "$dir" && ./run "$@")
+            return
+        fi
+        dir="$(dirname "$dir")"
+    done
+
+    echo "no project root found" >&2
+    return 1
+}
+
 cinit() {
-    curl -O https://raw.githubusercontent.com/simon-danielsson/cenv/refs/heads/main/cenv-init.sh || {
-        error "failed to curl cenv-init.sh"
-    }
-    chmod +x ./cenv-init.sh
-    ./cenv-init.sh $1
-    rm cenv-init.sh
+    $HOME/dotfiles/scripts/c-project-init.sh $1
 }
 
 # emoji picker
