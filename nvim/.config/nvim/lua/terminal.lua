@@ -103,7 +103,7 @@ function M.setup()
         end
 
         ensure_terminal(
-            'echo "No build.sh or dev file found, defaulting to regular build command" && ' .. fallback_cmd
+            fallback_cmd
         )
     end
 

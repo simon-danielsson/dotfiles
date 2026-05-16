@@ -250,6 +250,8 @@ function M.setup()
                 cmd("normal! gg=G")
             elseif ft == "rust" then
                 cmd("normal! gg=G")
+            elseif ft == "python" then
+                cmd("normal! gg=G")
             elseif ft == "odin" then
                 cmd("normal! gg=G")
             elseif not has_lsp then

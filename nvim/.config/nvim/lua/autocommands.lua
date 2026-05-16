@@ -121,11 +121,11 @@ function M.setup()
 
     autocmd("BufWritePost", {
         group = write_group,
-        pattern = { "*.sh", "*.desktop" },
+        pattern = { "*.py", "*.sh", "*.desktop" },
         callback = function()
             vim.fn.system({ "chmod", "+x", vim.fn.expand("%:p") })
         end,
-        desc = "Make shell scripts and .desktop files executable",
+        desc = "Make bash/python/desktop files executable",
     })
 end
 

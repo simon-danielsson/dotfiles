@@ -100,6 +100,7 @@ run() {
 }
 
 cinit() {
+    rm ./init.sh
     curl -O https://raw.githubusercontent.com/simon-danielsson/c_template/refs/heads/main/init.sh || {
         error "failed to curl cenv-init.sh"
     }
