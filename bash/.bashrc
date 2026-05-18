@@ -14,6 +14,7 @@ export PATH="$HOME/go/bin:$PATH"
 
 # manually installed binaries
 export PATH="$HOME/.local/bin:$PATH"
+
 # haskell
 export PATH="$HOME/.ghcup/bin:$PATH"
 
@@ -31,17 +32,22 @@ if [ -f ~/bash_aliases.sh ]; then
     source ~/bash_aliases.sh
 fi
 
-_raket() {
-    local last_status=$?
-    PS1="$(raket --status="$last_status")"
-}
-PROMPT_COMMAND=_raket
-
 # _raket() {
 #     local last_status=$?
-#     PS1="$(/Users/simondanielsson/dev/rust/raket/target/release/raket --status="$last_status")"
+#     PS1="$(raket --status="$last_status")"
 # }
 # PROMPT_COMMAND=_raket
+
+_bums() {
+    export PREV_EXIT=$?
+    PS1="$(
+      "$(
+        command ls -t $HOME/dev/c/bums/build/release/* | head -n 1
+      )"
+    )"
+}
+
+PROMPT_COMMAND=_bums
 
 # man page colors
 

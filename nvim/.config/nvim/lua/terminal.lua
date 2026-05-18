@@ -78,7 +78,18 @@ function M.setup()
     -- if no build.sh/dev was found, use fallback command
     local function run_build_or_fallback(fallback_cmd)
         local dir = vim.fn.expand("%:p:h")
-        local candidates = { "build.sh", "dev", "run", "cenv" }
+        local candidates = { "build.sh", "dev", "run", "run.py", "cenv" }
+
+        local function run_file(path)
+            local cwd = vim.fn.shellescape(dir)
+            local escaped = vim.fn.shellescape(path)
+
+            if path:match("%.py$") then
+                return "clear && cd " .. cwd .. " && python3 " .. escaped
+            else
+                return "clear && cd " .. cwd .. " && bash " .. escaped
+            end
+        end
 
         for _ = 1, 4 do
             if not dir or dir == "" then
@@ -90,7 +101,7 @@ function M.setup()
                 local stat = vim.loop.fs_stat(path)
 
                 if stat and stat.type == "file" then
-                    ensure_terminal("clear && bash " .. vim.fn.shellescape(path))
+                    ensure_terminal(run_file(path))
                     return
                 end
             end
@@ -102,9 +113,7 @@ function M.setup()
             dir = parent
         end
 
-        ensure_terminal(
-            fallback_cmd
-        )
+        ensure_terminal(fallback_cmd)
     end
 
     autocmd("FileType", {

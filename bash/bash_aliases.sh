@@ -88,8 +88,8 @@ run() {
     local dir="$(pwd)"
 
     while [[ "$dir" != "$HOME" ]]; do
-        if [[ -f "$dir/run" ]]; then
-            (cd "$dir" && ./run "$@")
+        if [[ -f "$dir/run.py" ]]; then
+            (cd "$dir" && ./run.py "$@")
             return
         fi
         dir="$(dirname "$dir")"
@@ -100,13 +100,17 @@ run() {
 }
 
 cinit() {
-    rm ./init.sh
-    curl -O https://raw.githubusercontent.com/simon-danielsson/c_template/refs/heads/main/init.sh || {
-        error "failed to curl cenv-init.sh"
+    file="init.py"
+    curl -O https://raw.githubusercontent.com/simon-danielsson/c_template/refs/heads/main/"$file" || {
+        echo "failed to curl $file" >&2
+        exit 1
     }
-    chmod +x ./init.sh
-    ./init.sh $1
-    rm init.sh
+    curl -L https://github.com/simon-danielsson/c_template/archive/refs/heads/main.tar.gz \
+    | tar -xz --strip-components=1 c_template-main/cinit_temp
+    chmod +x ./"$file"
+    ./"$file" $1
+    command rm "$file"
+    command rm -rf cinit_temp
 }
 
 # emoji picker
@@ -143,7 +147,7 @@ dev() {
 # safe mv command
 alias mv="mv -i"
 
-# i can't type the word "exit" properly
+# i can't type "exit" properly
 alias exti="exit"
 alias t="exit"
 alias xeti="exit"
@@ -215,7 +219,7 @@ jump() {
   label="${selected%%$'\t'*}"
   target="${selected#*$'\t'}"
 
-  # Expand ~ if used
+  # expand ~
   eval "target=\"$target\""
 
   if [[ -d "$target" ]]; then

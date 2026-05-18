@@ -251,6 +251,10 @@ function M.setup()
             elseif ft == "rust" then
                 cmd("normal! gg=G")
             elseif ft == "python" then
+                cmd("silent! %!black -q -")
+                local pos = vim.api.nvim_win_get_cursor(0)
+                cmd([[silent! %s/\s\+$//e]]); cmd([[silent! %s/\(\n\)\{3,}/\r\r/e]])
+                vim.api.nvim_win_set_cursor(0, pos)
                 cmd("normal! gg=G")
             elseif ft == "odin" then
                 cmd("normal! gg=G")
