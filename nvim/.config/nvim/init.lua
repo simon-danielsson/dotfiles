@@ -1,15 +1,9 @@
 -- plugins --------------------------------------------------------------------
 
 vim.pack.add({
-    {
-        src = "https://github.com/simon-danielsson/dimma.nvim"
-    },
-    {
-        src = "https://github.com/nvim-mini/mini.pairs"
-    },
-    {
-        src = "https://github.com/nvim-mini/mini.snippets"
-    }
+    "https://github.com/simon-danielsson/dimma.nvim",
+    "https://github.com/nvim-mini/mini.pairs",
+    "https://github.com/nvim-mini/mini.snippets",
 })
 
 require('mini.pairs').setup()
