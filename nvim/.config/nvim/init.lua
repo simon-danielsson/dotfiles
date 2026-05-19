@@ -5,7 +5,10 @@ vim.pack.add({
         src = "https://github.com/simon-danielsson/dimma.nvim"
     },
     {
-        src = "https://github.com/nvim-mini/mini.nvim"
+        src = "https://github.com/nvim-mini/mini.pairs"
+    },
+    {
+        src = "https://github.com/nvim-mini/mini.snippets"
     }
 })
 
