@@ -11,7 +11,6 @@ vim.pack.add({
 
 require('mini.pairs').setup()
 require('mini.snippets').setup()
-require('mini.git').setup()
 
 require('dimma').setup({
     transparent = false,
