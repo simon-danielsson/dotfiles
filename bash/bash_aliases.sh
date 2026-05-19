@@ -221,7 +221,7 @@ jump() {
 
   selected="$(
     printf '%s\n' "${entries[@]}" \
-      | fzf --prompt="shortcut > " \
+      | fzf --prompt=" " \
             --height=40% \
             --reverse \
             --border \
