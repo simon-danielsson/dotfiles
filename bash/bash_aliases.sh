@@ -11,6 +11,9 @@ alias website="cd ~/dev/rust/website/"
 
 # external programs -----------------------------------------------------------
 
+cee() {
+    $HOME/dev/c/cee/build/release/*
+}
 # generate slide presentation
 alias visa="$HOME/dev/c/visa/build/release/*"
 
@@ -99,6 +102,16 @@ run() {
     return 1
 }
 
+cinitraw() {
+    cp $HOME/dev/python/c_template/init.py .
+    chmod +x init.py
+    cp -R $HOME/dev/python/c_template/cinit_temp .
+    ./init.py $1 "$2"
+    command rm init.py
+    command rm -rf cinit_temp
+
+}
+
 cinit() {
     file="init.py"
     curl -O https://raw.githubusercontent.com/simon-danielsson/c_template/refs/heads/main/"$file" || {
@@ -108,7 +121,7 @@ cinit() {
     curl -L https://github.com/simon-danielsson/c_template/archive/refs/heads/main.tar.gz \
     | tar -xz --strip-components=1 c_template-main/cinit_temp
     chmod +x ./"$file"
-    ./"$file" $1
+    ./"$file" $1 "$2"
     command rm "$file"
     command rm -rf cinit_temp
 }

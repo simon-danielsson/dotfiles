@@ -32,12 +32,6 @@ if [ -f ~/bash_aliases.sh ]; then
     source ~/bash_aliases.sh
 fi
 
-# _raket() {
-#     local last_status=$?
-#     PS1="$(raket --status="$last_status")"
-# }
-# PROMPT_COMMAND=_raket
-
 _bums() {
     export PREV_EXIT=$?
     PS1="$(
