@@ -17,14 +17,6 @@ function M.setup()
     -- diagnostics display
     vim.diagnostic.config({ float = { border = "rounded" }, })
 
-    -- these colors are the ones used in dimma.nvim
-
-    require('dimma').setup({
-        transparent = false, -- if true, background is not set
-        bold = true,         -- disable bold globally
-        italic = false,      -- disable italic globally
-    })
-
     cmd.colorscheme("dimma")
 end
 

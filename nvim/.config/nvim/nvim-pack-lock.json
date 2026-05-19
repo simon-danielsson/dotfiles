@@ -3,6 +3,10 @@
     "dimma.nvim": {
       "rev": "f41e9c05251b1be70d07705a7daef66daf395612",
       "src": "https://github.com/simon-danielsson/dimma.nvim"
+    },
+    "mini.nvim": {
+      "rev": "264b5c8fc6e82212af0dc5c345145cfa916efeb6",
+      "src": "https://github.com/nvim-mini/mini.nvim"
     }
   }
 }
