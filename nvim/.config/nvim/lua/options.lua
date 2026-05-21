@@ -5,7 +5,6 @@ local o   = vim.o
 local map = vim.keymap.set
 
 function M.setup()
-
     -- line numbers
     opt.number         = true; opt.relativenumber = true
 
@@ -28,14 +27,14 @@ function M.setup()
 
     -- editing
     opt.iskeyword:append({ "-", "_" })
-    opt.backspace     = "indent,eol,start"
-    opt.modifiable    = true
+    opt.backspace   = "indent,eol,start"
+    opt.modifiable  = true
 
     -- windows, splits & buffers
-    opt.splitbelow    = true; opt.autochdir = true
-    opt.splitright    = true; o.equalalways = true
-    opt.hidden        = true
-    opt.diffopt       = {
+    opt.splitbelow  = true; opt.autochdir = true
+    opt.splitright  = true; o.equalalways = true
+    opt.hidden      = true
+    opt.diffopt     = {
         "filler",
         "indent-heuristic",
         "linematch:60",
@@ -43,24 +42,24 @@ function M.setup()
     }
 
     -- cursor & statusline
-    opt.mouse         = "a"
-    opt.cursorline    = true
-    o.showmode        = true; o.laststatus = 3
-    opt.guicursor     = "n-v-c:block-blinkwait700-blinkoff400-blinkon250" ..
+    opt.mouse       = "a"
+    opt.cursorline  = true
+    o.showmode      = true; o.laststatus = 3
+    opt.guicursor   = "n-v-c:block-blinkwait700-blinkoff400-blinkon250" ..
         ",i:ver25-blinkwait700-blinkoff400-blinkon250,r:hor20"
 
     -- appearance
-    o.signcolumn      = 'yes:1'; opt.winborder = "rounded"
-    opt.termguicolors = true; o.encoding = "utf-8"
-    opt.numberwidth   = 4; opt.showmatch = true
+    o.signcolumn    = 'yes:1'; opt.winborder = "rounded"
+    o.encoding      = "utf-8"
+    opt.numberwidth = 4; opt.showmatch = true
 
-    opt.list          = true
-    opt.listchars     = {
+    opt.list        = true
+    opt.listchars   = {
         tab = "│ ",
         trail = "•",
         nbsp = " ",
     }
-    opt.fillchars     = {
+    opt.fillchars   = {
         horiz     = "─",
         horizup   = "┴",
         horizdown = "┬",

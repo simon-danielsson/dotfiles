@@ -5,6 +5,194 @@ local map     = vim.keymap.set
 local shl     = vim.api.nvim_set_hl
 local autocmd = vim.api.nvim_create_autocmd
 function M.setup()
+    -- modules/autopairs ------------------------------------------------------
+
+    local autopairs = {}
+    autopairs.pairs = {
+        ["("] = ")",
+        ["["] = "]",
+        ["{"] = "}",
+        ["<"] = ">",
+    }
+    autopairs.quotes = {
+        ["'"] = true,
+        ['"'] = true,
+        ["`"] = true,
+    }
+
+    local closing_to_opening = {}
+    for open, close in pairs(autopairs.pairs) do
+        closing_to_opening[close] = open
+    end
+
+    local function getline()
+        return vim.fn.getline(".")
+    end
+
+    local function col()
+        return vim.fn.col(".")
+    end
+
+    local function get_char_at(pos)
+        if pos < 1 then
+            return ""
+        end
+        local line = getline()
+        return line:sub(pos, pos)
+    end
+
+    local function is_word_char(c)
+        return c ~= "" and c:match("[%w_]")
+    end
+
+    local function is_escaped(line, pos)
+        local count = 0
+        pos = pos - 1
+        while pos > 0 and line:sub(pos, pos) == "\\" do
+            count = count + 1
+            pos = pos - 1
+        end
+        return count % 2 == 1
+    end
+
+    local function can_auto_close_quote(line, pos, _)
+        local prev = line:sub(pos - 1, pos - 1)
+        local next = line:sub(pos, pos)
+        if is_escaped(line, pos) then
+            return false
+        end
+        if is_word_char(prev) or is_word_char(next) then
+            return false
+        end
+        return true
+    end
+
+    local function build_pair_stack_until(line, stop_pos)
+        local stack = {}; local active_quote = nil
+
+        for i = 1, stop_pos do
+            local ch = line:sub(i, i)
+
+            if active_quote then
+                if ch == active_quote and not is_escaped(line, i) then
+                    active_quote = nil
+                end
+            else
+                if autopairs.quotes[ch] and not is_escaped(line, i) then
+                    active_quote = ch
+                elseif autopairs.pairs[ch] then
+                    stack[#stack + 1] = ch
+                elseif closing_to_opening[ch] then
+                    local expected = closing_to_opening[ch]
+                    if stack[#stack] == expected then
+                        stack[#stack] = nil
+                    end
+                end
+            end
+        end
+        return stack, active_quote
+    end
+
+    local function has_unmatched_closer_ahead(open, close)
+        local line = getline(); local cursor_col = col()
+        local stack, active_quote = build_pair_stack_until(line, cursor_col - 1)
+        for i = cursor_col, #line do
+            local ch = line:sub(i, i)
+
+            if active_quote then
+                if ch == active_quote and not is_escaped(line, i) then
+                    active_quote = nil
+                end
+            else
+                if autopairs.quotes[ch] and not is_escaped(line, i) then
+                    active_quote = ch
+                elseif autopairs.pairs[ch] then
+                    stack[#stack + 1] = ch
+                elseif closing_to_opening[ch] then
+                    local expected = closing_to_opening[ch]
+
+                    if stack[#stack] == expected then
+                        stack[#stack] = nil
+                    else
+                        if ch == close and expected == open then
+                            return true
+                        end
+                    end
+                end
+            end
+        end
+
+        return false
+    end
+
+    function autopairs.open(char)
+        local line = getline(); local c = col(); local next = get_char_at(c)
+        if autopairs.quotes[char] then
+            if next == char and not is_escaped(line, c) then
+                return "<Right>"
+            end
+            if not can_auto_close_quote(line, c, char) then
+                return char
+            end
+            return char .. char .. "<Left>"
+        end
+        local close = autopairs.pairs[char]
+        if not close then
+            return char
+        end
+        if has_unmatched_closer_ahead(char, close) then
+            return char
+        end
+        return char .. close .. "<Left>"
+    end
+
+    function autopairs.close(char)
+        local next = get_char_at(col())
+        if next == char then
+            return "<Right>"
+        end
+        return char
+    end
+
+    function autopairs.backspace()
+        local c = col(); local prev = get_char_at(c - 1); local next = get_char_at(c)
+        if autopairs.pairs[prev] == next or (autopairs.quotes[prev] and prev == next) then
+            return "<BS><Del>"
+        end
+        return "<BS>"
+    end
+
+    function autopairs.newline()
+        local c = col(); local prev = get_char_at(c - 1); local next = get_char_at(c)
+        if autopairs.pairs[prev] == next then
+            return "<CR><Esc>O"
+        end
+        return "<CR>"
+    end
+
+    function autopairs.setup()
+        local expr = { expr = true, noremap = true }
+        for y, c in pairs(autopairs.pairs) do
+            map("i", y, function()
+                return autopairs.open(y)
+            end, expr)
+
+            map("i", c, function()
+                return autopairs.close(c)
+            end, expr)
+        end
+        for q, _ in pairs(autopairs.quotes) do
+            map("i", q, function()
+                return autopairs.open(q)
+            end, expr)
+        end
+
+        map("i", "<BS>", autopairs.backspace, expr)
+        map("i", "<CR>", autopairs.newline, expr)
+    end
+
+    autopairs.setup()
+
     -- flash-------------------------------------------------------------------
 
     local flash = {}; local ns = vim.api.nvim_create_namespace("flash")
@@ -1295,7 +1483,7 @@ function M.setup()
     local active_hl = "BufListActive"
     local inactive_hl = "BufListInactive"
 
-    vim.api.nvim_set_hl(0, active_hl, { link = "Visual" })
+    vim.api.nvim_set_hl(0, active_hl, { link = "CursorLine" })
     vim.api.nvim_set_hl(0, inactive_hl, { link = "LineNr" })
 
     local buf, win

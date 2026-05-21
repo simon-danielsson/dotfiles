@@ -1,19 +1,10 @@
 -- plugins --------------------------------------------------------------------
 
 vim.pack.add({
-    "https://github.com/simon-danielsson/dimma.nvim",
-    "https://github.com/nvim-mini/mini.pairs",
     "https://github.com/nvim-mini/mini.snippets",
 })
 
-require('mini.pairs').setup()
 require('mini.snippets').setup()
-
-require('dimma').setup({
-    transparent = false,
-    bold = true,
-    italic = false,
-})
 
 -- native ---------------------------------------------------------------------
 
