@@ -1,13 +1,3 @@
--- plugins --------------------------------------------------------------------
-
-vim.pack.add({
-    "https://github.com/nvim-mini/mini.snippets",
-})
-
-require('mini.snippets').setup()
-
--- native ---------------------------------------------------------------------
-
 require('options').setup()
 require('netrw').setup()
 require('keymaps').setup()
