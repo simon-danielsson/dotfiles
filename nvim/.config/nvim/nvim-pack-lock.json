@@ -1,13 +1,5 @@
 {
   "plugins": {
-    "dimma.nvim": {
-      "rev": "f41e9c05251b1be70d07705a7daef66daf395612",
-      "src": "https://github.com/simon-danielsson/dimma.nvim"
-    },
-    "mini.pairs": {
-      "rev": "30cf2f01c4aaa2033db67376b9924fa2442c05d6",
-      "src": "https://github.com/nvim-mini/mini.pairs"
-    },
     "mini.snippets": {
       "rev": "9a08aa14e02abb790c823a622d7d6c736cbbe65a",
       "src": "https://github.com/nvim-mini/mini.snippets"
