@@ -28,8 +28,8 @@ export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="/Applications/MacPorts/Emacs.app/Contents/MacOS:$PATH"
 
-if [ -f ~/bash_aliases.sh ]; then
-    source ~/bash_aliases.sh
+if [ -f ~/dotfiles/bash_aliases.sh ]; then
+    source ~/dotfiles/bash_aliases.sh
 fi
 
 _bums() {

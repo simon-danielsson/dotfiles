@@ -11,20 +11,25 @@ alias website="cd ~/dev/rust/website/"
 
 # external programs -----------------------------------------------------------
 
-cee() {
-    $HOME/dev/c/cee/build/release/*
+# open devdocs.io in browser (MacOS/linux)
+local devdocs() {
+    local url="https://devdocs.io"
+    local min="open -a \"Min\" $@ >/dev/null 2>&1 &"
+    if command -v min >/dev/null 2>&1; then
+        min "$url"
+    elif command -v qutebrowser >/dev/null 2>&1; then
+        qutebrowser "$url" >/dev/null 2>&1 &
+    elif command -v firefox >/dev/null 2>&1; then
+        firefox "$url" >/dev/null 2>&1 &
+    elif command -v xdg-open >/dev/null 2>&1; then
+        xdg-open "$url" >/dev/null 2>&1 &
+    elif command -v open >/dev/null 2>&1; then
+        open "$url" >/dev/null 2>&1 &
+    else
+        echo "No supported browser found."
+        return 1
+    fi
 }
-# generate slide presentation
-alias visa="$HOME/dev/c/visa/build/release/*"
-
-# generate a random color palette
-alias rngb="$HOME/dev/c/rngb/build/release/*"
-
-# open devdocs.io in the min browser
-alias devdocs="open -a \"Min\" https://devdocs.io"
-
-# fastfetch (doubles as clear and go back to home dir)
-alias ff="cd && clear && fastfetch"; alias nf="cd && clear && fastfetch"
 
 # mupdf with invert as def (macOS = mupdf-gl, linux = mupdf)
 mupdf() {
@@ -44,7 +49,7 @@ cheat() {
 }
 
 # shorten url
-shorten() {
+short() {
     curl -F url=$@ https://shorta.link
 }
 
@@ -59,8 +64,6 @@ size() {
     echo "Current directory size: $dir_size"
 }
 
-alias todo="$HOME/dev/c/jobb/build/main"
-
 # vim config
 alias vimconf="cd ~/dotfiles/nvim/.config/nvim"
 
@@ -71,21 +74,6 @@ alias vimpack="cd ~/.local/share/nvim/site/pack/core/opt"
 alias license="~/dotfiles/scripts/init-license.sh"
 
 # cenv c project generator and build-system -----------------------------------
-
-cenv() {
-    local dir="$(pwd)"
-
-    while [[ "$dir" != "$HOME" ]]; do
-        if [[ -f "$dir/cenv" ]]; then
-            (cd "$dir" && ./cenv "$@")
-            return
-        fi
-        dir="$(dirname "$dir")"
-    done
-
-    echo "no project root found" >&2
-    return 1
-}
 
 run() {
     local dir="$(pwd)"
@@ -126,18 +114,6 @@ cinit() {
     command rm -rf cinit_temp
 }
 
-# emoji picker
-EM_PICKER="/Users/simondanielsson/dotfiles/scripts/emoji-picker.sh"
-alias emoji=$EM_PICKER
-alias em=$EM_PICKER
-
-# devicon picker
-DEV_PICKER="/Users/simondanielsson/dotfiles/scripts/devicon-picker.sh"
-alias devicon=$DEV_PICKER
-alias dev=$DEV_PICKER
-
-# general alias overrides -----------------------------------------------------
-
 # neovim via bob
 NVIM="bob run nightly"
 alias nvim=$NVIM
@@ -152,11 +128,6 @@ alias sbash=$SBASH
 alias sb=$SBASH
 alias sba=$SBASH
 
-# make running ./dev shell scripts easier
-dev() {
-  ./dev "$@"
-}
-
 # safe mv command
 alias mv="mv -i"
 
@@ -169,25 +140,6 @@ alias ex="exit"
 alias eixt="exit"
 alias exi="exit"
 alias xti="exit"
-
-# notes and journaling --------------------------------------------------------
-
-journal() {
-    local today=$(date +"%Y-%m-%d")
-    local dir="$HOME/journal"
-    local file="$dir/${today}.md"
-    local template="$dir/template.md"
-    mkdir -p "$dir"
-    # only copy template if the file doesn't already exist
-    if [ ! -f "$file" ]; then
-        if [ -f "$template" ]; then
-            cp "$template" "$file"
-        else
-            touch "$file"
-        fi
-    fi
-    nvim "$file"
-}
 
 alias notes="cd ~/notes"
 n() {
@@ -208,11 +160,66 @@ n() {
     nvim "$file"
 }
 
-# directories and searching ---------------------------------------------------
+# recursively delete all trash files in current folder
+unalias ds 2>/dev/null
+ds() {
+    find . \
+        \( \
+            -name ".DS_Store" \
+            -o -name "Thumbs.db" \
+            -o -name "nvim.log" \
+            -o -name "*.tmp" \
+            -o -name ".pytest_cache" \
+            -o -name "__pycache__" \
+        \) \
+        -delete
+}
+
+# ls default
+alias ls='ls -paGAoh -D "%Y-%m-%d %H:%M" '
+
+# my own worse version of ls
+alias ta="ta -a "
+
+# safe rm command
+rm() {
+  local cwd
+  cwd="$(pwd -P)"
+
+  if [[ "$cwd" == "/" || "$cwd" == "$HOME" ]]; then
+    echo "'rm' command blocked: refusing to run rm from home dir"
+    echo "Use command 'permanent' if you really mean it."
+    return 1
+  fi
+
+  trash "$@"
+}
+
+# safe rm command override
+permanent() {
+  echo "Permanent delete (no Trash): $*"
+  read -p "Type DELETE to continue: " confirm
+  [[ "$confirm" != "DELETE" ]] && return 1
+
+  /bin/rm "$@"
+}
+
+# fzf pickers -----------------------------------------------------------------
+
+# emoji picker
+EM_PICKER="/Users/simondanielsson/dotfiles/scripts/emoji-picker.sh"
+alias emoji=$EM_PICKER
+alias em=$EM_PICKER
+
+# devicon picker
+DEV_PICKER="/Users/simondanielsson/dotfiles/scripts/devicon-picker.sh"
+alias devicon=$DEV_PICKER
+alias dev=$DEV_PICKER
 
 jump() {
     local entries=(
         $'downloads\t'"$HOME/Downloads"
+        $'desktop\t'"$HOME/Desktop"
         $'dotfiles\t'"$HOME/dotfiles"
         $'notes\t'"$HOME/notes"
         $'nvim config\t'"$HOME/dotfiles/nvim/.config/nvim"
@@ -247,23 +254,7 @@ jump() {
   fi
 }
 
-# copy working directory - add path of pwd to clipboard
-alias cwd='pwd | pbcopy'
-
-# recursively delete all trash files in current folder
-unalias ds 2>/dev/null
-ds() {
-    find . -name ".DS_Store" -type f -delete
-    find . -name "nvim.log" -type f -delete
-}
-
-# ls default
-alias ls='ls -paGAoh -D "%d-%m-%Y %H:%M" '
-
-# my own worse version of ls
-alias ta="ta -a "
-
-# grep using fzf
+# grep
 unalias g 2>/dev/null
 g() {
     local query="${*:-}"
@@ -315,7 +306,7 @@ s() {
 
 }
 
-# global search from home directory
+# global search from '/' directory
 unalias ss 2>/dev/null
 ss() {
     local target
@@ -334,29 +325,3 @@ ss() {
         esac
     fi
 }
-
-# i launched rm in $HOME once and i don't want it to happen again -------------
-
-# safe rm command
-rm() {
-  local cwd
-  cwd="$(pwd -P)"
-
-  if [[ "$cwd" == "/" || "$cwd" == "$HOME" ]]; then
-    echo "'rm' command blocked: refusing to run rm from home dir"
-    echo "Use command 'permanent' if you really mean it."
-    return 1
-  fi
-
-  trash "$@"
-}
-
-# safe rm command override
-permanent() {
-  echo "Permanent delete (no Trash): $*"
-  read -p "Type DELETE to continue: " confirm
-  [[ "$confirm" != "DELETE" ]] && return 1
-
-  /bin/rm "$@"
-}
-
