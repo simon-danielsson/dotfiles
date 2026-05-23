@@ -145,6 +145,13 @@ function M.setup()
 
     -- lsp
 
+    cmd("packadd nvim.undotree")
+    map("n", "<leader>u", function()
+        require("undotree").open({
+            command = math.floor(vim.api.nvim_win_get_width(0) / 3) .. "vnew",
+        })
+    end, { desc = "Undotree toggle" })
+
     map("n", "K", function() vim.lsp.buf.hover({ border = "rounded" }) end)
     map("n", "<C-k>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end)
 

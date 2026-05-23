@@ -27,6 +27,17 @@ function M.setup()
         desc = "Auto-resize splits when window is resized",
     })
 
+    autocmd("LspAttach", {
+        group = ui_group,
+        callback = function(args)
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            if client then
+                print("LSP attached: " .. client.name)
+            end
+        end,
+        desc = "notify at LSP client attach",
+    })
+
     autocmd('BufWinEnter', {
         group = ui_group,
         pattern = { '*.txt' },

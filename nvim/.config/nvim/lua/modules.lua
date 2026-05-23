@@ -959,58 +959,6 @@ function M.setup()
         return picker
     end
 
-    -- qf jumps ---------------------------------------------------------------
-
-    shl(0, "QfJumpCurrent", { link = "Visual" })
-    local jumps_ns = api.nvim_create_namespace("JumpListQuickfix")
-
-    local jumps = create_qf_picker({
-        name = "jumps",
-        defaults = {
-            title = "Jumplist",
-            keymap = "<leader>j",
-            desc = "Open current window jumplist",
-            include_current = true,
-            empty_message = "No jumps found in current window",
-        },
-
-        collect = function(o)
-            local jl, idx = unpack(fn.getjumplist()); local items = {}
-            for i, j in ipairs(jl or {}) do
-                local b, name = j.bufnr or 0, bufname(j)
-                if b <= 0 and name ~= "" then b = fn.bufnr(name, false) end
-                local lnum, col = j.lnum or 1, j.col or 1
-                local text = b > 0 and line(b, lnum) or ""
-                if text == "" then text = name ~= "" and norm(name) or "[No text]" end
-                items[#items + 1] = {
-                    bufnr = b > 0 and b or nil,
-                    filename = (b <= 0 and name ~= "") and name or nil,
-                    lnum = lnum,
-                    col = col,
-                    text = text,
-                    user_data = { jump_index = i, current = o.include_current and i == idx + 1 or false },
-                }
-            end
-            return items
-        end,
-
-        format_item = function(item, _, _, normalize)
-            local p = normalize((bufname(item) ~= "" and bufname(item)) or "[No Name]")
-            local m = item.user_data and item.user_data.current and "●" or " "
-            return ("%s %s:%d:%d: %s"):format(m, p, item.lnum or 0, item.col or 0, item.text or "")
-        end,
-
-        decorate_qf = function(buf, id)
-            api.nvim_buf_clear_namespace(buf, jumps_ns, 0, -1)
-            for i, item in ipairs(fn.getqflist({ id = id, items = 1 }).items or {}) do
-                if item.user_data and item.user_data.current then
-                    api.nvim_buf_set_extmark(buf, jumps_ns, i - 1, 0, { line_hl_group = "QfJumpCurrent", priority = 10 })
-                end
-            end
-        end,
-    })
-    jumps.setup()
-
     -- qf marks ---------------------------------------------------------------
 
     shl(0, "QfMarkLocal", { link = "String" })
@@ -1454,27 +1402,6 @@ function M.setup()
     end
 
     grep_picker.setup()
-
-    -- undotree ---------------------------------------------------------------
-
-    cmd("packadd nvim.undotree")
-    map("n", "<leader>u", function()
-        require("undotree").open({
-            command = math.floor(vim.api.nvim_win_get_width(0) / 3) .. "vnew",
-        })
-    end, { desc = "Undotree toggle" })
-
-    -- lsp_attach -------------------------------------------------------------
-
-    autocmd("LspAttach", {
-        callback = function(args)
-            local client = vim.lsp.get_client_by_id(args.data.client_id)
-            if client then
-                print("LSP attached: " .. client.name)
-            end
-        end,
-        desc = "notify at LSP client attach",
-    })
 
     -- qf buffers -------------------------------------------------------------
 
