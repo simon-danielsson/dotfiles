@@ -22,19 +22,6 @@ function M.setup()
             vim.wo.number = true
         end,
     })
-
-    autocmd("FileType", {
-        pattern = "netrw",
-        callback = function(args)
-            autocmd("BufLeave", {
-                buffer = args.buf,
-                once = true,
-                callback = function()
-                    cmd("pclose")
-                end,
-            })
-        end,
-    })
 end
 
 return M
