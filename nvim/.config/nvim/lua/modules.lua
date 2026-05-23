@@ -1,12 +1,11 @@
-local M       = {}
+local M   = {}
 
-local cmd     = vim.cmd
-local map     = vim.keymap.set
-local shl     = vim.api.nvim_set_hl
-local autocmd = vim.api.nvim_create_autocmd
+local cmd = vim.cmd
+local map = vim.keymap.set
+local shl = vim.api.nvim_set_hl
+
 function M.setup()
     -- modules/autopairs ------------------------------------------------------
-
     local autopairs = {}
     autopairs.pairs = {
         ["("] = ")",
@@ -25,13 +24,8 @@ function M.setup()
         closing_to_opening[close] = open
     end
 
-    local function getline()
-        return vim.fn.getline(".")
-    end
-
-    local function col()
-        return vim.fn.col(".")
-    end
+    local function getline() return vim.fn.getline(".") end
+    local function col() return vim.fn.col(".") end
 
     local function get_char_at(pos)
         if pos < 1 then
@@ -46,11 +40,9 @@ function M.setup()
     end
 
     local function is_escaped(line, pos)
-        local count = 0
-        pos = pos - 1
+        local count = 0; pos = pos - 1
         while pos > 0 and line:sub(pos, pos) == "\\" do
-            count = count + 1
-            pos = pos - 1
+            count = count + 1; pos = pos - 1
         end
         return count % 2 == 1
     end
@@ -58,12 +50,8 @@ function M.setup()
     local function can_auto_close_quote(line, pos, _)
         local prev = line:sub(pos - 1, pos - 1)
         local next = line:sub(pos, pos)
-        if is_escaped(line, pos) then
-            return false
-        end
-        if is_word_char(prev) or is_word_char(next) then
-            return false
-        end
+        if is_escaped(line, pos) then return false end
+        if is_word_char(prev) or is_word_char(next) then return false end
         return true
     end
 
@@ -72,7 +60,6 @@ function M.setup()
 
         for i = 1, stop_pos do
             local ch = line:sub(i, i)
-
             if active_quote then
                 if ch == active_quote and not is_escaped(line, i) then
                     active_quote = nil
@@ -84,9 +71,7 @@ function M.setup()
                     stack[#stack + 1] = ch
                 elseif closing_to_opening[ch] then
                     local expected = closing_to_opening[ch]
-                    if stack[#stack] == expected then
-                        stack[#stack] = nil
-                    end
+                    if stack[#stack] == expected then stack[#stack] = nil end
                 end
             end
         end
@@ -110,7 +95,6 @@ function M.setup()
                     stack[#stack + 1] = ch
                 elseif closing_to_opening[ch] then
                     local expected = closing_to_opening[ch]
-
                     if stack[#stack] == expected then
                         stack[#stack] = nil
                     else
@@ -137,20 +121,14 @@ function M.setup()
             return char .. char .. "<Left>"
         end
         local close = autopairs.pairs[char]
-        if not close then
-            return char
-        end
-        if has_unmatched_closer_ahead(char, close) then
-            return char
-        end
+        if not close then return char end
+        if has_unmatched_closer_ahead(char, close) then return char end
         return char .. close .. "<Left>"
     end
 
     function autopairs.close(char)
         local next = get_char_at(col())
-        if next == char then
-            return "<Right>"
-        end
+        if next == char then return "<Right>" end
         return char
     end
 
@@ -164,9 +142,7 @@ function M.setup()
 
     function autopairs.newline()
         local c = col(); local prev = get_char_at(c - 1); local next = get_char_at(c)
-        if autopairs.pairs[prev] == next then
-            return "<CR><Esc>O"
-        end
+        if autopairs.pairs[prev] == next then return "<CR><Esc>O" end
         return "<CR>"
     end
 
@@ -253,18 +229,13 @@ function M.setup()
     local function char_sub(s, start_char, len) return vim.fn.strcharpart(s, start_char, len) end
 
     local function drop_last_char(s)
-        local n = char_count(s)
-        if n <= 0 then
-            return ""
-        end
+        local n = char_count(s); if n <= 0 then return "" end
         return char_sub(s, 0, n - 1)
     end
 
     local function utf8_chars(s)
         local out = {}; local n = char_count(s)
-        for i = 0, n - 1 do
-            out[#out + 1] = char_sub(s, i, 1)
-        end
+        for i = 0, n - 1 do out[#out + 1] = char_sub(s, i, 1) end
         return out
     end
 
@@ -274,30 +245,23 @@ function M.setup()
     end
 
     local function char_at_byte(line, bytepos1)
-        if bytepos1 < 1 or bytepos1 > #line then
-            return nil
-        end
+        if bytepos1 < 1 or bytepos1 > #line then return nil end
         return line:sub(bytepos1, bytepos1)
     end
 
     local function snapshot_view()
         local bufnr = state.bufnr
-
         local top, bot
         if config.scope == "buffer" then
-            top = 1
-            bot = vim.api.nvim_buf_line_count(bufnr)
+            top = 1; bot = vim.api.nvim_buf_line_count(bufnr)
         else
-            local winid = state.winid
-            top = vim.fn.line("w0", winid)
+            local winid = state.winid; top = vim.fn.line("w0", winid)
             bot = vim.fn.line("w$", winid)
         end
         local lines = vim.api.nvim_buf_get_lines(bufnr, top - 1, bot, false)
         local normalized = {}
 
-        for i, line in ipairs(lines) do
-            normalized[i] = normalize(line)
-        end
+        for i, line in ipairs(lines) do normalized[i] = normalize(line) end
         state.view = {
             top = top,
             bot = bot,
@@ -314,9 +278,7 @@ function M.setup()
             local lnum = state.view.top + i - 1; local hay = state.view.normalized[i]; local start = 1
             while true do
                 local s, e = hay:find(needle, start, true)
-                if not s then
-                    break
-                end
+                if not s then break end
                 local col0 = s - 1
                 if not (lnum == curline and col0 == curcol) then
                     out[#out + 1] = {
@@ -328,9 +290,7 @@ function M.setup()
                         label = nil,
                     }
 
-                    if #out >= config.max_matches then
-                        return out
-                    end
+                    if #out >= config.max_matches then return out end
                 end
                 start = s + 1
             end
@@ -343,8 +303,7 @@ function M.setup()
 
         local out = {}; local needle = normalize(pattern); local needle_len = #needle
         for _, m in ipairs(matches) do
-            local hay = state.view.normalized[m.row]
-            local s1 = m.col + 1
+            local hay = state.view.normalized[m.row]; local s1 = m.col + 1
             local e1 = s1 + needle_len - 1
             if hay:sub(s1, e1) == needle then
                 local next_char = char_at_byte(state.view.lines[m.row], e1 + 1)
@@ -382,9 +341,7 @@ function M.setup()
     local function available_labels(reserved)
         local out = {}
         for _, ch in ipairs(utf8_chars(config.labels)) do
-            if not reserved[normalize(ch)] then
-                out[#out + 1] = ch
-            end
+            if not reserved[normalize(ch)] then out[#out + 1] = ch end
         end
         return out
     end
@@ -404,20 +361,15 @@ function M.setup()
 
     local function assign_labels(matches, reserved)
         local label_map = {}
-        for _, m in ipairs(matches) do
-            m.label = nil
-        end
+        for _, m in ipairs(matches) do m.label = nil end
         if char_count(state.pattern) < config.min_pattern_for_labels then
             return label_map
         end
         local labels = available_labels(reserved)
-        if #labels == 0 then
-            labels = utf8_chars(config.labels)
-        end
+        if #labels == 0 then labels = utf8_chars(config.labels) end
         local n = math.min(#matches, #labels)
         for i = 1, n do
-            local label = labels[i]
-            matches[i].label = label
+            local label = labels[i]; matches[i].label = label
             label_map[normalize(label)] = matches[i]
         end
 
@@ -490,8 +442,7 @@ function M.setup()
         if char_count(state.pattern) >= config.min_pattern_for_labels then
             local labeled = state.label_map[key]
             if labeled then
-                jump_to(labeled)
-                return
+                jump_to(labeled); return
             end
         end
 
@@ -502,32 +453,26 @@ function M.setup()
     end
 
     function flash.jump()
-        reset()
-        state.active = true; state.winid = vim.api.nvim_get_current_win()
+        reset(); state.active = true; state.winid = vim.api.nvim_get_current_win()
         state.bufnr = vim.api.nvim_get_current_buf(); state.pattern = ""
         snapshot_view(); render()
 
         while state.active do
             local ok, ch = pcall(vim.fn.getcharstr)
             if not ok then
-                reset()
-                return
+                reset(); return
             end
             if is_cancel(ch) then
-                reset()
-                return
+                reset(); return
             elseif is_backspace(ch) then
                 local next_pattern = drop_last_char(state.pattern)
                 if next_pattern ~= state.pattern then
-                    state.pattern = next_pattern
-                    refresh_state("rebuild")
+                    state.pattern = next_pattern; refresh_state("rebuild")
                     render()
                 end
             elseif is_printable(ch) then
                 handle_printable(ch)
-                if state.active then
-                    render()
-                end
+                if state.active then render() end
             end
         end
     end
@@ -597,13 +542,10 @@ function M.setup()
         while i <= #line do
             local ch = line:sub(i, i)
             if ch == " " then
-                cells[vcol] = true
-                vcol = vcol + 1
+                cells[vcol] = true; vcol = vcol + 1
             elseif ch == "\t" then
                 local w = tabstop - (vcol % tabstop)
-                for j = 0, w - 1 do
-                    cells[vcol + j] = true
-                end
+                for j = 0, w - 1 do cells[vcol + j] = true end
                 vcol = vcol + w
             else
                 break
@@ -631,18 +573,15 @@ function M.setup()
     function indent_guides.refresh() cmd("redraw") end
 
     function indent_guides.enable()
-        enabled = true
-        indent_guides.refresh()
+        enabled = true; indent_guides.refresh()
     end
 
     function indent_guides.disable()
-        enabled = false
-        indent_guides.refresh()
+        enabled = false; indent_guides.refresh()
     end
 
     function indent_guides.toggle()
-        enabled = not enabled
-        indent_guides.refresh()
+        enabled = not enabled; indent_guides.refresh()
     end
 
     function indent_guides.setup(opts)
@@ -669,10 +608,8 @@ function M.setup()
 
                 local lnum = row + 1; local line = get_line(bufnr, lnum)
                 if not line then return end
-
                 local sw = get_shiftwidth(bufnr); local tabstop = vim.bo[bufnr].tabstop
                 local start = config.show_first_level and 0 or sw; local cells, indent_width
-
                 if is_blank(line) then
                     if not config.show_blanklines then return end
                     indent_width = get_blankline_indent(bufnr, lnum); cells = {}
@@ -761,9 +698,7 @@ function M.setup()
     local function count_char(s, ch)
         local n = 0; local i = 1
         while i <= #s do
-            if s:sub(i, i) == ch then
-                n = n + 1
-            end
+            if s:sub(i, i) == ch then n = n + 1 end
             i = i + 1
         end
         return n
@@ -774,14 +709,10 @@ function M.setup()
 
         for r = row, start, -1 do
             local l = line(bufnr, r)
-            if is_lua_closer(l) then
-                depth = depth + 1
-            end
+            if is_lua_closer(l) then depth = depth + 1 end
             if is_lua_opener(l) then
                 depth = depth - 1
-                if depth == 0 then
-                    return shorten(l)
-                end
+                if depth == 0 then return shorten(l) end
             end
         end
         return nil
@@ -792,9 +723,7 @@ function M.setup()
         for r = row, start, -1 do
             local l = line(bufnr, r)
             depth = depth + count_char(l, close_ch); depth = depth - count_char(l, open_ch)
-            if depth <= 0 and l:find(open_ch, 1, true) then
-                return shorten(l)
-            end
+            if depth <= 0 and l:find(open_ch, 1, true) then return shorten(l) end
         end
         return nil
     end
@@ -967,10 +896,8 @@ function M.setup()
 
     local mark_kind = function(m)
         local c = (m or ""):sub(-1)
-
         if c:match("%l") then return "local" end
         if c:match("%u") then return "global" end
-
         return "builtin"
     end
 
@@ -1049,9 +976,7 @@ function M.setup()
 
             vim.keymap.set("n", "d", function()
                 local qf = fn.getqflist({ id = id, items = 1 })
-                local items = qf.items or {}
-
-                local idx = fn.line(".")
+                local items = qf.items or {}; local idx = fn.line(".")
                 local item = items[idx]
                 if not item then return end
 
@@ -1073,9 +998,7 @@ function M.setup()
                     end
                 end
 
-                delete_mark(item)
-
-                table.remove(items, idx)
+                delete_mark(item); table.remove(items, idx)
 
                 fn.setqflist({}, "r", {
                     id = id,
@@ -1083,9 +1006,7 @@ function M.setup()
                 })
 
                 local new_idx = math.min(idx, #items)
-                if new_idx > 0 then
-                    vim.cmd(("silent %dcc"):format(new_idx))
-                end
+                if new_idx > 0 then vim.cmd(("silent %dcc"):format(new_idx)) end
 
                 api.nvim_buf_clear_namespace(buf, marks_ns, 0, -1)
 

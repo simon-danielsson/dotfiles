@@ -113,7 +113,9 @@ cinit() {
 # neovim via bob
 NVIM="bob run nightly"
 alias nvim=$NVIM
+alias nv=$NVIM
 alias vnim=$NVIM
+alias nivm=$NVIM
 
 # add to clipboard
 alias clip="pbcopy"
