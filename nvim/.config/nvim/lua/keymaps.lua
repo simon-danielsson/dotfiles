@@ -57,11 +57,6 @@ function M.setup()
 
     -- navigation: global
 
-    map("n", "<leader>f", function()
-        local dir = vim.fn.getcwd()
-        cmd("Explore " .. vim.fn.fnameescape(dir))
-    end)
-
     map("n", "<Left>", "<cmd>bprevious<cr>", { desc = "Go to prev buffer" })
     map("n", "<Right>", "<cmd>bnext<cr>", { desc = "Go to next buffer" })
 

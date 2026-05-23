@@ -10,6 +10,11 @@ function M.setup()
     g.netrw_preview        = 1; g.netrw_keepdir = 0; bo.bufhidden = "wipe"
     vim.g.netrw_localrmdir = "rm -r"
 
+    map("n", "<leader>f", function()
+        local dir = vim.fn.getcwd()
+        cmd("Explore " .. vim.fn.fnameescape(dir))
+    end)
+
     autocmd({ "FileType", "BufWinEnter" }, {
         pattern = "netrw",
         callback = function()
