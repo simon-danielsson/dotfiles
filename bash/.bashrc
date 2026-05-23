@@ -29,7 +29,7 @@ export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="/Applications/MacPorts/Emacs.app/Contents/MacOS:$PATH"
 
 if [ -f ~/dotfiles/bash_aliases.sh ]; then
-    source ~/dotfiles/bash_aliases.sh
+    source ~/bash_aliases.sh
 fi
 
 _bums() {
