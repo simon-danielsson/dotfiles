@@ -74,8 +74,6 @@ function M.setup()
         vim.cmd("startinsert")
     end
 
-    -- search for build.sh/dev in current and parent directories
-    -- if no build.sh/dev was found, use fallback command
     local function run_build_or_fallback(fallback_cmd)
         local dir = vim.fn.expand("%:p:h")
         local candidates = { "build.sh", "dev", "run", "run.py", "cenv" }

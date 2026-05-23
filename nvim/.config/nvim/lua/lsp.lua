@@ -9,7 +9,20 @@ function M.setup()
         callback = function()
             vim.opt_local.spell = true; vim.opt_local.spelllang = { "en" }
         end,
-        desc = "spell checking inside markdown and text files",
+        desc = "Spell-checking inside markdown/text buffers",
+    })
+
+    vim.diagnostic.config({
+        virtual_text = {
+            current_line = true,
+            spacing = 2,
+            prefix = "",
+        },
+
+        signs = true,
+        underline = true,
+        update_in_insert = false,
+        severity_sort = true,
     })
 
     -- preview color on hex/rgb codes etc.
@@ -19,19 +32,12 @@ function M.setup()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-    -- nvim doesn't recognize odin
     vim.filetype.add({
         extension = {
             odin = "odin",
+            h = 'c'
         },
     })
-
-    -- clangd is annoying
-    vim.filetype.add({
-        extension = { h = 'c' },
-    })
-
-    vim.lsp.codelens.enable(true)
 
     local lsp_servers = {
         rust_analyzer = {
@@ -77,7 +83,6 @@ function M.setup()
             root_markers = { 'ols.json', 'odinfmt.json', '.git' },
             settings = {
                 ['ols'] = {},
-                codelens = { enable = true },
             },
         },
 
@@ -87,7 +92,6 @@ function M.setup()
             root_markers = { '.git' },
             settings = {
                 ['taplo'] = {},
-                codelens = { enable = true },
             },
         },
 
@@ -97,7 +101,6 @@ function M.setup()
             root_markers = { '.git' },
             settings = {
                 bashIde = {},
-                codelens = { enable = true },
             },
         },
 
@@ -117,7 +120,6 @@ function M.setup()
                 '.git',
             },
             settings = {
-                codelens = { enable = true },
                 python = {
                     analysis = {
                         typeCheckingMode = "basic",
@@ -129,9 +131,6 @@ function M.setup()
         },
 
         clangd = {
-            settings = {
-                codelens = { enable = true },
-            },
             cmd = {
                 'clangd',
                 '--background-index',
@@ -159,13 +158,11 @@ function M.setup()
             root_markers = { 'package.json', 'tsconfig.json', '.git' },
             settings = {
                 typescript = {
-                    codelens = { enable = true },
                     inlayHints = {
                         includeInlayParameterNameHints = "all",
                     },
                 },
                 javascript = {
-                    codelens = { enable = true },
                     inlayHints = {
                         includeInlayParameterNameHints = "all",
                     },
@@ -179,7 +176,6 @@ function M.setup()
             root_markers = { '.git', '.luarc.json', '.luarc.jsonc' },
             settings = {
                 Lua = {
-                    codelens = { enable = true },
                     runtime = {
                         version = 'LuaJIT',
                     },

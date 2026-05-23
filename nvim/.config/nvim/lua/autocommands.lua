@@ -79,7 +79,7 @@ function M.setup()
                 end
             end
         end,
-        desc = "auto delete intro screen",
+        desc = "Auto-delete intro screen",
     })
 
     autocmd("BufNewFile", {
@@ -87,7 +87,7 @@ function M.setup()
         command = "silent! 0r "
             .. vim.fn.stdpath("config")
             .. "/templates/template.%:e",
-        desc = "If one exists, use a template when opening a new file",
+        desc = "Use a template when opening a new file",
     })
 
     autocmd("BufWritePre", {
@@ -99,7 +99,7 @@ function M.setup()
                 vim.fn.mkdir(dir, "p")
             end
         end,
-        desc = "Auto create directories before save",
+        desc = "Auto-create directories before save",
     })
     local write_group = augroup("WriteCommands", { clear = true })
 
