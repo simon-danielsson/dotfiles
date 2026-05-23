@@ -95,11 +95,11 @@ function M.setup()
     autocmd("BufWritePre", {
         group = write_group,
         callback = function(event)
-            -- skip if path is a protocol (e.g., git:, fzf:)
+            -- skip if path is protocol (e.g., git:, fzf:)
             if event.match:match("^%w%w+:[\\/][\\/]") then return end
             local file = vim.uv.fs_realpath(event.match) or event.match
-            local dir = vim.fn.fnamemodify(file, ":p:h") -- parent directory
-            vim.fn.mkdir(dir, "p")                       -- create recursively
+            local dir = vim.fn.fnamemodify(file, ":p:h") -- parent
+            vim.fn.mkdir(dir, "p")
         end,
         desc = "Auto-create parent directories before saving"
     })

@@ -12,15 +12,11 @@ alias website="cd ~/dev/rust/website/"
 # external programs -----------------------------------------------------------
 
 # open devdocs.io in browser (MacOS/linux)
-local devdocs() {
+devdocs() {
     local url="https://devdocs.io"
     local min="open -a \"Min\" $@ >/dev/null 2>&1 &"
     if command -v min >/dev/null 2>&1; then
         min "$url"
-    elif command -v qutebrowser >/dev/null 2>&1; then
-        qutebrowser "$url" >/dev/null 2>&1 &
-    elif command -v firefox >/dev/null 2>&1; then
-        firefox "$url" >/dev/null 2>&1 &
     elif command -v xdg-open >/dev/null 2>&1; then
         xdg-open "$url" >/dev/null 2>&1 &
     elif command -v open >/dev/null 2>&1; then

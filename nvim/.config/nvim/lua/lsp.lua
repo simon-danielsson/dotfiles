@@ -217,13 +217,6 @@ function M.setup()
         vim.lsp.config(name, config); vim.lsp.enable(name)
     end
 
-    -- codelens
-    vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function()
-            vim.lsp.codelens.enable(true)
-        end,
-    })
-
     -- =========================================================
     -- !!! lsp/format
     -- =========================================================

@@ -92,7 +92,6 @@ function M.setup()
     vim.diagnostic.config({ float = { border = "rounded" }, })
 
     vim.o.termguicolors = true
-    -- my favorites: unokai, shine, retrobox, catppuccin, sorbet, habamax
     cmd.colorscheme("habamax")
     vim.o.background = "dark"
 
