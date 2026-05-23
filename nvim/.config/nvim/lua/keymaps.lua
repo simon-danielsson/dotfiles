@@ -4,16 +4,15 @@ local cmd = vim.cmd
 local map = vim.keymap.set
 function M.setup()
     -- leader
-    vim.g.mapleader      = " "; vim.g.maplocalleader = " "
+    vim.g.mapleader      = " "
+    vim.g.maplocalleader = " "
 
-    -- navigation: local
     map("n", "i", "<Nop>")
     map("n", "I", "<Nop>")
     map("n", "o", "<Nop>")
     map("n", "O", "<Nop>")
 
     map({ "n", "v" }, "n", "h", { desc = "Move left" })
-
     map({ "n", "v" }, "i", "l", { desc = "Move right" })
 
     map({ 'n', 'v' }, 'o', "v:count == 0 ? 'gk' : 'k'",
