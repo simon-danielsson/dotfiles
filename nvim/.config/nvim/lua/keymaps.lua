@@ -104,11 +104,10 @@ function M.setup()
     map("n", "vip", function()
         local cur_line = vim.api.nvim_win_get_cursor(0)[1]
         local total_lines = vim.api.nvim_buf_line_count(0)
-        local top = cur_line
+        local top, bottom = cur_line, cur_line
         while top > 1 and vim.fn.getline(top - 1):match("^%s*$") == nil do
             top = top - 1
         end
-        local bottom = cur_line
         while bottom < total_lines and vim.fn.getline(bottom + 1):match("^%s*$") == nil do
             bottom = bottom + 1
         end
@@ -148,14 +147,6 @@ function M.setup()
 
     map("n", "K", function() vim.lsp.buf.hover({ border = "rounded" }) end)
     map("n", "<C-k>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end)
-
-    map("n", "å", function()
-        local bufnr = vim.api.nvim_get_current_buf()
-        vim.lsp.inlay_hint.enable(
-            not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }),
-            { bufnr = bufnr }
-        )
-    end, { desc = "Toggle Inlay Hints" })
 
     map("n", "gd", vim.lsp.buf.definition); map("n", "gr", vim.lsp.buf.references)
 end
