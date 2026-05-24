@@ -5,6 +5,10 @@ alias nvim="bob run nightly"
 alias ls="command ls -acrlh --color"
 alias ta="command ls -acrlh --color"
 
+pdf() {
+    pdftotext "$1" - | glow -p -l
+}
+
 search() {
     mkdir -p ~/.ddgr_logs
 
