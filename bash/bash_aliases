@@ -39,6 +39,9 @@ start() {
     tmux new-window -t "$SESSION:4" -n dotfiles
     tmux send-keys -t "$SESSION:4" "clear && cd ~/dotfiles && onefetch --no-art" C-m
 
+    tmux new-window -t "$SESSION:4" -n web
+    tmux send-keys -t "$SESSION:4" "clear && ddgr" C-m
+
     tmux select-window -t "$SESSION:1"
     tmux attach -t "$SESSION"
 
