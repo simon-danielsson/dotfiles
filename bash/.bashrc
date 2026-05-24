@@ -86,6 +86,7 @@ _bums() {
 PROMPT_COMMAND=_bums
 
 alias lynx="lynx -cfg=~/dotfiles/lynx.cfg"
+unalias lynx
 export BROWSER=lynx
 
 # man page colors
