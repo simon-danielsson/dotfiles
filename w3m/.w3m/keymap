@@ -26,7 +26,7 @@ keymap $ NULL
 keymap C-e NULL
 keymap 0 NULL
 keymap Z NULL
-keymap z NULL
+#keymap z NULL
 keymap w NULL
 keymap W NULL
 keymap b NULL

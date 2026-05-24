@@ -20,8 +20,6 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-export BROWSER=w3m
-
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
@@ -86,6 +84,9 @@ _bums() {
         )"
 }
 PROMPT_COMMAND=_bums
+
+alias lynx="lynx -cfg=~/dotfiles/lynx.cfg"
+export BROWSER=lynx
 
 # man page colors
 
