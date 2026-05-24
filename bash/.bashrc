@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 case $- in
     *i*) ;;
     *) return;;
@@ -74,6 +76,16 @@ export PATH="$HOME/.cargo/:$PATH"
 export PATH="/usr/local/bin:$PATH"
 
 source ~/bash_aliases
+
+_bums() {
+    export PREV_EXIT=$?
+    PS1="$(
+        "$(
+            command ls -t $HOME/dev/c/bums/build/release/* | head -n 1
+            )"
+        )"
+}
+PROMPT_COMMAND=_bums
 
 # man page colors
 

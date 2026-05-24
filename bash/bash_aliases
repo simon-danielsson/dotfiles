@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 alias nvim="bob run nightly"
 
 alias ls="command ls -acrlh --color"
@@ -20,11 +22,31 @@ ff() {
     fastfetch
 }
 
+start() {
+    tmux kill-server 2>/dev/null
+
+    SESSION="main"
+
+    tmux new-session -d -s "$SESSION" -n main
+    tmux send-keys -t "$SESSION:1" "ff" C-m
+
+    tmux new-window -t "$SESSION:2" -n development
+    tmux send-keys -t "$SESSION:2" "clear && cd ~/dev && ta" C-m
+
+    tmux new-window -t "$SESSION:3" -n notes
+    tmux send-keys -t "$SESSION:3" "clear && cd ~/notes" C-m
+
+    tmux new-window -t "$SESSION:4" -n dotfiles
+    tmux send-keys -t "$SESSION:4" "clear && cd ~/dotfiles && onefetch --no-art" C-m
+
+    tmux select-window -t "$SESSION:1"
+    tmux attach -t "$SESSION"
+
+}
+
 cheat() {
     curl cheat.sh/$@
 }
-
-# alias ls='ls -paGAoh -D "%Y-%m-%d %H:%M" '
 
 alias sbash="source ~/.bashrc"
 
