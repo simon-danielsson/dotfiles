@@ -1,0 +1,168 @@
+alias nvim="bob run nightly"
+
+alias ls="command ls -acrlh --color"
+alias ta="command ls -acrlh --color"
+
+search() {
+    mkdir -p ~/.ddgr_logs
+
+    local query="$*"
+    local timestamp
+    timestamp=$(date +"%Y-%m-%d")
+
+    local logfile="$HOME/.ddgr_logs/${query}_${timestamp}.log"
+
+    ddgr --np --num=25 "$query" | tee "$logfile" | less -R
+}
+
+ff() {
+    clear
+    fastfetch
+}
+
+cheat() {
+    curl cheat.sh/$@
+}
+
+# alias ls='ls -paGAoh -D "%Y-%m-%d %H:%M" '
+
+alias sbash="source ~/.bashrc"
+
+run() {
+    local dir="$(pwd)"
+
+    while [[ "$dir" != "$HOME" ]]; do
+        if [[ -f "$dir/run.py" ]]; then
+            (cd "$dir" && ./run.py "$@")
+            return
+        fi
+        dir="$(dirname "$dir")"
+    done
+
+    echo "no project root found" >&2
+    return 1
+}
+
+cinit() {
+    file="init.py"
+    curl -O https://raw.githubusercontent.com/simon-danielsson/c_template/refs/heads/main/"$file" || {
+        echo "failed to curl $file" >&2
+            exit 1
+    }
+curl -L https://github.com/simon-danielsson/c_template/archive/refs/heads/main.tar.gz \
+    | tar -xz --strip-components=1 c_template-main/cinit_temp
+chmod +x ./"$file"
+./"$file" $1 "$2"
+command rm "$file"
+command rm -rf cinit_temp
+}
+
+jump() {
+    local entries=(
+        $'downloads\t'"$HOME/Downloads"
+        $'desktop\t'"$HOME/Desktop"
+        $'dotfiles\t'"$HOME/dotfiles"
+        $'notes\t'"$HOME/notes"
+        $'nvim config\t'"$HOME/dotfiles/nvim/.config/nvim"
+        $'development\t'"$HOME/dev"
+    )
+
+    local selected label target
+
+    selected="$(
+        printf '%s\n' "${entries[@]}" \
+            | fzf --prompt=" " \
+            --height=40% \
+            --reverse \
+            --border \
+            --delimiter=$'\t' \
+            --with-nth=1
+        )" || return
+
+        label="${selected%%$'\t'*}"
+        target="${selected#*$'\t'}"
+
+        # expand ~
+        eval "target=\"$target\""
+
+        if [[ -d "$target" ]]; then
+            cd "$target" || return
+        elif [[ -f "$target" ]]; then
+            nvim "$target"
+        else
+            printf 'Not found: %s\n' "$target" >&2
+            return 1
+        fi
+}
+
+# grep
+unalias g 2>/dev/null
+g() {
+    local query="${*:-}"
+
+    local -a rg_opts=(
+        --column
+        --line-number
+        --no-heading
+        --color=never
+        --smart-case
+        --hidden
+        --glob '!.git/'
+        --glob '!target/'
+        --glob '!node_modules/'
+        --glob '!.gitignore'
+        --glob '!*.lock'
+    )
+
+    local reload_cmd
+    reload_cmd="rg $(printf "%q " "${rg_opts[@]}") {q} . 2>/dev/null || true"
+
+    fzf --disabled \
+        --query "$query" \
+        --delimiter : \
+        --preview 'bat --style=numbers --highlight-line {2} {1}' \
+        --preview-window '~3,+{2}/2' \
+        --bind "start:reload:$reload_cmd" \
+        --bind "change:reload:$reload_cmd" \
+        --bind 'enter:become(bob run nightly "+call cursor({2},{3})" -- {1})'
+}
+
+# local search from current directory
+unalias s 2>/dev/null
+s() {
+    local target
+    target=$(find | fzf --preview='[[ -d {} ]] && exa -al {} || bat --style=numbers {}') || return
+    if [[ -d $target ]]; then
+        cd "$target"
+    elif [[ -f $target ]]; then
+        case "$target" in
+            *.pdf)
+                mupdf "$target" & disown
+                ;;
+            *)
+                nvim "$target"
+                ;;
+        esac
+    fi
+
+}
+
+# global search from '/' directory
+unalias ss 2>/dev/null
+ss() {
+    local target
+    target=$(find | \
+        fzf --preview='[[ -d {} ]] && exa -al {} || bat --style=numbers {}') || return
+    if [[ -d $target ]]; then
+        cd "$target"
+    elif [[ -f $target ]]; then
+        case "$target" in
+            *.pdf)
+                mupdf "$target" & disown
+                ;;
+            *)
+                nvim "$target"
+                ;;
+        esac
+    fi
+}

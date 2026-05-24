@@ -171,6 +171,7 @@ function M.setup()
         },
 
         lua_ls = {
+            -- cmd = { '~/dev/source_code/lua-language-server/bin/lua-language-server' },
             cmd = { 'lua-language-server' },
             filetypes = { 'lua' },
             root_markers = { '.git', '.luarc.json', '.luarc.jsonc' },
