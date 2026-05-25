@@ -1,0 +1,12 @@
+{
+  "plugins": {
+    "render-markdown.nvim": {
+      "rev": "629eb9533ec989d9d5c6cab8f3ad5372422c24e0",
+      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim.git"
+    },
+    "zk-nvim": {
+      "rev": "bc3b39374b25fad977cecc936588cb060f15a773",
+      "src": "https://github.com/zk-org/zk-nvim.git"
+    }
+  }
+}
