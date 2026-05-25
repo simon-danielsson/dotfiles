@@ -39,7 +39,7 @@ start() {
     tmux new-session -d -s "$SESSION" -n main
     tmux send-keys -t "$SESSION:1" "ff" C-m
 
-    tmux new-window -t "$SESSION:2" -n development
+    tmux new-window -t "$SESSION:2" -n dev
     tmux send-keys -t "$SESSION:2" "clear && cd ~/dev && ta" C-m
 
     tmux new-window -t "$SESSION:3" -n notes
@@ -48,8 +48,8 @@ start() {
     tmux new-window -t "$SESSION:4" -n dotfiles
     tmux send-keys -t "$SESSION:4" "clear && cd ~/dotfiles && onefetch --no-art" C-m
 
-    tmux new-window -t "$SESSION:5" -n web
-    tmux send-keys -t "$SESSION:5" "clear && lynx \"duckduckgo.com\"" C-m
+    tmux new-window -t "$SESSION:5" -n search
+    tmux send-keys -t "$SESSION:5" "clear && ddgr" C-m
 
     tmux select-window -t "$SESSION:1"
     tmux attach -t "$SESSION"
