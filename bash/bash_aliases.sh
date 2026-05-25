@@ -39,6 +39,9 @@ mupdf() {
     fi
 }
 
+alias ff="clear && fastfetch --config neofetch"
+alias of="clear && onefetch -d url churn --no-title --no-art --no-color-palette"
+
 # terminal cheat lookup
 cheat() {
     curl cheat.sh/$@
