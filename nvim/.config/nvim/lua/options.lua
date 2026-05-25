@@ -15,7 +15,7 @@ function M.setup()
 
     -- wrapping & linebreaks
     opt.wrap           = true; opt.linebreak = true
-    o.breakindent      = true; opt.showbreak = '󱞩 '
+    o.breakindent      = true; opt.showbreak = '→ '
     opt.scrolloff      = 99; opt.scrolloffpad = 1
     opt.virtualedit    = "onemore"
     opt.sidescrolloff  = 6; opt.smoothscroll = false
@@ -49,7 +49,7 @@ function M.setup()
         ",i:ver25-blinkwait700-blinkoff400-blinkon250,r:hor20"
 
     -- appearance
-    o.signcolumn    = 'yes:1'; opt.winborder = "rounded"
+    o.signcolumn    = 'yes:1'; opt.winborder = "none"
     o.encoding      = "utf-8"
     opt.numberwidth = 4; opt.showmatch = true
 

@@ -1426,7 +1426,7 @@ function M.setup()
             noautocmd = true,
         })
 
-        vim.wo[win].winhl = "Normal:NormalFloat,FloatBorder:FloatBorder"
+        vim.wo[win].winhl = "Normal:NormalFloat,FloatBorder:None"
         buflist.render()
     end
 

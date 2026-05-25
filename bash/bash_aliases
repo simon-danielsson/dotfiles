@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
+alias exti="exit"
+alias ex="exit"
+
 alias nvim="bob run nightly"
+alias nvm="bob run nightly"
+alias nivm="bob run nightly"
+alias nv="bob run nightly"
 
 alias ls="command ls -acrlh --color"
 alias ta="command ls -acrlh --color"
@@ -50,6 +56,11 @@ start() {
 
     tmux new-window -t "$SESSION:5" -n search
     tmux send-keys -t "$SESSION:5" "clear && ddgr" C-m
+
+    tmux new-window -t "$SESSION:6" -n music
+    tmux send-keys -t "$SESSION:6" "alsamixer" C-m
+    tmux split-window -h -l 55 -t "$SESSION:6"
+    tmux send-keys -t "$SESSION:6.1" "kew" C-m
 
     tmux select-window -t "$SESSION:1"
     tmux attach -t "$SESSION"

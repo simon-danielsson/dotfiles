@@ -145,8 +145,8 @@ function M.setup()
         })
     end, { desc = "Undotree toggle" })
 
-    map("n", "K", function() vim.lsp.buf.hover({ border = "rounded" }) end)
-    map("n", "<C-k>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end)
+    map("n", "K", function() vim.lsp.buf.hover({ border = "none" }) end)
+    map("n", "<C-k>", function() vim.lsp.buf.signature_help({ border = "none" }) end)
 
     map("n", "gd", vim.lsp.buf.definition); map("n", "gr", vim.lsp.buf.references)
 end

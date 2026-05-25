@@ -12,7 +12,7 @@ M.colors        = {
 
 local overrides = {
     -- line numbers
-    LineNr              = { fg = M.colors.mg_1, bg = "none" },
+    LineNr              = { ctermfg = 8, bg = "none" },
     LineNrAbove         = { link = "LineNr" },
     LineNrBelow         = { link = "LineNr" },
     CursorLineNr        = { fg = M.colors.fg_1, bg = "none" },
@@ -32,48 +32,48 @@ local overrides = {
     TabLineSep          = { fg = M.colors.mg_1, bg = M.colors.bg_2 },
 
     -- hints
-    -- Comment             = { fg = M.colors.fg_2, bg = M.colors.bg_2 },
-    IndentGuide         = { fg = M.colors.mg_1, bg = M.colors.bg_2 },
+    Comment             = { ctermfg = 8, bg = M.colors.bg_2 },
+    IndentGuide         = { ctermfg = 8, bg = M.colors.bg_2 },
     LspInlineCompletion = { fg = M.colors.mg_1, bg = M.colors.bg_2 },
-    Biscuit             = { fg = M.colors.mg_1, bg = M.colors.bg_1 },
+    Biscuit             = { ctermbg = 0, bg = "none", ctermfg = 8 },
 
     -- normal
     Normal              = { fg = M.colors.fg_1, bg = "none" },
     NormalNC            = { link = "Normal" },
 
     -- cursor
-    CursorLine          = { bg = M.colors.bg_1 },
-    Visual              = { bg = M.colors.mg_1 },
+    CursorLine          = { ctermbg = 0, bg = "none" },
+    Visual              = { link = "CursorLine" },
 
     -- quickfix
     QuickFixLine        = { ctermbg = 0 },
     qfFileName          = { fg = M.colors.fg_1 },
 
     -- float
-    NormalFloat         = { fg = M.colors.fg_2, bg = "none" },
-    FloatBorder         = { fg = M.colors.fg_2, bg = "none" },
+    NormalFloat         = { fg = M.colors.fg_2, ctermbg = 0 },
+    FloatBorder         = { ctermfg = 8, ctermbg = 0 },
 
     -- splits
-    WinSeparator        = { fg = M.colors.mg_1, bg = "none" },
+    WinSeparator        = { ctermfg = 8, bg = "none" },
     EndOfBuffer         = { link = "CursorLineNr" },
     ColorColumn         = { ctermbg = 0, bg = M.colors.bg_1 },
     VertSplit           = { ctermbg = 0, bg = "none", fg = "none" },
 
     -- popup menu
-    Pmenu               = { fg = M.colors.fg_2, bg = M.colors.bg_2 },
-    PmenuSel            = { bg = M.colors.mg_1, fg = M.colors.fg_1 },
-    PmenuKind           = { bg = M.colors.bg_2, fg = M.colors.fg_1 },
+    Pmenu               = { fg = M.colors.fg_2, ctermbg = 0 },
+    menuSel             = { ctermbg = 8, bg = "none", ctermfg = 0, bold = true },
+    PmenuKind           = { bg = M.colors.bg_2, ctermfg = 8 },
     PmenuExtra          = { bg = M.colors.bg_2, fg = M.colors.fg_1 },
     PmenuMatch          = { bg = M.colors.mg_1, fg = M.colors.fg_1 },
-    PmenuKindSel        = { bg = M.colors.mg_1, bold = true },
-    PmenuMatchSel       = { link = "PmenuKindSel" },
-    PmenuExtraSel       = { link = "PmenuKindSel" },
-    PmenuThumb          = { link = "PmenuKindSel" },
-    PmenuSbar           = { bg = M.colors.bg_2 },
-    PmenuBorder         = { fg = M.colors.fg_2, bg = "none" },
+    PmenuKindSel        = { link = "PmenuSel" },
+    PmenuMatchSel       = { link = "PmenuSel" },
+    PmenuExtraSel       = { link = "PmenuSel" },
+    PmenuThumb          = { link = "PmenuSel" },
+    PmenuSbar           = { ctermfg = 8, ctermbg = 0 },
+    PmenuBorder         = { ctermfg = 0, ctermbg = 0 },
 
     -- statusline
-    StatusLine          = { fg = M.colors.fg_1, bg = M.colors.bg_1, bold = false },
+    StatusLine          = { fg = M.colors.fg_1, ctermbg = 0, bold = false },
     StatusLineNormal    = { link = "StatusLine" },
     StatusLineNC        = { link = "StatusLine" },
     StatusLineTerm      = { link = "StatusLine" },
@@ -86,13 +86,13 @@ local overrides = {
 
 function M.setup()
     -- borders
-    vim.g.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
+    -- vim.g.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
 
     -- diagnostics display
-    vim.diagnostic.config({ float = { border = "rounded" }, })
+    vim.diagnostic.config({ float = { border = "none" }, })
 
     vim.o.termguicolors = false
-    cmd.colorscheme("default")
+    cmd.colorscheme("habamax")
 
     for group, opts in pairs(overrides) do
         vim.api.nvim_set_hl(0, group, opts)
