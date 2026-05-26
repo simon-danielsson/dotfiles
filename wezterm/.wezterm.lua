@@ -32,20 +32,20 @@ config.colors = {
     foreground = custom_c.fg_1,
     background = custom_c.bg_2,
     tab_bar = {
-        background = custom_c.bg_1,
+        background = "none",
         active_tab = {
-            bg_color = custom_c.bg_2,
+            bg_color = "none",
             fg_color = custom_c.fg_1,
             intensity = 'Bold',
         },
 
         new_tab = {
-            bg_color = custom_c.bg_1,
+            bg_color = "none",
             fg_color = custom_c.bg_1,
         },
 
         inactive_tab = {
-            bg_color = custom_c.bg_1,
+            bg_color = "none",
             fg_color = custom_c.fg_2,
             intensity = 'Normal',
         },
@@ -128,6 +128,9 @@ config.keys = {
 
 -- window ---------------------------------------------------------------------
 
+config.window_background_opacity = 0.6
+config.macos_window_background_blur = 20
+
 config.window_padding = {
     left = 0,
     right = 0,
@@ -138,7 +141,7 @@ config.window_padding = {
 config.window_decorations = "INTEGRATED_BUTTONS"
 config.integrated_title_button_style = "MacOsNative"
 config.use_fancy_tab_bar = false
-config.tab_bar_at_bottom = false
+config.tab_bar_at_bottom = true
 
 wezterm.on("format-tab-title", function(tab)
     local title = tab.tab_title
@@ -158,15 +161,15 @@ wezterm.on("update-right-status", function(window, _)
 
     window:set_right_status(wezterm.format {
         { Foreground = { Color = custom_c.fg_1 } },
-        { Background = { Color = custom_c.bg_1 } },
+        { Background = "none" },
         { Text = " " .. date .. " " },
     })
 end)
 
 config.window_frame = {
     font = wezterm.font { family = 'Maple Mono NF', weight = "Bold" },
-    active_titlebar_bg = custom_c.bg_1,
-    inactive_titlebar_bg = custom_c.bg_1,
+    active_titlebar_bg = "none",
+    inactive_titlebar_bg = "none",
 
     button_fg = custom_c.fg_2,
     button_bg = custom_c.bg_2,

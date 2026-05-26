@@ -7,7 +7,7 @@ M.colors        = {
     fg_2 = "#6e6e87",
     mg_1 = "#40404f",
     bg_1 = "#2a2a33",
-    bg_2 = "#25252d",
+    bg_2 = "none",
 }
 
 local overrides = {
@@ -38,7 +38,7 @@ local overrides = {
     Biscuit             = { fg = M.colors.mg_1, bg = M.colors.bg_1 },
 
     -- normal
-    Normal              = { fg = M.colors.fg_1, bg = M.colors.bg_2 },
+    Normal              = { fg = M.colors.fg_1, bg = "none" },
     NormalNC            = { link = "Normal" },
 
     -- cursor

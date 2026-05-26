@@ -1332,6 +1332,7 @@ function M.setup()
     local inactive_hl = "BufListInactive"
 
     vim.api.nvim_set_hl(0, active_hl, { link = "CursorLine" })
+    vim.api.nvim_set_hl(0, active_hl, { bg = "none" })
     vim.api.nvim_set_hl(0, inactive_hl, { link = "LineNr" })
 
     local buf, win
