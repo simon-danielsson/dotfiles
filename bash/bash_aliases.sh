@@ -179,6 +179,9 @@ ds() {
 # ls default
 alias ls='ls -paGAoh -D "%Y-%m-%d %H:%M" '
 
+# todo finder
+alias todo="$HOME/dev/python/todo.py/src/todo.py"
+
 # my own worse version of ls
 alias ta="ta -a "
 

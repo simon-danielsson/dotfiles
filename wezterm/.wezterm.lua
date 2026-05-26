@@ -128,6 +128,13 @@ config.keys = {
 
 -- window ---------------------------------------------------------------------
 
+config.window_padding = {
+    left = 0,
+    right = 0,
+    top = 0,
+    bottom = 0,
+}
+
 config.window_decorations = "INTEGRATED_BUTTONS"
 config.integrated_title_button_style = "MacOsNative"
 config.use_fancy_tab_bar = false
@@ -138,12 +145,22 @@ wezterm.on("format-tab-title", function(tab)
     if title == nil or #title == 0 then
         title = tab.active_pane.title
     end
-    if #title < 10 then
-        title = title .. string.rep(" ", 10 - #title)
+    if #title < 8 then
+        title = title .. string.rep(" ", 8 - #title)
     end
     return {
         { Text = " " .. title .. " " },
     }
+end)
+
+wezterm.on("update-right-status", function(window, _)
+    local date = wezterm.strftime("%H:%M")
+
+    window:set_right_status(wezterm.format {
+        { Foreground = { Color = custom_c.fg_1 } },
+        { Background = { Color = custom_c.bg_1 } },
+        { Text = " " .. date .. " " },
+    })
 end)
 
 config.window_frame = {
