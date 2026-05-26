@@ -132,9 +132,9 @@ config.window_background_opacity = 0.6
 config.macos_window_background_blur = 20
 
 config.window_padding = {
-    left = 0,
-    right = 0,
-    top = 0,
+    left = 10,
+    right = 10,
+    top = 50,
     bottom = 0,
 }
 
@@ -168,8 +168,8 @@ end)
 
 config.window_frame = {
     font = wezterm.font { family = 'Maple Mono NF', weight = "Bold" },
-    active_titlebar_bg = "none",
-    inactive_titlebar_bg = "none",
+    active_titlebar_bg = custom_c.bg_1,
+    inactive_titlebar_bg = custom_c.bg_1,
 
     button_fg = custom_c.fg_2,
     button_bg = custom_c.bg_2,
