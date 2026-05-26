@@ -79,33 +79,31 @@ config.keys = {
         mods = "CMD",
         action = wezterm.action.ResetFontSize,
     },
-    -- expand pane right
+
     {
         key = "t",
         mods = "CMD|SHIFT",
         action = wezterm.action.AdjustPaneSize { "Right", 5 },
     },
 
-    -- expand pane up
     {
         key = "h",
         mods = "CMD|SHIFT",
         action = wezterm.action.AdjustPaneSize { "Up", 5 },
     },
 
-    -- expand pane down
     {
         key = "s",
         mods = "CMD|SHIFT",
         action = wezterm.action.AdjustPaneSize { "Down", 5 },
     },
 
-    -- expand pane left
     {
         key = "a",
         mods = "CMD|SHIFT",
         action = wezterm.action.AdjustPaneSize { "Left", 5 },
     },
+
     {
         key = "r",
         mods = "CMD",
