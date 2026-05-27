@@ -17,8 +17,9 @@ if status is-interactive
     alias license='~/dotfiles/scripts/init_license.sh'
 
     alias ff="clear && fastfetch --config neofetch"
-    alias of="clear && COLORTERM= onefetch -d churn --no-title --no-art \
-        --no-color-palette && todo"
+    alias of="clear && COLORTERM= onefetch -d churn --disabled-fields created \
+        size authors --no-title --no-art --no-color-palette && \
+        echo '' && ta && echo ' ' && todo"
 
     alias f='fzf --reverse --algo=v1 \
         +m --cycle --no-scrollbar \
