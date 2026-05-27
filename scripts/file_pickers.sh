@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # grep
-function g() {
+g() {
     local query="${*:-}"
 
     local -a rg_opts=(
@@ -106,3 +106,5 @@ jump() {
     return 1
   fi
 }
+
+"$@"
