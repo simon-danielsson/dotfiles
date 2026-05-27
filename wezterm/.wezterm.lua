@@ -169,14 +169,28 @@ config.tab_bar_at_bottom = true
 
 wezterm.on("format-tab-title", function(tab)
     local title = tab.tab_title
+
     if title == nil or #title == 0 then
         title = tab.active_pane.title
     end
-    if #title < 8 then
-        title = title .. string.rep(" ", 8 - #title)
+
+    local width = 10
+
+    if #title > width then
+        title = title:sub(1, width)
     end
+
+    local padding = width - #title
+    local left = math.floor(padding / 2)
+    local right = padding - left
+
+    title =
+        string.rep(" ", left)
+        .. title
+        .. string.rep(" ", right)
+
     return {
-        { Text = " " .. title .. " " },
+        { Text = title },
     }
 end)
 

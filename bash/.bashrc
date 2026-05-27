@@ -1,4 +1,11 @@
 
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+  . /usr/share/bash-completion/bash_completion
+fi
+
+source ~/bash_aliases.sh
+source ~/dotfiles/scripts/file_pickers.sh
+
 # less config
 export LESS='--mouse --wheel-lines=1'
 
@@ -27,8 +34,6 @@ export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
 # emacs
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="/Applications/MacPorts/Emacs.app/Contents/MacOS:$PATH"
-
-source ~/bash_aliases.sh
 
 _bums() {
     export PREV_EXIT=$?

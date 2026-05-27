@@ -11,22 +11,6 @@ alias website="cd ~/dev/rust/website/"
 
 # external programs -----------------------------------------------------------
 
-# open devdocs.io in browser (MacOS/linux)
-devdocs() {
-    local url="https://devdocs.io"
-    local min="open -a \"Min\" $@ >/dev/null 2>&1 &"
-    if command -v min >/dev/null 2>&1; then
-        min "$url"
-    elif command -v xdg-open >/dev/null 2>&1; then
-        xdg-open "$url" >/dev/null 2>&1 &
-    elif command -v open >/dev/null 2>&1; then
-        open "$url" >/dev/null 2>&1 &
-    else
-        echo "No supported browser found."
-        return 1
-    fi
-}
-
 # mupdf with invert as def (macOS = mupdf-gl, linux = mupdf)
 mupdf() {
     if command -v mupdf-gl >/dev/null 2>&1; then
@@ -38,9 +22,6 @@ mupdf() {
         return 1
     fi
 }
-
-alias ff="clear && fastfetch --config neofetch"
-alias of="clear && COLORTERM= onefetch -d url churn --no-title --no-color-palette"
 
 # terminal cheat lookup
 cheat() {
@@ -176,6 +157,9 @@ ds() {
         -delete
 }
 
+alias ff="clear && fastfetch --config neofetch"
+alias of="clear && COLORTERM= onefetch -d url churn --no-title --no-color-palette && todo"
+
 # ls default
 alias ls='ls -paGAoh -D "%Y-%m-%d %H:%M" '
 
@@ -220,112 +204,3 @@ DEV_PICKER="/Users/simondanielsson/dotfiles/scripts/devicon-picker.sh"
 alias devicon=$DEV_PICKER
 alias dev=$DEV_PICKER
 
-jump() {
-    local entries=(
-        $'downloads\t'"$HOME/Downloads"
-        $'desktop\t'"$HOME/Desktop"
-        $'dotfiles\t'"$HOME/dotfiles"
-        $'notes\t'"$HOME/notes"
-        $'nvim config\t'"$HOME/dotfiles/nvim/.config/nvim"
-        $'development\t'"$HOME/dev"
-      )
-
-  local selected label target
-
-  selected="$(
-    printf '%s\n' "${entries[@]}" \
-      | fzf --prompt=" " \
-            --height=40% \
-            --reverse \
-            --border \
-            --delimiter=$'\t' \
-            --with-nth=1
-  )" || return
-
-  label="${selected%%$'\t'*}"
-  target="${selected#*$'\t'}"
-
-  # expand ~
-  eval "target=\"$target\""
-
-  if [[ -d "$target" ]]; then
-    cd "$target" || return
-  elif [[ -f "$target" ]]; then
-    nvim "$target"
-  else
-    printf 'Not found: %s\n' "$target" >&2
-    return 1
-  fi
-}
-
-# grep
-unalias g 2>/dev/null
-g() {
-    local query="${*:-}"
-
-    local -a rg_opts=(
-        --column
-        --line-number
-        --no-heading
-        --color=never
-        --smart-case
-        --hidden
-        --glob '!.git/'
-        --glob '!target/'
-        --glob '!node_modules/'
-        --glob '!.gitignore'
-        --glob '!*.lock'
-    )
-
-    local reload_cmd
-    reload_cmd="rg $(printf "%q " "${rg_opts[@]}") {q} . 2>/dev/null || true"
-
-    fzf --disabled \
-        --query "$query" \
-        --delimiter : \
-        --preview 'bat --style=numbers --highlight-line {2} {1}' \
-        --preview-window '~3,+{2}/2' \
-        --bind "start:reload:$reload_cmd" \
-        --bind "change:reload:$reload_cmd" \
-        --bind 'enter:become(nvim "+call cursor({2},{3})" -- {1})'
-}
-
-# local search from current directory
-unalias s 2>/dev/null
-s() {
-    local target
-    target=$(fd --type f --type d --hidden | fzf --preview='[[ -d {} ]] && exa -al {} || bat --style=numbers {}') || return
-    if [[ -d $target ]]; then
-        cd "$target"
-    elif [[ -f $target ]]; then
-        case "$target" in
-            *.pdf)
-                mupdf "$target" & disown
-                ;;
-            *)
-                nvim "$target"
-                ;;
-        esac
-    fi
-
-}
-
-# global search from '/' directory
-unalias ss 2>/dev/null
-ss() {
-    local target
-    target=$(fd --type f --type d --hidden . ~ | \
-        fzf --preview='[[ -d {} ]] && exa -al {} || bat --style=numbers {}') || return
-    if [[ -d $target ]]; then
-        cd "$target"
-    elif [[ -f $target ]]; then
-        case "$target" in
-            *.pdf)
-                mupdf "$target" & disown
-                ;;
-            *)
-                nvim "$target"
-                ;;
-        esac
-    fi
-}
