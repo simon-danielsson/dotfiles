@@ -2,11 +2,10 @@ if status is-interactive
 
     set -U fish_greeting
 
-    alias ff="clear && fastfetch --config neofetch"
-    alias of="clear && COLORTERM= onefetch -d churn --no-title --no-art \
-        --no-color-palette && todo"
+    alias ta='exa -a --icons'
+    alias ls='exa -al --git --sort modified'
 
-    alias ex="exit" # shadow ex command that I hit by mistake all the time
+    alias ex="exit" # shadow ex command that I always hit by mistake
 
     alias todo='~/dev/python/todo.py/src/todo.py'
 
@@ -15,7 +14,11 @@ if status is-interactive
     end
 
     alias run='./run.py'
-    alias license='bass source ~/dotfiles/scripts/init_license.sh'
+    alias license='~/dotfiles/scripts/init_license.sh'
+
+    alias ff="clear && fastfetch --config neofetch"
+    alias of="clear && COLORTERM= onefetch -d churn --no-title --no-art \
+        --no-color-palette && todo"
 
     alias f='fzf --reverse --algo=v1 \
         +m --cycle --no-scrollbar \
@@ -35,7 +38,7 @@ if status is-interactive
         if test $last_status -ne 0
             set stat (set_color red)" $last_status "(set_color --reset)
         end
-        string join '' -- (set_color --reset) (prompt_pwd) \
+        string join '' -- \n (set_color --reset) (prompt_pwd) \
             (set_color --reset) $stat '$ '
     end
 end
