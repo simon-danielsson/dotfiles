@@ -1,6 +1,10 @@
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
+-- shell ----------------------------------------------------------------------
+
+config.default_prog = { '/bin/bash', '-l', '-c', 'exec fish' }
+
 -- general --------------------------------------------------------------------
 
 config.enable_scroll_bar = false
@@ -174,7 +178,7 @@ wezterm.on("format-tab-title", function(tab)
         title = tab.active_pane.title
     end
 
-    local width = 10
+    local width = 12
 
     if #title > width then
         title = title:sub(1, width)
