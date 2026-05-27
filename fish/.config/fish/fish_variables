@@ -3,4 +3,5 @@
 SETUVAR EDITOR:bob\x1euse\x1enightly
 SETUVAR __fish_initialized:4300
 SETUVAR fish_greeting:\x1d
+SETUVAR fish_right_prompt:\x1d
 SETUVAR run:\x2e/run\x2epy
