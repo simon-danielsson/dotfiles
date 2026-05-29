@@ -1,3 +1,11 @@
+-- env ------------------------------------------------------------------------
+
+if vim.env.NVIM_MODE == "term" then
+    vim.opt.shell = "/opt/homebrew/bin/fish"
+    vim.cmd("terminal")
+    vim.cmd("startinsert")
+end
+
 -- native ---------------------------------------------------------------------
 
 require('options').setup()

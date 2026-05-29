@@ -1,5 +1,8 @@
 # website management ----------------------------------------------------------
 
+# TODO: hello
+# this is another line
+
 # create new blog post
 alias blog="~/dotfiles/scripts/create-new-blog-entry-for-website.sh"
 
