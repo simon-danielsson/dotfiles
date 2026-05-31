@@ -2,6 +2,7 @@
 # VERSION: 3.0
 SETUVAR --export EDITOR:nvim
 SETUVAR __fish_initialized:4300
+SETUVAR cd:\x1d
 SETUVAR fish_greeting:\x1d
 SETUVAR fish_right_prompt:\x1d
 SETUVAR run:\x2e/run\x2epy

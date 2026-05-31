@@ -14,6 +14,9 @@ if status is-interactive
 
     alias ta='exa -a --icons -I ".DS_Store|.git|.gitignore"'
     alias ls='exa -al --git --sort modified'
+    function cd
+        builtin cd $argv
+    end
 
     alias ex="exit" # shadow ex command that I always hit by mistake
     alias exti="exit" # shadow ex command that I always hit by mistake
@@ -28,7 +31,7 @@ if status is-interactive
         -g '!*.html' -g '!nob.h' -g '!target/**' -g '!env/**' \
         -g '!*git*/**' \
         --glob-case-insensitive --color=never \
-        'TODO:' \
+        'TODO' \
         | sed -E 's/^([^:]+:[0-9]+:).*TODO:[[:space:]]*/\1 /' 2>/dev/null"
 
     function cheat
