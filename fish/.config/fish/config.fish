@@ -27,35 +27,6 @@ if status is-interactive
 
     alias rg="command rg -U -N $argv"
 
-    function g
-        set query $argv
-
-        set rg_opts \
-            --column \
-            --line-number \
-            --no-heading \
-            --color=never \
-            --smart-case \
-            --hidden \
-            --glob '!.git/' \
-            --glob '!target/' \
-            --glob '!node_modules/' \
-            --glob '!.gitignore' \
-            --glob '!*.lock'
-
-        set rg_cmd "rg $rg_opts . 2>/dev/null || true"
-
-        fzf \
-            --disabled \
-            --query "$query" \
-            --delimiter : \
-            --preview 'bat --style=numbers --highlight-line {2} {1}' \
-            --preview-window '~3,+{2}/2' \
-            --bind "start:reload:$rg_cmd" \
-            --bind "change:reload:$rg_cmd" \
-            --bind 'enter:become(nvim "+call cursor({2},{3})" -- {1})'
-    end
-
     function cheat
         curl "cheat.sh/$argv"
     end
@@ -67,33 +38,6 @@ if status is-interactive
     alias of="clear && COLORTERM= onefetch -d churn --disabled-fields created \
         size authors --no-title --no-art --no-color-palette && \
         echo '' && ta"
-
-    function s
-        set dir (bash -c '
-        cd() { builtin cd "$1" && pwd; }
-        source ~/dotfiles/scripts/file_pickers.sh
-        s
-        ')
-        test -n "$dir"; and cd "$dir"
-    end
-
-    function ss
-        set dir (bash -c '
-        cd() { builtin cd "$1" && pwd; }
-        source ~/dotfiles/scripts/file_pickers.sh
-        ss
-        ')
-        test -n "$dir"; and cd "$dir"
-    end
-
-    function jump
-        set dir (bash -c '
-        cd() { builtin cd "$1" && pwd; }
-        source ~/dotfiles/scripts/file_pickers.sh
-        jump
-        ')
-        test -n "$dir"; and cd "$dir"
-    end
 
     alias sfish='source ~/.config/fish/config.fish'
 
