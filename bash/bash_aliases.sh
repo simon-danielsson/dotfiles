@@ -164,13 +164,8 @@ alias ff="clear && fastfetch --config neofetch"
 alias of="clear && COLORTERM= onefetch -d url churn --no-title --no-color-palette && todo"
 
 # ls default
-alias ls='ls -paGAoh -D "%Y-%m-%d %H:%M" '
-
-# todo finder
-alias todo="$HOME/dev/python/todo.py/src/todo.py"
-
-# my own worse version of ls
-alias ta="ta -a "
+alias ta='exa -a --icons -I ".DS_Store|.git|.gitignore"'
+alias ls='exa -al --git --sort modified'
 
 # safe rm command
 rm() {

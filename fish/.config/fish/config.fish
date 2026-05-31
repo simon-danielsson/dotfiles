@@ -18,21 +18,43 @@ if status is-interactive
         builtin cd $argv
     end
 
-    alias ex="exit" # shadow ex command that I always hit by mistake
-    alias exti="exit" # shadow ex command that I always hit by mistake
-    alias eixt="exit" # shadow ex command that I always hit by mistake
-    alias ext="exit" # shadow ex command that I always hit by mistake
-    alias exi="exit" # shadow ex command that I always hit by mistake
-    alias xti="exit" # shadow ex command that I always hit by mistake
+    alias ex="exit"
+    alias exti="exit"
+    alias eixt="exit"
+    alias ext="exit"
+    alias exi="exit"
+    alias xti="exit"
 
     alias rg="command rg -U -N $argv"
 
-    alias todo="rg -H --vimgrep \
-        -g '!*.html' -g '!nob.h' -g '!target/**' -g '!env/**' \
-        -g '!*git*/**' \
-        --glob-case-insensitive --color=never \
-        'TODO' \
-        | sed -E 's/^([^:]+:[0-9]+:).*TODO:[[:space:]]*/\1 /' 2>/dev/null"
+    function g
+        set query $argv
+
+        set rg_opts \
+            --column \
+            --line-number \
+            --no-heading \
+            --color=never \
+            --smart-case \
+            --hidden \
+            --glob '!.git/' \
+            --glob '!target/' \
+            --glob '!node_modules/' \
+            --glob '!.gitignore' \
+            --glob '!*.lock'
+
+        set rg_cmd "rg $rg_opts . 2>/dev/null || true"
+
+        fzf \
+            --disabled \
+            --query "$query" \
+            --delimiter : \
+            --preview 'bat --style=numbers --highlight-line {2} {1}' \
+            --preview-window '~3,+{2}/2' \
+            --bind "start:reload:$rg_cmd" \
+            --bind "change:reload:$rg_cmd" \
+            --bind 'enter:become(nvim "+call cursor({2},{3})" -- {1})'
+    end
 
     function cheat
         curl "cheat.sh/$argv"
@@ -46,26 +68,31 @@ if status is-interactive
         size authors --no-title --no-art --no-color-palette && \
         echo '' && ta"
 
-    function fl # find local
-        set selected (fzf --exact --walker-root=. --reverse \
-            +m --cycle --no-scrollbar --border \
-            --preview 'bat {}')
-        if test -n "$selected"
-            if test -f "$selected"
-                $EDITOR "$selected"
-            end
-        end
+    function s
+        set dir (bash -c '
+        cd() { builtin cd "$1" && pwd; }
+        source ~/dotfiles/scripts/file_pickers.sh
+        s
+        ')
+        test -n "$dir"; and cd "$dir"
     end
 
-    function f # find global
-        set selected (fzf --exact --walker-root=$HOME --reverse \
-            +m --cycle --no-scrollbar --border \
-            --preview 'bat {}')
-        if test -n "$selected"
-            if test -f "$selected"
-                $EDITOR "$selected"
-            end
-        end
+    function ss
+        set dir (bash -c '
+        cd() { builtin cd "$1" && pwd; }
+        source ~/dotfiles/scripts/file_pickers.sh
+        ss
+        ')
+        test -n "$dir"; and cd "$dir"
+    end
+
+    function jump
+        set dir (bash -c '
+        cd() { builtin cd "$1" && pwd; }
+        source ~/dotfiles/scripts/file_pickers.sh
+        jump
+        ')
+        test -n "$dir"; and cd "$dir"
     end
 
     alias sfish='source ~/.config/fish/config.fish'

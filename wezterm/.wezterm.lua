@@ -1,10 +1,6 @@
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
--- shell ----------------------------------------------------------------------
-
-config.default_prog = { '/bin/bash', '-l', '-c', 'exec fish' }
-
 -- general --------------------------------------------------------------------
 
 config.enable_scroll_bar = false
@@ -156,9 +152,9 @@ config.keys = {
 
 -- window ---------------------------------------------------------------------
 
--- config.window_background_opacity = 0.6
--- config.macos_window_background_blur = 20
-config.window_background_opacity = 1
+config.window_background_opacity = 0.6
+config.macos_window_background_blur = 20
+--config.window_background_opacity = 1
 
 config.window_padding = {
     left = 10,
