@@ -239,6 +239,8 @@ function M.setup()
                 cmd("normal! gg=G")
             elseif ft == "rust" then
                 cmd("normal! gg=G")
+            elseif ft == "bash" then
+                cmd("normal! gg=G")
             elseif ft == "python" then
                 cmd("silent! %!black -q -")
                 local pos = vim.api.nvim_win_get_cursor(0)
