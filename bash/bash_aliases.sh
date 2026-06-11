@@ -171,7 +171,7 @@ rm() {
 
   if [[ "$cwd" == "/" || "$cwd" == "$HOME" ]]; then
     echo "'rm' blocked: inside home dir"
-    echo "ese command 'permanent' instead"
+    echo "use command 'permanent' instead"
     return 1
   fi
 
@@ -180,8 +180,8 @@ rm() {
 
 # safe rm command override
 permanent() {
-  echo "Permanent delete (no Trash): $*"
-  read -p "Type DELETE to continue: " confirm
+  echo "delete permanently: $*"
+  read -p "type DELETE to continue: " confirm
   [[ "$confirm" != "DELETE" ]] && return 1
 
   /bin/rm "$@"
