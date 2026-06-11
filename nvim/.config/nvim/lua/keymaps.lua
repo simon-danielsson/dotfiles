@@ -81,6 +81,13 @@ function M.setup()
     map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 
     -- editing
+    vim.keymap.set("n", "#", function()
+        vim.cmd("normal gcc")
+    end, { desc = "Toggle comment in normal mode" })
+
+    vim.keymap.set({ "x", "v" }, "#", function()
+        vim.cmd("normal gc")
+    end, { desc = "Toggle comment in visual/block mode" })
 
     map("n", "<leader>,", [[:%s/<C-r><C-w>//gI<Left><Left><Left>]],
         { desc = "open %s//gI with cword" })

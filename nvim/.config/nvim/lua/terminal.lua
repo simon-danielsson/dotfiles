@@ -13,8 +13,6 @@ local open_term = "T"
 local TERM_SIZE = "botright 15split"
 
 function M.setup()
-    vim.opt.shell = "/opt/homebrew/bin/fish"
-
     local term_group = augroup("TermCommands", { clear = true })
     local term_buf = nil
     local term_win = nil

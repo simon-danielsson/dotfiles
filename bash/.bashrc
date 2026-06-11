@@ -35,16 +35,7 @@ export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="/Applications/MacPorts/Emacs.app/Contents/MacOS:$PATH"
 
-_bums() {
-    export PREV_EXIT=$?
-    PS1="$(
-      "$(
-        command ls -t $HOME/dev/c/bums/build/release/* | head -n 1
-      )"
-    )"
-}
-
-PROMPT_COMMAND=_bums
+eval "$(starship init bash)"
 
 # man page colors
 

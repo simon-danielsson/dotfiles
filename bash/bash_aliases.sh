@@ -1,16 +1,13 @@
 # website management ----------------------------------------------------------
 
-# TODO: hello
-# this is another line
+alias blog="~/dev/rust/website_2027/tools/blog.sh"
 
-# create new blog post
-alias blog="~/dotfiles/scripts/create-new-blog-entry-for-website.sh"
-
-# cd to blog dir
-alias blogdir="cd ~/dev/rust/website/src/blog/blog_entries/"
-
-# cd website repo
-alias website="cd ~/dev/rust/website/"
+publish() {
+    cd "~/dev/rust/website_2027"
+    git add --all
+    git commit -m "update"
+    git push
+}
 
 # external programs -----------------------------------------------------------
 
@@ -54,7 +51,7 @@ alias vimconf="cd ~/dotfiles/nvim/.config/nvim"
 alias vimpack="cd ~/.local/share/nvim/site/pack/core/opt"
 
 # touch init LICENSE file
-alias license="~/dotfiles/scripts/init-license.sh"
+alias license="~/dotfiles/scripts/init_license.sh"
 
 # cenv c project generator and build-system -----------------------------------
 
@@ -161,7 +158,7 @@ ds() {
 }
 
 alias ff="clear && fastfetch --config neofetch"
-alias of="clear && COLORTERM= onefetch -d url churn --no-title --no-color-palette && todo"
+alias of="clear && COLORTERM= onefetch -d url churn --no-title --no-art --no-color-palette --nerd-fonts"
 
 # ls default
 alias ta='exa -a --icons -I ".DS_Store|.git|.gitignore"'
@@ -173,8 +170,8 @@ rm() {
   cwd="$(pwd -P)"
 
   if [[ "$cwd" == "/" || "$cwd" == "$HOME" ]]; then
-    echo "'rm' command blocked: refusing to run rm from home dir"
-    echo "Use command 'permanent' if you really mean it."
+    echo "'rm' blocked: inside home dir"
+    echo "ese command 'permanent' instead"
     return 1
   fi
 

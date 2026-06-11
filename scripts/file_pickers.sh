@@ -76,6 +76,7 @@ jump() {
         $'dotfiles\t'"$HOME/dotfiles"
         $'notes\t'"$HOME/notes"
         $'nvim config\t'"$HOME/dotfiles/nvim/.config/nvim"
+        $'website\t'"$HOME/dev/rust/website_2027"
         $'development\t'"$HOME/dev"
       )
 

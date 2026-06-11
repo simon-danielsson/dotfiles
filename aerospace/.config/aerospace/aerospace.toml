@@ -50,8 +50,14 @@ outer.right = 10
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
 if.app-name-regex-substring = 'finder'
-if.during-aerospace-startup = true
-check-further-callbacks = true
+if.during-aerospace-startup = false
+check-further-callbacks = false
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'python'
+if.during-aerospace-startup = false
+check-further-callbacks = false
 run = ['layout floating']
 
 [mode.main.binding]
