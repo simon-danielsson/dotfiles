@@ -1,12 +1,17 @@
 local M = {}
 
 function M.setup()
-    local function short_filepath()
-        local path = vim.fn.expand("%:p"); local home = vim.loop.os_homedir()
+    function _G.short_filepath()
+        local path = vim.fn.expand("%:p")
+        local home = vim.loop.os_homedir()
+
         if path:sub(1, #home) == home then
             path = "~" .. path:sub(#home + 1)
         end
-        local parts = vim.split(path, "/", { trimempty = true }); local count = #parts
+
+        local parts = vim.split(path, "/", { trimempty = true })
+        local count = #parts
+
         return table.concat({
             parts[count - 2] or "",
             parts[count - 1] or "",
@@ -14,15 +19,27 @@ function M.setup()
         }, "/")
     end
 
-    function _G.statusline_insert()
-        local file = short_filepath()
-        return table.concat({ "%*", file, })
+    function _G.statusline_wordcount()
+        local ft = vim.bo.filetype
+        if ft ~= "markdown" and ft ~= "text" then
+            return ""
+        end
+        return tostring(vim.fn.wordcount().words or 0) .. " words"
     end
 
-    local stl = vim.go.statusline
-    stl = stl:gsub("%%<%%f", "%%{%%v:lua.statusline_insert()%%}", 1)
-    stl = stl:gsub("%%f", "%%{%%v:lua.statusline_insert()%%}", 1)
-    vim.go.statusline = " " .. stl .. " "
+    local function right_side()
+        local stl = vim.o.statusline
+        return stl:match("%%=(.*)$") or ""
+    end
+
+    local default_right = right_side()
+
+    vim.o.statusline = table.concat({
+        "%{v:lua.short_filepath()}",
+        "%=",
+        "%#Comment#%{v:lua.statusline_wordcount()}%#Normal#",
+        default_right,
+    }, " ")
 end
 
 return M
