@@ -5,7 +5,7 @@ alias blog="~/dev/rust/website_2027/tools/blog.sh"
 publish() {
     cd "~/dev/rust/website_2027"
     git add --all
-    git commit -m "update"
+    git commit -m "new blog post"
     git push
 }
 

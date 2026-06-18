@@ -61,6 +61,12 @@ check-further-callbacks = false
 run = ['layout floating']
 
 [[on-window-detected]]
+if.app-name-regex-substring = 'tala'
+if.during-aerospace-startup = false
+check-further-callbacks = false
+run = ['layout floating']
+
+[[on-window-detected]]
 if.app-name-regex-substring = 'python'
 if.during-aerospace-startup = false
 check-further-callbacks = false

@@ -34,7 +34,6 @@ function M.setup()
 
     vim.filetype.add({
         extension = {
-            odin = "odin",
             h = 'c'
         },
     })
@@ -45,7 +44,16 @@ function M.setup()
             filetypes = { 'rust' },
             root_markers = { 'Cargo.toml', 'rust-project.json', '.git' },
             settings = {
-                ['rust-analyzer'] = {},
+                ['rust-analyzer'] = {
+                    procMacro = {
+                        enable = true,
+                    },
+                    cargo = {
+                        buildScripts = {
+                            enable = true,
+                        },
+                    },
+                },
                 lens = {
                     enable = true,
                     implementations = { enable = true },
@@ -77,14 +85,14 @@ function M.setup()
             },
         },
 
-        ols = {
-            cmd = { 'ols' },
-            filetypes = { 'odin' },
-            root_markers = { 'ols.json', 'odinfmt.json', '.git' },
-            settings = {
-                ['ols'] = {},
-            },
-        },
+        -- ols = {
+        --     cmd = { 'ols' },
+        --     filetypes = { 'odin' },
+        --     root_markers = { 'ols.json', 'odinfmt.json', '.git' },
+        --     settings = {
+        --         ['ols'] = {},
+        --     },
+        -- },
 
         taplo = {
             cmd = { 'taplo', 'lsp', 'stdio' },
