@@ -34,7 +34,8 @@ function M.setup()
 
     vim.filetype.add({
         extension = {
-            h = 'c'
+            h = 'c',
+            odin = 'odin'
         },
     })
 
@@ -85,14 +86,14 @@ function M.setup()
             },
         },
 
-        -- ols = {
-        --     cmd = { 'ols' },
-        --     filetypes = { 'odin' },
-        --     root_markers = { 'ols.json', 'odinfmt.json', '.git' },
-        --     settings = {
-        --         ['ols'] = {},
-        --     },
-        -- },
+        ols = {
+            cmd = { 'ols' },
+            filetypes = { 'odin' },
+            root_markers = { 'ols.json', 'odinfmt.json', '.git' },
+            -- settings = {
+            --     ['ols'] = {},
+            -- },
+        },
 
         taplo = {
             cmd = { 'taplo', 'lsp', 'stdio' },

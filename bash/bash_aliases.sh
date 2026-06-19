@@ -11,6 +11,8 @@ publish() {
 
 # external programs -----------------------------------------------------------
 
+alias ai="ollama run default"
+
 # mupdf with invert as def (macOS = mupdf-gl, linux = mupdf)
 mupdf() {
     if command -v mupdf-gl >/dev/null 2>&1; then

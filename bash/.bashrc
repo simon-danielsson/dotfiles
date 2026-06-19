@@ -26,7 +26,7 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.ghcup/bin:$PATH"
 
 # odin ols
-export PATH="$HOME/dotfiles/nvim/.config/nvim/lsp/ols:$PATH"
+# export PATH="$HOME/dotfiles/nvim/.config/nvim/lsp/ols-arm64-darwin:$PATH"
 
 # sqlite
 export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
