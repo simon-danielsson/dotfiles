@@ -79,10 +79,8 @@ local overrides = {
 }
 
 function M.setup()
-    -- borders
     vim.g.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
 
-    -- diagnostics display
     vim.diagnostic.config({ float = { border = "rounded" }, })
 
     vim.o.termguicolors = true
@@ -103,18 +101,19 @@ local ftypes = {
     sh         = { "sh", "", "#5FAF5F" },
     c          = { "c", "", "#A9BACD" },
     h          = { "h", "󰬏", "#A9BACD" },
+    markdown   = { "md", "", "#E95325" },
+    text       = { "txt", "󰈔", M.colors.acc },
     xml        = { "xml", "󰗀", "#A84AB7" },
     odin       = { "odin", "", "#1896F5" },
     lua        = { "lua", "", "#456F91" },
     netrw      = { "net", "", M.colors.acc },
     quickfix   = { "qf", "", M.colors.acc },
-    default    = { "???", "", M.colors.acc },
+    default    = { "???", "󱀶", M.colors.acc },
     el         = { "el", "", "#7453A8" },
 }
 
 function M.buffer_icon_col(ft)
     local icon = ftypes[ft] or ftypes.default
-
     return { icon[1], icon[2], icon[3] }
 end
 
