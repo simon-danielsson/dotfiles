@@ -234,6 +234,7 @@ function M.setup()
             local ignore = {
                 ["markdown"]  = true,
                 ["make"]      = true,
+                ["el"]        = true,
                 ["text"]      = true,
                 ["typ"]       = true,
                 ["gitignore"] = true,
