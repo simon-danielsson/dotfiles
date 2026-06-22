@@ -1,3 +1,5 @@
+local theme = require("theme")
+
 local M = {}
 
 function M.setup()
@@ -24,22 +26,31 @@ function M.setup()
         if ft ~= "markdown" and ft ~= "text" then
             return ""
         end
-        return tostring(vim.fn.wordcount().words or 0) .. " words"
+        return tostring(vim.fn.wordcount().words or 0)
     end
 
-    local function right_side()
-        local stl = vim.o.statusline
-        return stl:match("%%=(.*)$") or ""
-    end
+    function _G.ftype()
+        local f = theme.buffer_icon_col(vim.bo.filetype)
 
-    local default_right = right_side()
+        vim.api.nvim_set_hl(0, "StatusLineFType", {
+            fg = "#25252d",
+            bg = f[3],
+        })
+
+        return f[2]
+    end
 
     vim.o.statusline = table.concat({
+        "%#StatusLineFType#" .. " ",
+        "%{v:lua.ftype()}" .. " ",
+        "%#Normal#" .. " ",
         "%{v:lua.short_filepath()}",
         "%=",
-        "%#Comment#%{v:lua.statusline_wordcount()}%#Normal#",
-        default_right,
-    }, " ")
+        "%#Comment#",
+        "%{v:lua.statusline_wordcount()}" .. " ",
+        "%#Normal#" .. " ",
+        "%l:%c",
+    }, "")
 end
 
 return M

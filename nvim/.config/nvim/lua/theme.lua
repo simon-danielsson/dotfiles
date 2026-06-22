@@ -7,6 +7,7 @@ M.colors        = {
     fg_2 = "#6e6e87",
     mg_1 = "#40404f",
     bg_1 = "#2a2a33",
+    acc = "#6087AE",
     bg_2 = "none",
 }
 
@@ -74,14 +75,7 @@ local overrides = {
 
     -- statusline
     StatusLine          = { fg = M.colors.fg_1, bg = M.colors.bg_1, bold = false },
-    StatusLineNormal    = { link = "StatusLine" },
-    StatusLineNC        = { link = "StatusLine" },
-    StatusLineTerm      = { link = "StatusLine" },
-    StatusLineTermNC    = { link = "StatusLine" },
-    StatusFilename      = { link = "StatusLine" },
-    StatusPosition      = { link = "StatusLine" },
-    StatusWords         = { link = "StatusLine" },
-    StatusMode          = { link = "StatusLine" },
+    StatusLineNormal    = { fg = M.colors.fg_1, bg = M.colors.bg_1, bold = true },
 }
 
 function M.setup()
@@ -98,6 +92,30 @@ function M.setup()
     for group, opts in pairs(overrides) do
         vim.api.nvim_set_hl(0, group, opts)
     end
+end
+
+local ftypes = {
+    python     = { "py", "", "#F6CD42" },
+    rust       = { "rs", "", "#835F00" },
+    html       = { "html", "", "#DE4B25" },
+    css        = { "css", "", "#643294" },
+    javascript = { "js", "", "#EFD81C" },
+    sh         = { "sh", "", "#5FAF5F" },
+    c          = { "c", "", "#A9BACD" },
+    h          = { "h", "󰬏", "#A9BACD" },
+    xml        = { "xml", "󰗀", "#A84AB7" },
+    odin       = { "odin", "", "#1896F5" },
+    lua        = { "lua", "", "#456F91" },
+    netrw      = { "net", "", M.colors.acc },
+    quickfix   = { "qf", "", M.colors.acc },
+    default    = { "???", "", M.colors.acc },
+    el         = { "el", "", "#7453A8" },
+}
+
+function M.buffer_icon_col(ft)
+    local icon = ftypes[ft] or ftypes.default
+
+    return { icon[1], icon[2], icon[3] }
 end
 
 return M
