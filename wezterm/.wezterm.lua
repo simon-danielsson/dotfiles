@@ -55,7 +55,7 @@ config.colors = {
 -- font -----------------------------------------------------------------------
 
 config.font = wezterm.font 'Maple Mono NF'
-config.font_size = 22
+config.font_size = 21
 
 -- keybindings ----------------------------------------------------------------
 
@@ -152,14 +152,14 @@ config.keys = {
 
 -- window ---------------------------------------------------------------------
 
--- config.window_background_opacity = 0.6
+-- config.window_background_opacity = 0.85
 -- config.macos_window_background_blur = 20
 config.window_background_opacity = 1
 
 config.window_padding = {
     left = 10,
     right = 10,
-    top = 65,
+    top = 50,
     bottom = 0,
 }
 
@@ -206,7 +206,6 @@ wezterm.on("update-right-status", function(window, _)
 end)
 
 config.window_frame = {
-    font = wezterm.font { family = 'Maple Mono NF', weight = "Bold" },
     active_titlebar_bg = custom_c.bg_1,
     inactive_titlebar_bg = custom_c.bg_1,
 

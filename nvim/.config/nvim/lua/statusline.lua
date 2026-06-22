@@ -31,25 +31,44 @@ function M.setup()
 
     function _G.ftype()
         local f = theme.buffer_icon_col(vim.bo.filetype)
-
         vim.api.nvim_set_hl(0, "StatusLineFType", {
             fg = "#25252d",
             bg = f[3],
         })
-
         return f[2]
+    end
+
+    function _G.lines()
+        local cursor = vim.api.nvim_win_get_cursor(0)[1]
+        local n_lines = vim.api.nvim_buf_line_count(0)
+        local p = tonumber(string.format("%.f", cursor / n_lines * 100 / 10))
+
+        local prog = {
+            [0] = '󰺕',
+            [1] = '󰪞',
+            [2] = '󰪞',
+            [3] = '󰪟',
+            [4] = '󰪠',
+            [5] = '󰪡',
+            [6] = '󰪡',
+            [7] = '󰪢',
+            [8] = '󰪣',
+            [9] = '󰪤',
+            [10] = '󰪥',
+        }
+        return prog[p]
     end
 
     vim.o.statusline = table.concat({
         "%#StatusLineFType#" .. " ",
-        "%{v:lua.ftype()}" .. " ",
+        "%#Comment#" .. " ",
+        "%{v:lua.ftype()}",
         "%#Normal#" .. " ",
         "%{v:lua.short_filepath()}",
         "%=",
         "%#Comment#",
-        "%{v:lua.statusline_wordcount()}" .. " ",
-        "%#Normal#" .. " ",
-        "%l:%c",
+        "%{v:lua.statusline_wordcount()}",
+        "%l%c ",
     }, "")
 end
 

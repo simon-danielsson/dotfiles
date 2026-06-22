@@ -76,6 +76,8 @@ local overrides = {
     -- statusline
     StatusLine          = { fg = M.colors.fg_1, bg = M.colors.bg_1, bold = false },
     StatusLineNormal    = { fg = M.colors.fg_1, bg = M.colors.bg_1, bold = true },
+    StatusLinePos       = { fg = M.colors.acc, bg = M.colors.bg_1, bold = true },
+    ModeMsg             = { fg = M.colors.mg_1, bg = M.colors.bg_2, bold = true },
 }
 
 function M.setup()
@@ -107,7 +109,7 @@ local ftypes = {
     xml        = { "xml", "󰗀", "#A84AB7" },
     odin       = { "odin", "Ø", "#1896F5" },
     lua        = { "lua", "", "#456F91" },
-    netrw      = { "net", "", M.colors.acc },
+    netrw      = { "net", "", M.colors.fg_1 },
     quickfix   = { "qf", "", M.colors.acc },
     default    = { "???", "󱀶", M.colors.acc },
     el         = { "el", "", "#7453A8" },
