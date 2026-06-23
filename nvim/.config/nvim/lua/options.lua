@@ -16,7 +16,7 @@ function M.setup()
     -- wrapping & linebreaks
     opt.wrap           = true; opt.linebreak = true
     o.breakindent      = true; opt.showbreak = '󱞩 '
-    opt.scrolloff      = 99; opt.scrolloffpad = 1
+    opt.scrolloff      = 99;
     opt.virtualedit    = "onemore"
     opt.sidescrolloff  = 6; opt.smoothscroll = false
     opt.textwidth      = 80

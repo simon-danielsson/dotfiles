@@ -75,9 +75,12 @@ local overrides = {
 
     -- statusline
     StatusLine          = { fg = M.colors.fg_1, bg = M.colors.bg_1, bold = false },
-    StatusLineNormal    = { fg = M.colors.fg_1, bg = M.colors.bg_1, bold = true },
+    StatusLineNormal    = { link = "StatusLine" },
     StatusLinePos       = { fg = M.colors.acc, bg = M.colors.bg_1, bold = true },
-    ModeMsg             = { fg = M.colors.mg_1, bg = M.colors.bg_2, bold = true },
+    ModeMsg             = { fg = M.colors.fg_2, bg = M.colors.bg_2, bold = false },
+    MsgArea             = { link = "ModeMsg" },
+    MsgSeparator        = { link = "ModeMsg" },
+    ErrorMsg            = { link = "ModeMsg" },
 }
 
 function M.setup()
@@ -105,7 +108,7 @@ local ftypes = {
     c          = { "c", "", "#A9BACD" },
     h          = { "h", "󰬏", "#A9BACD" },
     markdown   = { "md", "", "#A84AB7" },
-    text       = { "txt", "󰈔", M.colors.acc },
+    text       = { "txt", "󱞎", M.colors.acc },
     xml        = { "xml", "󰗀", "#A84AB7" },
     odin       = { "odin", "Ø", "#1896F5" },
     lua        = { "lua", "", "#456F91" },
