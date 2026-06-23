@@ -12,7 +12,6 @@ require('modules').setup()
 
 -- plugins --------------------------------------------------------------------
 
-vim.opt.rtp:prepend("~/.config/nvim/plugins/render-markdown.nvim")
 require('render-markdown').setup({
     completions = { lsp = { enabled = true } },
 })
