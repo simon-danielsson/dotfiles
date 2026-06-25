@@ -36,7 +36,8 @@ function M.setup()
         extension = {
             h = 'h',
             odin = 'odin',
-            el = 'el'
+            el = 'el',
+            gd = 'gd'
         },
     })
 
@@ -137,6 +138,18 @@ function M.setup()
                         useLibraryCodeForTypes = true,
                     },
                 },
+            },
+        },
+
+        gdscript = {
+            cmd = {
+                'nc',
+                '127.0.0.1',
+                '6005',
+            },
+            filetypes = { 'gd', 'gdscript' },
+            root_markers = {
+                'project.godot',
             },
         },
 

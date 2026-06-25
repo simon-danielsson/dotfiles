@@ -96,8 +96,7 @@ cinit() {
     command rm -rf cinit_temp
 }
 
-# neovim via bob
-NVIM="bob run nightly"
+NVIM="/opt/homebrew/bin/nvim --listen /tmp/godot.pipe"
 alias nvim=$NVIM
 alias nv=$NVIM
 alias vnim=$NVIM
