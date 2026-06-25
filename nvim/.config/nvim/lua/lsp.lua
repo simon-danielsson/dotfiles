@@ -92,9 +92,6 @@ function M.setup()
             cmd = { 'ols' },
             filetypes = { 'odin' },
             root_markers = { 'ols.json', 'odinfmt.json', '.git' },
-            -- settings = {
-            --     ['ols'] = {},
-            -- },
         },
 
         taplo = {
