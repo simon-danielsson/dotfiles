@@ -2,25 +2,28 @@
 
 (setq inhibit-startup-message t)
 
-; line numbers
-(setq display-line-numbers-type 'relative)
+(setq auto-save-default nil)
+(setq make-backup-files nil)
+
+(setq display-line-numbers-type 'relative) ; line numbers
 (global-display-line-numbers-mode +1)
 
-; cursor line
-(global-hl-line-mode 1)
+(global-hl-line-mode 1) ; cursor line
 
-; 80 col line
-(setq-default fill-column 80)
+(setq-default fill-column 80) ; 80 col line
 (global-display-fill-column-indicator-mode 1)
 
-; appearance ------------------------------------------------------------------
+; theme -----------------------------------------------------------------------
+
+(set-fringe-mode 0) ; no fringes
 
 (load-theme 'nordless t)
+
+; fonts -----------------------------------------------------------------------
 
 (add-to-list 'default-frame-alist
              '(font . "Maple Mono NF-18")
              )
-
 (custom-set-faces
   '(mode-line
      ((t (:height 150 :weight normal :box nil))))
@@ -31,8 +34,7 @@
 
 ; cursor ----------------------------------------------------------------------
 
-; blink
-(blink-cursor-mode t)
+(blink-cursor-mode t) ; blink
 
 ; plugins ---------------------------------------------------------------------
 
