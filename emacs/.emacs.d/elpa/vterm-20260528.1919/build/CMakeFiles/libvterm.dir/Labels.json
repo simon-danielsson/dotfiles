@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/CMakeFiles/libvterm"
+		},
+		{
+			"file" : "/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/CMakeFiles/libvterm.rule"
+		},
+		{
+			"file" : "/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/CMakeFiles/libvterm-complete.rule"
+		},
+		{
+			"file" : "/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/libvterm-prefix/src/libvterm-stamp/libvterm-build.rule"
+		},
+		{
+			"file" : "/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/libvterm-prefix/src/libvterm-stamp/libvterm-configure.rule"
+		},
+		{
+			"file" : "/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/libvterm-prefix/src/libvterm-stamp/libvterm-download.rule"
+		},
+		{
+			"file" : "/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/libvterm-prefix/src/libvterm-stamp/libvterm-install.rule"
+		},
+		{
+			"file" : "/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/libvterm-prefix/src/libvterm-stamp/libvterm-mkdir.rule"
+		},
+		{
+			"file" : "/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/libvterm-prefix/src/libvterm-stamp/libvterm-patch.rule"
+		},
+		{
+			"file" : "/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/libvterm-prefix/src/libvterm-stamp/libvterm-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"libvterm"
+		],
+		"name" : "libvterm"
+	}
+}

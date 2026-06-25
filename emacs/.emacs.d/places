@@ -1,0 +1,13 @@
+;;; -*- coding: utf-8; mode: lisp-data -*-
+(("/Users/simondanielsson/dev/"
+  (dired-filename . "/Users/simondanielsson/dev/python"))
+ ("/Users/simondanielsson/dev/odin/"
+  (dired-filename . "/Users/simondanielsson/dev/odin/mina"))
+ ("/Users/simondanielsson/dev/odin/mina/"
+  (dired-filename . "/Users/simondanielsson/dev/odin/mina/src"))
+ ("/Users/simondanielsson/dev/odin/mina/src/"
+  (dired-filename . "/Users/simondanielsson/dev/odin/mina/src/main.odin"))
+ ("/Users/simondanielsson/dev/odin/mina/src/main.odin" . 492)
+ ("/Users/simondanielsson/dev/c/josef/"
+  (dired-filename . "/Users/simondanielsson/dev/c/josef/run.py"))
+ ("/Users/simondanielsson/dev/c/josef/run.py" . 534))

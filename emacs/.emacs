@@ -1,9 +1,9 @@
 ; general ---------------------------------------------------------------------
 
 (setq inhibit-startup-message t)
+(ido-mode 1)
 
-(setq auto-save-default nil)
-(setq make-backup-files nil)
+(setq backup-directory-alist '(("." . "~/.emacs_saves")))
 
 (setq display-line-numbers-type 'relative) ; line numbers
 (global-display-line-numbers-mode +1)
@@ -17,7 +17,7 @@
 
 (set-fringe-mode 0) ; no fringes
 
-(load-theme 'nordless t)
+(load-theme 'wombat t)
 
 ; fonts -----------------------------------------------------------------------
 
@@ -47,8 +47,13 @@
 
 (package-initialize)
 
-(use-package vterm
-             :ensure t)
+(use-package smex
+             :ensure t
+             :init
+             (smex-initialize)
+             :bind
+             (("M-x" . smex)
+              ("M-X" . smex-major-mode-commands)))
 
 (add-to-list 'load-path "~/.emacs.d/custom/better-defaults")
 (require 'better-defaults)

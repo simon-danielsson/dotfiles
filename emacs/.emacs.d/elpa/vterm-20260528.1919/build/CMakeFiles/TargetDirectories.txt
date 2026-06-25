@@ -1,0 +1,5 @@
+/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/CMakeFiles/vterm-module.dir
+/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/CMakeFiles/libvterm.dir
+/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/CMakeFiles/run.dir
+/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/CMakeFiles/edit_cache.dir
+/Users/simondanielsson/.emacs.d/elpa/vterm-20260528.1919/build/CMakeFiles/rebuild_cache.dir

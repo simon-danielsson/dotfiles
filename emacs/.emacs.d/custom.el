@@ -1,0 +1,21 @@
+;;; -*- lexical-binding: t -*-
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(bg-dim ((t (:background "#2a2a33"))))
+ '(bg-main ((t (:background "#25252d"))))
+ '(cursor ((t (:background "#aab3c0"))))
+ '(fg-main ((t (:background "#aab3c0"))))
+ '(fringe ((t (:background "#25252d"))))
+ '(hl-line ((t (:background "#2a2a33"))))
+ '(mode-line ((t (:height 150 :weight normal :box nil))))
+ '(mode-line-inactive ((t (:height 130 :weight normal :box nil))))
+ '(region ((t (:background "#40404f")))))
