@@ -80,6 +80,7 @@ jump() {
         $'nvim config\t'"$HOME/dotfiles/nvim/.config/nvim"
         $'website\t'"$HOME/dev/rust/website_2027"
         $'development\t'"$HOME/dev"
+        $'emacs config\t'"$HOME/dotfiles/emacs"
       )
 
   local selected label target

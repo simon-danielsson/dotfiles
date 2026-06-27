@@ -96,7 +96,8 @@ cinit() {
     command rm -rf cinit_temp
 }
 
-NVIM="/opt/homebrew/bin/nvim --listen /tmp/godot.pipe"
+alias gvim="/opt/homebrew/bin/nvim --listen /tmp/godot.pipe"
+NVIM="/opt/homebrew/bin/nvim"
 alias nvim=$NVIM
 alias nv=$NVIM
 alias vnim=$NVIM
@@ -199,4 +200,3 @@ alias em=$EM_PICKER
 DEV_PICKER="/Users/simondanielsson/dotfiles/scripts/devicon-picker.sh"
 alias devicon=$DEV_PICKER
 alias dev=$DEV_PICKER
-
