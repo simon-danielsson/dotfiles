@@ -75,7 +75,9 @@
 
 (use-package vterm
              :ensure t
-             )
+             :bind
+             (("s-t" . vterm)
+              ))
 
 (use-package smex
              :ensure t
