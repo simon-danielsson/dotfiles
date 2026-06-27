@@ -46,8 +46,7 @@ function M.setup()
         "%{v:lua.short_filepath()}",
         "%=",
         "%#Comment#",
-        "%{v:lua.statusline_wordcount()}" .. " ",
-        "%l%c ",
+        "%{v:lua.statusline_wordcount()}",
     }, "")
 end
 

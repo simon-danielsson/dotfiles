@@ -18,6 +18,7 @@
   (cursor                    (:background fg))
   (region                    (:background mg))
   (mode-line                 (:foreground fg :background bg))
+  (mode-line-inactive        (:foreground mg :background bg))
   (line-number               (:background bg2 :foreground mg))
   (line-number-current-line  (:background bg :foreground fg))
   (fill-column-indicator  (:background bg :foreground bg))
