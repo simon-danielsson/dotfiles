@@ -3,6 +3,8 @@
 
 ; general ---------------------------------------------------------------------
 
+(setq shell-file-name "/bin/bash")
+
 (setq inhibit-startup-message t)
 (ido-mode 1)
 
@@ -71,6 +73,10 @@
 
 (package-initialize)
 
+(use-package vterm
+             :ensure t
+             )
+
 (use-package smex
              :ensure t
              :init
@@ -112,6 +118,10 @@
 
 ; cursor ----------------------------------------------------------------------
 
+(use-package centered-cursor-mode
+             :ensure t
+             :hook (after-init . global-centered-cursor-mode))
+
 (blink-cursor-mode t)
 (global-hl-line-mode 1) ; cursor line
 
@@ -122,7 +132,7 @@
   (ansi-color-apply-on-region compilation-filter-start (point)))
 (add-hook 'compilation-filter-hook #'my-colorize-compilation-buffer)
 
-(require 'compile)                 
+(require 'compile)
 (require 'project)
 (require 'cl-lib)
 
