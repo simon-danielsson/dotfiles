@@ -33,6 +33,8 @@
 (use-package autothemer
              :ensure t)
 
+(load-theme 'modus-vivendi-tinted t)
+
 (load-theme 'dimma t)
 
 ; fonts -----------------------------------------------------------------------
@@ -161,6 +163,14 @@
 (global-set-key (kbd "C-c s") 'shell-command)
 
 ; editing ---------------------------------------------------------------------
+
+(defun kill-other-buffers ()
+  "Kill all buffers except the current one."
+  (interactive)
+  (mapc #'kill-buffer
+        (delq (current-buffer)
+              (buffer-list))))
+(global-set-key (kbd "C-c K") #'kill-other-buffers)
 
 (global-set-key "\C-cd" 'kill-whole-line) ; Sets C-c d to M-x kill-whole-line
 
