@@ -1,0 +1,29 @@
+;;;; Emacs Bookmark Format Version 1;;;; -*- coding: utf-8-emacs; mode: lisp-data -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("development"
+ (filename . "~/dev/")
+ (front-context-string . "  drwxr-xr-x  14")
+ (rear-context-string . "K 2026-06-28 ..\n")
+ (position . 134)
+ (last-modified 27200 60677 648145 0))
+("dotfiles"
+ (filename . "~/dotfiles/")
+ (front-context-string . "aerospace\n  drwx")
+ (rear-context-string . "  96 2026-01-22 ")
+ (position . 242)
+ (last-modified 27200 60532 421508 0))
+("Keybinds help"
+ (filename . "~/dotfiles/emacs/.emacs.d/help.md")
+ (front-context-string . "# Things to figu")
+ (rear-context-string)
+ (position . 1)
+ (last-modified 27200 55948 115281 0))
+("configuration"
+ (filename . "~/dotfiles/emacs/.emacs")
+ (front-context-string . "(unless (>= emac")
+ (rear-context-string)
+ (position . 1)
+ (last-modified 27200 59096 427194 0))
+)

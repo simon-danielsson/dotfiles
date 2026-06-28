@@ -15,7 +15,10 @@
      "83550d0386203f010fa42ad1af064a766cfec06fc2f42eb4f2d89ab646f3ac01"
      "b5fd9c7429d52190235f2383e47d340d7ff769f141cd8f9e7a4629a81abc6b19"
      "720838034f1dd3b3da66f6bd4d053ee67c93a747b219d1c546c41c4e425daf93" default))
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(autothemer centered-cursor-mode dashboard dirvish doom-modeline general
+                goto-chg grip-mode habamax-theme lsp-mode magit
+                markdown-preview-mode rust-mode smex vterm vundo xterm-color)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -1,22 +1,22 @@
 (unless (>= emacs-major-version 30)
   (error "Requires Emacs 30 or later"))
 
-; general ---------------------------------------------------------------------
+;; general ---------------------------------------------------------------------
 
-(setq shell-file-name "/bin/bash")
-
+(global-set-key (kbd "s-R") #'restart-emacs)
 (setq inhibit-startup-message t)
+(pixel-scroll-precision-mode -1)
 (ido-mode 1)
 
-; line numbers
+;; line numbers
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode +1)
 
-; 80 col indicator
+;; 80 col indicator
 (setq-default fill-column 80)
 (global-display-fill-column-indicator-mode 1)
 
-; window navigation
+;; window navigation
 (global-set-key (kbd "s-N") #'windmove-left)
 (global-set-key (kbd "s-I") #'windmove-right)
 (global-set-key (kbd "s-O") #'windmove-up)
@@ -26,43 +26,30 @@
 (global-set-key (kbd "s-d") #'split-window-right)
 (global-set-key (kbd "s-D") #'split-window-below)
 
-(defun emacs-soft-reset ()
-  "Close all user buffers and reset window layout."
-  (interactive)
-  (delete-other-windows)
+;; files and directories -------------------------------------------------------
 
-  (dolist (buf (buffer-list))
-    (let ((name (buffer-name buf)))
-      (when (and (not (string-prefix-p " " name))
-                 (not (member name '("*Messages*" "*scratch*" "*Minibuf-1*"))))
-        (kill-buffer buf))))
-  (switch-to-buffer "*scratch*"))
-(global-set-key (kbd "s-R") #'emacs-soft-reset)
-
-; files and directories -------------------------------------------------------
-
-; recent files
+;; recent files
 (recentf-mode 1)
 (setq recentf-max-saved-items 100)
 (run-at-time nil (* 5 60) #'recentf-save-list)
 (global-set-key (kbd "C-c r") #'recentf-open-files)
 
-; backups and saves
+;; backups and saves
 (setq auto-save-default nil)
 (setq backup-by-copying t)
 (setq backup-directory-alist '(("." . "~/.emacs_saves")))
 
-; dired
-(setq dired-listing-switches "-oglh --group-directories-first --no-group --time-style=+%Y-%m-%d")
+;; dired
+(setq dired-listing-switches "-alh --group-directories-first --no-group --time-style=+%Y-%m-%d")
 (setq delete-by-moving-to-trash t)
 (setq dired-dwim-target t)
 (setq dired-kill-when-opening-new-dired-buffer t)
-(add-hook 'dired-mode-hook #'dired-hide-details-mode) ; toggle with '('
+(add-hook 'dired-mode-hook #'dired-hide-details-mode) ;; toggle with '('
 (with-eval-after-load 'dired
                       (define-key dired-mode-map (kbd "-") #'dired-up-directory)
                       (define-key dired-mode-map (kbd "^") nil))
 
-; plugins ---------------------------------------------------------------------
+;; plugins ---------------------------------------------------------------------
 
 (require 'package)
 
@@ -73,11 +60,22 @@
 
 (package-initialize)
 
+(use-package nerd-icons
+             :ensure t)
+
 (use-package vterm
              :ensure t
              :bind
              (("s-t" . vterm)
               ))
+(setq vterm-max-scrollback 5000)
+(add-hook 'vterm-mode-hook
+          (lambda ()
+            (display-line-numbers-mode 0)
+            (hl-line-mode 0)
+            (visual-line-mode 0)
+            (setq-local scroll-margin 0)
+            (setq-local scroll-conservatively 101)))
 
 (use-package smex
              :ensure t
@@ -87,10 +85,31 @@
              (("M-x" . smex)
               ("M-X" . smex-major-mode-commands)))
 
+(use-package magit
+             :ensure t)
+
+(use-package dashboard
+             :ensure t
+             :config
+             (dashboard-setup-startup-hook)
+
+             (setq dashboard-display-icons-p t)
+             (setq dashboard-icon-type 'nerd-icons)
+             (setq dashboard-set-heading-icons t)
+             (setq dashboard-set-file-icons t)
+             (setq dashboard-footer-messages '(""))
+             (setq dashboard-banner-logo-title "")
+             (setq dashboard-startup-banner 'logo)
+             (setq dashboard-items '((recents  . 10)
+                                     ;(projects . 5)
+                                     (bookmarks . 5)
+                                     ))
+             (setq dashboard-center-content t))
+
 (add-to-list 'load-path "~/.emacs.d/custom/better-defaults")
 (require 'better-defaults)
 
-; theme -----------------------------------------------------------------------
+;; theme -----------------------------------------------------------------------
 
 (use-package doom-modeline
              :ensure t
@@ -104,7 +123,7 @@
 (load-theme 'modus-vivendi-tinted t)
 (load-theme 'dimma t)
 
-; fonts -----------------------------------------------------------------------
+;; fonts -----------------------------------------------------------------------
 
 (add-to-list 'default-frame-alist
              '(font . "Maple Mono NF-18")
@@ -118,7 +137,7 @@
      ((t (:height 150 :weight normal :box nil))))
   )
 
-; cursor ----------------------------------------------------------------------
+;; cursor ----------------------------------------------------------------------
 
 (use-package centered-cursor-mode
              :ensure t
@@ -127,7 +146,7 @@
 (blink-cursor-mode t)
 (global-hl-line-mode 1) ; cursor line
 
-; compile ---------------------------------------------------------------------
+;; compile ---------------------------------------------------------------------
 
 (require 'ansi-color)
 (defun my-colorize-compilation-buffer ()
@@ -212,7 +231,61 @@
 (global-set-key (kbd "C-c t") #'my-open-compilation)
 (global-set-key (kbd "C-c s") 'shell-command)
 
-; editing ---------------------------------------------------------------------
+;; editing ---------------------------------------------------------------------
+
+(defun my/move-region (start end n)
+  "Move the current region N lines."
+  (let ((text (delete-and-extract-region start end)))
+    (forward-line n)
+    (let ((new-start (point)))
+      (insert text)
+      (setq deactivate-mark nil)
+      (set-mark new-start)
+      (goto-char (+ new-start (length text))))))
+
+(defun my/move-line (n)
+  "Move the current line N lines."
+  (let ((col (current-column)))
+    (beginning-of-line)
+    (let ((start (point)))
+      (forward-line 1)
+      (let ((text (delete-and-extract-region start (point))))
+        (forward-line n)
+        (beginning-of-line)
+        (insert text)
+        (forward-line -1)
+        (move-to-column col)))))
+
+(defun my/move-up ()
+  "Move active region or current line up."
+  (interactive)
+  (if (use-region-p)
+      (my/move-region (region-beginning) (region-end) -1)
+    (my/move-line -1)))
+
+(defun my/move-down ()
+  "Move active region or current line down."
+  (interactive)
+  (if (use-region-p)
+      (let ((text (delete-and-extract-region (region-beginning) (region-end))))
+        (forward-line 1)
+        (let ((start (point)))
+          (insert text)
+          (setq deactivate-mark nil)
+          (set-mark start)
+          (goto-char (+ start (length text)))))
+    (my/move-line 1)))
+
+(global-set-key (kbd "M-<up>")   #'my/move-up)
+(global-set-key (kbd "M-<down>") #'my/move-down)
+
+;; comment line
+(global-set-key (kbd "C-'") #'comment-line)
+
+;; set mark                              
+(global-unset-key (kbd "C-SPC"))
+(global-set-key (kbd "C-.") #'set-mark-command)
+(global-set-key (kbd "C-,") #'set-mark-command)
 
 (defun kill-other-buffers ()
   "Kill all buffers except the current one."
@@ -222,7 +295,7 @@
               (buffer-list))))
 (global-set-key (kbd "C-c K") #'kill-other-buffers)
 
-(global-set-key "\C-cd" 'kill-whole-line) ; Sets C-c d to M-x kill-whole-line
+(global-set-key "\C-cd" 'kill-whole-line) ;; Sets C-c d to M-x kill-whole-line
 (defun my/line-move (n)
   (interactive "p")
   (forward-line n))
@@ -234,7 +307,7 @@
 
 (global-set-key (kbd "C-c C-g") 'my/goto-line-relative)
 
-; https://thanosapollo.org/posts/emacs-built-in-completions-video/
+;; https://thanosapollo.org/posts/emacs-built-in-completions-video/
 (setf completion-styles '(basic flex)
       completion-auto-select t ;; Show completion on first call
       completion-auto-help 'visible ;; Display *Completions* upon first request
@@ -243,7 +316,7 @@
       completions-max-height 20 ;; Limit completions to 15 (completions start at line 5)
       completion-ignore-case t)
 
-; lsp & modes -----------------------------------------------------------------
+;; lsp & modes -----------------------------------------------------------------
 
 (dolist (hook '(c-mode-hook c++-mode-hook))
   (add-hook hook #'eglot-ensure))

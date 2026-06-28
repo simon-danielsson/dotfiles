@@ -10,11 +10,13 @@
 
 ;; ----- ido-work-directory-list -----
 (
+ "/Users/simondanielsson/dev/"
+ "/Users/simondanielsson/dotfiles/"
+ "/Users/simondanielsson/dotfiles/emacs/.emacs.d/"
+ "/Users/simondanielsson/dotfiles/emacs/"
  "/Users/simondanielsson/dev/rust/knapp/src/"
  "/Users/simondanielsson/"
  "/Users/simondanielsson/dev/c/josef/"
- "/Users/simondanielsson/dev/"
- "/Users/simondanielsson/dotfiles/emacs/"
  "/Users/simondanielsson/dev/rust/tala/src/"
  "/"
  "/Users/simondanielsson/dev/rust/"
@@ -38,15 +40,19 @@
 
 ;; ----- ido-dir-file-cache -----
 (
- ("/Users/simondanielsson/dotfiles/emacs/" (27200 719 251114 915000) ".emacs" ".emacs.d/" ".#.emacs" "../" "./")
+ ("/Users/simondanielsson/dotfiles/" (27197 9707 916859 198000) "fonts/" ".git/" "aerospace/" "bat/" "scripts/" "bash/" "other things/" "emacs/" "push.sh" "wezterm/" "nvim/" ".DS_Store" "../" "./")
+
+ ("/Users/simondanielsson/" (27200 54995 197676 863000) ".hermes/" ".zsh_sessions/" ".viminfo" ".bash_history" ".ollama/" ".pypirc" ".gitconfig" ".cache/" ".python_history" "Downloads/" ".pm2/" ".swiftpm/" ".espup/" ".gem/" ".bash_profile" ".tiny-dc" ".dx/" ".hushlogin" "Zomboid/" ".mailcap" "jcef_76550.log" "Documents/" ".homebrew/" ".npm/" ".ghcup/" "bat" ".tldrc/" ".rustfmt.toml" "dev/" ".Trash/" ".bash_history-02395.tmp" ".gradle/" ".profile" "Applications/" ".emacs" "Movies/" ".ssh/" ".rustup/" ".lmstudio/" ".rack_designer/" "package.json" "package-lock.json" ".supermaven/" "notes/" "Public/" "jcef_68096.log" "bash_aliases.sh" ".bash_sessions/" ".cgdb/" ".lmstudio-home-pointer" "Spitfire/" ".android/" ".cargo/" ".mpd/" ".node_repl_history" ".emacs.d/" ".gphoto/" ".lesshst" ".matplotlib/" ".wezterm.lua" "Library/" "Desktop/" ".zsh_history" ".nuget/" ".sts4/" ".openjfx/" ".nvm/" "node_modules/" ".zprofile" ".emacs_saves/" "jcef_62217.log" ".bun/" "Pictures/" ".local/" ".luacheckrc" ".mime.types" ".adobe/" ".sentry /" ".qutebrowser/" ".ipatool/" ".zshrc" ".bashrc" "libavdevice/" ".hawtjni/" ".z" ".wget-hsts" ".w3m/" ".CFUserTextEncoding" ".yarnrc" ".sambox.cache" "VirtualBox VMs/" "dotfiles/" ".on1appmgr" ".regn" ".DS_Store" "go/" ".vim/" ".designer/" "Music/" ".config/" "journal/" "../" "./")
+
+ ("/Users/simondanielsson/dotfiles/emacs/.emacs.d/" (27200 55927 449655 156000) ".lsp-session-v1" "backups/" "themes/" "games/" "custom/" "elpa/" "recentf" "history" ".gitignore" "bookmarks" "init.el" "auto-save-list/" "help.md" "custom.el" "transient/" "tramp" "projects" ".#bookmarks" "places" "eshell/" "smex-items" "tutorial/" "ido.last" "../" "./")
+
+ ("/Users/simondanielsson/dotfiles/emacs/" (27200 55804 154280 934000) ".emacs" ".emacs.d/" "../" "./")
 
  ("/Users/simondanielsson/dev/rust/knapp/src/" (27199 64993 88048 330000) "stopwatch.rs" "hello.txt" "main.rs" "help.rs" "arg.rs" "static/" "json.rs" "controls.rs" "../" "./")
 
  ("/Users/simondanielsson/dev/c/rngb/src/" (27197 36527 939702 525000) "main.c" "libs/" "#main.c#" "env.h" "../" "./")
 
  ("/Users/simondanielsson/dev/c/josef/" (27199 60080 753674 414000) "src/" ".git/" "notes.md" "build/" ".gitignore" "README.md" "test.json" "LICENSE" "run.py" "simple.json" "../" "./")
-
- ("/Users/simondanielsson/" (27199 57667 506183 528000) ".hermes/" ".zsh_sessions/" ".viminfo" ".bash_history" ".ollama/" ".pypirc" ".gitconfig" ".cache/" ".python_history" "Downloads/" ".pm2/" ".swiftpm/" ".espup/" ".gem/" ".bash_profile" ".tiny-dc" ".dx/" ".hushlogin" "Zomboid/" ".mailcap" "jcef_76550.log" "Documents/" ".homebrew/" ".npm/" ".ghcup/" "bat" ".tldrc/" ".rustfmt.toml" "dev/" ".Trash/" ".bash_history-02395.tmp" ".gradle/" ".profile" "Applications/" ".emacs" "Movies/" ".ssh/" ".rustup/" ".lmstudio/" ".rack_designer/" "package.json" "package-lock.json" ".supermaven/" "notes/" "Public/" "jcef_68096.log" "bash_aliases.sh" ".bash_sessions/" ".cgdb/" ".lmstudio-home-pointer" "Spitfire/" ".android/" ".cargo/" ".mpd/" ".node_repl_history" ".emacs.d/" ".gphoto/" ".lesshst" ".matplotlib/" ".wezterm.lua" "Library/" "Desktop/" ".zsh_history" ".nuget/" ".sts4/" ".openjfx/" ".nvm/" "node_modules/" ".zprofile" ".emacs_saves/" "jcef_62217.log" ".bun/" "Pictures/" ".local/" ".luacheckrc" ".mime.types" ".adobe/" ".sentry /" ".qutebrowser/" ".ipatool/" ".zshrc" ".bashrc" "libavdevice/" ".hawtjni/" ".z" ".wget-hsts" ".w3m/" ".CFUserTextEncoding" ".yarnrc" ".sambox.cache" "VirtualBox VMs/" "dotfiles/" ".on1appmgr" ".regn" ".DS_Store" "go/" ".vim/" ".designer/" "Music/" ".config/" "journal/" "../" "./")
 
  ("/Users/simondanielsson/dev/rust/tala/src/" (27199 53531 427436 693000) "widgets.rs" "main.rs" "backend/" "consts.rs" "../" "./")
 
