@@ -2,13 +2,7 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("org-refile-last-stored"
- (filename . "~/notes/test.org")
- (front-context-string . "** TODO This is ")
- (rear-context-string . "s some content\n\n")
- (position . 71)
- (last-modified 27200 63520 295185 0))
-("notes"
+(("notes"
  (filename . "~/notes/")
  (front-context-string . ".\n  drwxr-x--- 1")
  (rear-context-string . "1.3K 2026-06-28 ")
@@ -27,11 +21,11 @@
  (position . 242)
  (last-modified 27200 60532 421508 0))
 ("Keybinds help"
- (filename . "~/dotfiles/emacs/.emacs.d/help.md")
+ (filename . "~/dotfiles/emacs/.emacs.d/help.org")
  (front-context-string . "# Things to figu")
  (rear-context-string)
  (position . 1)
- (last-modified 27200 55948 115281 0))
+ (last-modified 27201 3608 123166 0))
 ("configuration"
  (filename . "~/dotfiles/emacs/.emacs")
  (front-context-string . "(unless (>= emac")

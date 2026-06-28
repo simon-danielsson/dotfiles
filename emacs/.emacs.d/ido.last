@@ -42,6 +42,8 @@
 
 ;; ----- ido-dir-file-cache -----
 (
+ ("/Users/simondanielsson/dev/rust/tomat/src/" (27201 3498 45101 731000) "main.rs" "../" "./")
+
  ("/Users/simondanielsson/" (27201 329 622190 185000) ".hermes/" ".zsh_sessions/" ".viminfo" ".bash_history" ".ollama/" ".pypirc" ".gitconfig" ".cache/" ".python_history" "Downloads/" ".pm2/" ".swiftpm/" ".espup/" ".gem/" ".bash_profile" ".tiny-dc" ".dx/" ".hushlogin" "Zomboid/" ".mailcap" "jcef_76550.log" "Documents/" ".homebrew/" ".npm/" ".ghcup/" "bat" ".tldrc/" ".rustfmt.toml" "dev/" ".Trash/" ".bash_history-02395.tmp" ".gradle/" ".profile" "Applications/" ".emacs" "Movies/" ".ssh/" ".rustup/" ".lmstudio/" ".rack_designer/" "package.json" "package-lock.json" ".supermaven/" "notes/" "Public/" "jcef_68096.log" "bash_aliases.sh" ".bash_sessions/" ".cgdb/" ".lmstudio-home-pointer" "Spitfire/" ".android/" ".cargo/" ".mpd/" ".node_repl_history" ".emacs.d/" ".gphoto/" ".lesshst" ".matplotlib/" ".wezterm.lua" "Library/" "Desktop/" ".zsh_history" ".nuget/" ".sts4/" ".openjfx/" ".nvm/" "node_modules/" ".zprofile" ".emacs_saves/" "jcef_62217.log" ".bun/" "Pictures/" ".local/" ".luacheckrc" ".mime.types" ".adobe/" ".sentry /" ".qutebrowser/" ".ipatool/" ".zshrc" ".bashrc" "libavdevice/" ".hawtjni/" ".z" ".wget-hsts" ".w3m/" ".CFUserTextEncoding" ".yarnrc" ".sambox.cache" "VirtualBox VMs/" "dotfiles/" ".on1appmgr" ".regn" ".DS_Store" "go/" ".vim/" ".designer/" "Music/" ".config/" "journal/" "../" "./")
 
  ("/Users/simondanielsson/dotfiles/emacs/" (27200 64193 933534 331000) ".emacs" ".emacs.d/" "../" "./")
