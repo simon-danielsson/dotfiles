@@ -3,10 +3,19 @@
 
 ;; general ---------------------------------------------------------------------
 
+;; fix weird behaviour with swedish keyboard layout
+(define-key key-translation-map (kbd "M-(") (kbd "{"))
+(define-key key-translation-map (kbd "M-)") (kbd "}"))
+(define-key key-translation-map (kbd "M-8") (kbd "["))
+(define-key key-translation-map (kbd "M-9") (kbd "]"))
+
 (global-set-key (kbd "s-R") #'restart-emacs)
+(setq ring-bell-function 'ignore)
+(setq visible-bell nil)
 (setq inhibit-startup-message t)
 (pixel-scroll-precision-mode -1)
 (ido-mode 1)
+(electric-pair-mode 1)
 
 ;; line numbers
 (setq display-line-numbers-type 'relative)
@@ -233,69 +242,68 @@
 
 ;; editing ---------------------------------------------------------------------
 
-(defun my/move-region (start end n)
-  "Move the current region N lines."
-  (let ((text (delete-and-extract-region start end)))
-    (forward-line n)
-    (let ((new-start (point)))
-      (insert text)
-      (setq deactivate-mark nil)
-      (set-mark new-start)
-      (goto-char (+ new-start (length text))))))
+;; delete binds
+(define-prefix-command 'my-delete-map)
+(global-set-key (kbd "C-c d") 'my-delete-map)
 
-(defun my/move-line (n)
-  "Move the current line N lines."
-  (let ((col (current-column)))
-    (beginning-of-line)
-    (let ((start (point)))
-      (forward-line 1)
-      (let ((text (delete-and-extract-region start (point))))
-        (forward-line n)
-        (beginning-of-line)
-        (insert text)
-        (forward-line -1)
-        (move-to-column col)))))
-
-(defun my/move-up ()
-  "Move active region or current line up."
+;; 1. delete word at point
+(defun my-delete-word ()
+  "Delete word at point (like M-d but without killing previous)."
   (interactive)
-  (if (use-region-p)
-      (my/move-region (region-beginning) (region-end) -1)
-    (my/move-line -1)))
+  (let ((bounds (bounds-of-thing-at-point 'word)))
+    (when bounds
+      (delete-region (car bounds) (cdr bounds)))))
 
-(defun my/move-down ()
-  "Move active region or current line down."
+;; 2. delete paragraph
+(defun my-delete-paragraph ()
+  "Delete current paragraph."
   (interactive)
-  (if (use-region-p)
-      (let ((text (delete-and-extract-region (region-beginning) (region-end))))
-        (forward-line 1)
-        (let ((start (point)))
-          (insert text)
-          (setq deactivate-mark nil)
-          (set-mark start)
-          (goto-char (+ start (length text)))))
-    (my/move-line 1)))
+  (delete-region
+    (save-excursion (backward-paragraph) (point))
+    (save-excursion (forward-paragraph) (point))))
 
-(global-set-key (kbd "M-<up>")   #'my/move-up)
-(global-set-key (kbd "M-<down>") #'my/move-down)
+;; 3. delete inside parentheses (sexp contents)
+
+(defun my-delete-parens ()
+  "Delete text inside nearest enclosing parentheses."
+  (interactive)
+  (let ((pos (point))
+        start end)
+    (save-excursion
+      (condition-case nil
+                      (progn
+                        (up-list -1)
+                        (forward-char 1)
+                        (setq start (point))
+                        (goto-char pos)
+                        (up-list 1)
+                        (backward-char 1)
+                        (setq end (point))
+                        (delete-region start end))
+                      (error (message "No enclosing parentheses found"))))))
+
+;; 4. delete whole line
+(defun my-delete-line ()
+  "Delete entire current line."
+  (interactive)
+  (delete-region
+    (line-beginning-position)
+    (line-end-position)))
+
+;; keybindings under C-c d
+(define-key my-delete-map (kbd "w") #'my-delete-word)
+(define-key my-delete-map (kbd "p") #'my-delete-paragraph)
+(define-key my-delete-map (kbd "b") #'my-delete-parens)
+(define-key my-delete-map (kbd "l") #'my-delete-line)
 
 ;; comment line
 (global-set-key (kbd "C-'") #'comment-line)
 
-;; set mark                              
+;; set mark
 (global-unset-key (kbd "C-SPC"))
 (global-set-key (kbd "C-.") #'set-mark-command)
 (global-set-key (kbd "C-,") #'set-mark-command)
 
-(defun kill-other-buffers ()
-  "Kill all buffers except the current one."
-  (interactive)
-  (mapc #'kill-buffer
-        (delq (current-buffer)
-              (buffer-list))))
-(global-set-key (kbd "C-c K") #'kill-other-buffers)
-
-(global-set-key "\C-cd" 'kill-whole-line) ;; Sets C-c d to M-x kill-whole-line
 (defun my/line-move (n)
   (interactive "p")
   (forward-line n))
