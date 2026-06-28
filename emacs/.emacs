@@ -9,23 +9,56 @@
 (define-key key-translation-map (kbd "M-8") (kbd "["))
 (define-key key-translation-map (kbd "M-9") (kbd "]"))
 
-(global-set-key (kbd "s-R") #'restart-emacs)
-(setq ring-bell-function 'ignore)
-(setq visible-bell nil)
-(setq inhibit-startup-message t)
-(pixel-scroll-precision-mode -1)
-(ido-mode 1)
-(electric-pair-mode 1)
+(setq-default inhibit-startup-message t
+              make-backup-files nil
+              auto-save-default nil
+              indent-tabs-mode nil
+              tab-width 4
+              mouse-yank-at-point t
+              apropos-do-all t
+              load-prefer-newer t
+              backup-by-copying t
+              search-default-mode t
+              frame-inhibit-implied-resize t
+              read-file-name-completion-ignore-case t
+              read-buffer-completion-ignore-case t
+              completion-ignore-case t
+              ido-mode 1
+              electric-pair-mode 1
+              compilation-scroll-output t
+              visible-bell nil
+              fill-column 80
+              display-line-numbers-type 'relative
+              uniquify-buffer-name-style 'forward
+              ring-bell-function 'ignore
+              )
 
-;; line numbers
-(setq display-line-numbers-type 'relative)
+(require 'uniquify)
+
+(unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode)
+            (bound-and-true-p fido-vertical-mode)
+            (bound-and-true-p vertico-mode))
+  (ido-mode t)
+  (setq ido-enable-flex-matching t))
+
+(unless (memq window-system '(mac ns))
+  (menu-bar-mode -1))
+(when (fboundp 'tool-bar-mode)
+  (tool-bar-mode -1))
+(when (fboundp 'scroll-bar-mode)
+  (scroll-bar-mode -1))
+(when (fboundp 'horizontal-scroll-bar-mode)
+  (horizontal-scroll-bar-mode -1))
+
+(set-fringe-mode 0)
+(show-paren-mode 1)
+(savehist-mode 1)
+(save-place-mode 1)
 (global-display-line-numbers-mode +1)
-
-;; 80 col indicator
-(setq-default fill-column 80)
 (global-display-fill-column-indicator-mode 1)
 
 ;; window navigation
+(global-set-key (kbd "s-R") #'restart-emacs)
 (global-set-key (kbd "s-N") #'windmove-left)
 (global-set-key (kbd "s-I") #'windmove-right)
 (global-set-key (kbd "s-O") #'windmove-up)
@@ -43,16 +76,15 @@
 (run-at-time nil (* 5 60) #'recentf-save-list)
 (global-set-key (kbd "C-c r") #'recentf-open-files)
 
-;; backups and saves
-(setq auto-save-default nil)
-(setq backup-by-copying t)
-(setq backup-directory-alist '(("." . "~/.emacs_saves")))
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; dired
-(setq dired-listing-switches "-alh --group-directories-first --no-group --time-style=+%Y-%m-%d")
-(setq delete-by-moving-to-trash t)
-(setq dired-dwim-target t)
-(setq dired-kill-when-opening-new-dired-buffer t)
+(setq dired-listing-switches "-alh --group-directories-first --no-group --time-style=+%Y-%m-%d"
+      delete-by-moving-to-trash t
+      dired-dwim-target t
+      dired-kill-when-opening-new-dired-buffer t
+      )
+
 (add-hook 'dired-mode-hook #'dired-hide-details-mode) ;; toggle with '('
 (with-eval-after-load 'dired
                       (define-key dired-mode-map (kbd "-") #'dired-up-directory)
@@ -101,42 +133,29 @@
              :ensure t
              :config
              (dashboard-setup-startup-hook)
-
              (setq dashboard-display-icons-p t)
              (setq dashboard-icon-type 'nerd-icons)
              (setq dashboard-set-heading-icons t)
              (setq dashboard-set-file-icons t)
-             (setq dashboard-footer-messages '(""))
-             (setq dashboard-banner-logo-title "")
-             (setq dashboard-startup-banner 'logo)
+             (setq dashboard-startup-banner 'logo-braille)
              (setq dashboard-items '((recents  . 5)
-                                     (projects . 5)
+                                     ;; (projects . 5)
                                      (bookmarks . 5)
                                      ))
-             (setq dashboard-center-content t))
-
-(use-package projectile
-             :diminish projectile-mode
-             :config (projectile-mode)
-             :custom ((projectile-completion-system 'ivy))
-             :bind-keymap
-             ("C-c p" . projectile-command-map)
-             :init
-             (when (file-directory-p "~/dev")
-               (setq projectile-project-search-path '("~/dev")))
-             (setq projectile-switch-project-action #'projectile-dired))
-
-(add-to-list 'load-path "~/.emacs.d/custom/better-defaults")
-(require 'better-defaults)
-
-;; theme -----------------------------------------------------------------------
+             (setq dashboard-center-content t)
+             (setq dashboard-startupify-list '(dashboard-insert-banner
+                                                dashboard-insert-newline
+                                                dashboard-insert-navigator
+                                                dashboard-insert-items
+                                                )))
 
 (use-package doom-modeline
              :ensure t
              :init (doom-modeline-mode 1)
              :custom ((doom-modeline-height 40)))
 
-(set-fringe-mode 0)
+;; theme -----------------------------------------------------------------------
+
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (use-package autothemer
              :ensure t)
@@ -146,13 +165,11 @@
 ;; fonts -----------------------------------------------------------------------
 
 (add-to-list 'default-frame-alist
-             '(font . "Maple Mono NF-18")
+             '(font . "Maple Mono NF-16")
              )
-
 (custom-set-faces
   '(mode-line
      ((t (:height 150 :weight normal :box nil))))
-
   '(mode-line-inactive
      ((t (:height 150 :weight normal :box nil))))
   )
@@ -253,6 +270,8 @@
 
 ;; editing ---------------------------------------------------------------------
 
+(global-set-key (kbd "M-z") 'zap-up-to-char)
+
 ;; grep
 (global-set-key (kbd "C-c g") #'grep-find)
 
@@ -260,26 +279,22 @@
 (define-prefix-command 'my-delete-map)
 (global-set-key (kbd "C-c d") 'my-delete-map)
 
-;; 1. delete word at point
 (defun my-delete-word ()
-  "Delete word at point (like M-d but without killing previous)."
+  "Delete word at point (like M-d but without killing previous)"
   (interactive)
   (let ((bounds (bounds-of-thing-at-point 'word)))
     (when bounds
       (delete-region (car bounds) (cdr bounds)))))
 
-;; 2. delete paragraph
 (defun my-delete-paragraph ()
-  "Delete current paragraph."
+  "Delete current paragraph"
   (interactive)
   (delete-region
     (save-excursion (backward-paragraph) (point))
     (save-excursion (forward-paragraph) (point))))
 
-;; 3. delete inside parentheses (sexp contents)
-
 (defun my-delete-parens ()
-  "Delete text inside nearest enclosing parentheses."
+  "Delete text inside nearest enclosing parentheses"
   (interactive)
   (let ((pos (point))
         start end)
@@ -296,7 +311,6 @@
                         (delete-region start end))
                       (error (message "No enclosing parentheses found"))))))
 
-;; 4. delete whole line
 (defun my-delete-line ()
   "Delete entire current line."
   (interactive)
@@ -344,5 +358,3 @@
   (add-hook hook #'eglot-ensure))
 
 (add-hook 'rust-mode-hook #'eglot-ensure)
-
-

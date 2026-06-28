@@ -16,18 +16,14 @@
  ;; faces
  ((default                   (:foreground fg :background bg2))
   (cursor                    (:background fg))
+  (hl-line                    (:background bg))
   (region                    (:background mg))
   (mode-line                 (:foreground fg :background bg))
   (mode-line-inactive        (:foreground mg :background bg))
   (line-number               (:background bg2 :foreground mg))
   (line-number-current-line  (:background bg :foreground fg))
   (fill-column-indicator  (:background bg :foreground bg))
- ;;(font-lock-keyword-face    (:foreground bg))
- ;;(font-lock-constant-face   (:foreground mg))
- ;;(font-lock-string-face     (:foreground fg))
- ;;(font-lock-builtin-face    (:foreground mg))
-
   (org-level-1               (:foreground acc))))
 
-(provide-theme 'dimma)
+    (provide-theme 'dimma)
 
