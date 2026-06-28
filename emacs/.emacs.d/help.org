@@ -16,6 +16,7 @@
 | Go to start of buff | Esc <       |
 | Go to end of buff   | Esc >       |
 | Go to line          | C-c C-g     |
+| Grep find           | C-c g       |
 
 * Editing
 

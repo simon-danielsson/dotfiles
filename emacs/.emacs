@@ -3,7 +3,7 @@
 
 ;; general ---------------------------------------------------------------------
 
-;; fix weird behaviour with swedish keyboard layout
+;; fix weird behaviour with swedish keyboard layout and macos
 (define-key key-translation-map (kbd "M-(") (kbd "{"))
 (define-key key-translation-map (kbd "M-)") (kbd "}"))
 (define-key key-translation-map (kbd "M-8") (kbd "["))
@@ -114,6 +114,17 @@
                                      (bookmarks . 5)
                                      ))
              (setq dashboard-center-content t))
+
+(use-package projectile
+             :diminish projectile-mode
+             :config (projectile-mode)
+             :custom ((projectile-completion-system 'ivy))
+             :bind-keymap
+             ("C-c p" . projectile-command-map)
+             :init
+             (when (file-directory-p "~/dev")
+               (setq projectile-project-search-path '("~/dev")))
+             (setq projectile-switch-project-action #'projectile-dired))
 
 (add-to-list 'load-path "~/.emacs.d/custom/better-defaults")
 (require 'better-defaults)
@@ -241,6 +252,9 @@
 (global-set-key (kbd "C-c s") 'shell-command)
 
 ;; editing ---------------------------------------------------------------------
+
+;; grep
+(global-set-key (kbd "C-c g") #'grep-find)
 
 ;; delete binds
 (define-prefix-command 'my-delete-map)
