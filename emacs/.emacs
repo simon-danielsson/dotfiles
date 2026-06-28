@@ -9,6 +9,9 @@
 (define-key key-translation-map (kbd "M-8") (kbd "["))
 (define-key key-translation-map (kbd "M-9") (kbd "]"))
 
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark)) ;; or 'light
+
 (setq-default inhibit-startup-message t
               make-backup-files nil
               auto-save-default nil
@@ -27,7 +30,6 @@
               electric-pair-mode 1
               compilation-scroll-output t
               visible-bell nil
-              fill-column 80
               display-line-numbers-type 'relative
               uniquify-buffer-name-style 'forward
               ring-bell-function 'ignore
@@ -142,7 +144,7 @@
                    dashboard-center-content t
                    dashboard-items-padding 2
                    dashboard-items '((recents . 5)
-                                     (bookmarks . 5)
+                                     (bookmarks . 10)
                                      (agenda . 5)
                                      )
                    dashboard-startupify-list
@@ -369,12 +371,23 @@
 (use-package org-modern
              :ensure t
              :hook (org-mode . org-modern-mode))
+
 (use-package org :ensure t)
 
+(use-package visual-fill-column
+             :ensure t
+             :hook (org-mode . visual-fill-column-mode)
+             :init
+             (setq visual-fill-column-center-text t
+                   visual-fill-column-width 80))
 (add-hook 'org-mode-hook
           (lambda ()
-            (setq fill-column 80)
-            (auto-fill-mode 1)))
+            (setq-local truncate-lines nil)))
+(add-hook 'org-mode-hook 'visual-line-mode)
+(add-hook 'org-mode-hook (lambda () (auto-fill-mode -1)))
+(setq org-auto-fill-function nil)
+(setq truncate-lines nil)
 
 (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
+
 
