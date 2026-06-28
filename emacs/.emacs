@@ -76,6 +76,9 @@
 (run-at-time nil (* 5 60) #'recentf-save-list)
 (global-set-key (kbd "C-c r") #'recentf-open-files)
 
+(global-set-key (kbd "s-k") #'kill-current-buffer)
+
+(global-set-key (kbd "C-x b") 'ibuffer)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; dired
@@ -158,8 +161,13 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (use-package autothemer
-             :ensure t)
-(load-theme 'modus-vivendi-tinted t)
+  :ensure t)
+(use-package apropospriate-theme
+  :ensure t
+  :config 
+  (load-theme 'apropospriate-dark t))
+
+
 (load-theme 'dimma t)
 
 ;; fonts -----------------------------------------------------------------------
@@ -168,11 +176,12 @@
              '(font . "Maple Mono NF-16")
              )
 (custom-set-faces
-  '(mode-line
-     ((t (:height 150 :weight normal :box nil))))
-  '(mode-line-inactive
-     ((t (:height 150 :weight normal :box nil))))
-  )
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(mode-line ((t (:height 150 :weight normal :box nil))))
+ '(mode-line-inactive ((t (:height 150 :weight normal :box nil)))))
 
 ;; cursor ----------------------------------------------------------------------
 
@@ -358,3 +367,29 @@
   (add-hook hook #'eglot-ensure))
 
 (add-hook 'rust-mode-hook #'eglot-ensure)
+
+(use-package org-modern
+  :ensure t
+  :hook (org-mode . org-modern-mode))
+
+(use-package org
+  :ensure t
+  :config
+  (set-face-attribute 'variable-pitch nil
+                      :font "Helvetica-16"
+                      )
+  )
+(add-hook 'org-mode-hook #'variable-pitch-mode)
+(with-eval-after-load 'org
+  (set-face-attribute 'org-document-title nil :inherit 'variable-pitch)
+    (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-level-1 nil :inherit 'variable-pitch)
+  (set-face-attribute 'org-level-2 nil :inherit 'variable-pitch)
+  (set-face-attribute 'org-level-3 nil :inherit 'variable-pitch))
+
+  ;; Keep tables monospace
+
+
+
+  ;; (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
+  ;; (set-face-attribute 'org-code nil :inherit 'fixed-pitch))

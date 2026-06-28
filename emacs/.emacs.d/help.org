@@ -1,36 +1,39 @@
 * Buffer navigation
 
-| Description         | Key mapping |
-|---------------------+-------------|
-| Next line           | C-n         |
-| Previous line       | C-p         |
-| Forwards (char)     | C-f         |
-| Backwards (char)    | C-b         |
-| Forwards (word)     | M-f         |
-| Backwards (word)    | M-b         |
-| Go to start of line | C-a         |
-| Go to end of line   | C-e         |
-| Previous paragraph  | M-a         |
-| Next paragraph      | M-e         |
-| Center cursor       | C-l         |
-| Go to start of buff | Esc <       |
-| Go to end of buff   | Esc >       |
-| Go to line          | C-c C-g     |
-| Grep find           | C-c g       |
+| Description                           | Key mapping |
+|---------------------------------------+-------------|
+| Next line                             | C-n         |
+| Previous line                         | C-p         |
+| Forwards (char)                       | C-f         |
+| Backwards (char)                      | C-b         |
+| Forwards (word)                       | M-f         |
+| Backwards (word)                      | M-b         |
+| Go to start of line                   | C-a         |
+| Go to end of line                     | C-e         |
+| Previous paragraph                    | M-a         |
+| Next paragraph                        | M-e         |
+| Center cursor                         | C-l         |
+| Go to start of buff                   | Esc <       |
+| Go to end of buff                     | Esc >       |
+| Go to line                            | C-c C-g     |
+| Grep find                             | C-c g       |
+| Kill current buffer (without confirm) | s-k         |
 
 * Editing
 
-| Description          | Key mapping  |
-|----------------------+--------------|
-| I-Search             | C-s          |
-| I-Search (backward)  | C-r          |
-| Revert changes       | s-u          |
-| Set mark             | C-. (or C-,) |
-| Comment line         | C-'          |
-| Delete current word  | C-c d w      |
-| Delete paragraph     | C-c d p      |
-| Delete within parens | C-c d b      |
-| Delete whole line    | C-c d l      |
+| Description                | Key mapping  |
+|----------------------------+--------------|
+| I-Search                   | C-s          |
+| I-Search (backward)        | C-r          |
+| Revert changes             | s-u          |
+| Set mark                   | C-. (or C-,) |
+| Comment line               | C-'          |
+| Delete word (native)       | M-d          |
+| Delete current word        | C-c d w      |
+| Delete paragraph           | C-c d p      |
+| Delete within parens       | C-c d b      |
+| Delete whole line          | C-c d l      |
+| Eval current line (E-lisp) | C-x C-e      |
 
 * Windows
 
@@ -44,6 +47,15 @@
 | Move to right window  | s-I         |
 | Move to top window    | s-O         |
 | Move to bottom window | s-E         |
+
+* Org-mode
+
+| Description             | Key mapping |
+|-------------------------+-------------|
+| Auto-align table        | C-c C-c     |
+| Enter export dispatcher | C-c C-e     |
+|                         |             |
+
 
 * Git (Magit)
 
@@ -71,7 +83,6 @@
 | List bookmarks      | C-x r l     |
 | Create new bookmark | C-x r m     |
 | Jump to bookmark    | C-x r b     |
-
 
 * Files
 

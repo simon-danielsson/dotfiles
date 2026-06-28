@@ -16,6 +16,7 @@
  ;; faces
  ((default                   (:foreground fg :background bg2))
   (cursor                    (:background fg))
+   ;; (org-table                    (:foreground mg))
   (hl-line                    (:background bg))
   (region                    (:background mg))
   (mode-line                 (:foreground fg :background bg))
@@ -23,6 +24,7 @@
   (line-number               (:background bg2 :foreground mg))
   (line-number-current-line  (:background bg :foreground fg))
   (fill-column-indicator  (:background bg :foreground bg))
+
   (org-level-1               (:foreground acc))))
 
     (provide-theme 'dimma)

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-06-28 Sun 13:11 -->
+<!-- 2026-06-28 Sun 17:00 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -200,19 +200,20 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org551aeea">1. Buffer navigation</a></li>
-<li><a href="#org052ef6d">2. Editing</a></li>
-<li><a href="#orgce3ba1b">3. Windows</a></li>
-<li><a href="#orgeb1ca13">4. Git (Magit)</a></li>
-<li><a href="#orgde74bb8">5. Terminal</a></li>
-<li><a href="#org128cf1e">6. Buffers</a></li>
-<li><a href="#orgb5795a5">7. Files</a></li>
-<li><a href="#orgc1a497d">8. Compile</a></li>
+<li><a href="#org405c203">1. Buffer navigation</a></li>
+<li><a href="#orgbe19ce5">2. Editing</a></li>
+<li><a href="#org3382dde">3. Windows</a></li>
+<li><a href="#org15b42bd">4. Org-mode</a></li>
+<li><a href="#orgb334e93">5. Git (Magit)</a></li>
+<li><a href="#org082829d">6. Terminal</a></li>
+<li><a href="#orgfcc9db6">7. Buffers</a></li>
+<li><a href="#org4f4ac13">8. Files</a></li>
+<li><a href="#orgb77659c">9. Compile</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org551aeea" class="outline-2">
-<h2 id="org551aeea"><span class="section-number-2">1.</span> Buffer navigation</h2>
+<div id="outline-container-org405c203" class="outline-2">
+<h2 id="org405c203"><span class="section-number-2">1.</span> Buffer navigation</h2>
 <div class="outline-text-2" id="text-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -298,12 +299,17 @@
 <td class="org-left">Go to line</td>
 <td class="org-left">C-c C-g</td>
 </tr>
+
+<tr>
+<td class="org-left">Grep find</td>
+<td class="org-left">C-c g</td>
+</tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="outline-container-org052ef6d" class="outline-2">
-<h2 id="org052ef6d"><span class="section-number-2">2.</span> Editing</h2>
+<div id="outline-container-orgbe19ce5" class="outline-2">
+<h2 id="orgbe19ce5"><span class="section-number-2">2.</span> Editing</h2>
 <div class="outline-text-2" id="text-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -364,12 +370,17 @@
 <td class="org-left">Delete whole line</td>
 <td class="org-left">C-c d l</td>
 </tr>
+
+<tr>
+<td class="org-left">Eval current line (E-lisp)</td>
+<td class="org-left">C-x C-e</td>
+</tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="outline-container-orgce3ba1b" class="outline-2">
-<h2 id="orgce3ba1b"><span class="section-number-2">3.</span> Windows</h2>
+<div id="outline-container-org3382dde" class="outline-2">
+<h2 id="org3382dde"><span class="section-number-2">3.</span> Windows</h2>
 <div class="outline-text-2" id="text-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -429,9 +440,45 @@
 </table>
 </div>
 </div>
-<div id="outline-container-orgeb1ca13" class="outline-2">
-<h2 id="orgeb1ca13"><span class="section-number-2">4.</span> Git (Magit)</h2>
+<div id="outline-container-org15b42bd" class="outline-2">
+<h2 id="org15b42bd"><span class="section-number-2">4.</span> Org-mode</h2>
 <div class="outline-text-2" id="text-4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Description</th>
+<th scope="col" class="org-left">Key mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Auto-align table</td>
+<td class="org-left">C-c C-c</td>
+</tr>
+
+<tr>
+<td class="org-left">Enter export dispatcher</td>
+<td class="org-left">C-c C-e</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orgb334e93" class="outline-2">
+<h2 id="orgb334e93"><span class="section-number-2">5.</span> Git (Magit)</h2>
+<div class="outline-text-2" id="text-5">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -475,9 +522,9 @@
 </table>
 </div>
 </div>
-<div id="outline-container-orgde74bb8" class="outline-2">
-<h2 id="orgde74bb8"><span class="section-number-2">5.</span> Terminal</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-org082829d" class="outline-2">
+<h2 id="org082829d"><span class="section-number-2">6.</span> Terminal</h2>
+<div class="outline-text-2" id="text-6">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -511,9 +558,9 @@
 </table>
 </div>
 </div>
-<div id="outline-container-org128cf1e" class="outline-2">
-<h2 id="org128cf1e"><span class="section-number-2">6.</span> Buffers</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-orgfcc9db6" class="outline-2">
+<h2 id="orgfcc9db6"><span class="section-number-2">7.</span> Buffers</h2>
+<div class="outline-text-2" id="text-7">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -552,9 +599,9 @@
 </table>
 </div>
 </div>
-<div id="outline-container-orgb5795a5" class="outline-2">
-<h2 id="orgb5795a5"><span class="section-number-2">7.</span> Files</h2>
-<div class="outline-text-2" id="text-7">
+<div id="outline-container-org4f4ac13" class="outline-2">
+<h2 id="org4f4ac13"><span class="section-number-2">8.</span> Files</h2>
+<div class="outline-text-2" id="text-8">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -603,9 +650,9 @@
 </table>
 </div>
 </div>
-<div id="outline-container-orgc1a497d" class="outline-2">
-<h2 id="orgc1a497d"><span class="section-number-2">8.</span> Compile</h2>
-<div class="outline-text-2" id="text-8">
+<div id="outline-container-orgb77659c" class="outline-2">
+<h2 id="orgb77659c"><span class="section-number-2">9.</span> Compile</h2>
+<div class="outline-text-2" id="text-9">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -637,7 +684,7 @@
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Simon Danielsson</p>
-<p class="date">Created: 2026-06-28 Sun 13:11</p>
+<p class="date">Created: 2026-06-28 Sun 17:00</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
