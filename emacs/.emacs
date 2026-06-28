@@ -134,23 +134,23 @@
 
 (use-package dashboard
              :ensure t
-             :config
-             (dashboard-setup-startup-hook)
-             (setq dashboard-display-icons-p t)
-             (setq dashboard-icon-type 'nerd-icons)
-             (setq dashboard-set-heading-icons t)
-             (setq dashboard-set-file-icons t)
-             (setq dashboard-startup-banner 'logo-braille)
-             (setq dashboard-items '((recents  . 5)
-                                     ;; (projects . 5)
+             :init
+             (setq dashboard-display-icons-p t
+                   dashboard-icon-type 'nerd-icons
+                   dashboard-set-file-icons t
+                   dashboard-startup-banner 'logo-braille
+                   dashboard-center-content t
+                   dashboard-items-padding 2
+                   dashboard-items '((recents . 5)
                                      (bookmarks . 5)
-                                     ))
-             (setq dashboard-center-content t)
-             (setq dashboard-startupify-list '(dashboard-insert-banner
-                                                dashboard-insert-newline
-                                                dashboard-insert-navigator
-                                                dashboard-insert-items
-                                                )))
+                                     (agenda . 5)
+                                     )
+                   dashboard-startupify-list
+                   '(dashboard-insert-banner
+                      dashboard-insert-newline
+                      dashboard-insert-items))
+             :config
+             (dashboard-setup-startup-hook))
 
 (use-package doom-modeline
              :ensure t
@@ -161,12 +161,11 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (use-package autothemer
-  :ensure t)
+             :ensure t)
 (use-package apropospriate-theme
-  :ensure t
-  :config 
-  (load-theme 'apropospriate-dark t))
-
+             :ensure t
+             :config
+             (load-theme 'apropospriate-dark t))
 
 (load-theme 'dimma t)
 
@@ -176,12 +175,12 @@
              '(font . "Maple Mono NF-16")
              )
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(mode-line ((t (:height 150 :weight normal :box nil))))
- '(mode-line-inactive ((t (:height 150 :weight normal :box nil)))))
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+  '(mode-line ((t (:height 150 :weight normal :box nil))))
+  '(mode-line-inactive ((t (:height 150 :weight normal :box nil)))))
 
 ;; cursor ----------------------------------------------------------------------
 
@@ -279,8 +278,6 @@
 
 ;; editing ---------------------------------------------------------------------
 
-(global-set-key (kbd "M-z") 'zap-up-to-char)
-
 ;; grep
 (global-set-key (kbd "C-c g") #'grep-find)
 
@@ -367,29 +364,17 @@
   (add-hook hook #'eglot-ensure))
 
 (add-hook 'rust-mode-hook #'eglot-ensure)
+;; org -------------------------------------------------------------------------
 
 (use-package org-modern
-  :ensure t
-  :hook (org-mode . org-modern-mode))
+             :ensure t
+             :hook (org-mode . org-modern-mode))
+(use-package org :ensure t)
 
-(use-package org
-  :ensure t
-  :config
-  (set-face-attribute 'variable-pitch nil
-                      :font "Helvetica-16"
-                      )
-  )
-(add-hook 'org-mode-hook #'variable-pitch-mode)
-(with-eval-after-load 'org
-  (set-face-attribute 'org-document-title nil :inherit 'variable-pitch)
-    (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-level-1 nil :inherit 'variable-pitch)
-  (set-face-attribute 'org-level-2 nil :inherit 'variable-pitch)
-  (set-face-attribute 'org-level-3 nil :inherit 'variable-pitch))
+(add-hook 'org-mode-hook
+          (lambda ()
+            (setq fill-column 80)
+            (auto-fill-mode 1)))
 
-  ;; Keep tables monospace
+(setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
 
-
-
-  ;; (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
-  ;; (set-face-attribute 'org-code nil :inherit 'fixed-pitch))
