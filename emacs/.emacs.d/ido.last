@@ -45,9 +45,9 @@
 
 ;; ----- ido-dir-file-cache -----
 (
- ("/Users/simondanielsson/dotfiles/emacs/" (27201 32076 750803 934000) ".emacs" ".emacs.d/" "../" "./")
+ ("/Users/simondanielsson/org/" (27202 4751 681029 901000) ".git/" "blog.org" ".#blog.org" "../" "./")
 
- ("/Users/simondanielsson/org/" (27201 31162 742541 259000) "todo.org" "../" "./")
+ ("/Users/simondanielsson/dotfiles/emacs/" (27201 32076 750803 934000) ".emacs" ".emacs.d/" "../" "./")
 
  ("/Users/simondanielsson/dev/rust/dance/src/" (27201 9972 882607 643000) "main.rs" "arg.rs" "static/" "json.rs" "controls.rs" "list.rs" "dance.rs" "../" "./")
 

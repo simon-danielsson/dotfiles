@@ -21,20 +21,21 @@
 
 * Editing
 
-| Description                 | Key mapping  |
-|-----------------------------+--------------|
-| I-Search                    | C-s          |
-| I-Search (backward)         | C-r          |
-| Revert changes              | s-u          |
-| Set mark                    | C-. (or C-,) |
-| Comment line                | C-'          |
-| Delete word (native)        | M-d          |
-| Delete current word         | C-c d w      |
-| Delete paragraph            | C-c d p      |
-| Delete within parens        | C-c d b      |
-| Delete whole line           | C-c d l      |
-| Eval current line (E-lisp)  | C-x C-e      |
-| Insert new empty line below | C-<up>       |
+| Description                 | Key mapping     |
+|-----------------------------+-----------------|
+| I-Search                    | C-s             |
+| I-Search (backward)         | C-r             |
+| Revert changes              | s-u             |
+| Comment line                | C-'             |
+| Set mark                    | C-. (or C-,)    |
+| Mark up/down                | C-P / C-N       |
+| Delete word (native)        | M-d             |
+| Delete current word         | C-c d w         |
+| Delete paragraph            | C-c d p         |
+| Delete within parens        | C-c d b         |
+| Delete whole line           | C-c d l         |
+| Eval current line (E-lisp)  | C-x C-e         |
+| Insert new empty line below | C-<up> (or C-o) |
 
 * Windows
 
@@ -60,18 +61,17 @@
 | Move paragraph/table-item up   | ESC <up>    |
 | Move paragraph/table-item down | ESC <down>  |
 
-
 * Git (Magit)
 
-| Description | Key mapping |
-|-------------+-------------|
-| Open magit  | C-x g       |
-| Commit      | c           |
-| Stage sel.  | s           |
-| Stage all   | S           |
-| Save commit | C-c C-c     |
-
+| Description                        | Key mapping |
+|------------------------------------+-------------|
+| Open magit                         | C-x g       |
+| Commit                             | c           |
+| Stage sel.                         | s           |
+| Stage all                          | S           |
+| Save commit                        | C-c C-c     |
 | Manually reflow paragraph wrapping | M-q         |
+
 * Terminal
 
 | Description              | Key mapping |

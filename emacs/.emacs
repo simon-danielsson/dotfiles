@@ -371,6 +371,7 @@
 (use-package org-modern
              :ensure t
              :hook (org-mode . org-modern-mode))
+(with-eval-after-load 'org (global-org-modern-mode))
 
 (use-package org :ensure t)
 
@@ -385,8 +386,9 @@
             (setq-local truncate-lines nil)))
 (add-hook 'org-mode-hook 'visual-line-mode)
 (add-hook 'org-mode-hook (lambda () (auto-fill-mode -1)))
-(setq org-auto-fill-function nil)
-(setq truncate-lines nil)
+(setq org-auto-fill-function nil
+      org-pretty-entities t
+      truncate-lines nil)
 
 (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
 
