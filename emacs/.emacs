@@ -177,12 +177,12 @@
              '(font . "Maple Mono NF-16")
              )
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-  '(mode-line ((t (:height 150 :weight normal :box nil))))
-  '(mode-line-inactive ((t (:height 150 :weight normal :box nil)))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(mode-line ((t (:height 150 :weight normal :box nil))))
+ '(mode-line-inactive ((t (:height 150 :weight normal :box nil)))))
 
 ;; cursor ----------------------------------------------------------------------
 
@@ -365,7 +365,13 @@
 (dolist (hook '(c-mode-hook c++-mode-hook))
   (add-hook hook #'eglot-ensure))
 
+(use-package lua-mode
+  :ensure t
+  :hook ('lua-mode-hook #'eglot-ensure)
+  )
+
 (add-hook 'rust-mode-hook #'eglot-ensure)
+
 ;; org -------------------------------------------------------------------------
 
 (use-package org-modern
@@ -388,8 +394,22 @@
 (add-hook 'org-mode-hook (lambda () (auto-fill-mode -1)))
 (setq org-auto-fill-function nil
       org-pretty-entities t
+      org-agenda-start-with-log-mode t
+      org-log-done 'time
+      org-agenda-include-diary t
+      org-log-into-drawer t
       truncate-lines nil)
 
 (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
-
-
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(apropospriate-theme autothemer centered-cursor-mode dashboard
+                         dirvish doom-modeline general goto-chg
+                         grip-mode habamax-theme lsp-mode lua-mode
+                         magit markdown-preview-mode org-modern
+                         rust-mode smex visual-fill-column vterm vundo
+                         xterm-color)))

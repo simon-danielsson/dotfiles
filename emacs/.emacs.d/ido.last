@@ -10,9 +10,9 @@
 
 ;; ----- ido-work-directory-list -----
 (
- "/Users/simondanielsson/dotfiles/emacs/"
  "/Users/simondanielsson/org/"
  "/Users/simondanielsson/notes/"
+ "/Users/simondanielsson/dotfiles/emacs/"
  "/Users/simondanielsson/dotfiles/emacs/.emacs.d/"
  "/Users/simondanielsson/.emacs_saves/"
  "/Users/simondanielsson/dev/rust/"
@@ -32,6 +32,8 @@
 
 ;; ----- ido-work-file-list -----
 (
+ "birthdays.org"
+ "push.sh"
  "todo.org"
  "test.org"
  "hello.txt"
@@ -40,22 +42,21 @@
  "arg.rs"
  "main.rs"
  "#.emacs#"
- ".emacs"
 )
 
 ;; ----- ido-dir-file-cache -----
 (
- ("/Users/simondanielsson/org/" (27202 4751 681029 901000) ".git/" "blog.org" ".#blog.org" "../" "./")
+ ("/Users/simondanielsson/org/" (27202 35428 501171 722000) ".git/" "blog.org" "push.sh" "../" "./")
 
- ("/Users/simondanielsson/dotfiles/emacs/" (27201 32076 750803 934000) ".emacs" ".emacs.d/" "../" "./")
+ ("/Users/simondanielsson/dotfiles/emacs/.emacs.d/" (27202 33728 227052 37000) ".lsp-session-v1" "backups/" "themes/" "games/" "custom/" "elpa/" "recentf" "history" "help.org" ".gitignore" "bookmarks" "init.el" "url/" "auto-save-list/" "custom.el" "transient/" "tramp" "projects" "places" "eshell/" "smex-items" "tutorial/" "ido.last" "../" "./")
+
+ ("/Users/simondanielsson/dotfiles/emacs/" (27202 33577 375763 891000) ".emacs" ".emacs.d/" "../" "./")
+
+ ("/Users/simondanielsson/dev/c/rngb/src/" (27202 5439 928089 90000) "main.c" "libs/" "env.h" "../" "./")
+
+ ("/Users/simondanielsson/" (27202 4697 677078 702000) ".hermes/" ".zsh_sessions/" ".viminfo" ".bash_history" ".ollama/" ".pypirc" ".gitconfig" ".cache/" ".python_history" "Downloads/" ".pm2/" ".swiftpm/" ".espup/" ".gem/" ".bash_profile" ".tiny-dc" ".dx/" ".hushlogin" "Zomboid/" ".mailcap" "jcef_76550.log" "Documents/" ".homebrew/" ".npm/" ".ghcup/" "bat" ".tldrc/" ".rustfmt.toml" "dev/" ".Trash/" ".bash_history-02395.tmp" ".gradle/" ".profile" "Applications/" ".emacs" "Movies/" ".ssh/" ".rustup/" ".lmstudio/" ".rack_designer/" "package.json" "package-lock.json" ".supermaven/" "notes/" "Public/" "jcef_68096.log" "bash_aliases.sh" ".bash_sessions/" ".cgdb/" ".lmstudio-home-pointer" "Spitfire/" ".android/" ".cargo/" ".mpd/" ".node_repl_history" ".emacs.d/" ".gphoto/" ".lesshst" ".matplotlib/" ".wezterm.lua" "Library/" "Desktop/" ".zsh_history" ".nuget/" ".sts4/" ".openjfx/" ".nvm/" "node_modules/" ".zprofile" ".emacs_saves/" "jcef_62217.log" ".bun/" "Pictures/" ".local/" ".bash_history-80576.tmp" ".luacheckrc" ".mime.types" ".adobe/" "org/" ".sentry /" ".qutebrowser/" ".ipatool/" ".zshrc" ".bashrc" "libavdevice/" ".hawtjni/" ".z" ".wget-hsts" ".w3m/" ".CFUserTextEncoding" ".yarnrc" ".sambox.cache" "VirtualBox VMs/" "dotfiles/" ".on1appmgr" ".regn" ".DS_Store" "go/" ".vim/" ".designer/" "Music/" ".config/" "journal/" "../" "./")
 
  ("/Users/simondanielsson/dev/rust/dance/src/" (27201 9972 882607 643000) "main.rs" "arg.rs" "static/" "json.rs" "controls.rs" "list.rs" "dance.rs" "../" "./")
-
- ("/Users/simondanielsson/dev/c/rngb/src/" (27201 15395 731626 752000) "main.c" "libs/" "env.h" "../" "./")
-
- ("/Users/simondanielsson/" (27201 31140 125137 89000) ".hermes/" ".zsh_sessions/" ".viminfo" ".bash_history" ".ollama/" ".pypirc" ".gitconfig" ".cache/" ".python_history" "Downloads/" ".pm2/" ".swiftpm/" ".espup/" ".gem/" ".bash_profile" ".tiny-dc" ".dx/" ".hushlogin" "Zomboid/" ".mailcap" "jcef_76550.log" "Documents/" ".homebrew/" ".npm/" ".ghcup/" "bat" ".tldrc/" ".rustfmt.toml" "dev/" ".Trash/" ".bash_history-02395.tmp" ".gradle/" ".profile" "Applications/" ".emacs" "Movies/" ".ssh/" ".rustup/" ".lmstudio/" ".rack_designer/" "package.json" "package-lock.json" ".supermaven/" "notes/" "Public/" "jcef_68096.log" "bash_aliases.sh" ".bash_sessions/" ".cgdb/" ".lmstudio-home-pointer" "Spitfire/" ".android/" ".cargo/" ".mpd/" ".node_repl_history" ".emacs.d/" ".gphoto/" ".lesshst" ".matplotlib/" ".wezterm.lua" "Library/" "Desktop/" ".zsh_history" ".nuget/" ".sts4/" ".openjfx/" ".nvm/" "node_modules/" ".zprofile" ".emacs_saves/" "jcef_62217.log" ".bun/" "Pictures/" ".local/" ".luacheckrc" ".mime.types" ".adobe/" "org/" ".sentry /" ".qutebrowser/" ".ipatool/" ".zshrc" ".bashrc" "libavdevice/" ".hawtjni/" ".z" ".wget-hsts" ".w3m/" ".CFUserTextEncoding" ".yarnrc" ".sambox.cache" "VirtualBox VMs/" "dotfiles/" ".on1appmgr" ".regn" ".DS_Store" "go/" ".vim/" ".designer/" "Music/" ".config/" "journal/" "../" "./")
-
- ("/Users/simondanielsson/dotfiles/emacs/.emacs.d/" (27201 31052 887516 802000) "help.tex" ".lsp-session-v1" "backups/" "themes/" "games/" "custom/" "elpa/" "recentf" "history" "help.org" ".gitignore" "bookmarks" "init.el" "url/" "auto-save-list/" "custom.el" "transient/" "tramp" "projects" "places" "eshell/" "smex-items" "help.html" "tutorial/" "ido.last" "../" "./")
 
  ("/Users/simondanielsson/notes/" (27201 1525 957099 924000) "todo_2026-02-18.md" "emacs_2026-06-23.md" "todo-ipad_2026-02-24.md" "rust-tui-audio-player_2025-09-20.md" "audio-plugins-with-rust-roadmap_2025-10-11.md" ".git/" "note_2026-02-04.md" "nvim-walkthrough-yt_2026-05-23.md" "tommy_2026-01-11.md" "pi-pc_2025-09-19.md" "lrtest-todo_2025-10-12.md" "baka-build-system_2026-04-21.md" "test.org" "note_2026-03-21.md" "youtube-ideas_2025-12-08.md" ".gitignore" "reaper-structure-generator-in-rust_2025-08-30.md" "luleå-final-assignment_2025-12-19.md" "akustiskt-pop-projekt_2025-11-08.md" "todo-reamake-v1_2025-09-07.md" "color-palette-gen_2026-01-24.md" "git-cheatsheet_2025-08-31.md" "self-hosted-cloud-server_2025-09-21.md" "push.sh" "inleed-vps-cheatsheet_2025-09-16.md" "mp3-player_2026-03-09.md" "note_2026-01-22.md" "note_2026-03-22.md" "reamake-yt-video_2025-09-08.md" "personal-finance_2025-12-06.md" "colorschemes_2026-01-23.md" "todolist-reamake_2025-08-31.md" "note_2026-02-17.md" ".DS_Store" "programming-projects_2026-06-17.md" "stim-todo_2025-09-21.md" "rust-ideas_2026-01-14.md" "note_2026-02-12.md" "vinyls_2025-11-06.md" "new_website_2026-06-02.md" "../" "./")
 

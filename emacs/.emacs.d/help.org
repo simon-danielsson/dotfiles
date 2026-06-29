@@ -60,6 +60,7 @@
 | Create new deadline            | C-c C-d     |
 | Move paragraph/table-item up   | ESC <up>    |
 | Move paragraph/table-item down | ESC <down>  |
+| Create new scheduled item      | C-c C-s     |
 
 * Git (Magit)
 
