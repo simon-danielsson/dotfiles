@@ -1,1 +1,0 @@
-#s(lsp-session ("/Users/simondanielsson/dev/rust/matte_calc/matte" "/Users/simondanielsson/dev/rust/tala" "/Users/simondanielsson/dev/rust/dance") nil #s(hash-table test equal) #s(hash-table test equal) #s(hash-table test equal))
