@@ -26,6 +26,7 @@
               read-buffer-completion-ignore-case t
               completion-ignore-case t
               ido-mode 1
+	      fill-column 80
               electric-pair-mode 1
               compilation-scroll-output t
               visible-bell nil
@@ -57,6 +58,7 @@
 (save-place-mode 1)
 (global-display-line-numbers-mode +1)
 (global-display-fill-column-indicator-mode 1)
+(set-fill-column 80)
 
 ;; window navigation
 (global-set-key (kbd "s-R") #'restart-emacs)
@@ -110,7 +112,7 @@
   :bind
   (("s-t" . vterm)
    ))
-(setq vterm-max-scrollback 5000)
+(setq vterm-max-scrollback 1000)
 
 (add-hook 'vterm-mode-hook
           (lambda ()
@@ -152,6 +154,8 @@
   (dashboard-setup-startup-hook))
 
 ;; theme -----------------------------------------------------------------------
+
+(load-theme 'wombat t)
 
 ;; colors
 (let ((fg  "#aab3c0")
@@ -197,6 +201,8 @@
 
   (with-eval-after-load 'hl-line
     (set-face-attribute 'hl-line nil
+			:inherit nil
+			:underline nil
                         :background "#2a2a33"))
 
   (set-face-attribute 'mode-line nil
