@@ -13,6 +13,7 @@
 (add-to-list 'default-frame-alist '(ns-appearance . dark)) ;; or 'light
 
 (setq-default inhibit-startup-message t
+	      column-number-mode 1
               make-backup-files nil
               auto-save-default nil
               mouse-yank-at-point t
@@ -26,7 +27,6 @@
               completion-ignore-case t
               ido-mode 1
               electric-pair-mode 1
-	      c-set-style "gnu"
               compilation-scroll-output t
               visible-bell nil
               display-line-numbers-type 'relative
@@ -89,7 +89,7 @@
       dired-kill-when-opening-new-dired-buffer t
       )
 
-(add-hook 'dired-mode-hook #'dired-hide-details-mode) ;; toggle with '('
+(add-hook 'dired-mode-hook #'dired-hide-details-mode)
 (with-eval-after-load 'dired
   (define-key dired-mode-map (kbd "-") #'dired-up-directory)
   (define-key dired-mode-map (kbd "^") nil))
@@ -105,18 +105,13 @@
 
 (package-initialize)
 
-(use-package speed-type
-  :ensure t)
-
-(use-package nerd-icons
-  :ensure t)
-
 (use-package vterm
   :ensure t
   :bind
   (("s-t" . vterm)
    ))
 (setq vterm-max-scrollback 5000)
+
 (add-hook 'vterm-mode-hook
           (lambda ()
             (display-line-numbers-mode 0)
@@ -156,13 +151,9 @@
   :config
   (dashboard-setup-startup-hook))
 
-(use-package doom-modeline
-  :ensure t
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 40)))
-
 ;; theme -----------------------------------------------------------------------
 
+;; colors
 (let ((fg  "#aab3c0")
       (fg2 "#6e6e87")
       (mg  "#40404f")
@@ -207,6 +198,11 @@
   (with-eval-after-load 'hl-line
     (set-face-attribute 'hl-line nil
                         :background "#2a2a33"))
+
+  (set-face-attribute 'mode-line nil
+                      :height 140
+                      :box (list :line-width 10
+				 :color bg    ))
   )
 
 ;; fonts -----------------------------------------------------------------------
@@ -214,11 +210,8 @@
 (add-to-list 'default-frame-alist
              '(font . "Maple Mono NF-16")
              )
+
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(mode-line ((t (:height 150 :weight normal :box nil))))
  '(mode-line-inactive ((t (:height 150 :weight normal :box nil)))))
 
