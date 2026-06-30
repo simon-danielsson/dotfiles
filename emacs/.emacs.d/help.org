@@ -1,4 +1,11 @@
-* Buffer navigation
+* Useful commands
+
+** M-x find-file-at-point
+Open a file path within a buffer (in dired or else)	
+
+* Keys
+
+** Buffer navigation
 
 | Description         | Key mapping |
 |---------------------+-------------|
@@ -19,7 +26,7 @@
 | Grep find           | C-c g       |
 | Kill current buffer | s-k         |
 
-* Editing
+** Editing
 
 | Description                 | Key mapping     |
 |-----------------------------+-----------------|
@@ -36,8 +43,9 @@
 | Delete whole line           | C-c d l         |
 | Eval current line (E-lisp)  | C-x C-e         |
 | Insert new empty line below | C-<up> (or C-o) |
+| Indent line                 | C-i             |
 
-* Windows
+** Windows
 
 | Description           | Key mapping |
 |-----------------------+-------------|
@@ -50,7 +58,7 @@
 | Move to top window    | s-O         |
 | Move to bottom window | s-E         |
 
-* Org-mode
+** Org-mode
 
 | Description                    | Key mapping |
 |--------------------------------+-------------|
@@ -62,7 +70,7 @@
 | Move paragraph/table-item down | ESC <down>  |
 | Create new scheduled item      | C-c C-s     |
 
-* Git (Magit)
+** Git (Magit)
 
 | Description                        | Key mapping |
 |------------------------------------+-------------|
@@ -73,7 +81,7 @@
 | Save commit                        | C-c C-c     |
 | Manually reflow paragraph wrapping | M-q         |
 
-* Terminal
+** Terminal
 
 | Description              | Key mapping |
 |--------------------------+-------------|
@@ -81,7 +89,7 @@
 | One-shot shell command   | C-c s       |
 | Copy mode toggle (vterm) | C-c C-t     |
 
-* Buffers
+** Buffers
 
 | Description         | Key mapping |
 |---------------------+-------------|
@@ -90,7 +98,7 @@
 | Create new bookmark | C-x r m     |
 | Jump to bookmark    | C-x r b     |
 
-* Files
+** Files
 
 | Description          | Key mapping |
 |----------------------+-------------|
@@ -101,7 +109,7 @@
 | List directory       | C-x C-d     |
 | Find / create file   | C-x C-f     |
 
-* Compile 
+** Compile 
 
 | Description       | Key mapping |
 |-------------------+-------------|

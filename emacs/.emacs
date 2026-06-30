@@ -163,15 +163,51 @@
 
 ;; theme -----------------------------------------------------------------------
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(use-package autothemer
-  :ensure t)
-(use-package apropospriate-theme
-  :ensure t
-  :config
-  (load-theme 'apropospriate-dark t))
+(let ((fg  "#aab3c0")
+      (fg2 "#6e6e87")
+      (mg  "#40404f")
+      (bg  "#2a2a33")
+      (bg2 "#25252d")
+      (acc "#6087AE"))
 
-(load-theme 'dimma t)
+  (set-face-attribute 'default nil
+                      :foreground fg
+                      :background bg2)
+
+  (set-face-attribute 'cursor nil
+                      :background fg)
+
+  (set-face-attribute 'region nil
+                      :background mg)
+
+  (set-face-attribute 'font-lock-comment-face nil
+                      :foreground fg2
+                      :slant 'italic)
+
+  (set-face-attribute 'mode-line nil
+                      :foreground fg
+                      :background bg)
+
+  (set-face-attribute 'mode-line-inactive nil
+                      :foreground mg
+                      :background bg)
+
+  (set-face-attribute 'line-number nil
+                      :foreground mg
+                      :background bg2)
+
+  (set-face-attribute 'line-number-current-line nil
+                      :foreground fg
+                      :background bg)
+
+  (set-face-attribute 'fill-column-indicator nil
+                      :foreground bg
+                      :background bg)
+
+  (with-eval-after-load 'hl-line
+    (set-face-attribute 'hl-line nil
+                        :background "#2a2a33"))
+  )
 
 ;; fonts -----------------------------------------------------------------------
 
@@ -434,10 +470,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("52a99baa1ee94e34bbbfb4571224706bfb7dbdbc0494b421232d474c960b9d8e"
+     "4fca7538be1f03e9fefa5b41a96d55b5b2145941f5e26239569dcb39733dcba5"
+     default))
  '(package-selected-packages
    '(apropospriate-theme autothemer centered-cursor-mode dashboard
-                         dirvish doom-modeline general goto-chg
-                         grip-mode habamax-theme lsp-mode lua-mode
-                         magit markdown-preview-mode org-modern
-                         peep-dired rust-mode smex speed-type
-                         visual-fill-column vterm vundo xterm-color)))
+			 dirvish doom-modeline general goto-chg
+			 grip-mode habamax-theme lsp-mode lua-mode
+			 magit markdown-preview-mode org-modern
+			 peep-dired rust-mode smex speed-type
+			 visual-fill-column vterm vundo xterm-color)))
