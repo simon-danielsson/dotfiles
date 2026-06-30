@@ -153,6 +153,10 @@
   :config
   (dashboard-setup-startup-hook))
 
+(use-package rainbow-mode
+  :ensure t
+  :hook (after-change-major-mode . rainbow-mode))
+
 ;; theme -----------------------------------------------------------------------
 
 (load-theme 'wombat t)
@@ -164,6 +168,18 @@
       (bg  "#2a2a33")
       (bg2 "#25252d")
       (acc "#6087AE"))
+  (with-eval-after-load 'corfu
+    (set-face-attribute 'corfu-default nil
+			:background "#2a2a33"
+			:foreground "#6e6e87")
+
+    (set-face-attribute 'corfu-current nil
+			:background "#40404f"
+			:foreground "#6087ae"
+			:weight 'bold)
+
+    (set-face-attribute 'corfu-border nil
+			:background nil))
 
   (set-face-attribute 'default nil
                       :foreground fg
@@ -176,6 +192,10 @@
                       :background mg)
 
   (set-face-attribute 'font-lock-comment-face nil
+                      :foreground fg2
+                      :slant 'italic)
+
+  (set-face-attribute 'font-lock-doc-face nil
                       :foreground fg2
                       :slant 'italic)
 
@@ -218,6 +238,10 @@
              )
 
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(mode-line ((t (:height 150 :weight normal :box nil))))
  '(mode-line-inactive ((t (:height 150 :weight normal :box nil)))))
 
@@ -325,21 +349,18 @@
 (global-set-key (kbd "C-c d") 'my-delete-map)
 
 (defun my-delete-word ()
-  "Delete word at point (like M-d but without killing previous)"
   (interactive)
   (let ((bounds (bounds-of-thing-at-point 'word)))
     (when bounds
       (delete-region (car bounds) (cdr bounds)))))
 
 (defun my-delete-paragraph ()
-  "Delete current paragraph"
   (interactive)
   (delete-region
    (save-excursion (backward-paragraph) (point))
    (save-excursion (forward-paragraph) (point))))
 
 (defun my-delete-parens ()
-  "Delete text inside nearest enclosing parentheses"
   (interactive)
   (let ((pos (point))
         start end)
@@ -357,17 +378,62 @@
         (error (message "No enclosing parentheses found"))))))
 
 (defun my-delete-line ()
-  "Delete entire current line."
   (interactive)
   (delete-region
    (line-beginning-position)
-   (line-end-position)))
+   (line-beginning-position 2)))
 
 ;; keybindings under C-c d
 (define-key my-delete-map (kbd "w") #'my-delete-word)
 (define-key my-delete-map (kbd "p") #'my-delete-paragraph)
 (define-key my-delete-map (kbd "b") #'my-delete-parens)
 (define-key my-delete-map (kbd "l") #'my-delete-line)
+;; mark binds
+(define-prefix-command 'my-mark-map)
+(global-set-key (kbd "C-c m") 'my-mark-map)
+
+(defun my-mark-word ()
+  (interactive)
+  (let ((bounds (bounds-of-thing-at-point 'word)))
+    (when bounds
+      (goto-char (car bounds))
+      (push-mark (cdr bounds) nil t))))
+
+(defun my-mark-paragraph ()
+  (interactive)
+  (let ((start (save-excursion (backward-paragraph) (point)))
+        (end   (save-excursion (forward-paragraph) (point))))
+    (goto-char start)
+    (push-mark end nil t)))
+
+(defun my-mark-parens ()
+  (interactive)
+  (let ((pos (point))
+        start end)
+    (save-excursion
+      (condition-case nil
+          (progn
+            (up-list -1)
+            (forward-char 1)
+            (setq start (point))
+            (goto-char pos)
+            (up-list 1)
+            (backward-char 1)
+            (setq end (point)))
+        (error (user-error "No enclosing parentheses found"))))
+    (goto-char start)
+    (push-mark end nil t)))
+
+(defun my-mark-line ()
+  (interactive)
+  (goto-char (line-beginning-position))
+  (push-mark (line-beginning-position 2) nil t))
+
+;; keybindings under C-c m
+(define-key my-mark-map (kbd "w") #'my-mark-word)
+(define-key my-mark-map (kbd "p") #'my-mark-paragraph)
+(define-key my-mark-map (kbd "b") #'my-mark-parens)
+(define-key my-mark-map (kbd "l") #'my-mark-line)
 
 ;; comment line
 (global-set-key (kbd "C-'") #'comment-line)
@@ -382,11 +448,36 @@
   (forward-line n))
 
 (defun my/goto-line-relative (n)
-  "Move N lines relative to current line."
+  "move N lines relative to current line"
   (interactive "nMove lines: ")
   (forward-line n))
 
 (global-set-key (kbd "C-c C-g") 'my/goto-line-relative)
+
+(defun move-region (start end n)
+  "Move the current region N lines."
+  (let ((region (delete-and-extract-region start end)))
+    (forward-line n)
+    (let ((new-start (point)))
+      (insert region)
+      (set-mark new-start)
+      (goto-char (+ new-start (length region)))
+      (setq deactivate-mark nil))))
+
+(defun move-region-up (start end)
+  "Move the active region up one line."
+  (interactive "r")
+  (move-region start end -1))
+
+(defun move-region-down (start end)
+  "Move the active region down one line."
+  (interactive "r")
+  (move-region start end 1))
+
+(global-set-key (kbd "<") #'move-region-up)
+(global-set-key (kbd ">") #'move-region-down)
+
+;; lsp & modes -----------------------------------------------------------------
 
 ;; https://thanosapollo.org/posts/emacs-built-in-completions-video/
 (setf completion-styles '(basic flex)
@@ -397,7 +488,16 @@
       completions-max-height 20 ;; Limit completions to 15 (completions start at line 5)
       completion-ignore-case t)
 
-;; lsp & modes -----------------------------------------------------------------
+(use-package corfu
+  :ensure t
+  :init
+  (global-corfu-mode)
+
+  :custom
+  (corfu-auto t)
+  (corfu-auto-delay 0.05)
+  (corfu-auto-prefix 1)
+  (corfu-cycle t))
 
 (use-package lua-mode
   :ensure t
@@ -471,12 +571,5 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("52a99baa1ee94e34bbbfb4571224706bfb7dbdbc0494b421232d474c960b9d8e"
-     "4fca7538be1f03e9fefa5b41a96d55b5b2145941f5e26239569dcb39733dcba5"
-     default))
- '(package-selected-packages
-   '(apropospriate-theme autothemer centered-cursor-mode dashboard
-			 dirvish doom-modeline general goto-chg
-			 grip-mode habamax-theme lsp-mode lua-mode
-			 magit markdown-preview-mode org-modern
-			 peep-dired rust-mode smex speed-type
-			 visual-fill-column vterm vundo xterm-color)))
+     "4fca7538be1f03e9fefa5b41a96d55b5b2145941f5e26239569dcb39733dcba5" default))
+ '(package-selected-packages nil))
