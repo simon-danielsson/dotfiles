@@ -455,28 +455,40 @@
 (global-set-key (kbd "C-c C-g") 'my/goto-line-relative)
 
 (defun move-region (start end n)
-  "Move the current region N lines."
-  (let ((region (delete-and-extract-region start end)))
+  "Move the active region N lines."
+  (let ((text (delete-and-extract-region start end)))
     (forward-line n)
     (let ((new-start (point)))
-      (insert region)
+      (insert text)
       (set-mark new-start)
-      (goto-char (+ new-start (length region)))
+      (goto-char (+ new-start (length text)))
+      (activate-mark)
       (setq deactivate-mark nil))))
 
-(defun move-region-up (start end)
-  "Move the active region up one line."
-  (interactive "r")
-  (move-region start end -1))
+(defun move-region-up ()
+  (interactive)
+  (when (use-region-p)
+    (move-region (region-beginning) (region-end) -1)))
 
-(defun move-region-down (start end)
-  "Move the active region down one line."
-  (interactive "r")
-  (move-region start end 1))
+(defun move-region-down ()
+  (interactive)
+  (when (use-region-p)
+    (move-region (region-beginning) (region-end) 1)))
 
-(global-set-key (kbd "<") #'move-region-up)
-(global-set-key (kbd ">") #'move-region-down)
+(defun my-less ()
+  (interactive)
+  (if (use-region-p)
+      (move-region-up)
+    (self-insert-command 1)))
 
+(defun my-greater ()
+  (interactive)
+  (if (use-region-p)
+      (move-region-down)
+    (self-insert-command 1)))
+
+(keymap-global-set "<" #'my-less)
+(keymap-global-set ">" #'my-greater)
 ;; lsp & modes -----------------------------------------------------------------
 
 ;; https://thanosapollo.org/posts/emacs-built-in-completions-video/
