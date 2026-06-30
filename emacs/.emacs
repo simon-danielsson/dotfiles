@@ -15,8 +15,6 @@
 (setq-default inhibit-startup-message t
               make-backup-files nil
               auto-save-default nil
-              indent-tabs-mode nil
-              tab-width 4
               mouse-yank-at-point t
               apropos-do-all t
               load-prefer-newer t
@@ -28,6 +26,7 @@
               completion-ignore-case t
               ido-mode 1
               electric-pair-mode 1
+	      c-set-style "gnu"
               compilation-scroll-output t
               visible-bell nil
               display-line-numbers-type 'relative
@@ -365,20 +364,29 @@
 
 ;; lsp & modes -----------------------------------------------------------------
 
-(dolist (hook '(c-mode-hook c++-mode-hook))
-  (add-hook hook #'eglot-ensure))
-
 (use-package lua-mode
   :ensure t
   :hook ('lua-mode-hook #'eglot-ensure)
+  )
+
+(use-package cc-mode
+  :ensure nil
+  :hook (c-mode . eglot-ensure)
   )
 
 (add-hook 'rust-mode-hook #'eglot-ensure)
 
 ;; auto-formatting
 
+(defun my/delete-extra-blank-lines ()
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "\n\\{3,\\}" nil t)
+      (replace-match "\n\n" nil nil))))
+
 (defun my/eglot-format-on-save ()
-  (add-hook 'before-save-hook #'eglot-format-buffer nil t))
+  (add-hook 'before-save-hook #'eglot-format-buffer nil t)
+  (add-hook 'before-save-hook #'my/delete-extra-blank-lines nil t))
 
 (add-hook 'eglot-managed-mode-hook #'my/eglot-format-on-save)
 
@@ -387,7 +395,8 @@
   (delete-trailing-whitespace))
 
 (defun my/elisp-format-on-save ()
-  (add-hook 'before-save-hook #'my/elisp-format-buffer nil t))
+  (add-hook 'before-save-hook #'my/elisp-format-buffer nil t)
+  (add-hook 'before-save-hook #'my/delete-extra-blank-lines nil t))
 
 (add-hook 'emacs-lisp-mode-hook #'my/elisp-format-on-save)
 
@@ -420,3 +429,15 @@
       truncate-lines nil)
 
 (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(apropospriate-theme autothemer centered-cursor-mode dashboard
+                         dirvish doom-modeline general goto-chg
+                         grip-mode habamax-theme lsp-mode lua-mode
+                         magit markdown-preview-mode org-modern
+                         peep-dired rust-mode smex speed-type
+                         visual-fill-column vterm vundo xterm-color)))
