@@ -10,8 +10,8 @@
 
 ;; ----- ido-work-directory-list -----
 (
- "/Users/simondanielsson/dev/c/rngb/src/"
  "/Users/simondanielsson/dotfiles/emacs/"
+ "/Users/simondanielsson/dev/c/rngb/src/"
  "/Users/simondanielsson/dev/rust/website/src/"
  "/Users/simondanielsson/dev/"
  "/Users/simondanielsson/org/"
@@ -47,9 +47,9 @@
 
 ;; ----- ido-dir-file-cache -----
 (
- ("/Users/simondanielsson/dev/c/rngb/src/" (27203 60159 257406 819000) "main.c" "libs/" "env.h" "../" "./")
+ ("/Users/simondanielsson/dotfiles/emacs/" (27204 3721 185633 408000) ".emacs" ".emacs.d/" "../" "./")
 
- ("/Users/simondanielsson/dotfiles/emacs/" (27203 58721 804799 730000) ".emacs" ".emacs.d/" "../" "./")
+ ("/Users/simondanielsson/dev/c/rngb/src/" (27203 60159 257406 819000) "main.c" "libs/" "env.h" "../" "./")
 
  ("/Users/simondanielsson/org/" (27202 46385 315577 121000) ".git/" "blog.org" "birthdays.org" "push.sh" "../" "./")
 
