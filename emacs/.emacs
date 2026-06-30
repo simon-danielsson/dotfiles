@@ -92,17 +92,17 @@
 
 (add-hook 'dired-mode-hook #'dired-hide-details-mode) ;; toggle with '('
 (with-eval-after-load 'dired
-                      (define-key dired-mode-map (kbd "-") #'dired-up-directory)
-                      (define-key dired-mode-map (kbd "^") nil))
+  (define-key dired-mode-map (kbd "-") #'dired-up-directory)
+  (define-key dired-mode-map (kbd "^") nil))
 
 ;; plugins ---------------------------------------------------------------------
 
 (require 'package)
 
 (add-to-list
-  'package-archives
-  '("melpa" . "https://melpa.org/packages/")
-  t)
+ 'package-archives
+ '("melpa" . "https://melpa.org/packages/")
+ t)
 
 (package-initialize)
 
@@ -110,13 +110,13 @@
   :ensure t)
 
 (use-package nerd-icons
-             :ensure t)
+  :ensure t)
 
 (use-package vterm
-             :ensure t
-             :bind
-             (("s-t" . vterm)
-              ))
+  :ensure t
+  :bind
+  (("s-t" . vterm)
+   ))
 (setq vterm-max-scrollback 5000)
 (add-hook 'vterm-mode-hook
           (lambda ()
@@ -127,50 +127,50 @@
             (setq-local scroll-conservatively 101)))
 
 (use-package smex
-             :ensure t
-             :init
-             (smex-initialize)
-             :bind
-             (("M-x" . smex)
-              ("M-X" . smex-major-mode-commands)))
+  :ensure t
+  :init
+  (smex-initialize)
+  :bind
+  (("M-x" . smex)
+   ("M-X" . smex-major-mode-commands)))
 
 (use-package magit
-             :ensure t)
+  :ensure t)
 
 (use-package dashboard
-             :ensure t
-             :init
-             (setq dashboard-display-icons-p t
-                   dashboard-icon-type 'nerd-icons
-                   dashboard-set-file-icons t
-                   dashboard-startup-banner 'logo-braille
-                   dashboard-center-content t
-                   dashboard-items-padding 2
-                   dashboard-items '((recents . 5)
-                                     (bookmarks . 10)
-                                     (agenda . 5)
-                                     )
-                   dashboard-startupify-list
-                   '(dashboard-insert-banner
-                      dashboard-insert-newline
-                      dashboard-insert-items))
-             :config
-             (dashboard-setup-startup-hook))
+  :ensure t
+  :init
+  (setq dashboard-display-icons-p t
+        dashboard-icon-type 'nerd-icons
+        dashboard-set-file-icons t
+        dashboard-startup-banner 'logo-braille
+        dashboard-center-content t
+        dashboard-items-padding 2
+        dashboard-items '((recents . 5)
+                          (bookmarks . 10)
+                          (agenda . 5)
+                          )
+        dashboard-startupify-list
+        '(dashboard-insert-banner
+          dashboard-insert-newline
+          dashboard-insert-items))
+  :config
+  (dashboard-setup-startup-hook))
 
 (use-package doom-modeline
-             :ensure t
-             :init (doom-modeline-mode 1)
-             :custom ((doom-modeline-height 40)))
+  :ensure t
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 40)))
 
 ;; theme -----------------------------------------------------------------------
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (use-package autothemer
-             :ensure t)
+  :ensure t)
 (use-package apropospriate-theme
-             :ensure t
-             :config
-             (load-theme 'apropospriate-dark t))
+  :ensure t
+  :config
+  (load-theme 'apropospriate-dark t))
 
 (load-theme 'dimma t)
 
@@ -190,8 +190,8 @@
 ;; cursor ----------------------------------------------------------------------
 
 (use-package centered-cursor-mode
-             :ensure t
-             :hook (after-init . global-centered-cursor-mode))
+  :ensure t
+  :hook (after-init . global-centered-cursor-mode))
 
 (blink-cursor-mode t)
 (global-hl-line-mode 1) ; cursor line
@@ -215,56 +215,56 @@
   (let ((dir (file-name-directory (buffer-file-name)))
         found)
     (while (and dir (not found))
-           (setq found
-                 (cl-find-if
-                   #'file-exists-p
-                   (mapcar (lambda (f)
-                             (expand-file-name f dir))
-                           my-run-candidates)))
-           (unless found
-             (let ((parent (file-name-directory
-                             (directory-file-name dir))))
-               (setq dir (unless (equal parent dir) parent)))))
+      (setq found
+            (cl-find-if
+             #'file-exists-p
+             (mapcar (lambda (f)
+                       (expand-file-name f dir))
+                     my-run-candidates)))
+      (unless found
+        (let ((parent (file-name-directory
+                       (directory-file-name dir))))
+          (setq dir (unless (equal parent dir) parent)))))
     found))
 
 (defun my-fallback-command ()
   (let* ((file (buffer-file-name))
          (outfile (file-name-sans-extension file)))
     (pcase major-mode
-           ('c-mode
-            (format
-              "gcc -std=gnu23 -Wall -Wextra -O2 %s -o %s && %s"
-              (shell-quote-argument file)
-              (shell-quote-argument outfile)
-              (shell-quote-argument outfile)))
+      ('c-mode
+       (format
+        "gcc -std=gnu23 -Wall -Wextra -O2 %s -o %s && %s"
+        (shell-quote-argument file)
+        (shell-quote-argument outfile)
+        (shell-quote-argument outfile)))
 
-           ('python-mode
-            (format "python3 %s"
-                    (shell-quote-argument file)))
+      ('python-mode
+       (format "python3 %s"
+               (shell-quote-argument file)))
 
-           ('go-mode
-            "go run .")
+      ('go-mode
+       "go run .")
 
-           ('rust-mode
-            "cargo run")
+      ('rust-mode
+       "cargo run")
 
-           ('haskell-mode
-            (format
-              "ghc %s && %s"
-              (shell-quote-argument file)
-              (shell-quote-argument outfile)))
+      ('haskell-mode
+       (format
+        "ghc %s && %s"
+        (shell-quote-argument file)
+        (shell-quote-argument outfile)))
 
-           (_
-             "echo 'no build.sh was found'"))))
+      (_
+       "echo 'no build.sh was found'"))))
 
 (defun my-build-command ()
   (if-let ((runner (my-find-runner)))
-          (if (string-match-p "\\.py\\'" runner)
-            (format "python3 %s"
-                    (shell-quote-argument runner))
-            (format "bash %s"
-                    (shell-quote-argument runner)))
-          (my-fallback-command)))
+      (if (string-match-p "\\.py\\'" runner)
+          (format "python3 %s"
+                  (shell-quote-argument runner))
+        (format "bash %s"
+                (shell-quote-argument runner)))
+    (my-fallback-command)))
 
 (defun my-run ()
   (interactive)
@@ -274,8 +274,8 @@
 (defun my-open-compilation ()
   (interactive)
   (if-let ((buf (get-buffer "*compilation*")))
-          (pop-to-buffer buf)
-          (message "No compilation buffer")))
+      (pop-to-buffer buf)
+    (message "No compilation buffer")))
 
 (global-set-key (kbd "C-c c") #'my-run)
 (global-set-key (kbd "C-c t") #'my-open-compilation)
@@ -301,8 +301,8 @@
   "Delete current paragraph"
   (interactive)
   (delete-region
-    (save-excursion (backward-paragraph) (point))
-    (save-excursion (forward-paragraph) (point))))
+   (save-excursion (backward-paragraph) (point))
+   (save-excursion (forward-paragraph) (point))))
 
 (defun my-delete-parens ()
   "Delete text inside nearest enclosing parentheses"
@@ -311,23 +311,23 @@
         start end)
     (save-excursion
       (condition-case nil
-                      (progn
-                        (up-list -1)
-                        (forward-char 1)
-                        (setq start (point))
-                        (goto-char pos)
-                        (up-list 1)
-                        (backward-char 1)
-                        (setq end (point))
-                        (delete-region start end))
-                      (error (message "No enclosing parentheses found"))))))
+          (progn
+            (up-list -1)
+            (forward-char 1)
+            (setq start (point))
+            (goto-char pos)
+            (up-list 1)
+            (backward-char 1)
+            (setq end (point))
+            (delete-region start end))
+        (error (message "No enclosing parentheses found"))))))
 
 (defun my-delete-line ()
   "Delete entire current line."
   (interactive)
   (delete-region
-    (line-beginning-position)
-    (line-end-position)))
+   (line-beginning-position)
+   (line-end-position)))
 
 ;; keybindings under C-c d
 (define-key my-delete-map (kbd "w") #'my-delete-word)
@@ -375,21 +375,37 @@
 
 (add-hook 'rust-mode-hook #'eglot-ensure)
 
+;; auto-formatting
+
+(defun my/eglot-format-on-save ()
+  (add-hook 'before-save-hook #'eglot-format-buffer nil t))
+
+(add-hook 'eglot-managed-mode-hook #'my/eglot-format-on-save)
+
+(defun my/elisp-format-buffer ()
+  (indent-region (point-min) (point-max))
+  (delete-trailing-whitespace))
+
+(defun my/elisp-format-on-save ()
+  (add-hook 'before-save-hook #'my/elisp-format-buffer nil t))
+
+(add-hook 'emacs-lisp-mode-hook #'my/elisp-format-on-save)
+
 ;; org -------------------------------------------------------------------------
 
 (use-package org-modern
-             :ensure t
-             :hook (org-mode . org-modern-mode))
+  :ensure t
+  :hook (org-mode . org-modern-mode))
 (with-eval-after-load 'org (global-org-modern-mode))
 
 (use-package org :ensure t)
 
 (use-package visual-fill-column
-             :ensure t
-             :hook (org-mode . visual-fill-column-mode)
-             :init
-             (setq visual-fill-column-center-text t
-                   visual-fill-column-width 80))
+  :ensure t
+  :hook (org-mode . visual-fill-column-mode)
+  :init
+  (setq visual-fill-column-center-text t
+        visual-fill-column-width 80))
 (add-hook 'org-mode-hook
           (lambda ()
             (setq-local truncate-lines nil)))
@@ -404,15 +420,3 @@
       truncate-lines nil)
 
 (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(apropospriate-theme autothemer centered-cursor-mode dashboard
-                         dirvish doom-modeline general goto-chg
-                         grip-mode habamax-theme lsp-mode lua-mode
-                         magit markdown-preview-mode org-modern
-                         peep-dired rust-mode smex speed-type
-                         visual-fill-column vterm vundo xterm-color)))
