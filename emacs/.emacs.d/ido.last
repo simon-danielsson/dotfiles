@@ -1,0 +1,98 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/Users/simondanielsson/dev/c/rngb/" . "src/")
+ ("/Users/simondanielsson/dev/" . "rust/")
+ ("/Users/simondanielsson/dev/c/" . "rngb/")
+ ("/Users/simondanielsson/" . "dev/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/Users/simondanielsson/dotfiles/emacs/"
+ "/Users/simondanielsson/dev/c/rngb/src/"
+ "/Users/simondanielsson/dev/rust/website/src/"
+ "/Users/simondanielsson/dev/"
+ "/Users/simondanielsson/org/"
+ "/Users/simondanielsson/notes/"
+ "/Users/simondanielsson/dotfiles/emacs/.emacs.d/"
+ "/Users/simondanielsson/.emacs_saves/"
+ "/Users/simondanielsson/dev/rust/"
+ "/Users/simondanielsson/"
+ "/Users/simondanielsson/dotfiles/"
+ "/Users/simondanielsson/dev/rust/knapp/src/"
+ "/Users/simondanielsson/dev/c/josef/"
+ "/Users/simondanielsson/dev/rust/tala/src/"
+ "/"
+ "/Users/simondanielsson/dev/c/"
+ "/Users/simondanielsson/dev/rust/dance/src/static/"
+ "/Users/simondanielsson/dev/rust/dance/"
+ "/Users/simondanielsson/dev/rust/dance/src/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ "birthdays.org"
+ "push.sh"
+ "todo.org"
+ "test.org"
+ "hello.txt"
+ "bash_aliases.sh"
+ "main.c"
+ "arg.rs"
+ "main.rs"
+ "#.emacs#"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/Users/simondanielsson/dotfiles/emacs/" (27204 3721 185633 408000) ".emacs" ".emacs.d/" "../" "./")
+
+ ("/Users/simondanielsson/dev/c/rngb/src/" (27203 60159 257406 819000) "main.c" "libs/" "env.h" "../" "./")
+
+ ("/Users/simondanielsson/org/" (27202 46385 315577 121000) ".git/" "blog.org" "birthdays.org" "push.sh" "../" "./")
+
+ ("/Users/simondanielsson/dev/rust/website/src/" (27169 61348 650591 495000) "main.rs" "portfolio/" "blog/" "constants.rs" ".DS_Store" "index.html" "../" "./")
+
+ ("/Users/simondanielsson/dotfiles/emacs/.emacs.d/" (27202 33728 227052 37000) ".lsp-session-v1" "backups/" "themes/" "games/" "custom/" "elpa/" "recentf" "history" "help.org" ".gitignore" "bookmarks" "init.el" "url/" "auto-save-list/" "custom.el" "transient/" "tramp" "projects" "places" "eshell/" "smex-items" "tutorial/" "ido.last" "../" "./")
+
+ ("/Users/simondanielsson/" (27202 4697 677078 702000) ".hermes/" ".zsh_sessions/" ".viminfo" ".bash_history" ".ollama/" ".pypirc" ".gitconfig" ".cache/" ".python_history" "Downloads/" ".pm2/" ".swiftpm/" ".espup/" ".gem/" ".bash_profile" ".tiny-dc" ".dx/" ".hushlogin" "Zomboid/" ".mailcap" "jcef_76550.log" "Documents/" ".homebrew/" ".npm/" ".ghcup/" "bat" ".tldrc/" ".rustfmt.toml" "dev/" ".Trash/" ".bash_history-02395.tmp" ".gradle/" ".profile" "Applications/" ".emacs" "Movies/" ".ssh/" ".rustup/" ".lmstudio/" ".rack_designer/" "package.json" "package-lock.json" ".supermaven/" "notes/" "Public/" "jcef_68096.log" "bash_aliases.sh" ".bash_sessions/" ".cgdb/" ".lmstudio-home-pointer" "Spitfire/" ".android/" ".cargo/" ".mpd/" ".node_repl_history" ".emacs.d/" ".gphoto/" ".lesshst" ".matplotlib/" ".wezterm.lua" "Library/" "Desktop/" ".zsh_history" ".nuget/" ".sts4/" ".openjfx/" ".nvm/" "node_modules/" ".zprofile" ".emacs_saves/" "jcef_62217.log" ".bun/" "Pictures/" ".local/" ".bash_history-80576.tmp" ".luacheckrc" ".mime.types" ".adobe/" "org/" ".sentry /" ".qutebrowser/" ".ipatool/" ".zshrc" ".bashrc" "libavdevice/" ".hawtjni/" ".z" ".wget-hsts" ".w3m/" ".CFUserTextEncoding" ".yarnrc" ".sambox.cache" "VirtualBox VMs/" "dotfiles/" ".on1appmgr" ".regn" ".DS_Store" "go/" ".vim/" ".designer/" "Music/" ".config/" "journal/" "../" "./")
+
+ ("/Users/simondanielsson/dev/rust/dance/src/" (27201 9972 882607 643000) "main.rs" "arg.rs" "static/" "json.rs" "controls.rs" "list.rs" "dance.rs" "../" "./")
+
+ ("/Users/simondanielsson/notes/" (27201 1525 957099 924000) "todo_2026-02-18.md" "emacs_2026-06-23.md" "todo-ipad_2026-02-24.md" "rust-tui-audio-player_2025-09-20.md" "audio-plugins-with-rust-roadmap_2025-10-11.md" ".git/" "note_2026-02-04.md" "nvim-walkthrough-yt_2026-05-23.md" "tommy_2026-01-11.md" "pi-pc_2025-09-19.md" "lrtest-todo_2025-10-12.md" "baka-build-system_2026-04-21.md" "test.org" "note_2026-03-21.md" "youtube-ideas_2025-12-08.md" ".gitignore" "reaper-structure-generator-in-rust_2025-08-30.md" "luleå-final-assignment_2025-12-19.md" "akustiskt-pop-projekt_2025-11-08.md" "todo-reamake-v1_2025-09-07.md" "color-palette-gen_2026-01-24.md" "git-cheatsheet_2025-08-31.md" "self-hosted-cloud-server_2025-09-21.md" "push.sh" "inleed-vps-cheatsheet_2025-09-16.md" "mp3-player_2026-03-09.md" "note_2026-01-22.md" "note_2026-03-22.md" "reamake-yt-video_2025-09-08.md" "personal-finance_2025-12-06.md" "colorschemes_2026-01-23.md" "todolist-reamake_2025-08-31.md" "note_2026-02-17.md" ".DS_Store" "programming-projects_2026-06-17.md" "stim-todo_2025-09-21.md" "rust-ideas_2026-01-14.md" "note_2026-02-12.md" "vinyls_2025-11-06.md" "new_website_2026-06-02.md" "../" "./")
+
+ ("/Users/simondanielsson/.emacs_saves/" (27201 2037 807191 665000) "!Users!simondanielsson!.emacs.d!custom.el~" "!Users!simondanielsson!notes!test.org~" "!Users!simondanielsson!.emacs.d!bookmarks~" "!Users!simondanielsson!dotfiles!emacs!.emacs.d!help.md~" "!Users!simondanielsson!.emacs.d!games!tetris-scores~" "!Users!simondanielsson!dotfiles!emacs!.emacs.d!help.org~" "!Users!simondanielsson!dev!rust!tomat!src!main.rs~" "!Users!simondanielsson!dev!rust!knapp!.git!COMMIT_EDITMSG~" "!Users!simondanielsson!.emacs.d!ido.last~" "!Users!simondanielsson!dev!rust!knapp!src!hello.md~" "../" "./")
+
+ ("/Users/simondanielsson/dev/rust/tomat/src/" (27201 3498 45101 731000) "main.rs" "../" "./")
+
+ ("/Users/simondanielsson/dev/rust/knapp/src/" (27200 59239 512916 665000) "stopwatch.rs" "main.rs" "help.rs" "arg.rs" "static/" "json.rs" "controls.rs" "../" "./")
+
+ ("/Users/simondanielsson/dotfiles/" (27200 61144 366894 855000) "fonts/" ".git/" "aerospace/" "bat/" "scripts/" "bash/" "other things/" "emacs/" "push.sh" "wezterm/" "nvim/" ".DS_Store" "../" "./")
+
+ ("/Users/simondanielsson/dev/c/josef/" (27199 60080 753674 414000) "src/" ".git/" "notes.md" "build/" ".gitignore" "README.md" "test.json" "LICENSE" "run.py" "simple.json" "../" "./")
+
+ ("/Users/simondanielsson/dev/rust/tala/src/" (27199 53531 427436 693000) "widgets.rs" "main.rs" "backend/" "consts.rs" "../" "./")
+
+ ("/Users/" (27179 63757 202198 330000) "simondanielsson/" "Guest/" "Shared/" ".localized" "../" "./")
+
+ ("/Users/simondanielsson/.emacs.d/" (27199 31620 178353 882000) ".lsp-session-v1" "backups/" "games/" "custom/" "elpa/" "recentf" "history" ".gitignore" "init.el" "auto-save-list/" "custom.el" "tramp" "projects" "places" "eshell/" "smex-items" "tutorial/" "ido.last" "../" "./")
+
+ ("/Users/simondanielsson/dev/c/rngb/" (27131 4474 586019 863000) "src/" ".git/" "build/" ".gitignore" "README.md" "cenv" "tests/" "LICENSE" "tools/" "../" "./")
+
+ ("/Users/simondanielsson/dev/c/rngb/src/./" (27197 35599 269876 113000) "main.c" "libs/" "env.h" "../" "./")
+
+ ("/Users/simondanielsson/dev/rust/dance/src/static/" (27162 29259 229192 944000) "help.txt" "../" "./")
+
+ ("/Users/simondanielsson/dev/rust/dance/" (27163 55841 469151 657000) "src/" ".git/" "notes.md" ".gitignore" "README.md" "Cargo.lock" "target/" "LICENSE" "Cargo.toml" "../" "./")
+
+ ("/Users/simondanielsson/dev/rust/" (27192 63204 862258 164000) "tomat/" "matte_calc/" "tmto/" "todo_app/" "dance/" "analang/" "[tests]/" "tala/" "nyckel_pm/" "website/" "tecken/" "[archive]/" "website_2027/" "knapp/" ".DS_Store" "reamake-2025/" "../" "./")
+
+ ("/Users/simondanielsson/dev/c/" (27187 46856 651043 914000) "josef/" "cee/" "tolken/" "ana.h/" "cenv_toolkit/" "visa/" "bums/" "cdok/" "[archive]/" "hello_world/" ".DS_Store" "rngb/" "../" "./")
+
+ ("/Users/simondanielsson/dev/" (27180 3605 795040 934000) "leetcode-py/" "c/" "games/" "socker/" "leetcode-c/" "neovim/" "visa_test/" "old_website_2025.zip" "odin/" "source_code/" "notes/" ".gitignore_global" "leetcode-rs/" "freecad/" "haskell/" "java/" "rust/" "python/" "qemu-vm/" ".DS_Store" "go/" "mau/" "../" "./")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t

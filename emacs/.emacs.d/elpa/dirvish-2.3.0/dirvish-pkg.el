@@ -1,0 +1,2 @@
+;; Generated package description from dirvish.el  -*- mode: lisp-data; no-byte-compile: t -*-
+(define-package "dirvish" "2.3.0" "A modern file manager based on dired mode" '((emacs "28.1") (compat "30")) :commit "acbd29d248d08c954ac65a3a977db931b3dd272d" :authors '(("Alex Lu" . "https://github.com/alexluigit")) :maintainer '("Alex Lu" . "https://github.com/alexluigit") :keywords '("files" "convenience") :url "https://github.com/alexluigit/dirvish")

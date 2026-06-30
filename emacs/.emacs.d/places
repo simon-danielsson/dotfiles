@@ -1,0 +1,215 @@
+;;; -*- coding: utf-8; mode: lisp-data -*-
+(("/Users/simondanielsson/org/Blog.org" . 232)
+ ("/Users/simondanielsson/org/Birthdays.org" . 339)
+ ("/Users/simondanielsson/dotfiles/"
+  (dired-filename . "/Users/simondanielsson/dotfiles/emacs"))
+ ("/Users/simondanielsson/dotfiles/emacs/"
+  (dired-filename . "/Users/simondanielsson/dotfiles/emacs/.emacs.d"))
+ ("/Users/simondanielsson/dotfiles/emacs/.emacs" . 4284)
+ ("/Users/simondanielsson/dotfiles/emacs/.emacs.d/"
+  (dired-filename
+   . "/Users/simondanielsson/dotfiles/emacs/.emacs.d/help.org"))
+ ("/Users/simondanielsson/dotfiles/emacs/.emacs.d/help.org" . 107)
+ ("/Users/simondanielsson/dotfiles/emacs/.emacs.d/themes/" . 157)
+ ("/Users/simondanielsson/dev/c/rngb/src/main.c" . 281)
+ ("/Users/simondanielsson/.emacs.d/themes/"
+  (dired-filename
+   . "/Users/simondanielsson/.emacs.d/themes/dimma-theme.el"))
+ ("/Applications/Emacs.app/Contents/Resources/lisp/progmodes/cc-engine.el.gz"
+  . 601650)
+ ("/Users/simondanielsson/dev/c/rngb/src/"
+  (dired-filename . "/Users/simondanielsson/dev/c/rngb/src/env.h"))
+ ("/Users/simondanielsson/dev/c/rngb/src/env.h" . 39)
+ ("/Users/simondanielsson/dev/c/rngb/src/libs/"
+  (dired-filename . "/Users/simondanielsson/dev/c/rngb/src/libs/ana.h"))
+ ("/Users/simondanielsson/org/"
+  (dired-filename . "/Users/simondanielsson/org/Birthdays.org"))
+ ("/Users/simondanielsson/org/blog.org" . 232)
+ ("/Users/simondanielsson/org/birthdays.org" . 104)
+ ("/Users/simondanielsson/dev/rust/website_2027/entries/blog/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/website_2027/entries/blog/how-i-learn-new-things-2026-07-01.md"))
+ ("/Users/simondanielsson/dev/rust/website_2027/entries/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/website_2027/entries/blog"))
+ ("/Users/simondanielsson/dev/rust/website_2027/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/website_2027/entries"))
+ ("/Users/simondanielsson/dev/rust/"
+  (dired-filename . "/Users/simondanielsson/dev/rust/website_2027"))
+ ("/Users/simondanielsson/dev/"
+  (dired-filename . "/Users/simondanielsson/dev/rust"))
+ ("/Users/simondanielsson/"
+  (dired-filename . "/Users/simondanielsson/dev"))
+ ("/Users/simondanielsson/notes/"
+  (dired-filename . "/Users/simondanielsson/notes/.git"))
+ ("/Users/simondanielsson/.emacs.d/speed-type/speed-type-statistic.el"
+  . 259)
+ ("/Users/simondanielsson/dev/rust/website/src/portfolio/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/website/src/portfolio/portfolio_entries"))
+ ("/Users/simondanielsson/dev/rust/website/templates/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/website/templates/components"))
+ ("/Users/simondanielsson/dev/rust/website/target/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/website/target/debug"))
+ ("/Users/simondanielsson/dev/rust/website/static/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/website/static/audio"))
+ ("/Users/simondanielsson/dev/rust/website/.git/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/website/.git/hooks"))
+ ("/Users/simondanielsson/dev/qemu-vm/"
+  (dired-filename . "/Users/simondanielsson/dev/qemu-vm/run.sh"))
+ ("/Users/simondanielsson/dev/notes/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/notes/git_cheatsheet.md"))
+ ("/Users/simondanielsson/dev/odin/"
+  (dired-filename . "/Users/simondanielsson/dev/odin/stjarna"))
+ ("/Users/simondanielsson/dev/python/"
+  (dired-filename . "/Users/simondanielsson/dev/python/c_template"))
+ ("/Users/simondanielsson/dev/rust/website/src/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/website/src/constants.rs"))
+ ("/Users/simondanielsson/dev/rust/website/src/constants.rs" . 87)
+ ("/Users/simondanielsson/dev/rust/website/"
+  (dired-filename . "/Users/simondanielsson/dev/rust/website/src"))
+ ("/Users/simondanielsson/dev/odin/stjarna/"
+  (dired-filename . "/Users/simondanielsson/dev/odin/stjarna/build.sh"))
+ ("/Users/simondanielsson/dotfiles/nvim/.config/nvim/lua/options.lua"
+  . 3065)
+ ("/Users/simondanielsson/dotfiles/nvim/.config/nvim/lua/"
+  (dired-filename
+   . "/Users/simondanielsson/dotfiles/nvim/.config/nvim/lua/options.lua"))
+ ("/Users/simondanielsson/dotfiles/nvim/.config/nvim/"
+  (dired-filename
+   . "/Users/simondanielsson/dotfiles/nvim/.config/nvim/lua"))
+ ("/Users/simondanielsson/dotfiles/nvim/.config/"
+  (dired-filename
+   . "/Users/simondanielsson/dotfiles/nvim/.config/nvim"))
+ ("/Users/simondanielsson/dotfiles/nvim/"
+  (dired-filename . "/Users/simondanielsson/dotfiles/nvim/.config"))
+ ("/Users/simondanielsson/notes/push.sh" . 36)
+ ("/Users/simondanielsson/org/push.sh" . 72)
+ ("/Users/simondanielsson/dev/odin/mina/src/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/odin/mina/src/main.odin"))
+ ("/Users/simondanielsson/dev/odin/mina/src/main.odin" . 496)
+ ("/Users/simondanielsson/dev/odin/mina/"
+  (dired-filename . "/Users/simondanielsson/dev/odin/mina/src"))
+ ("/Users/simondanielsson/dev/games/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/games/archived-projects"))
+ ("/Users/simondanielsson/dev/c/rngb/"
+  (dired-filename . "/Users/simondanielsson/dev/c/rngb/src"))
+ ("/Users/simondanielsson/dev/c/"
+  (dired-filename . "/Users/simondanielsson/dev/c/rngb"))
+ ("/Users/simondanielsson/.emacs_saves/"
+  (dired-filename
+   . "/Users/simondanielsson/.emacs_saves/!Users!simondanielsson!dev!rust!tomat!src!main.rs~"))
+ ("/Users/simondanielsson/.emacs_saves/!Users!simondanielsson!dev!rust!tomat!src!main.rs~"
+  . 30)
+ ("/Users/simondanielsson/dev/rust/dance/src/json.rs" . 406)
+ ("/Users/simondanielsson/dotfiles/emacs/.emacs.d/ido.last" . 4290)
+ ("/Users/simondanielsson/dev/rust/dance/src/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/dance/src/json.rs"))
+ ("/Users/simondanielsson/dev/rust/dance/"
+  (dired-filename . "/Users/simondanielsson/dev/rust/dance/src"))
+ ("/Users/simondanielsson/dotfiles/nvim/.config/nvim/init.lua" . 195)
+ ("/Users/simondanielsson/dev/rust/tomat/src/main.rs" . 239)
+ ("/Users/simondanielsson/notes/test.org" . 70)
+ ("/Users/simondanielsson/dev/rust/tomat/src/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/tomat/src/main.rs"))
+ ("/Users/simondanielsson/dev/rust/tomat/"
+  (dired-filename . "/Users/simondanielsson/dev/rust/tomat/src"))
+ ("/Users/simondanielsson/notes/color-palette-gen_2026-01-24.md" . 249)
+ ("/Users/simondanielsson/notes/colorschemes_2026-01-23.md" . 18)
+ ("/Users/simondanielsson/dotfiles/push.sh" . 67)
+ ("/Users/simondanielsson/dotfiles/bat/"
+  (dired-filename . "/Users/simondanielsson/dotfiles/bat/.config"))
+ ("/Users/simondanielsson/dotfiles/aerospace/"
+  (dired-filename
+   . "/Users/simondanielsson/dotfiles/aerospace/.config"))
+ ("/Users/simondanielsson/dotfiles/aerospace/.config/"
+  (dired-filename
+   . "/Users/simondanielsson/dotfiles/aerospace/.config/aerospace"))
+ ("/Users/simondanielsson/dotfiles/aerospace/.config/aerospace/"
+  (dired-filename
+   . "/Users/simondanielsson/dotfiles/aerospace/.config/aerospace/aerospace.toml"))
+ ("/Users/simondanielsson/dotfiles/aerospace/.config/aerospace/aerospace.toml"
+  . 219)
+ ("/Users/simondanielsson/dev/rust/knapp/src/main.rs" . 8531)
+ ("/Users/simondanielsson/.emacs.d/games/tetris-scores" . 193)
+ ("/Users/simondanielsson/dev/rust/website_2027/entries/blog/how-i-learn-new-things-2026-07-01.md"
+  . 709)
+ ("/Users/simondanielsson/dev/source_code/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/source_code/autojump-rs"))
+ ("/Users/simondanielsson/dev/rust/knapp/src/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/knapp/src/hello.md"))
+ ("/Users/simondanielsson/dev/rust/knapp/src/static/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/knapp/src/static/help.txt"))
+ ("/Users/simondanielsson/dev/c/josef/README.md" . 857)
+ ("/Users/simondanielsson/dev/c/josef/notes.md" . 253)
+ ("/Users/simondanielsson/dev/rust/dance/src/main.rs" . 1456)
+ ("/Users/simondanielsson/dev/c/josef/run.py" . 475)
+ ("/Users/simondanielsson/dev/rust/knapp/"
+  (dired-filename . "/Users/simondanielsson/dev/rust/knapp/src"))
+ ("/Users/simondanielsson/dev/neovim/"
+  (dired-filename . "/Users/simondanielsson/dev/neovim/dimma.nvim"))
+ ("/Users/simondanielsson/dev/neovim/dimma.nvim/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/neovim/dimma.nvim/colors"))
+ ("/Users/simondanielsson/dev/neovim/dimma.nvim/colors/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/neovim/dimma.nvim/colors/dimma.lua"))
+ ("/Users/simondanielsson/dev/haskell/"
+  (dired-filename . "/Users/simondanielsson/dev/haskell/hello_world"))
+ ("/Users/simondanielsson/dev/c/josef/"
+  (dired-filename . "/Users/simondanielsson/dev/c/josef/README.md"))
+ ("/Users/simondanielsson/dev/c/josef/src/"
+  (dired-filename . "/Users/simondanielsson/dev/c/josef/src/main.c"))
+ ("/Users/simondanielsson/Applications/"
+  (dired-filename . "/Users/simondanielsson/Applications/.localized"))
+ ("/Users/simondanielsson/dotfiles/.git/"
+  (dired-filename . "/Users/simondanielsson/dotfiles/.git/hooks"))
+ ("/Users/simondanielsson/go/"
+  (dired-filename . "/Users/simondanielsson/go/bin"))
+ ("/Users/simondanielsson/dotfiles/.git/hooks/"
+  (dired-filename . "/Users/simondanielsson/dotfiles/.git"))
+ ("/Users/simondanielsson/dev/rust/tala/src/"
+  (dired-filename . "/Users/simondanielsson/dev/rust/tala/src/main.rs"))
+ ("/Users/simondanielsson/dev/rust/tala/src/main.rs" . 7408)
+ ("/tmp/" (dired-filename . "/")) ("/" (dired-filename . "/Users"))
+ ("/Users/" (dired-filename . "/Users/simondanielsson"))
+ ("/Users/simondanielsson/dev/rust/tala/"
+  (dired-filename . "/Users/simondanielsson/dev/rust/tala/src"))
+ ("/Users/simondanielsson/dev/c/cdok/src/main.c" . 260)
+ ("/Users/simondanielsson/dev/c/cdok/"
+  (dired-filename . "/Users/simondanielsson/dev/c/cdok/src"))
+ ("/Users/simondanielsson/dev/c/cdok/src/"
+  (dired-filename . "/Users/simondanielsson/dev/c/cdok/src/main.c"))
+ ("/Users/simondanielsson/dev/rust/[archive]/"
+  (dired-filename . "/Users/simondanielsson/dev/rust"))
+ ("/Users/simondanielsson/dev/rust/matte_calc/"
+  (dired-filename . "/Users/simondanielsson/dev/rust/matte_calc/matte"))
+ ("/Users/simondanielsson/dev/rust/matte_calc/matte/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/matte_calc/matte/src"))
+ ("/Users/simondanielsson/dev/rust/matte_calc/matte/src/"
+  (dired-filename
+   . "/Users/simondanielsson/dev/rust/matte_calc/matte/src/main.rs"))
+ ("/Users/simondanielsson/dev/rust/matte_calc/matte/src/main.rs" . 180)
+ ("/Users/simondanielsson/dev/rust/tala/src/consts.rs" . 51)
+ ("/Users/simondanielsson/dotfiles/bash/bash_aliases.sh" . 2905)
+ ("/Users/simondanielsson/dev/rust/dance/src/arg.rs" . 236)
+ ("/Users/simondanielsson/dev/rust/dance/LICENSE" . 166)
+ ("/Users/simondanielsson/dev/rust/dance/src/static/help.txt" . 58)
+ ("/Users/simondanielsson/dev/rust/dance/src/static/"
+  (dired-filename . "/Users/simondanielsson/dev/rust/dance/src"))
+ ("/Users/simondanielsson/dev/rust/dance/src/dance.rs" . 194))
