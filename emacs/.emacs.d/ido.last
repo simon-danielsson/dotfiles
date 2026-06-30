@@ -5,11 +5,13 @@
  ("/Users/simondanielsson/dev/c/rngb/" . "src/")
  ("/Users/simondanielsson/dev/" . "rust/")
  ("/Users/simondanielsson/dev/c/" . "rngb/")
- ("/Users/simondanielsson/" . "org/")
+ ("/Users/simondanielsson/" . "dev/")
 )
 
 ;; ----- ido-work-directory-list -----
 (
+ "/Users/simondanielsson/dev/rust/website/src/"
+ "/Users/simondanielsson/dev/"
  "/Users/simondanielsson/org/"
  "/Users/simondanielsson/notes/"
  "/Users/simondanielsson/dotfiles/emacs/"
@@ -18,7 +20,6 @@
  "/Users/simondanielsson/dev/rust/"
  "/Users/simondanielsson/"
  "/Users/simondanielsson/dotfiles/"
- "/Users/simondanielsson/dev/"
  "/Users/simondanielsson/dev/rust/knapp/src/"
  "/Users/simondanielsson/dev/c/josef/"
  "/Users/simondanielsson/dev/rust/tala/src/"
@@ -46,6 +47,8 @@
 
 ;; ----- ido-dir-file-cache -----
 (
+ ("/Users/simondanielsson/dev/rust/website/src/" (27169 61348 650591 495000) "main.rs" "portfolio/" "blog/" "constants.rs" ".DS_Store" "index.html" "../" "./")
+
  ("/Users/simondanielsson/org/" (27202 35428 501171 722000) ".git/" "blog.org" "push.sh" "../" "./")
 
  ("/Users/simondanielsson/dotfiles/emacs/.emacs.d/" (27202 33728 227052 37000) ".lsp-session-v1" "backups/" "themes/" "games/" "custom/" "elpa/" "recentf" "history" "help.org" ".gitignore" "bookmarks" "init.el" "url/" "auto-save-list/" "custom.el" "transient/" "tramp" "projects" "places" "eshell/" "smex-items" "tutorial/" "ido.last" "../" "./")

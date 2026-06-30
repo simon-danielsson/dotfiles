@@ -406,10 +406,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(apropospriate-theme autothemer centered-cursor-mode dashboard
-                         dirvish doom-modeline general goto-chg
-                         grip-mode habamax-theme lsp-mode lua-mode
-                         magit markdown-preview-mode org-modern
-                         rust-mode smex visual-fill-column vterm vundo
-                         xterm-color)))
+ '(package-selected-packages nil))
