@@ -2,18 +2,18 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("org"
+(("blog"
+ (filename . "~/dev/rust/website_2027/entries/blog/")
+ (front-context-string . "how-i-learn-new-")
+ (rear-context-string . "6.1K 2026-06-23 ")
+ (position . 289)
+ (last-modified 27203 35778 543174 0))
+("org"
  (filename . "~/org/")
  (front-context-string . "  -rw-r--r--   1")
  (rear-context-string . "K 2026-06-28 ..\n")
  (position . 134)
  (last-modified 27201 31274 459852 0))
-("notes"
- (filename . "~/notes/")
- (front-context-string . ".\n  drwxr-x--- 1")
- (rear-context-string . "1.3K 2026-06-28 ")
- (position . 82)
- (last-modified 27200 62863 91372 0))
 ("development"
  (filename . "~/dev/")
  (front-context-string . "  drwxr-xr-x  14")

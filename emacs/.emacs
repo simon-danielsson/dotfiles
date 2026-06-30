@@ -106,6 +106,9 @@
 
 (package-initialize)
 
+(use-package speed-type
+  :ensure t)
+
 (use-package nerd-icons
              :ensure t)
 
@@ -406,4 +409,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(apropospriate-theme autothemer centered-cursor-mode dashboard
+                         dirvish doom-modeline general goto-chg
+                         grip-mode habamax-theme lsp-mode lua-mode
+                         magit markdown-preview-mode org-modern
+                         peep-dired rust-mode smex speed-type
+                         visual-fill-column vterm vundo xterm-color)))

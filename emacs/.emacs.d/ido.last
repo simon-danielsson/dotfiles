@@ -47,9 +47,9 @@
 
 ;; ----- ido-dir-file-cache -----
 (
- ("/Users/simondanielsson/dev/rust/website/src/" (27169 61348 650591 495000) "main.rs" "portfolio/" "blog/" "constants.rs" ".DS_Store" "index.html" "../" "./")
+ ("/Users/simondanielsson/org/" (27202 46385 315577 121000) ".git/" "blog.org" "birthdays.org" "push.sh" "../" "./")
 
- ("/Users/simondanielsson/org/" (27202 35428 501171 722000) ".git/" "blog.org" "push.sh" "../" "./")
+ ("/Users/simondanielsson/dev/rust/website/src/" (27169 61348 650591 495000) "main.rs" "portfolio/" "blog/" "constants.rs" ".DS_Store" "index.html" "../" "./")
 
  ("/Users/simondanielsson/dotfiles/emacs/.emacs.d/" (27202 33728 227052 37000) ".lsp-session-v1" "backups/" "themes/" "games/" "custom/" "elpa/" "recentf" "history" "help.org" ".gitignore" "bookmarks" "init.el" "url/" "auto-save-list/" "custom.el" "transient/" "tramp" "projects" "places" "eshell/" "smex-items" "tutorial/" "ido.last" "../" "./")
 
