@@ -10,21 +10,15 @@
 (define-key key-translation-map (kbd "M-9") (kbd "]"))
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-(add-to-list 'default-frame-alist '(ns-appearance . dark)) ;; or 'light
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
 
 (setq-default inhibit-startup-message t
 	      column-number-mode 1
-              make-backup-files nil
-              auto-save-default nil
               mouse-yank-at-point t
               apropos-do-all t
               load-prefer-newer t
-              backup-by-copying t
               search-default-mode t
               frame-inhibit-implied-resize t
-              read-file-name-completion-ignore-case t
-              read-buffer-completion-ignore-case t
-              completion-ignore-case t
               ido-mode 1
 	      fill-column 80
               electric-pair-mode 1
@@ -73,9 +67,14 @@
 
 ;; files and directories -------------------------------------------------------
 
-;; recent files
 (recentf-mode 1)
-(setq recentf-max-saved-items 100)
+
+(setq recentf-max-saved-items 100
+      make-backup-files nil
+      backup-by-copying t
+      auto-save-default nil
+      )
+
 (run-at-time nil (* 5 60) #'recentf-save-list)
 (global-set-key (kbd "C-c r") #'recentf-open-files)
 
@@ -141,10 +140,11 @@
         dashboard-set-file-icons t
         dashboard-startup-banner 'logo-braille
         dashboard-center-content t
-        dashboard-items-padding 2
+	dashboard-recentf-show-base 'truncate-middle
+        dashboard-items-padding nil
         dashboard-items '((recents . 5)
                           (bookmarks . 10)
-                          (agenda . 5)
+                          (agenda . 100)
                           )
         dashboard-startupify-list
         '(dashboard-insert-banner
@@ -156,6 +156,13 @@
 (use-package rainbow-mode
   :ensure t
   :hook (after-change-major-mode . rainbow-mode))
+
+(use-package undo-fu-session
+  :ensure t
+  :init
+  (undo-fu-session-global-mode))
+(setq undo-fu-session-directory
+      (expand-file-name "undo-fu-session" user-emacs-directory))
 
 ;; theme -----------------------------------------------------------------------
 
@@ -489,7 +496,8 @@
 
 (keymap-global-set "<" #'my-less)
 (keymap-global-set ">" #'my-greater)
-;; lsp & modes -----------------------------------------------------------------
+
+;; lsp, modes & completion -----------------------------------------------------
 
 ;; https://thanosapollo.org/posts/emacs-built-in-completions-video/
 (setf completion-styles '(basic flex)
@@ -498,7 +506,10 @@
       completions-format 'one-column ;; Use only one column
       completions-sort 'historical ;; Order based on minibuffer history
       completions-max-height 20 ;; Limit completions to 15 (completions start at line 5)
-      completion-ignore-case t)
+      completion-ignore-case t
+      read-file-name-completion-ignore-case t
+      read-buffer-completion-ignore-case t
+      )
 
 (use-package corfu
   :ensure t
@@ -554,7 +565,13 @@
   :hook (org-mode . org-modern-mode))
 (with-eval-after-load 'org (global-org-modern-mode))
 
-(use-package org :ensure t)
+(use-package org
+  :ensure t
+  :config
+  (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$")
+        org-agenda-span 'month
+        org-agenda-start-on-weekday 1
+        org-agenda-show-all-dates t))
 
 (use-package visual-fill-column
   :ensure t
@@ -571,11 +588,9 @@
       org-pretty-entities t
       org-agenda-start-with-log-mode t
       org-log-done 'time
-      org-agenda-include-diary t
       org-log-into-drawer t
       truncate-lines nil)
 
-(setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
