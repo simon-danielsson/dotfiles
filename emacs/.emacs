@@ -213,14 +213,15 @@
                       :slant 'italic)
   (set-face-attribute 'tab-line nil ;; background behind tabs
 		      :background bg2
+		      :underline mg
 		      :foreground nil :distant-foreground nil
 		      :height 1.0 :box nil)
 
   (set-face-attribute 'tab-line-tab nil ;; active tab in another window
 		      :inherit 'tab-line
-		      :foreground mg :background nil :box nil)
+		      :foreground fg :background nil :box nil)
   (set-face-attribute 'tab-line-tab-current nil ;; active tab in current window
-		      :background mg :foreground fg :box nil)
+		      :background bg2 :foreground fg :box nil)
   (set-face-attribute 'tab-line-tab-inactive nil ;; inactive tab
 		      :background bg2 :foreground fg2 :box nil)
   (set-face-attribute 'tab-line-highlight nil ;; mouseover
@@ -232,10 +233,6 @@
 
   (set-face-attribute 'mode-line nil
                       :foreground fg
-                      :background bg)
-
-  (set-face-attribute 'mode-line-inactive nil
-                      :foreground mg
                       :background bg)
 
   (set-face-attribute 'line-number nil
@@ -257,16 +254,22 @@
                         :background "#2a2a33"))
 
   (set-face-attribute 'mode-line nil
-                      :height 135
-                      :box (list :line-width 12
-				 :color bg    ))
+                      :height 150
+                      :box (list :line-width 12 :color bg))
+
+  (set-face-attribute 'mode-line-inactive nil
+		      :foreground mg
+		      :background bg
+		      :box (list :line-width 12 :color bg)
+
+		      )
   )
 
 ;; fonts -----------------------------------------------------------------------
 
 (add-to-list 'default-frame-alist
-             '(font . "Maple Mono NF-16")
-             )
+	     '(font . "Maple Mono NF-16")
+	     )
 
 (custom-set-faces
  '(tab-line ((t (:height 100 :weight normal :box ))))
@@ -300,34 +303,34 @@
 (defun my-find-runner ()
   "Search upward for a build script."
   (let ((dir (file-name-directory (buffer-file-name)))
-        found)
+	found)
     (while (and dir (not found))
       (setq found
-            (cl-find-if
-             #'file-exists-p
-             (mapcar (lambda (f)
-                       (expand-file-name f dir))
-                     my-run-candidates)))
+	    (cl-find-if
+	     #'file-exists-p
+	     (mapcar (lambda (f)
+		       (expand-file-name f dir))
+		     my-run-candidates)))
       (unless found
-        (let ((parent (file-name-directory
-                       (directory-file-name dir))))
-          (setq dir (unless (equal parent dir) parent)))))
+	(let ((parent (file-name-directory
+		       (directory-file-name dir))))
+	  (setq dir (unless (equal parent dir) parent)))))
     found))
 
 (defun my-fallback-command ()
   (let* ((file (buffer-file-name))
-         (outfile (file-name-sans-extension file)))
+	 (outfile (file-name-sans-extension file)))
     (pcase major-mode
       ('c-mode
        (format
-        "gcc -std=gnu23 -Wall -Wextra -O2 %s -o %s && %s"
-        (shell-quote-argument file)
-        (shell-quote-argument outfile)
-        (shell-quote-argument outfile)))
+	"gcc -std=gnu23 -Wall -Wextra -O2 %s -o %s && %s"
+	(shell-quote-argument file)
+	(shell-quote-argument outfile)
+	(shell-quote-argument outfile)))
 
       ('python-mode
        (format "python3 %s"
-               (shell-quote-argument file)))
+	       (shell-quote-argument file)))
 
       ('go-mode
        "go run .")
@@ -337,9 +340,9 @@
 
       ('haskell-mode
        (format
-        "ghc %s && %s"
-        (shell-quote-argument file)
-        (shell-quote-argument outfile)))
+	"ghc %s && %s"
+	(shell-quote-argument file)
+	(shell-quote-argument outfile)))
 
       (_
        "echo 'no build.sh was found'"))))
@@ -347,10 +350,10 @@
 (defun my-build-command ()
   (if-let ((runner (my-find-runner)))
       (if (string-match-p "\\.py\\'" runner)
-          (format "python3 %s"
-                  (shell-quote-argument runner))
-        (format "bash %s"
-                (shell-quote-argument runner)))
+	  (format "python3 %s"
+		  (shell-quote-argument runner))
+	(format "bash %s"
+		(shell-quote-argument runner)))
     (my-fallback-command)))
 
 (defun my-run ()
@@ -392,19 +395,19 @@
 (defun my-delete-parens ()
   (interactive)
   (let ((pos (point))
-        start end)
+	start end)
     (save-excursion
       (condition-case nil
-          (progn
-            (up-list -1)
-            (forward-char 1)
-            (setq start (point))
-            (goto-char pos)
-            (up-list 1)
-            (backward-char 1)
-            (setq end (point))
-            (delete-region start end))
-        (error (message "No enclosing parentheses found"))))))
+	  (progn
+	    (up-list -1)
+	    (forward-char 1)
+	    (setq start (point))
+	    (goto-char pos)
+	    (up-list 1)
+	    (backward-char 1)
+	    (setq end (point))
+	    (delete-region start end))
+	(error (message "No enclosing parentheses found"))))))
 
 (defun my-delete-line ()
   (interactive)
@@ -431,25 +434,25 @@
 (defun my-mark-paragraph ()
   (interactive)
   (let ((start (save-excursion (backward-paragraph) (point)))
-        (end   (save-excursion (forward-paragraph) (point))))
+	(end   (save-excursion (forward-paragraph) (point))))
     (goto-char start)
     (push-mark end nil t)))
 
 (defun my-mark-parens ()
   (interactive)
   (let ((pos (point))
-        start end)
+	start end)
     (save-excursion
       (condition-case nil
-          (progn
-            (up-list -1)
-            (forward-char 1)
-            (setq start (point))
-            (goto-char pos)
-            (up-list 1)
-            (backward-char 1)
-            (setq end (point)))
-        (error (user-error "No enclosing parentheses found"))))
+	  (progn
+	    (up-list -1)
+	    (forward-char 1)
+	    (setq start (point))
+	    (goto-char pos)
+	    (up-list 1)
+	    (backward-char 1)
+	    (setq end (point)))
+	(error (user-error "No enclosing parentheses found"))))
     (goto-char start)
     (push-mark end nil t)))
 
@@ -580,19 +583,19 @@
   :ensure t
   :config
   (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$")
-        org-agenda-span 'month
-        org-agenda-start-on-weekday 1
-        org-agenda-show-all-dates t))
+	org-agenda-span 'month
+	org-agenda-start-on-weekday 1
+	org-agenda-show-all-dates t))
 
 (use-package visual-fill-column
   :ensure t
   :hook (org-mode . visual-fill-column-mode)
   :init
   (setq visual-fill-column-center-text t
-        visual-fill-column-width 80))
+	visual-fill-column-width 80))
 (add-hook 'org-mode-hook
-          (lambda ()
-            (setq-local truncate-lines nil)))
+	  (lambda ()
+	    (setq-local truncate-lines nil)))
 (add-hook 'org-mode-hook 'visual-line-mode)
 (add-hook 'org-mode-hook (lambda () (auto-fill-mode -1)))
 (setq org-auto-fill-function nil
