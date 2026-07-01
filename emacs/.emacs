@@ -55,6 +55,7 @@
 (set-fill-column 80)
 
 ;; window navigation
+
 (global-set-key (kbd "s-R") #'restart-emacs)
 (global-set-key (kbd "s-N") #'windmove-left)
 (global-set-key (kbd "s-I") #'windmove-right)
@@ -64,6 +65,16 @@
 (global-set-key (kbd "s-W") #'delete-other-windows)
 (global-set-key (kbd "s-d") #'split-window-right)
 (global-set-key (kbd "s-D") #'split-window-below)
+
+;; buffer navigation
+
+(global-tab-line-mode t)
+(setq tab-line-new-button-show nil
+      tab-line-close-button-show nil
+      tab-line-separator " ")
+
+(global-set-key (kbd "C-<tab>") 'tab-line-switch-to-next-tab)
+(global-set-key (kbd "C-S-<tab>") 'tab-line-switch-to-prev-tab)
 
 ;; files and directories -------------------------------------------------------
 
@@ -168,7 +179,6 @@
 
 (load-theme 'wombat t)
 
-;; colors
 (let ((fg  "#aab3c0")
       (fg2 "#6e6e87")
       (mg  "#40404f")
@@ -201,6 +211,20 @@
   (set-face-attribute 'font-lock-comment-face nil
                       :foreground fg2
                       :slant 'italic)
+  (set-face-attribute 'tab-line nil ;; background behind tabs
+		      :background bg2
+		      :foreground nil :distant-foreground nil
+		      :height 1.0 :box nil)
+
+  (set-face-attribute 'tab-line-tab nil ;; active tab in another window
+		      :inherit 'tab-line
+		      :foreground mg :background nil :box nil)
+  (set-face-attribute 'tab-line-tab-current nil ;; active tab in current window
+		      :background mg :foreground fg :box nil)
+  (set-face-attribute 'tab-line-tab-inactive nil ;; inactive tab
+		      :background bg2 :foreground fg2 :box nil)
+  (set-face-attribute 'tab-line-highlight nil ;; mouseover
+		      :background acc :foreground 'unspecified)
 
   (set-face-attribute 'font-lock-doc-face nil
                       :foreground fg2
@@ -233,8 +257,8 @@
                         :background "#2a2a33"))
 
   (set-face-attribute 'mode-line nil
-                      :height 140
-                      :box (list :line-width 10
+                      :height 135
+                      :box (list :line-width 12
 				 :color bg    ))
   )
 
@@ -245,10 +269,8 @@
              )
 
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+ '(tab-line ((t (:height 100 :weight normal :box ))))
+
  '(mode-line ((t (:height 150 :weight normal :box nil))))
  '(mode-line-inactive ((t (:height 150 :weight normal :box nil)))))
 
@@ -449,17 +471,6 @@
 (global-unset-key (kbd "C-SPC"))
 (global-set-key (kbd "C-.") #'set-mark-command)
 (global-set-key (kbd "C-,") #'set-mark-command)
-
-(defun my/line-move (n)
-  (interactive "p")
-  (forward-line n))
-
-(defun my/goto-line-relative (n)
-  "move N lines relative to current line"
-  (interactive "nMove lines: ")
-  (forward-line n))
-
-(global-set-key (kbd "C-c C-g") 'my/goto-line-relative)
 
 (defun move-region (start end n)
   "Move the active region N lines."
