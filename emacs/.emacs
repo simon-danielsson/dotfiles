@@ -13,14 +13,18 @@
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 
 (setq-default inhibit-startup-message t
-	      column-number-mode 1
+			  global-auto-revert-mode 1
+			  indent-tabs-mode t
+			  tab-width 4
+			  column-number-mode 1
               mouse-yank-at-point t
               apropos-do-all t
               load-prefer-newer t
               search-default-mode t
+			  save-place-mode 1
               frame-inhibit-implied-resize t
               ido-mode 1
-	      fill-column 80
+			  fill-column 80
               electric-pair-mode 1
               compilation-scroll-output t
               visible-bell nil
@@ -151,7 +155,7 @@
         dashboard-set-file-icons t
         dashboard-startup-banner 'logo-braille
         dashboard-center-content t
-	dashboard-recentf-show-base 'truncate-middle
+		dashboard-recentf-show-base 'truncate-middle
         dashboard-items-padding nil
         dashboard-items '((recents . 5)
                           (bookmarks . 10)
@@ -177,7 +181,10 @@
 
 ;; theme -----------------------------------------------------------------------
 
-(load-theme 'wombat t)
+(use-package doom-themes
+  :ensure t)
+
+(load-theme 'doom-nord-aurora t)
 
 (let ((fg  "#aab3c0")
       (fg2 "#6e6e87")
@@ -187,16 +194,16 @@
       (acc "#6087AE"))
   (with-eval-after-load 'corfu
     (set-face-attribute 'corfu-default nil
-			:background "#2a2a33"
-			:foreground "#6e6e87")
+						:background "#2a2a33"
+						:foreground "#6e6e87")
 
     (set-face-attribute 'corfu-current nil
-			:background "#40404f"
-			:foreground "#6087ae"
-			:weight 'bold)
+						:background "#40404f"
+						:foreground "#6087ae"
+						:weight 'bold)
 
     (set-face-attribute 'corfu-border nil
-			:background nil))
+						:background nil))
 
   (set-face-attribute 'default nil
                       :foreground fg
@@ -212,20 +219,20 @@
                       :foreground fg2
                       :slant 'italic)
   (set-face-attribute 'tab-line nil ;; background behind tabs
-		      :background bg2
-		      :underline mg
-		      :foreground nil :distant-foreground nil
-		      :height 1.0 :box nil)
+					  :background bg2
+					  :underline mg
+					  :foreground nil :distant-foreground nil
+					  :height 1.0 :box nil)
 
   (set-face-attribute 'tab-line-tab nil ;; active tab in another window
-		      :inherit 'tab-line
-		      :foreground fg :background nil :box nil)
+					  :inherit 'tab-line
+					  :foreground fg :background nil :box nil)
   (set-face-attribute 'tab-line-tab-current nil ;; active tab in current window
-		      :background bg2 :foreground fg :box nil)
+					  :background bg2 :foreground fg :box nil)
   (set-face-attribute 'tab-line-tab-inactive nil ;; inactive tab
-		      :background bg2 :foreground fg2 :box nil)
+					  :background bg2 :foreground fg2 :box nil)
   (set-face-attribute 'tab-line-highlight nil ;; mouseover
-		      :background acc :foreground 'unspecified)
+					  :background acc :foreground 'unspecified)
 
   (set-face-attribute 'font-lock-doc-face nil
                       :foreground fg2
@@ -249,8 +256,8 @@
 
   (with-eval-after-load 'hl-line
     (set-face-attribute 'hl-line nil
-			:inherit nil
-			:underline nil
+						:inherit nil
+						:underline nil
                         :background "#2a2a33"))
 
   (set-face-attribute 'mode-line nil
@@ -258,24 +265,27 @@
                       :box (list :line-width 12 :color bg))
 
   (set-face-attribute 'mode-line-inactive nil
-		      :foreground mg
-		      :background bg
-		      :box (list :line-width 12 :color bg)
+					  :foreground mg
+					  :background bg
+					  :box (list :line-width 12 :color bg)
 
-		      )
+					  )
   )
 
 ;; fonts -----------------------------------------------------------------------
 
 (add-to-list 'default-frame-alist
-	     '(font . "Maple Mono NF-16")
-	     )
+			 '(font . "Maple Mono NF-16")
+			 )
 
 (custom-set-faces
- '(tab-line ((t (:height 100 :weight normal :box ))))
-
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(mode-line ((t (:height 150 :weight normal :box nil))))
- '(mode-line-inactive ((t (:height 150 :weight normal :box nil)))))
+ '(mode-line-inactive ((t (:height 150 :weight normal :box nil))))
+ '(tab-line ((t (:height 100 :weight normal :box)))))
 
 ;; cursor ----------------------------------------------------------------------
 
@@ -303,34 +313,34 @@
 (defun my-find-runner ()
   "Search upward for a build script."
   (let ((dir (file-name-directory (buffer-file-name)))
-	found)
+		found)
     (while (and dir (not found))
       (setq found
-	    (cl-find-if
-	     #'file-exists-p
-	     (mapcar (lambda (f)
-		       (expand-file-name f dir))
-		     my-run-candidates)))
+			(cl-find-if
+			 #'file-exists-p
+			 (mapcar (lambda (f)
+					   (expand-file-name f dir))
+					 my-run-candidates)))
       (unless found
-	(let ((parent (file-name-directory
-		       (directory-file-name dir))))
-	  (setq dir (unless (equal parent dir) parent)))))
+		(let ((parent (file-name-directory
+					   (directory-file-name dir))))
+		  (setq dir (unless (equal parent dir) parent)))))
     found))
 
 (defun my-fallback-command ()
   (let* ((file (buffer-file-name))
-	 (outfile (file-name-sans-extension file)))
+		 (outfile (file-name-sans-extension file)))
     (pcase major-mode
       ('c-mode
        (format
-	"gcc -std=gnu23 -Wall -Wextra -O2 %s -o %s && %s"
-	(shell-quote-argument file)
-	(shell-quote-argument outfile)
-	(shell-quote-argument outfile)))
+		"gcc -std=gnu23 -Wall -Wextra -O2 %s -o %s && %s"
+		(shell-quote-argument file)
+		(shell-quote-argument outfile)
+		(shell-quote-argument outfile)))
 
       ('python-mode
        (format "python3 %s"
-	       (shell-quote-argument file)))
+			   (shell-quote-argument file)))
 
       ('go-mode
        "go run .")
@@ -340,9 +350,9 @@
 
       ('haskell-mode
        (format
-	"ghc %s && %s"
-	(shell-quote-argument file)
-	(shell-quote-argument outfile)))
+		"ghc %s && %s"
+		(shell-quote-argument file)
+		(shell-quote-argument outfile)))
 
       (_
        "echo 'no build.sh was found'"))))
@@ -350,10 +360,10 @@
 (defun my-build-command ()
   (if-let ((runner (my-find-runner)))
       (if (string-match-p "\\.py\\'" runner)
-	  (format "python3 %s"
-		  (shell-quote-argument runner))
-	(format "bash %s"
-		(shell-quote-argument runner)))
+		  (format "python3 %s"
+				  (shell-quote-argument runner))
+		(format "bash %s"
+				(shell-quote-argument runner)))
     (my-fallback-command)))
 
 (defun my-run ()
@@ -395,19 +405,19 @@
 (defun my-delete-parens ()
   (interactive)
   (let ((pos (point))
-	start end)
+		start end)
     (save-excursion
       (condition-case nil
-	  (progn
-	    (up-list -1)
-	    (forward-char 1)
-	    (setq start (point))
-	    (goto-char pos)
-	    (up-list 1)
-	    (backward-char 1)
-	    (setq end (point))
-	    (delete-region start end))
-	(error (message "No enclosing parentheses found"))))))
+		  (progn
+			(up-list -1)
+			(forward-char 1)
+			(setq start (point))
+			(goto-char pos)
+			(up-list 1)
+			(backward-char 1)
+			(setq end (point))
+			(delete-region start end))
+		(error (message "No enclosing parentheses found"))))))
 
 (defun my-delete-line ()
   (interactive)
@@ -434,25 +444,25 @@
 (defun my-mark-paragraph ()
   (interactive)
   (let ((start (save-excursion (backward-paragraph) (point)))
-	(end   (save-excursion (forward-paragraph) (point))))
+		(end   (save-excursion (forward-paragraph) (point))))
     (goto-char start)
     (push-mark end nil t)))
 
 (defun my-mark-parens ()
   (interactive)
   (let ((pos (point))
-	start end)
+		start end)
     (save-excursion
       (condition-case nil
-	  (progn
-	    (up-list -1)
-	    (forward-char 1)
-	    (setq start (point))
-	    (goto-char pos)
-	    (up-list 1)
-	    (backward-char 1)
-	    (setq end (point)))
-	(error (user-error "No enclosing parentheses found"))))
+		  (progn
+			(up-list -1)
+			(forward-char 1)
+			(setq start (point))
+			(goto-char pos)
+			(up-list 1)
+			(backward-char 1)
+			(setq end (point)))
+		(error (user-error "No enclosing parentheses found"))))
     (goto-char start)
     (push-mark end nil t)))
 
@@ -583,19 +593,19 @@
   :ensure t
   :config
   (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$")
-	org-agenda-span 'month
-	org-agenda-start-on-weekday 1
-	org-agenda-show-all-dates t))
+		org-agenda-span 'month
+		org-agenda-start-on-weekday 1
+		org-agenda-show-all-dates t))
 
 (use-package visual-fill-column
   :ensure t
   :hook (org-mode . visual-fill-column-mode)
   :init
   (setq visual-fill-column-center-text t
-	visual-fill-column-width 80))
+		visual-fill-column-width 80))
 (add-hook 'org-mode-hook
-	  (lambda ()
-	    (setq-local truncate-lines nil)))
+		  (lambda ()
+			(setq-local truncate-lines nil)))
 (add-hook 'org-mode-hook 'visual-line-mode)
 (add-hook 'org-mode-hook (lambda () (auto-fill-mode -1)))
 (setq org-auto-fill-function nil
