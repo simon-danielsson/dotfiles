@@ -161,6 +161,13 @@
 (use-package magit
   :ensure t)
 
+(use-package highlight-indent-guides
+  :ensure t
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :custom
+  (highlight-indent-guides-method 'character))
+(setq highlight-indent-guides-character ?║)
+
 (use-package dashboard
   :ensure t
   :init
@@ -636,5 +643,5 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("52a99baa1ee94e34bbbfb4571224706bfb7dbdbc0494b421232d474c960b9d8e"
-     "4fca7538be1f03e9fefa5b41a96d55b5b2145941f5e26239569dcb39733dcba5" default))
+	 "4fca7538be1f03e9fefa5b41a96d55b5b2145941f5e26239569dcb39733dcba5" default))
  '(package-selected-packages nil))
