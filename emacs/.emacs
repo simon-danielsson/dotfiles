@@ -110,6 +110,20 @@
   (define-key dired-mode-map (kbd "-") #'dired-up-directory)
   (define-key dired-mode-map (kbd "^") nil))
 
+(defun my/insert-template ()
+  "Insert template for a newly created file."
+  (when (and buffer-file-name
+             (= (point-min) (point-max))) ; empty buffer
+    (let* ((ext (or (file-name-extension buffer-file-name) ""))
+           (template (expand-file-name
+                      (format "templates/template.%s" ext)
+                      "~/dotfiles/other things/templates")))
+      (when (file-readable-p template)
+        (insert-file-contents template))))
+  nil)
+
+(add-hook 'find-file-not-found-functions #'my/insert-template)
+
 ;; plugins ---------------------------------------------------------------------
 
 (require 'package)
