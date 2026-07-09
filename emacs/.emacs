@@ -543,6 +543,9 @@
 
 ;; lsp, modes & completion -----------------------------------------------------
 
+(add-to-list 'load-path "~/dotfiles/emacs/custom")
+(require 'odin-mode)
+
 ;; https://thanosapollo.org/posts/emacs-built-in-completions-video/
 (setf completion-styles '(basic flex)
       completion-auto-select t ;; Show completion on first call
