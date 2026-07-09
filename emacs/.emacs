@@ -183,8 +183,7 @@
                           (agenda . 100)
                           )
         dashboard-startupify-list
-        '(dashboard-insert-banner
-          dashboard-insert-newline
+        '(
           dashboard-insert-items))
   :config
   (dashboard-setup-startup-hook))
