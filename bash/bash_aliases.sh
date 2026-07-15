@@ -11,7 +11,12 @@ publish() {
 
 # external programs -----------------------------------------------------------
 
-alias ai="ollama run default"
+alias ai="lms chat"
+
+alias mmry="~/dev/c/mmry/build/install/* ~/notes/.mmry.md"
+if [[ -z "$NVIM" ]]; then
+    mmry
+fi
 
 # mupdf with invert as def (macOS = mupdf-gl, linux = mupdf)
 mupdf() {
@@ -119,6 +124,7 @@ alias mv="mv -i"
 alias exti="exit"
 alias t="exit"
 alias e="exit"
+alias xeit="exit"
 alias xeti="exit"
 alias ex="exit"
 alias eixt="exit"
