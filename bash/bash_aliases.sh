@@ -11,6 +11,8 @@ publish() {
 
 # external programs -----------------------------------------------------------
 
+alias gl='git log --reverse | bat'
+
 alias ai="lms chat"
 
 alias mmry="~/dev/c/mmry/build/install/* ~/notes/.mmry.md"
