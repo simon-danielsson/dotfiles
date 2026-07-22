@@ -5,15 +5,13 @@ alias blog="~/dev/rust/website_2027/tools/blog.sh"
 publish() {
     cd "~/dev/rust/website_2027"
     git add --all
-    git commit -m "new blog post"
+    git commit -m "update"
     git push
 }
 
 # external programs -----------------------------------------------------------
 
 alias gl='git log --reverse | bat'
-
-alias ai="lms chat"
 
 alias mmry="~/dev/c/mmry/build/install/* ~/notes/.mmry.md"
 if [[ -z "$NVIM" ]]; then
@@ -107,6 +105,7 @@ alias gvim="/opt/homebrew/bin/nvim --listen /tmp/godot.pipe"
 NVIM="/opt/homebrew/bin/nvim"
 alias nvim=$NVIM
 alias nv=$NVIM
+alias nim=$NVIM
 alias vnim=$NVIM
 alias nivm=$NVIM
 
