@@ -72,6 +72,36 @@ function M.setup()
             },
         },
 
+        csharpls = {
+            cmd = function(dispatchers, config)
+                return vim.lsp.rpc.start(
+                    { vim.fn.expand('~/.dotnet/tools/csharp-ls') },
+                    dispatchers,
+                    {
+                        cwd = config.root_dir,
+                    }
+                )
+            end,
+
+            filetypes = { "cs" },
+
+            root_dir = function(bufnr, on_dir)
+                on_dir(vim.fs.root(bufnr, {
+                    "*.csproj",
+                    "*.sln",
+                    "*.slnx",
+                }))
+            end,
+
+            init_options = {
+                AutomaticWorkspaceInit = true,
+            },
+
+            get_language_id = function(_, ft)
+                return ft == "cs" and "csharp" or ft
+            end,
+        },
+
         gopls = {
             cmd = { 'gopls' },
             filetypes = { "go", "gomod", "gowork", "gotmpl" },

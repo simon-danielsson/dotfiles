@@ -11,6 +11,8 @@ publish() {
 
 # external programs -----------------------------------------------------------
 
+alias netnew='~/dev/bash/netnew/netnew.sh'
+
 alias gl='git log --reverse | bat'
 
 alias mmry="~/dev/c/mmry/build/install/* ~/notes/.mmry.md"
@@ -105,6 +107,7 @@ alias gvim="/opt/homebrew/bin/nvim --listen /tmp/godot.pipe"
 NVIM="/opt/homebrew/bin/nvim"
 alias nvim=$NVIM
 alias nv=$NVIM
+alias vim=$NVIM
 alias nim=$NVIM
 alias vnim=$NVIM
 alias nivm=$NVIM
