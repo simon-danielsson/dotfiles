@@ -36,6 +36,7 @@ function M.setup()
         extension = {
             h = 'h',
             odin = 'odin',
+            cs = 'cs',
             el = 'el',
             gd = 'gd'
         },
@@ -72,34 +73,37 @@ function M.setup()
             },
         },
 
-        csharpls = {
-            cmd = function(dispatchers, config)
-                return vim.lsp.rpc.start(
-                    { vim.fn.expand('~/.dotnet/tools/csharp-ls') },
-                    dispatchers,
-                    {
-                        cwd = config.root_dir,
-                    }
-                )
-            end,
-
-            filetypes = { "cs" },
-
-            root_dir = function(bufnr, on_dir)
-                on_dir(vim.fs.root(bufnr, {
-                    "*.csproj",
-                    "*.sln",
-                    "*.slnx",
-                }))
-            end,
-
-            init_options = {
-                AutomaticWorkspaceInit = true,
+        roslyn = {
+            cmd = {
+                vim.fn.expand("~/.dotnet/tools/roslyn-language-server"),
+                "--stdio",
+                "--autoLoadProjects",
+                "--logLevel=Information",
             },
 
-            get_language_id = function(_, ft)
-                return ft == "cs" and "csharp" or ft
-            end,
+            filetypes = {
+                "cs",
+            },
+
+            root_markers = {
+                "*.sln",
+                "*.csproj",
+                "Directory.Build.props",
+                ".git",
+            },
+
+            capabilities = capabilities,
+
+            settings = {
+                ["csharp|background_analysis"] = {
+                    dotnet_compiler_diagnostics_scope = "fullSolution",
+                },
+
+                ["csharp|inlay_hints"] = {
+                    dotnet_enable_inlay_hints_for_parameters = true,
+                    dotnet_enable_inlay_hints_for_types = true,
+                },
+            },
         },
 
         gopls = {
