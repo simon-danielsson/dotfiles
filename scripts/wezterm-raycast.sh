@@ -8,7 +8,7 @@
 # Optional parameters:
 # @raycast.icon 🚀
 
-WEZTERM="$HOME/dev/source_code/wezterm/target/release/wezterm"
+WEZTERM="$HOME/dev/_source_code/wezterm/target/release/wezterm"
 
 open -g -a "$WEZTERM" --args start
 
