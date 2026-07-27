@@ -108,12 +108,14 @@ cinit() {
         echo "failed to curl bark.py" >&2
         exit 1
     }
+    chmod +x bark.py
     mkdir -p "$_cinit_dst"/"$1"/src/static
     cd "$_cinit_dst"/"$1"/src/static
     curl -O https://raw.githubusercontent.com/simon-danielsson/bedh.py/refs/heads/main/bedh.py || {
         echo "failed to curl bedh.py" >&2
         exit 1
     }
+    chmod +x bedh.py
     set +x
     cd "$_cinit_dst"/"$1"
 
@@ -124,7 +126,6 @@ cinit() {
     git tag v0.1.0
 
     cd "$_cinit_dst"
-
 }
 
 alias gvim="/opt/homebrew/bin/nvim --listen /tmp/godot.pipe"
