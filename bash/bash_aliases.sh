@@ -132,6 +132,7 @@ alias gvim="/opt/homebrew/bin/nvim --listen /tmp/godot.pipe"
 NVIM="/opt/homebrew/bin/nvim"
 alias nvim=$NVIM
 alias nv=$NVIM
+alias nvm=$NVIM
 alias nvi=$NVIM
 alias nimv=$NVIM
 alias vim=$NVIM
