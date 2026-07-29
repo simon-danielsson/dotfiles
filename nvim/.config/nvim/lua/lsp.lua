@@ -32,6 +32,8 @@ function M.setup()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+    -- filetypes --------------------------------------------------------------
+
     vim.filetype.add({
         extension = {
             h = 'h',
@@ -41,6 +43,8 @@ function M.setup()
             gd = 'gd'
         },
     })
+
+    -- general setup ----------------------------------------------------------
 
     local lsp_servers = {
         rust_analyzer = {
@@ -267,9 +271,7 @@ function M.setup()
         vim.lsp.config(name, config); vim.lsp.enable(name)
     end
 
-    -- =========================================================
-    -- !!! lsp/format
-    -- =========================================================
+    -- formatting -------------------------------------------------------------
 
     autocmd("BufWritePre", {
         pattern = "*",
@@ -313,9 +315,7 @@ function M.setup()
         desc = "Format on save with LSP; force gg=G after format for C/Rust files",
     })
 
-    -- =========================================================
-    -- !!! lsp/completion
-    -- =========================================================
+    -- completion -------------------------------------------------------------
 
     vim.opt.completeopt = { "noselect", "menu", "menuone", "popup" }
     vim.o.inccommand    = 'nosplit'; vim.opt.pumborder = "rounded"

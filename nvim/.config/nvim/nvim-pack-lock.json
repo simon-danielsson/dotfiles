@@ -1,24 +1,12 @@
 {
   "plugins": {
-    "dashboard-nvim": {
-      "rev": "f787e3462c2ee2b6117b17c1aa4ddf66cb6f57fe",
-      "src": "https://github.com/nvimdev/dashboard-nvim"
-    },
-    "mini.starter": {
-      "rev": "0575c96206d63fd98d7f786df78dc225bf847d95",
-      "src": "https://github.com/nvim-mini/mini.starter.git"
+    "kanagawa.nvim": {
+      "rev": "bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3",
+      "src": "https://github.com/rebelot/kanagawa.nvim"
     },
     "render-markdown.nvim": {
-      "rev": "629eb9533ec989d9d5c6cab8f3ad5372422c24e0",
-      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim.git"
-    },
-    "showkeys": {
-      "rev": "cb0a50296f11f1e585acffba8c253b9e8afc1f84",
-      "src": "https://github.com/nvzone/showkeys.git"
-    },
-    "zk-nvim": {
-      "rev": "bc3b39374b25fad977cecc936588cb060f15a773",
-      "src": "https://github.com/zk-org/zk-nvim.git"
+      "rev": "f422cb5c6855f150e2ddcfaf44e7157b98b34f6a",
+      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     }
   }
 }
