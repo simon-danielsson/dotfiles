@@ -128,7 +128,6 @@ cinit() {
     cd "$_cinit_dst"
 }
 
-alias newvim="NVIM_APPNAME=new-nvim nvim"
 alias gvim="/opt/homebrew/bin/nvim --listen /tmp/godot.pipe"
 NVIM="/opt/homebrew/bin/nvim"
 alias nvim=$NVIM
