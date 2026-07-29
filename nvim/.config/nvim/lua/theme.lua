@@ -3,10 +3,11 @@ local M         = {}
 local cmd       = vim.cmd
 
 M.colors        = {
-    fg_1 = "#AAB3C0",
-    fg_2 = "#6e6e87",
-    mg_1 = "#40404f",
-    bg_1 = "#2a2a33",
+    fg_1 = "#8c8f92",
+    fg_2 = "#5f5f63",
+    mg_1 = "#37373a",
+    bg_1 = "#242425",
+    -- bg_2 = "#202021",
     bg_2 = "none",
 }
 
