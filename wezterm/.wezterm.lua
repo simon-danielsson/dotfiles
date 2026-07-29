@@ -14,7 +14,7 @@ config.cursor_blink_ease_out = "Constant"
 
 -- colors ---------------------------------------------------------------------
 
-config.color_scheme = 'Catppuccin Frappe'
+config.color_scheme = 'Kanagawa Dragon (Gogh)'
 
 local custom_c = {
     fg_1 = "#AAB3C0",
