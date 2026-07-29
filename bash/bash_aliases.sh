@@ -129,6 +129,8 @@ cinit() {
 }
 
 alias gvim="/opt/homebrew/bin/nvim --listen /tmp/godot.pipe"
+
+# i can't type "nvim" properly
 NVIM="/opt/homebrew/bin/nvim"
 alias nvim=$NVIM
 alias nv=$NVIM
