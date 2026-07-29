@@ -84,7 +84,7 @@ function M.setup()
         "*.pyc", "*.class", "*.jar" })
 
     -- file handling
-    vim.opt.shada   = "'32,<32,s10,h,:1000,@1000"
+    vim.opt.shada   = "'100,<100,s10,h,:1000,@1000"
     opt.undofile    = true
     opt.backup      = false; opt.writebackup = false; opt.swapfile = false
     opt.updatetime  = 100; opt.timeoutlen = 200; opt.ttimeoutlen = 0
