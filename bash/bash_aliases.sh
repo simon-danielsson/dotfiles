@@ -11,6 +11,15 @@ publish() {
 
 # external programs -----------------------------------------------------------
 
+fr() {
+    find "${3:-.}" -type f -exec sed -i '' "s/$1/$2/g" {} +
+}
+
+git-hard-reset() {
+    git reset --hard HEAD
+    git clean -fd
+}
+
 alias netnew='~/dev/bash/netnew/netnew.sh'
 
 alias gl='git log --reverse | bat'

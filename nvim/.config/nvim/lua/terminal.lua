@@ -46,9 +46,10 @@ function M.setup()
     end
 
     map('n', k_build, function()
+        cmd("wa")
+
         local filename = vim.api.nvim_buf_get_name(0)
         local runnable = find_runnable(filename)
-
         if not runnable then
             -- try running the file as a standalone script if no build script was found
             if vim.fn.filereadable(filename) == 0 then
