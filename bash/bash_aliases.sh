@@ -11,6 +11,9 @@ publish() {
 
 # external programs -----------------------------------------------------------
 
+# strip ansi escape codes and such (to use when piping stdout to things)
+alias stripansi="perl -pe 's/\e\[[0-9;]*[mGKHJ]//g; s/\e\][^\a]*\a//g; s/\e[\(\)].//g;'"
+
 fr() {
     find "${3:-.}" -type f -exec sed -i '' "s/$1/$2/g" {} +
 }
