@@ -74,7 +74,7 @@ config.colors = {
 -- font -----------------------------------------------------------------------
 
 config.font = wezterm.font 'Maple Mono NF'
-config.font_size = 19
+config.font_size = 18
 
 -- keybindings ----------------------------------------------------------------
 
