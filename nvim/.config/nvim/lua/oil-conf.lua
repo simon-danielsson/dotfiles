@@ -1,8 +1,4 @@
-local M       = {}
-
-local g       = vim.g; local bo = vim.bo
-local cmd     = vim.cmd; local map = vim.keymap.set
-local autocmd = vim.api.nvim_create_autocmd;
+local M = {}
 
 function M.setup()
     vim.pack.add({
@@ -14,14 +10,9 @@ function M.setup()
         vim.cmd("Oil " .. vim.fn.fnameescape(dir))
     end)
 
-    autocmd({ "FileType", "BufWinEnter" }, {
+    vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" }, {
         pattern = "oil",
         callback = function()
-            local opts = { buffer = true, noremap = true, silent = true }
-            map("n", "n", "h", opts)
-            map("n", "e", "j", opts)
-            map("n", "o", "k", opts)
-            map("n", "i", "l", opts)
             vim.wo.relativenumber = true
             vim.wo.number = true
         end,
@@ -122,19 +113,6 @@ function M.setup()
             override = function(conf)
                 return conf
             end,
-        },
-        -- Configuration for the file preview window
-        preview_win = {
-            -- Whether the preview window is automatically updated when the cursor is moved
-            update_on_cursor_moved = true,
-            -- How to open the preview window "load"|"scratch"|"fast_scratch"
-            preview_method = "fast_scratch",
-            -- A function that returns true to disable preview on a file e.g. to avoid lag
-            disable_preview = function(filename)
-                return false
-            end,
-            -- Window-local options to use for preview window buffers
-            win_options = {},
         },
     })
 end
