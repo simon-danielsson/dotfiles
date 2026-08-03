@@ -24,7 +24,7 @@ function M.setup()
     autocmd("VimResized", {
         group = ui_group,
         callback = function() cmd("tabdo wincmd =") end,
-        desc = "Auto-resize splits when window is resized",
+        desc = "auto-resize splits when window is resized",
     })
 
     autocmd("LspAttach", {
@@ -36,15 +36,6 @@ function M.setup()
             end
         end,
         desc = "notify at LSP client attach",
-    })
-
-    autocmd('BufWinEnter', {
-        group = ui_group,
-        pattern = { '*.txt' },
-        callback = function()
-            if vim.o.filetype == 'help' then cmd.wincmd('L') end
-        end,
-        desc = "Open help window in a vertical split to the right",
     })
 
     local cursor_group = augroup("CursorCommands", { clear = true })
@@ -60,13 +51,12 @@ function M.setup()
                 pcall(vim.api.nvim_win_set_cursor, 0, mark)
             end
         end,
-        desc = "Restore cursor location when opening a buffer",
+        desc = "restore cursor pos when opening buffer",
     })
 
     autocmd("TextYankPost", {
         group = cursor_group,
         callback = function() vim.highlight.on_yank() end,
-        desc = "Highlight yanked text",
     })
     local files_group = augroup("FileCommands", { clear = true })
 
@@ -106,7 +96,8 @@ function M.setup()
     autocmd("BufWritePre", {
         group = write_group,
         pattern = "*",
-        callback = function()
+        callback = function(event)
+            if event.match:match("^%w%w+:[\\/][\\/]") then return end
             local ft = vim.bo.filetype; local ext = vim.fn.expand("%:e")
             if ft == "markdown" or ft == "yaml" or ext == "html" or ext == "RPP" or ext == "reamake" or ext:lower() == "csv" then
                 return
