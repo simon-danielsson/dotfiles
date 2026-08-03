@@ -281,6 +281,7 @@ function M.setup()
                 ["markdown"]  = true,
                 ["make"]      = true,
                 ["el"]        = true,
+                ["oil"]       = true,
                 ["text"]      = true,
                 ["typ"]       = true,
                 ["gitignore"] = true,

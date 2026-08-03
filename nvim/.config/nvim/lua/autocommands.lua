@@ -90,23 +90,11 @@ function M.setup()
         desc = "Use a template when opening a new file",
     })
 
-    autocmd("BufWritePre", {
-        group = files_group,
-        pattern = "*",
-        callback = function()
-            local dir = vim.fn.expand("%:p:h")
-            if vim.fn.isdirectory(dir) == 0 then
-                vim.fn.mkdir(dir, "p")
-            end
-        end,
-        desc = "Auto-create directories before save",
-    })
     local write_group = augroup("WriteCommands", { clear = true })
 
     autocmd("BufWritePre", {
         group = write_group,
         callback = function(event)
-            -- skip if path is protocol (e.g., git:, fzf:)
             if event.match:match("^%w%w+:[\\/][\\/]") then return end
             local file = vim.uv.fs_realpath(event.match) or event.match
             local dir = vim.fn.fnamemodify(file, ":p:h") -- parent
