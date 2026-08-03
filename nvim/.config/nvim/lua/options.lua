@@ -103,13 +103,8 @@ function M.setup()
     map('n', 'zo', 'zR', { desc = "Open all folds" })
     map('n', 'zc', 'zM', { desc = "Close all folds" })
 
-    -- open inside nvim
+    -- open externally
     vim.keymap.set("n", "gx", function()
-        vim.cmd("edit " .. vim.fn.expand("<cfile>"))
-    end)
-
-    -- open externally (macOS default)
-    vim.keymap.set("n", "gX", function()
         vim.fn.jobstart({ "open", vim.fn.expand("<cfile>") }, { detach = true })
     end)
 end

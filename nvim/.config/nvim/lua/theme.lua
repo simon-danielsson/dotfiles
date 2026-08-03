@@ -53,6 +53,7 @@ local overrides = {
     -- float
     NormalFloat         = { link = "CursorLineNr" },
     FloatBorder         = { fg = M.colors.fg_2, bg = "none" },
+    TelescopeBorder     = { link = "CursorLineNr" },
 
     -- splits
     WinSeparator        = { fg = M.colors.mg_1, bg = "none" },

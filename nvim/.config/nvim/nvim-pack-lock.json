@@ -1,16 +1,32 @@
 {
   "plugins": {
+    "flash.nvim": {
+      "rev": "b6346946d10d07998efee029fb0f7a593806d0cd",
+      "src": "https://github.com/folke/flash.nvim.git"
+    },
     "kanagawa.nvim": {
       "rev": "bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3",
       "src": "https://github.com/rebelot/kanagawa.nvim"
+    },
+    "mini.pairs": {
+      "rev": "b1c5a726921b7a8c9321e9a7a208aa0571de5810",
+      "src": "https://github.com/nvim-mini/mini.pairs.git"
     },
     "oil.nvim": {
       "rev": "b73018b75affd13fa38e2fc94ef753b465f770d7",
       "src": "https://github.com/stevearc/oil.nvim.git"
     },
+    "plenary.nvim": {
+      "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
+      "src": "https://github.com/nvim-lua/plenary.nvim.git"
+    },
     "render-markdown.nvim": {
       "rev": "f422cb5c6855f150e2ddcfaf44e7157b98b34f6a",
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
+    },
+    "telescope.nvim": {
+      "rev": "427b576c16792edad01a92b89721d923c19ad60f",
+      "src": "https://github.com/nvim-telescope/telescope.nvim.git"
     }
   }
 }
