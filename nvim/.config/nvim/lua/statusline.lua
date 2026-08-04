@@ -30,12 +30,17 @@ function M.setup()
     end
 
     function _G.ftype()
-        local f = theme.buffer_icon_col(vim.bo.filetype)
+        local name        = vim.fn.expand('%:t'); local type = vim.bo.filetype
+        local icon, color = require 'nvim-web-devicons'.get_icon_color(name, type)
+        if icon == nil then
+            color = theme.colors.fg_1
+            icon = ""
+        end
         vim.api.nvim_set_hl(0, "StatusLineFType", {
-            fg = "#25252d",
-            bg = f[3],
+            fg = "none",
+            bg = color,
         })
-        return f[2]
+        return icon
     end
 
     vim.o.statusline = table.concat({

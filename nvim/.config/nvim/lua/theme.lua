@@ -104,36 +104,4 @@ function M.setup()
     end
 end
 
-local ftypes = {
-    python     = { "py", "", "#F6CD42" },
-    rust       = { "rs", "", "#835F00" },
-    html       = { "html", "", "#DE4B25" },
-    terminal   = { "term", "", "#DE4B25" },
-    toml       = { "toml", "", "#984120" },
-    json       = { "toml", "", "#51816C" },
-    css        = { "css", "", "#643294" },
-    javascript = { "js", "", "#EFD81C" },
-    sh         = { "sh", "", "#5FAF5F" },
-    c          = { "c", "", "#A9BACD" },
-    h          = { "h", "󰬏", "#A9BACD" },
-    go         = { "go", "󰟓", "#66D0DD" },
-    markdown   = { "md", "", "#A84AB7" },
-    text       = { "txt", "󱞎", M.colors.fg_1 },
-    gd         = { "gd", "", "#4488B9" },
-    xml        = { "xml", "󰗀", "#A84AB7" },
-    odin       = { "odin", "Ø", "#1896F5" },
-    lua        = { "lua", "", "#456F91" },
-    netrw      = { "net", "", M.colors.fg_1 },
-    cs         = { "cs", "󰌛", "#9D76D6" },
-    csproj     = { "csproj", "󰌛", "#9D76D6" },
-    quickfix   = { "qf", "", M.colors.fg_1 },
-    el         = { "el", "", "#7453A8" },
-    default    = { "???", "󱀶", M.colors.fg_1 },
-}
-
-function M.buffer_icon_col(ft)
-    local icon = ftypes[ft] or ftypes.default
-    return { icon[1], icon[2], icon[3] }
-end
-
 return M

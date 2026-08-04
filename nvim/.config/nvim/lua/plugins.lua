@@ -1,6 +1,7 @@
 vim.pack.add({
     "https://github.com/MeanderingProgrammer/render-markdown.nvim",
     "https://github.com/nvim-mini/mini.pairs.git",
+    "https://github.com/nvim-tree/nvim-web-devicons.git",
     "https://github.com/nvim-lua/plenary.nvim.git",
     "https://github.com/nvim-telescope/telescope.nvim.git",
     "https://github.com/stevearc/oil.nvim.git",
@@ -25,7 +26,7 @@ end)
 
 require('telescope').setup({
     defaults = {
-        prompt_prefix = "-> ",
+        prompt_prefix = " ",
         border = true,
         borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
         path_display = {
