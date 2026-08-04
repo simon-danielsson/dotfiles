@@ -9,17 +9,37 @@ vim.pack.add({
 
 local map = vim.keymap.set
 
+map({ 'n', 'x', 'o' }, 's', function() require("flash").jump() end, { desc = "Flash" })
+
 local t_builtin = require('telescope.builtin')
 map('n', '<leader>t', ":Telescope<CR>", { desc = 'Telescope open' })
 map('n', '<leader>g', t_builtin.git_files, { desc = 'Telescope git files' })
 map('n', '<leader>r', t_builtin.oldfiles, { desc = 'Telescope recent files' })
 map('n', '<leader>b', t_builtin.buffers, { desc = 'Telescope buffers' })
 map('n', '<leader>d', t_builtin.diagnostics, { desc = 'Telescope diagnostics' })
-map({ 'n', 'x', 'o' }, 's', function() require("flash").jump() end, { desc = "Flash" })
+
 map("n", "<leader>f", function()
     local dir = vim.fn.getcwd()
     vim.cmd("Oil " .. vim.fn.fnameescape(dir))
 end)
+
+require('telescope').setup({
+    defaults = {
+        prompt_prefix = "-> ",
+        border = true,
+        borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+        path_display = {
+            "filename_first",
+        },
+        layout_strategy = "horizontal",
+        layout_config = {
+            horizontal = {
+                preview_width = 0.5,
+                sorting_strategy = "ascending",
+            },
+        },
+    }
+})
 
 require('mini.pairs').setup()
 require('render-markdown').setup({

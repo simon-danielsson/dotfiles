@@ -50,11 +50,6 @@ local overrides = {
     QuickFixLine        = { ctermbg = 0 },
     qfFileName          = { fg = M.colors.fg_1 },
 
-    -- float
-    NormalFloat         = { link = "CursorLineNr" },
-    FloatBorder         = { fg = M.colors.fg_2, bg = "none" },
-    TelescopeBorder     = { link = "CursorLineNr" },
-
     -- splits
     WinSeparator        = { fg = M.colors.mg_1, bg = "none" },
     EndOfBuffer         = { link = "CursorLineNr" },
@@ -74,9 +69,16 @@ local overrides = {
     PmenuSbar           = { bg = M.colors.bg_2 },
     PmenuBorder         = { fg = M.colors.fg_2, bg = "none" },
 
+    -- float
+    NormalFloat         = { link = "CursorLineNr" },
+    FloatBorder         = { link = "PmenuBorder" },
+    TelescopeBorder     = { link = "PmenuBorder" },
+    TelescopeSelection  = { link = "PmenuSel" },
+
     -- statusline
     StatusLine          = { fg = M.colors.fg_1, bg = M.colors.bg_1, bold = false },
     StatusLineNormal    = { link = "StatusLine" },
+    TelescopeNormal     = { link = "Normal" },
     ModeMsg             = { fg = M.colors.fg_2, bg = M.colors.bg_2, bold = false },
     MsgArea             = { link = "ModeMsg" },
     MsgSeparator        = { link = "ModeMsg" },
@@ -84,12 +86,12 @@ local overrides = {
 }
 
 function M.setup()
-    vim.g.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
-
-    vim.diagnostic.config({ float = { border = "rounded" }, })
+    vim.g.border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+    vim.diagnostic.config({ float = { border = "single" }, })
+    vim.opt.pumborder   = "single"
 
     vim.o.termguicolors = true
-    vim.o.background = "dark"
+    vim.o.background    = "dark"
 
     vim.pack.add({
         "https://github.com/rebelot/kanagawa.nvim"

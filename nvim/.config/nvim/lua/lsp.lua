@@ -319,7 +319,7 @@ function M.setup()
     -- completion -------------------------------------------------------------
 
     vim.opt.completeopt = { "noselect", "menu", "menuone", "popup" }
-    vim.o.inccommand    = 'nosplit'; vim.opt.pumborder = "rounded"
+    vim.o.inccommand    = 'nosplit'
 
     -- code
     autocmd("LspAttach", {
