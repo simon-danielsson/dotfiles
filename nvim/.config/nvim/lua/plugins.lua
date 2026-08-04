@@ -32,13 +32,6 @@ require('telescope').setup({
         path_display = {
             "filename_first",
         },
-        layout_strategy = "horizontal",
-        layout_config = {
-            horizontal = {
-                preview_width = 0.5,
-                sorting_strategy = "ascending",
-            },
-        },
     }
 })
 
