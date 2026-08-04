@@ -8,6 +8,12 @@ vim.pack.add({
     "https://github.com/folke/flash.nvim.git"
 })
 
+require 'nvim-web-devicons'.setup {
+    color_icons = true,
+    default = true,
+    strict = false,
+}
+
 local map = vim.keymap.set
 
 map({ 'n', 'x', 'o' }, 's', function() require("flash").jump() end, { desc = "Flash" })
@@ -26,7 +32,8 @@ end)
 
 require('telescope').setup({
     defaults = {
-        prompt_prefix = " ",
+        prompt_prefix = " ",
+        selection_caret = "  ",
         border = true,
         borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
         path_display = {

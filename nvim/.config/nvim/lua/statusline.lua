@@ -30,16 +30,10 @@ function M.setup()
     end
 
     function _G.ftype()
-        local name        = vim.fn.expand('%:t'); local type = vim.bo.filetype
-        local icon, color = require 'nvim-web-devicons'.get_icon_color(name, type)
-        if icon == nil then
-            color = theme.colors.fg_1
-            icon = ""
-        end
-        vim.api.nvim_set_hl(0, "StatusLineFType", {
-            fg = "none",
-            bg = color,
-        })
+        local name = vim.fn.expand('%:p')
+        local ext = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":e")
+        local icon, color = require 'nvim-web-devicons'.get_icon_color(name, ext)
+        vim.api.nvim_set_hl(0, "StatusLineFType", { bg = color })
         return icon
     end
 
