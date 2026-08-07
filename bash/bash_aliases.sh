@@ -74,8 +74,6 @@ alias vimpack="cd ~/.local/share/nvim/site/pack/core/opt"
 # touch init LICENSE file
 alias license="~/dotfiles/scripts/init_license.sh"
 
-# cenv c project generator and build-system -----------------------------------
-
 run() {
     local dir="$(pwd)"
 
@@ -91,53 +89,27 @@ run() {
     return 1
 }
 
-cinitraw() {
-    cp $HOME/dev/python/c_template/init.py .
-    chmod +x init.py
-    cp -R $HOME/dev/python/c_template/cinit_temp .
-    ./init.py $1 "$2"
-    command rm init.py
-    command rm -rf cinit_temp
-
-}
-
 cinit() {
     set -x
-    local _cinit_dst="$(pwd)"
-    file="init.py"
-    curl -O https://raw.githubusercontent.com/simon-danielsson/c_template/refs/heads/main/"$file" || {
-        echo "failed to curl $file" >&2
-        exit 1
-    }
-    curl -L https://github.com/simon-danielsson/c_template/archive/refs/heads/main.tar.gz \
-    | tar -xz --strip-components=1 c_template-main/cinit_temp
-    chmod +x ./"$file"
-    ./"$file" $1 "$2"
-    command rm "$file"
-    command rm -rf cinit_temp
-    cd "$_cinit_dst"/"$1"/tests
-    curl -O https://raw.githubusercontent.com/simon-danielsson/bark.py/refs/heads/main/bark.py || {
-        echo "failed to curl bark.py" >&2
-        exit 1
-    }
-    chmod +x bark.py
-    mkdir -p "$_cinit_dst"/"$1"/src/static
-    cd "$_cinit_dst"/"$1"/src/static
-    curl -O https://raw.githubusercontent.com/simon-danielsson/bedh.py/refs/heads/main/bedh.py || {
-        echo "failed to curl bedh.py" >&2
-        exit 1
-    }
-    chmod +x bedh.py
+    local tmp=$(mktemp -d)
+    git clone --depth 1 git@github.com:simon-danielsson/ctmp.git "$tmp"
+    cp -r "$tmp/init" .
+    rm -rf "$tmp"
+    # TODO: uncomment this and comment the ssh code later when the repo is public
+    # curl -L https://github.com/simon-danielsson/ctmp/archive/refs/heads/main.tar.gz \
+    #     | tar -xz --strip-components=1 ctmp-main/init
+    echo "#define PROJ_NAME \"$1\"" | cat - init/nob.c > init/tmp && mv -f init/tmp init/nob.c
+    if [[ -d init ]]; then
+        mv init "$1"
+        cd "$1"
+        gcc -o nob nob.c
+        git init -b main
+        git add --all
+        git commit -m init
+        git tag v0.1.0
+        cd ..
+    fi
     set +x
-    cd "$_cinit_dst"/"$1"
-
-    # git
-    git init -b main
-    git add --all
-    git commit -m init
-    git tag v0.1.0
-
-    cd "$_cinit_dst"
 }
 
 alias gvim="/opt/homebrew/bin/nvim --listen /tmp/godot.pipe"

@@ -16,7 +16,7 @@ function M.setup()
     map('n', k_open_term, term_cmd, { desc = "Open terminal", noremap = true })
 
     local function find_runnable(start_path)
-        local candidates = { "build.sh", "run", "run.py" }
+        local candidates = { "nob", "build.sh", "run", "run.py" }
         local dir = vim.fn.fnamemodify(start_path, ":p:h")
         while dir ~= "/" do
             for _, candidate in ipairs(candidates) do
@@ -59,7 +59,9 @@ function M.setup()
             runnable = filename
         end
 
-        cmd(TERM_SIZE .. " | terminal bash -c '" .. vim.fn.shellescape(runnable) .. "; exec bash'")
+        local run_dir = vim.fn.fnamemodify(runnable, ":p:h")
+        local shell_cmd = "cd " .. vim.fn.shellescape(run_dir) .. " && " .. vim.fn.shellescape(runnable) .. "; exec bash"
+        cmd(TERM_SIZE .. " | terminal bash -c '" .. shell_cmd .. "'")
         cmd("startinsert")
     end, { desc = "Run build", noremap = true })
 
