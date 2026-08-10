@@ -92,12 +92,8 @@ run() {
 cinit() {
     set -x
     local tmp=$(mktemp -d)
-    git clone --depth 1 git@github.com:simon-danielsson/ctmp.git "$tmp"
-    cp -r "$tmp/init" .
-    rm -rf "$tmp"
-    # TODO: uncomment this and comment the ssh code later when the repo is public
-    # curl -L https://github.com/simon-danielsson/ctmp/archive/refs/heads/main.tar.gz \
-    #     | tar -xz --strip-components=1 ctmp-main/init
+    curl -L https://github.com/simon-danielsson/ctmp/archive/refs/heads/main.tar.gz \
+        | tar -xz --strip-components=1 ctmp-main/init
     echo "#define PROJ_NAME \"$1\"" | cat - init/nob.c > init/tmp && mv -f init/tmp init/nob.c
     if [[ -d init ]]; then
         mv init "$1"

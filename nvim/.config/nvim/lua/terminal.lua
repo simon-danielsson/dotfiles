@@ -12,8 +12,10 @@ local k_open_term = "T"
 local TERM_SIZE = "botright 15split"
 
 function M.setup()
-    local term_cmd = ":" .. TERM_SIZE .. " | terminal<cr>i"
-    map('n', k_open_term, term_cmd, { desc = "Open terminal", noremap = true })
+    map('n', k_open_term, function()
+        cmd(TERM_SIZE .. " | terminal bash")
+        cmd("startinsert")
+    end, { desc = "Open terminal" })
 
     local function find_runnable(start_path)
         local candidates = { "nob", "build.sh", "run", "run.py" }
