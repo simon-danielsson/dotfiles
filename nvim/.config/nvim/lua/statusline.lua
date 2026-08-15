@@ -32,7 +32,12 @@ function M.setup()
     function _G.ftype()
         local name = vim.fn.expand('%:p')
         local ext = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":e")
-        local icon, color = require 'nvim-web-devicons'.get_icon_color(name, ext)
+        local devicons_ok, devicons = pcall(require, 'nvim-web-devicons')
+        if not devicons_ok then
+            devicons = nil
+        end
+
+        local icon, color = devicons.get_icon_color(name, ext)
         vim.api.nvim_set_hl(0, "StatusLineFType", { bg = color })
         return icon
     end
