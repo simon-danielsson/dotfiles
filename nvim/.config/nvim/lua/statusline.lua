@@ -46,16 +46,10 @@ function M.setup()
         return icon
     end
 
-    vim.o.statusline = table.concat({
-        "%#StatusLineFType#" .. " ",
-        "%#Comment#" .. " ",
-        "%{v:lua.ftype()}",
-        "%#Normal#" .. " ",
-        "%{v:lua.short_filepath()}",
-        "%=",
-        "%#Comment#",
-        "%{v:lua.statusline_wordcount()}",
-    }, "")
+    -- hide statusline because I don't want it anymore
+    -- I'll still keep my statusline config here though just in case
+    vim.o.statusline = "%#Normal# "
+    vim.o.laststatus = 0
 end
 
 return M

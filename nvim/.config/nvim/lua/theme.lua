@@ -7,8 +7,8 @@ M.colors        = {
     fg_2 = "#5f5f63",
     mg_1 = "#37373a",
     bg_1 = "#242425",
-    -- bg_2 = "#202021",
-    bg_2 = "none",
+    bg_2 = "#202021",
+    bg_2_b = "#202021",
 }
 
 local overrides = {
@@ -39,7 +39,7 @@ local overrides = {
     Biscuit             = { fg = M.colors.mg_1, bg = M.colors.bg_1 },
 
     -- normal
-    Normal              = { fg = M.colors.fg_1, bg = "none" },
+    Normal              = { fg = M.colors.fg_1, bg = M.colors.bg_2 },
     NormalNC            = { link = "Normal" },
 
     -- cursor
@@ -76,6 +76,7 @@ local overrides = {
     TelescopeSelection  = { link = "PmenuSel" },
 
     -- statusline
+    StatusLineHidden    = { fg = M.colors.fg_1, bg = M.colors.bg_2_b, bold = false },
     StatusLine          = { fg = M.colors.fg_1, bg = M.colors.bg_1, bold = false },
     StatusLineNormal    = { link = "StatusLine" },
     TelescopeNormal     = { link = "Normal" },
