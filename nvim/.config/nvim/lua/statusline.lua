@@ -37,7 +37,7 @@ function M.setup()
         if not devicons_ok then
             devicons = nil
             icon = "x"
-            color = "#fff"
+            color = "#ffffff"
         else
             icon, color = devicons.get_icon_color(name, ext)
         end
