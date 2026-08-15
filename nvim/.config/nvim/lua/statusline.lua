@@ -48,7 +48,7 @@ function M.setup()
 
     -- hide statusline because I don't want it anymore
     -- I'll still keep my statusline config here though just in case
-    vim.o.statusline = "%#Normal# "
+    vim.o.statusline = "%#StatusLineHidden# "
     vim.o.laststatus = 0
 end
 

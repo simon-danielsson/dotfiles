@@ -11,6 +11,8 @@ publish() {
 
 # external programs -----------------------------------------------------------
 
+alias gssh="~/dotfiles/scripts/ssh.sh"
+
 # strip ansi escape codes and such (to use when piping stdout to things)
 alias stripansi="perl -pe 's/\e\[[0-9;]*[mGKHJ]//g; s/\e\][^\a]*\a//g; s/\e[\(\)].//g;'"
 
