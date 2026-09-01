@@ -190,7 +190,7 @@ function M.setup()
 
         clangd = {
             cmd = {
-                'clangd',
+                '/opt/homebrew/opt/llvm/bin/clangd',
                 '--background-index',
                 '--enable-config',
                 '--clang-tidy',

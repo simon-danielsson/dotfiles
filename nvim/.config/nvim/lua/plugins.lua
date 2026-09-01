@@ -47,6 +47,18 @@ require('telescope').setup({
 require('mini.pairs').setup()
 require('render-markdown').setup({
     completions = { lsp = { enabled = true } },
+    overrides = {
+        buflisted = {},
+        buftype = {
+            nofile = {
+                render_modes = true,
+                padding = { highlight = 'NormalFloat' },
+                sign = { enabled = false },
+                code = { left_pad = 0, right_pad = 0 },
+            },
+        },
+        filetype = {},
+    },
 })
 
 vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" }, {

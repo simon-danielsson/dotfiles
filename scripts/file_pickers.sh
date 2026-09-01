@@ -76,6 +76,7 @@ jump() {
         $'dotfiles\t'"$HOME/dotfiles"
         $'config\t'"$HOME/.config"
         $'notes\t'"$HOME/notes"
+        $'qemu VMs\t'"$HOME/dev/qemu-vm"
         $'socker\t'"$HOME/dev/socker"
         $'nvim config\t'"$HOME/dotfiles/nvim/.config/nvim"
         $'website\t'"$HOME/dev/rust/website_2027"

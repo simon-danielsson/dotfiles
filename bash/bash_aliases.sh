@@ -25,7 +25,7 @@ git-hard-reset() {
     git clean -fd
 }
 
-alias netnew='~/dev/bash/netnew/netnew.sh'
+alias newp='~/dev/bash/newp/newp'
 
 alias gl='git log --reverse | bat'
 
@@ -89,25 +89,6 @@ run() {
 
     echo "no project root found" >&2
     return 1
-}
-
-cinit() {
-    set -x
-    local tmp=$(mktemp -d)
-    curl -L https://github.com/simon-danielsson/ctmp/archive/refs/heads/main.tar.gz \
-        | tar -xz --strip-components=1 ctmp-main/init
-    echo "#define PROJ_NAME \"$1\"" | cat - init/nob.c > init/tmp && mv -f init/tmp init/nob.c
-    if [[ -d init ]]; then
-        mv init "$1"
-        cd "$1"
-        gcc -o nob nob.c
-        git init -b main
-        git add --all
-        git commit -m init
-        git tag v0.1.0
-        cd ..
-    fi
-    set +x
 }
 
 alias gvim="/opt/homebrew/bin/nvim --listen /tmp/godot.pipe"

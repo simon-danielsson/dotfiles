@@ -81,6 +81,12 @@ function M.setup()
     map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 
     -- editing
+
+    vim.keymap.set({ "n" }, "^", function()
+        local output = vim.fn.system("date +%Y-%m-%d"):gsub("\n$", "")
+        vim.api.nvim_put({ output }, "c", true, true)
+    end, { desc = "Insert ISO date at cursor" })
+
     vim.keymap.set("n", "#", function()
         vim.cmd("normal gcc")
     end, { desc = "Toggle comment in normal mode" })
