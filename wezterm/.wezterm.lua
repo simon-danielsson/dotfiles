@@ -1,20 +1,20 @@
-local wezterm = require 'wezterm'
-local config = wezterm.config_builder()
+local wezterm                                      = require 'wezterm'
+local config                                       = wezterm.config_builder()
 
 -- general --------------------------------------------------------------------
 
-config.enable_scroll_bar = false
-config.term = "xterm-256color"
-config.front_end = "OpenGL"
-config.min_scroll_bar_height = "2cell"
+config.enable_scroll_bar                           = false
+config.term                                        = "xterm-256color"
+config.front_end                                   = "OpenGL"
+config.min_scroll_bar_height                       = "2cell"
 
-config.cursor_blink_rate = 500
-config.cursor_blink_ease_in = "Constant"
-config.cursor_blink_ease_out = "Constant"
+config.cursor_blink_rate                           = 500
+config.cursor_blink_ease_in                        = "Constant"
+config.cursor_blink_ease_out                       = "Constant"
 
 -- colors ---------------------------------------------------------------------
 
-config.color_scheme = 'Kanagawa Dragon (Gogh)'
+config.color_scheme                                = 'Kanagawa Dragon (Gogh)'
 
 -- https://coolors.co/aab3c0-6e6e87-40404f-2a2a33-25252d
 -- local custom_c = {
@@ -25,14 +25,24 @@ config.color_scheme = 'Kanagawa Dragon (Gogh)'
 --     bg_2 = "#25252d",
 -- }
 
--- https://coolors.co/8c8f92-5f5f63-37373a-242425-202021
-local custom_c = {
+local custom_c                                     = {
     fg_1 = "#8c8f92",
     fg_2 = "#5f5f63",
-    mg_1 = "#37373a",
-    bg_1 = "#242425",
-    bg_2 = "#202021",
+    mg_1 = "#414141",
+    bg_1 = "#212121",
+    -- bg_2 = "none",
+    bg_2 = "#121212",
 }
+
+-- https://coolors.co/8c8f92-5f5f63-37373a-242425-202021
+-- local custom_c = {
+--     fg_1 = "#8c8f92",
+--     fg_2 = "#5f5f63",
+--     mg_1 = "#37373a",
+--     bg_1 = "#242425",
+--     -- bg_2 = "#202021",
+--     bg_2 = "#191919",
+-- }
 
 -- https://coolors.co/919195-656569-414144-2e2e2f-29292b
 -- local custom_c = {
@@ -43,7 +53,7 @@ local custom_c = {
 --     bg_2 = "#29292b",
 -- }
 
-config.colors = {
+config.colors                                      = {
     cursor_bg = custom_c.fg_1,
     cursor_border = custom_c.fg_1,
     cursor_fg = custom_c.bg_2,
@@ -73,16 +83,16 @@ config.colors = {
 
 -- font -----------------------------------------------------------------------
 
-config.font = wezterm.font 'Maple Mono NF'
-config.font_size = 18
+config.font                                        = wezterm.font 'Maple Mono NF'
+config.font_size                                   = 18
 
 -- keybindings ----------------------------------------------------------------
 
-config.enable_kitty_keyboard = false
-config.enable_csi_u_key_encoding = false
-config.send_composed_key_when_left_alt_is_pressed = true
+config.enable_kitty_keyboard                       = false
+config.enable_csi_u_key_encoding                   = false
+config.send_composed_key_when_left_alt_is_pressed  = true
 config.send_composed_key_when_right_alt_is_pressed = true
-config.keys = {
+config.keys                                        = {
     {
         key = "+",
         mods = "CMD",
@@ -171,21 +181,20 @@ config.keys = {
 
 -- window ---------------------------------------------------------------------
 
--- config.window_background_opacity = 0.80
--- config.macos_window_background_blur = 20
-config.window_background_opacity = 1
+-- config.macos_window_background_blur = 60
+config.window_background_opacity                   = 0
 
-config.window_padding = {
+config.window_padding                              = {
     left = 10,
     right = 10,
     top = 50,
     bottom = 0,
 }
 
-config.window_decorations = "INTEGRATED_BUTTONS"
-config.integrated_title_button_style = "MacOsNative"
-config.use_fancy_tab_bar = false
-config.tab_bar_at_bottom = true
+config.window_decorations                          = "INTEGRATED_BUTTONS"
+config.integrated_title_button_style               = "MacOsNative"
+config.use_fancy_tab_bar                           = false
+config.tab_bar_at_bottom                           = true
 
 wezterm.on("format-tab-title", function(tab)
     local title = tab.tab_title

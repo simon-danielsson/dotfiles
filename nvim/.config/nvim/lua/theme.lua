@@ -5,10 +5,10 @@ local cmd       = vim.cmd
 M.colors        = {
     fg_1 = "#8c8f92",
     fg_2 = "#5f5f63",
-    mg_1 = "#37373a",
-    bg_1 = "#242425",
+    mg_1 = "#414141",
+    bg_1 = "#212121",
     bg_2 = "none",
-    bg_2_b = "#202021",
+    bg_2_b = "#121212",
 }
 
 local overrides = {
@@ -17,7 +17,11 @@ local overrides = {
     LineNrAbove         = { link = "LineNr" },
     LineNrBelow         = { link = "LineNr" },
     CursorLineNr        = { fg = M.colors.fg_1, bg = "none" },
-    SignColumn          = { bg = M.colors.bg_2 },
+    SignColumn          = { bg = M.colors.bg_2, ctermbg = "none" },
+    DiagnosticSignWarn  = { fg = "#ff9e3b", bg = M.colors.bg_2, ctermbg = "none" },
+    DiagnosticSignInfo  = { fg = "#658594", bg = M.colors.bg_2, ctermbg = "none" },
+    DiagnosticSignHint  = { fg = "#6a9589", bg = M.colors.bg_2, ctermbg = "none" },
+    DiagnosticSignError = { fg = "#e82424", bg = M.colors.bg_2, ctermbg = "none" },
 
     -- lsp
     cErrInParen         = { fg = M.colors.fg_1 },
@@ -58,11 +62,11 @@ local overrides = {
 
     -- popup menu
     Pmenu               = { fg = M.colors.fg_2, bg = M.colors.bg_2 },
-    PmenuSel            = { bg = M.colors.mg_1, fg = M.colors.fg_1 },
+    PmenuSel            = { bg = M.colors.bg_1, fg = M.colors.fg_1, bold = true },
     PmenuKind           = { bg = M.colors.bg_2, fg = M.colors.fg_1 },
     PmenuExtra          = { bg = M.colors.bg_2, fg = M.colors.fg_1 },
     PmenuMatch          = { bg = M.colors.mg_1, fg = M.colors.fg_1 },
-    PmenuKindSel        = { bg = M.colors.mg_1, bold = true },
+    PmenuKindSel        = { bg = M.colors.bg_1, bold = true },
     PmenuMatchSel       = { link = "PmenuKindSel" },
     PmenuExtraSel       = { link = "PmenuKindSel" },
     PmenuThumb          = { link = "PmenuKindSel" },

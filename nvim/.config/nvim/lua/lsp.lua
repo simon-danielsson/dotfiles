@@ -285,7 +285,8 @@ function M.setup()
                 ["text"]      = true,
                 ["typ"]       = true,
                 ["gitignore"] = true,
-                ["ana"]       = true,
+                ["dosini"]    = true,
+                ["conf"]      = true,
                 [""]          = true,
             }
             if ignore[ft] then return end
@@ -301,7 +302,6 @@ function M.setup()
                 cmd("normal! gg=G")
             elseif ft == "python" then
                 cmd("silent! %!black --fast -q -")
-                local pos = vim.api.nvim_win_get_cursor(0)
                 cmd([[silent! %s/\s\+$//e]]); cmd([[silent! %s/\(\n\)\{3,}/\r\r/e]])
                 vim.api.nvim_win_set_cursor(0, pos)
                 cmd("normal! gg=G")

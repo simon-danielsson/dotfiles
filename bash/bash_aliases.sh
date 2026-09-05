@@ -164,7 +164,6 @@ ds() {
 }
 
 alias ff="clear && fastfetch --config neofetch"
-alias of="clear && COLORTERM= onefetch -d url churn --no-title --no-art --no-color-palette --nerd-fonts"
 
 # ls default
 alias ta='exa -a --icons -I ".DS_Store|.git|.gitignore"'
