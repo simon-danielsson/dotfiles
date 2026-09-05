@@ -165,9 +165,9 @@ ds() {
 
 alias ff="clear && fastfetch --config neofetch"
 
-# ls default
-alias ta='exa -a --icons -I ".DS_Store|.git|.gitignore"'
-alias ls='exa -al --git --sort modified'
+# ls defaults
+alias ta='command ls -AxFG'
+alias ls='command ls -AxFlchGT'
 
 # safe rm command
 rm() {
