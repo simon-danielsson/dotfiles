@@ -29,11 +29,6 @@ alias newp='~/dev/bash/newp/newp'
 
 alias gl='git log --reverse | bat'
 
-alias mmry="~/dev/c/mmry/build/install/* ~/notes/.mmry.md"
-if [[ -z "$NVIM" ]]; then
-    mmry
-fi
-
 # mupdf with invert as def (macOS = mupdf-gl, linux = mupdf)
 mupdf() {
     if command -v mupdf-gl >/dev/null 2>&1; then
