@@ -114,8 +114,6 @@ alias mv="mv -i"
 
 # i can't type "exit" properly
 alias exti="exit"
-alias t="exit"
-alias e="exit"
 alias ext="exit"
 alias xeit="exit"
 alias xeti="exit"
@@ -161,8 +159,8 @@ ds() {
 alias ff="clear && fastfetch --config neofetch"
 
 # ls defaults
-alias ta='command ls -AxFG'
-alias ls='command ls -AxFlchGT'
+alias ta='exa --color=never --icons'
+alias ls='exa --color=never --icons -l --git'
 
 # safe rm command
 rm() {
