@@ -40,8 +40,21 @@ function M.setup()
             odin = 'odin',
             cs = 'cs',
             el = 'el',
+            c3 = 'c3',
+            c3i = 'c3i',
             gd = 'gd'
         },
+    })
+
+    -- special case for c3
+    -- This is so that I can use C syntax highlighting since C3 highlighting
+    -- doesn't come with neovim out of the box
+    vim.api.nvim_create_autocmd("FileType", {
+        pattern = "c3",
+        callback = function(args)
+            vim.bo[args.buf].commentstring = "// %s"
+            pcall(vim.treesitter.start, args.buf, "c")
+        end,
     })
 
     -- general setup ----------------------------------------------------------
@@ -108,6 +121,12 @@ function M.setup()
                     dotnet_enable_inlay_hints_for_types = true,
                 },
             },
+        },
+
+        c3lsp = {
+            cmd = { 'c3lsp' },
+            root_markers = { ".git", "project.json" },
+            filetypes = { "c3", "c3i" },
         },
 
         gopls = {

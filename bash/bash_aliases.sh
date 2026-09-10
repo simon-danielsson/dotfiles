@@ -28,6 +28,7 @@ git-hard-reset() {
 alias newp='~/dev/bash/newp/newp'
 
 alias gl='git log --reverse | bat'
+alias gd='git diff | bat'
 
 # mupdf with invert as def (macOS = mupdf-gl, linux = mupdf)
 mupdf() {
