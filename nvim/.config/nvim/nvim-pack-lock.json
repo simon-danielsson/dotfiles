@@ -8,6 +8,10 @@
       "rev": "b6346946d10d07998efee029fb0f7a593806d0cd",
       "src": "https://github.com/folke/flash.nvim.git"
     },
+    "godotdev.nvim": {
+      "rev": "ccac07c5b18ccbe0c3f90d06129cd17f08e4ac04",
+      "src": "git@github.com:Mathijs-Bakker/godotdev.nvim.git"
+    },
     "kanagawa.nvim": {
       "rev": "bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3",
       "src": "https://github.com/rebelot/kanagawa.nvim"

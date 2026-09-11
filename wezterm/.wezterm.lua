@@ -182,7 +182,7 @@ config.keys                                        = {
 -- window ---------------------------------------------------------------------
 
 -- config.macos_window_background_blur = 60
-config.window_background_opacity                   = 0
+config.window_background_opacity                   = 100
 
 config.window_padding                              = {
     left = 10,
