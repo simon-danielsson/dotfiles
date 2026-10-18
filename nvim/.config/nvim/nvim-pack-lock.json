@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "GDScript-formatter": {
+      "rev": "1645da861075949ba5e07e80e54119ccd8e0f43a",
+      "src": "https://github.com/GDQuest/GDScript-formatter"
+    },
     "dropbar.nvim": {
       "rev": "808ba31cde89aec8833e9789f5e04557cd31c9e1",
       "src": "https://github.com/Bekaboo/dropbar.nvim.git"
@@ -23,6 +27,14 @@
     "mini.pairs": {
       "rev": "b1c5a726921b7a8c9321e9a7a208aa0571de5810",
       "src": "https://github.com/nvim-mini/mini.pairs.git"
+    },
+    "nvim-dap": {
+      "rev": "cfa2d58f4537aca6ca83e2de1a0d9f1491121264",
+      "src": "https://github.com/mfussenegger/nvim-dap.git"
+    },
+    "nvim-dap-ui": {
+      "rev": "cc9dd33aade7f20bae414d0cba163bc60d4d4b43",
+      "src": "https://github.com/rcarriga/nvim-dap-ui.git"
     },
     "nvim-treesitter-context": {
       "rev": "f3061339b8eaf9fda873600bc425b8d2d8502533",

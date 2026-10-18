@@ -13,6 +13,8 @@ publish() {
 
 alias gssh="~/dotfiles/scripts/ssh.sh"
 
+alias math="~/dev/c/math_questions/bin/math_questions-release-45a4e7f"
+
 # strip ansi escape codes and such (to use when piping stdout to things)
 alias stripansi="perl -pe 's/\e\[[0-9;]*[mGKHJ]//g; s/\e\][^\a]*\a//g; s/\e[\(\)].//g;'"
 

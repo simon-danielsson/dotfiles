@@ -2,6 +2,10 @@
 
 emoji_list="
 😀 grinning face
+🟢 circle green
+🔵 circle blue
+🔴 circle red
+🟣 circle purple magenta
 😃 grinning face big eyes
 🎨 paint easel
 😄 grinning smiling eyes

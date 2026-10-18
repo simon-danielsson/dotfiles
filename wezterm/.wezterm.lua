@@ -5,7 +5,7 @@ local config                                       = wezterm.config_builder()
 
 config.enable_scroll_bar                           = false
 config.term                                        = "xterm-256color"
-config.front_end                                   = "OpenGL"
+-- config.front_end                                   = "OpenGL"
 config.min_scroll_bar_height                       = "2cell"
 
 config.cursor_blink_rate                           = 500
@@ -181,8 +181,8 @@ config.keys                                        = {
 
 -- window ---------------------------------------------------------------------
 
--- config.macos_window_background_blur = 60
-config.window_background_opacity                   = 100
+config.macos_window_background_blur                = 60
+config.window_background_opacity                   = 0
 
 config.window_padding                              = {
     left = 10,

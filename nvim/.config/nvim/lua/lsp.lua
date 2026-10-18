@@ -45,6 +45,7 @@ function M.setup()
             cs = 'cs',
             el = 'el',
             c3 = 'c3',
+            kl = 'kl',
             c3i = 'c3i',
             -- gd = 'gd'
         },
@@ -61,25 +62,34 @@ function M.setup()
         end,
     })
 
+    -- special case for `.kl` (kladd)
+    vim.api.nvim_create_autocmd("FileType", {
+        pattern = "kl",
+        callback = function(args)
+            vim.bo[args.buf].commentstring = "// %s"
+            pcall(vim.treesitter.start, args.buf, "c")
+        end,
+    })
+
     vim.api.nvim_create_autocmd("FileType", {
         pattern = "gdscript",
         callback = function(args)
             require("godotdev").setup({
-                editor_host = "127.0.0.1", -- Godot editor host
-                editor_port = 6005,       -- Godot LSP port
-                debug_port = 6006,        -- Godot debugger port
-                godot_path = "godot",     -- executable used by :GodotRun* and health checks
-                csharp = false,           -- Enable C# Installation Support
-                autostart_editor_server = false, -- opt-in: start a Neovim server automatically on setup
+                editor_host = "127.0.0.1",        -- Godot editor host
+                editor_port = 6005,               -- Godot LSP port
+                debug_port = 6006,                -- Godot debugger port
+                godot_path = "godot",             -- executable used by :GodotRun* and health checks
+                csharp = false,                   -- Enable C# Installation Support
+                autostart_editor_server = false,  -- opt-in: start a Neovim server automatically on setup
                 formatter = "gdscript-formatter", -- "gdscript-formatter" | "gdformat" | false
-                formatter_cmd = nil,      -- string or argv list; default gdscript-formatter adds "--reorder-code"
+                formatter_cmd = nil,              -- string or argv list; default gdscript-formatter adds "--reorder-code"
                 inline_hints = {
-                    enabled = true,       -- enable Neovim inlay hints when the attached server supports them
+                    enabled = true,               -- enable Neovim inlay hints when the attached server supports them
                 },
                 run = {
                     console = {
-                        enabled = false, -- capture :GodotRun* output in Neovim; these runs are no longer detached
-                        renderer = "buffer", -- "buffer" | "float"
+                        enabled = false,         -- capture :GodotRun* output in Neovim; these runs are no longer detached
+                        renderer = "buffer",     -- "buffer" | "float"
                         buffer = {
                             position = "bottom", -- "right" | "bottom" | "current"
                             size = 0.3,
@@ -123,13 +133,13 @@ function M.setup()
                 },
 
                 docs = {
-                    renderer = "float",          -- default: open docs in a floating window
-                    fallback_renderer = "browser", -- nil | "browser" | "buffer"; browser is the only fetch-recovery fallback
+                    renderer = "float",                  -- default: open docs in a floating window
+                    fallback_renderer = "browser",       -- nil | "browser" | "buffer"; browser is the only fetch-recovery fallback
                     missing_symbol_feedback = "message", -- "message" | "notify"
-                    version = "stable",          -- e.g. "stable", "latest", "4.5"
+                    version = "stable",                  -- e.g. "stable", "latest", "4.5"
                     language = "en",
-                    source_ref = "master",       -- godot-docs git ref used for floating docs
-                    source_base_url = nil,       -- optional override for raw docs source
+                    source_ref = "master",               -- godot-docs git ref used for floating docs
+                    source_base_url = nil,               -- optional override for raw docs source
                     timeout_ms = 10000,
                     cache = {
                         enabled = true,
@@ -398,6 +408,7 @@ function M.setup()
                 ["oil"]       = true,
                 ["text"]      = true,
                 ["typ"]       = true,
+                ["kl"]        = true,
                 ["gitignore"] = true,
                 ["dosini"]    = true,
                 ["conf"]      = true,

@@ -11,6 +11,7 @@ export LESS='--mouse --wheel-lines=1'
 
 # homebrew
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export CPATH=/opt/homebrew/include
 # bob nvim version manager
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 # cargo
