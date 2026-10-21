@@ -9,9 +9,17 @@ M.colors        = {
     bg_1 = "#212121",
     bg_2 = "none",
     bg_2_b = "#121212",
+    code_1 = "#658594",
+    code_2 = "#5D8260"
 }
 
 local overrides = {
+
+    -- code
+    Identifier          = { fg = M.colors.fg_1 },
+    String              = { fg = M.colors.code_2 },
+    -- Statement           = { fg = M.colors.code_2 },
+
     -- line numbers
     LineNr              = { fg = M.colors.mg_1, bg = "none" },
     LineNrAbove         = { link = "LineNr" },
@@ -96,13 +104,7 @@ function M.setup()
     vim.opt.pumborder   = "single"
 
     vim.o.termguicolors = true
-    vim.o.background    = "dark"
-
-    vim.pack.add({
-        "https://github.com/rebelot/kanagawa.nvim"
-    })
-
-    cmd.colorscheme("kanagawa-dragon")
+    cmd.colorscheme("habamax")
 
     for group, opts in pairs(overrides) do
         vim.api.nvim_set_hl(0, group, opts)
