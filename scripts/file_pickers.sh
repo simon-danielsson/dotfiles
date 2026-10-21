@@ -72,6 +72,7 @@ ss() {
 jump() {
     local entries=(
         $'downloads\t'"$HOME/Downloads"
+        $'hkr\t'"$HOME/Desktop/HKR"
         $'librewolf\t'"$HOME/Library/Application Support/librewolf/Profiles/y18dfiqj.default-default/chrome"
         $'desktop\t'"$HOME/Desktop"
         $'dotfiles\t'"$HOME/dotfiles"
