@@ -10,7 +10,8 @@ M.colors        = {
     bg_2 = "none",
     bg_2_b = "#121212",
     code_1 = "#658594",
-    code_2 = "#5D8260"
+    code_2 = "#5D8260",
+    code_3 = "#CD614E"
 }
 
 local overrides = {
@@ -18,7 +19,7 @@ local overrides = {
     -- code
     Identifier          = { fg = M.colors.fg_1 },
     String              = { fg = M.colors.code_2 },
-    -- Statement           = { fg = M.colors.code_2 },
+    cTodo               = { fg = M.colors.bg_1, bg = M.colors.code_3, bold = true },
 
     -- line numbers
     LineNr              = { fg = M.colors.mg_1, bg = "none" },

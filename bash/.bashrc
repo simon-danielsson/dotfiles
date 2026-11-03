@@ -26,6 +26,8 @@ export PATH="$HOME/.local/bin:$PATH"
 # haskell
 export PATH="$HOME/.ghcup/bin:$PATH"
 
+export EDITOR="nvim"
+
 # odin ols
 # export PATH="$HOME/dotfiles/nvim/.config/nvim/lsp/ols-arm64-darwin:$PATH"
 
