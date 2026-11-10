@@ -20,6 +20,7 @@ local overrides = {
     Identifier          = { fg = M.colors.fg_1 },
     String              = { fg = M.colors.code_2 },
     cTodo               = { fg = M.colors.bg_1, bg = M.colors.code_3, bold = true },
+    csTodo              = { fg = M.colors.bg_1, bg = M.colors.code_3, bold = true },
 
     -- line numbers
     LineNr              = { fg = M.colors.mg_1, bg = "none" },

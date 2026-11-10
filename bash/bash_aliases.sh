@@ -5,7 +5,13 @@ alias publish="~/dev/c/website/push.sh"
 
 # external programs -----------------------------------------------------------
 
+prj() {
+    cp $HOME/.prj.storage $HOME/notes
+    command prj "$@"
+}
+
 alias gssh="~/dotfiles/scripts/ssh.sh"
+alias cam="~/dotfiles/scripts/camera.sh"
 
 alias math="~/dev/c/math_questions/bin/math_questions-release-45a4e7f"
 
