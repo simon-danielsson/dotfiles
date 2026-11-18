@@ -307,8 +307,10 @@ function M.setup()
     local active_hl = "BufListActive"
     local inactive_hl = "BufListInactive"
 
+    local theme = require("theme")
+
     vim.api.nvim_set_hl(0, active_hl, { link = "CursorLine" })
-    vim.api.nvim_set_hl(0, active_hl, { bg = "none" })
+    vim.api.nvim_set_hl(0, active_hl, { bg = theme.colors.bg_1 })
     vim.api.nvim_set_hl(0, inactive_hl, { link = "LineNr" })
 
     local buf, win

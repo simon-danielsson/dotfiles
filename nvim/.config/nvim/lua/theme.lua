@@ -26,8 +26,8 @@ local overrides = {
     LineNr              = { fg = M.colors.mg_1, bg = "none" },
     LineNrAbove         = { link = "LineNr" },
     LineNrBelow         = { link = "LineNr" },
-    CursorLineNr        = { fg = M.colors.fg_1, bg = "none" },
-    SignColumn          = { bg = M.colors.bg_2, ctermbg = "none" },
+    CursorLineNr        = { fg = M.colors.fg_1, bg = M.colors.bg_2 },
+    SignColumn          = { bg = M.colors.bg_2_b, ctermbg = "none" },
     DiagnosticSignWarn  = { fg = "#ff9e3b", bg = M.colors.bg_2, ctermbg = "none" },
     DiagnosticSignInfo  = { fg = "#658594", bg = M.colors.bg_2, ctermbg = "none" },
     DiagnosticSignHint  = { fg = "#6a9589", bg = M.colors.bg_2, ctermbg = "none" },
@@ -103,10 +103,14 @@ local overrides = {
 function M.setup()
     vim.g.border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
     vim.diagnostic.config({ float = { border = "single" }, })
-    vim.opt.pumborder   = "single"
+    vim.opt.pumborder = "single"
+
+    vim.pack.add({
+        "https://github.com/rebelot/kanagawa.nvim"
+    })
 
     vim.o.termguicolors = true
-    cmd.colorscheme("darkblue")
+    cmd.colorscheme("kanagawa-dragon")
 
     for group, opts in pairs(overrides) do
         vim.api.nvim_set_hl(0, group, opts)

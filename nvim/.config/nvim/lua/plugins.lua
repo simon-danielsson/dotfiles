@@ -29,7 +29,7 @@ map('n', '<leader>l', t_builtin.lsp_document_symbols, { desc = 'Telescope docume
 
 map("n", "<leader>f", function()
     local dir = vim.fn.getcwd()
-    vim.cmd("Oil " .. vim.fn.fnameescape(dir))
+    vim.cmd("Oil" .. vim.fn.fnameescape(dir))
 end)
 
 require('telescope').setup({
@@ -78,7 +78,6 @@ require("oil").setup({
     skip_confirm_for_simple_edits = true,
     prompt_save_on_select_new_entry = true,
     cleanup_delay_ms = 0,
-
     watch_for_changes = false,
 
     keymaps = {
