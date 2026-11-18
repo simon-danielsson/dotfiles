@@ -195,6 +195,12 @@ function M.setup()
             },
         },
 
+        d = {
+            cmd = { 'serve-d' },
+            filetypes = { "d", },
+            root_markers = { ".git", ".editorconfig" },
+        },
+
         roslyn = {
             cmd = {
                 vim.fn.expand("~/.dotnet/tools/roslyn-language-server"),
@@ -210,6 +216,7 @@ function M.setup()
             root_markers = {
                 "*.sln",
                 "*.csproj",
+                ".editorconfig",
                 "Directory.Build.props",
                 ".git",
             },
@@ -408,7 +415,6 @@ function M.setup()
                 ["oil"]       = true,
                 ["text"]      = true,
                 ["typ"]       = true,
-                ["kl"]        = true,
                 ["gitignore"] = true,
                 ["dosini"]    = true,
                 ["conf"]      = true,
@@ -431,6 +437,8 @@ function M.setup()
                 vim.api.nvim_win_set_cursor(0, pos)
                 cmd("normal! gg=G")
             elseif ft == "odin" then
+                cmd("normal! gg=G")
+            elseif ft == "d" then
                 cmd("normal! gg=G")
             elseif not has_lsp then
                 cmd("normal! gg=G")

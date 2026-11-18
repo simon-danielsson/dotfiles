@@ -106,7 +106,7 @@ function M.setup()
     vim.opt.pumborder   = "single"
 
     vim.o.termguicolors = true
-    cmd.colorscheme("habamax")
+    cmd.colorscheme("darkblue")
 
     for group, opts in pairs(overrides) do
         vim.api.nvim_set_hl(0, group, opts)

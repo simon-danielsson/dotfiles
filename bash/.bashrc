@@ -17,11 +17,10 @@ export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 # cargo
 . "$HOME/.cargo/env"
 
+export PATH="$HOME/.local/bin:$PATH"
+
 # go
 export PATH="$HOME/go/bin:$PATH"
-
-# manually installed binaries
-export PATH="$HOME/.local/bin:$PATH"
 
 # haskell
 export PATH="$HOME/.ghcup/bin:$PATH"

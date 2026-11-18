@@ -5,6 +5,8 @@ alias publish="~/dev/c/website/push.sh"
 
 # external programs -----------------------------------------------------------
 
+alias mdk="$HOME/dev/d/mdk/bin/mdk"
+
 prj() {
     cp $HOME/.prj.storage $HOME/notes
     command prj "$@"
