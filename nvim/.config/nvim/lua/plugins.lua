@@ -21,16 +21,11 @@ map({ 'n', 'x', 'o' }, 's', function() require("flash").jump() end, { desc = "Fl
 
 local t_builtin = require('telescope.builtin')
 map('n', '<leader>t', ":Telescope<CR>", { desc = 'Telescope open' })
-map('n', '<leader>g', t_builtin.git_files, { desc = 'Telescope git files' })
+-- map('n', '<leader>g', t_builtin.git_files, { desc = 'Telescope git files' })
 map('n', '<leader>r', t_builtin.oldfiles, { desc = 'Telescope recent files' })
 map('n', '<leader>b', t_builtin.buffers, { desc = 'Telescope buffers' })
 map('n', '<leader>d', t_builtin.diagnostics, { desc = 'Telescope diagnostics' })
 map('n', '<leader>l', t_builtin.lsp_document_symbols, { desc = 'Telescope document symbols' })
-
-map("n", "<leader>f", function()
-    local dir = vim.fn.getcwd()
-    vim.cmd("Oil" .. vim.fn.fnameescape(dir))
-end)
 
 require('telescope').setup({
     defaults = {
@@ -71,14 +66,25 @@ vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" }, {
     end,
 })
 
+map("n", "<leader>f", function()
+    require("oil").open_float(vim.fn.getcwd())
+end)
+
 require("oil").setup({
     default_file_explorer = true,
 
-    delete_to_trash = false,
+    delete_to_trash = true,
     skip_confirm_for_simple_edits = true,
     prompt_save_on_select_new_entry = true,
     cleanup_delay_ms = 0,
     watch_for_changes = false,
+
+    float = {
+        padding = 6,
+        max_width = 50,
+        max_height = 20,
+        border = "rounded",
+    },
 
     keymaps = {
         ["g?"] = { "actions.show_help", mode = "n" },
@@ -114,19 +120,49 @@ require("oil").setup({
     },
 })
 
+local dropbar_api = require('dropbar.api')
+vim.keymap.set('n', '<leader>g', dropbar_api.pick, { desc = 'Dropbar: pick symbol in winbar' })
+
+require('dropbar').setup({
+    sources = {
+        path = {
+            relative_to = function(buf, win)
+                local fname = vim.api.nvim_buf_get_name(buf)
+                if fname == "" then
+                    local ok, cwd = pcall(vim.fn.getcwd, win)
+                    return ok and cwd or vim.fn.getcwd()
+                end
+                return vim.fs.dirname(vim.fs.dirname(fname))
+            end,
+        },
+    },
+})
+
+local path_src = require('dropbar.sources').path
+local orig_get_symbols = path_src.get_symbols
+
+path_src.get_symbols = function(buf, win, cursor)
+    local symbols = orig_get_symbols(buf, win, cursor)
+    for _, sym in ipairs(symbols) do
+        if sym.data and sym.data.path and vim.fn.isdirectory(sym.data.path) == 1 then
+            sym.name_hl = 'DropBarDirName'
+        end
+    end
+    return symbols
+end
+
 local function grey_out_dropbar()
     local groups = {
-        -- Context highlights
+        'DropBarDirName',
+
         'DropBarCurrentContext',
         'DropBarCurrentContextIcon',
         'DropBarCurrentContextName',
 
-        -- Hover effects
         'DropBarHover',
         'DropBarFzfMatch',
         'DropBarPreview',
 
-        -- Icons
         'DropBarIconKindDefault',
         'DropBarIconKindDefaultNC',
         'DropBarIconUIIndicator',
@@ -134,7 +170,6 @@ local function grey_out_dropbar()
         'DropBarIconUISeparator',
         'DropBarIconUISeparatorMenu',
 
-        -- Menu UI
         'DropBarMenuCurrentContext',
         'DropBarMenuFloatBorder',
         'DropBarMenuHoverEntry',
@@ -144,8 +179,6 @@ local function grey_out_dropbar()
         'DropBarMenuSbar',
         'DropBarMenuThumb',
 
-        -- Kind highlights (names of symbols like Function, Class, etc.)
-        -- These come in pairs for current/non-current window
         'DropBarKindArray', 'DropBarKindArrayNC',
         'DropBarKindBlockMappingPair', 'DropBarKindBlockMappingPairNC',
         'DropBarKindBoolean', 'DropBarKindBooleanNC',
