@@ -29,8 +29,6 @@ function M.setup()
         severity_sort = true,
     })
 
-    -- preview color on hex/rgb codes etc.
-    -- (only works with lsps that support this, ex: css_ls)
     vim.lsp.document_color.enable(true, nil, { style = '■ ' })
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -138,7 +136,7 @@ function M.setup()
                     float = {
                         width = 0.8,
                         height = 0.8,
-                        border = "rounded",
+                        border = "none",
                     },
                     buffer = {
                         position = "right", -- "right" | "bottom" | "current"

@@ -8,7 +8,7 @@ function M.setup()
     local indent_guides = {}; local ns = vim.api.nvim_create_namespace("native_indent_guides")
     local defaults = {
         char = "│",
-        highlight = "IndentGuide",
+        highlight = "Comment",
         show_first_level = true,
         show_blanklines = true,
         exclude_filetypes = {
@@ -169,6 +169,7 @@ function M.setup()
         max_length = 60,
         max_scan = 300,
     }
+    vim.api.nvim_set_hl(0, "Biscuit", { fg = "#524E6A", bg = "#1F1D2E" })
 
     local function line(bufnr, row)
         return vim.api.nvim_buf_get_lines(bufnr, row, row + 1, false)[1] or ""
@@ -307,10 +308,8 @@ function M.setup()
     local active_hl = "BufListActive"
     local inactive_hl = "BufListInactive"
 
-    local theme = require("theme")
-
-    vim.api.nvim_set_hl(0, active_hl, { link = "CursorLine" })
-    vim.api.nvim_set_hl(0, active_hl, { bg = theme.colors.bg_1 })
+    vim.api.nvim_set_hl(0, active_hl, { link = "NormalFloat" })
+    vim.api.nvim_set_hl(0, active_hl, { bg = "#1F1D2E" })
     vim.api.nvim_set_hl(0, inactive_hl, { link = "LineNr" })
 
     local buf, win

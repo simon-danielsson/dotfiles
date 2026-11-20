@@ -14,52 +14,24 @@ config.cursor_blink_ease_out                       = "Constant"
 
 -- colors ---------------------------------------------------------------------
 
-config.color_scheme                                = 'Kanagawa Dragon (Gogh)'
-
--- https://coolors.co/aab3c0-6e6e87-40404f-2a2a33-25252d
--- local custom_c = {
---     fg_1 = "#AAB3C0",
---     fg_2 = "#6e6e87",
---     mg_1 = "#40404f",
---     bg_1 = "#2a2a33",
---     bg_2 = "#25252d",
--- }
+config.color_scheme                                = 'rose-pine'
 
 local custom_c                                     = {
-    fg_1 = "#8c8f92",
-    fg_2 = "#5f5f63",
+    fg_1 = "#E0DEF4",
+    fg_2 = "#908CAA",
     mg_1 = "#414141",
     bg_1 = "#212121",
     -- bg_2 = "none",
     bg_2 = "#121212",
 }
 
--- https://coolors.co/8c8f92-5f5f63-37373a-242425-202021
--- local custom_c = {
---     fg_1 = "#8c8f92",
---     fg_2 = "#5f5f63",
---     mg_1 = "#37373a",
---     bg_1 = "#242425",
---     -- bg_2 = "#202021",
---     bg_2 = "#191919",
--- }
-
--- https://coolors.co/919195-656569-414144-2e2e2f-29292b
--- local custom_c = {
---     fg_1 = "#919195",
---     fg_2 = "#656569",
---     mg_1 = "#414144",
---     bg_1 = "#2e2e2f",
---     bg_2 = "#29292b",
--- }
-
 config.colors                                      = {
-    cursor_bg = custom_c.fg_1,
-    cursor_border = custom_c.fg_1,
-    cursor_fg = custom_c.bg_2,
-
-    foreground = custom_c.fg_1,
-    background = custom_c.bg_2,
+    -- cursor_bg = custom_c.fg_1,
+    -- cursor_border = custom_c.fg_1,
+    -- cursor_fg = custom_c.bg_2,
+    --
+    -- foreground = custom_c.fg_1,
+    -- background = custom_c.bg_2,
     tab_bar = {
         background = "none",
         active_tab = {
@@ -181,8 +153,8 @@ config.keys                                        = {
 
 -- window ---------------------------------------------------------------------
 
-config.macos_window_background_blur                = 60
--- config.window_background_opacity                   = 0
+-- config.window_background_opacity                   = 0.9
+-- config.macos_window_background_blur                = 80
 
 config.window_padding                              = {
     left = 10,

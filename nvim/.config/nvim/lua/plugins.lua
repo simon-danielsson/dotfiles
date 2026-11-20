@@ -255,7 +255,7 @@ local function grey_out_dropbar()
     }
 
     for _, hl in ipairs(groups) do
-        pcall(vim.api.nvim_set_hl, 0, hl, { fg = require("theme").colors.fg_2, bg = 'NONE' })
+        pcall(vim.api.nvim_set_hl, 0, hl, { link = "TelescopeNormal" })
     end
 end
 

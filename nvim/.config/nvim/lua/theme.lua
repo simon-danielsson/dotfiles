@@ -16,107 +16,48 @@ M.colors        = {
 
 local overrides = {
 
-    -- code
-    -- Identifier          = { fg = M.colors.fg_1 },
-    -- String              = { fg = M.colors.code_2 },
-    cTodo               = { fg = M.colors.bg_2_b, bg = M.colors.code_3, bold = true },
-    dTodo               = { fg = M.colors.bg_2_b, bg = M.colors.code_3, bold = true },
-    csTodo              = { fg = M.colors.bg_2_b, bg = M.colors.code_3, bold = true },
+    cTodo              = { fg = M.colors.bg_2_b, bg = M.colors.code_3, bold = true },
+    dTodo              = { fg = M.colors.bg_2_b, bg = M.colors.code_3, bold = true },
+    csTodo             = { fg = M.colors.bg_2_b, bg = M.colors.code_3, bold = true },
 
-    -- line numbers
-    LineNr              = { fg = M.colors.mg_1, bg = "none" },
-    LineNrAbove         = { link = "LineNr" },
-    LineNrBelow         = { link = "LineNr" },
-    CursorLineNr        = { fg = M.colors.fg_1, bg = M.colors.bg_2 },
-    SignColumn          = { bg = M.colors.bg_2_b, ctermbg = "none" },
-    DiagnosticSignWarn  = { fg = "#ff9e3b", bg = M.colors.bg_2, ctermbg = "none" },
-    DiagnosticSignInfo  = { fg = "#658594", bg = M.colors.bg_2, ctermbg = "none" },
-    DiagnosticSignHint  = { fg = "#6a9589", bg = M.colors.bg_2, ctermbg = "none" },
-    DiagnosticSignError = { fg = "#e82424", bg = M.colors.bg_2, ctermbg = "none" },
+    Biscuit            = { link = "Comment" },
+    EndOfBuffer        = { link = "Comment" },
+    Normal             = { ctermbg = "none", bg = "none" },
+    NormalNC           = { ctermbg = "none", bg = "none" },
+    StatusLineHidden   = { fg = "#908CAA" },
+    CursorLine         = { bg = "#1F1D2E" },
 
-    -- lsp
-    cErrInParen         = { fg = M.colors.fg_1 },
+    NormalFloat        = { link = "CursorLineNr" },
+    -- FloatBorder        = { link = "PmenuBorder" },
+    -- TelescopeBorder    = { link = "PmenuBorder" },
+    TelescopeSelection = { link = "PmenuSel" },
 
-    -- folds
-    FoldColumn          = { link = "SignColumn" },
-    Folded              = { fg = M.colors.fg_2, bg = M.colors.bg_1 },
-
-    -- tabline
-    TabLine             = { fg = M.colors.fg_2, bg = M.colors.bg_2 },
-    TabLineSel          = { fg = M.colors.fg_1, bg = M.colors.bg_1 },
-    TabLineFill         = { fg = M.colors.mg_1, bg = M.colors.bg_1 },
-    TabLineSep          = { fg = M.colors.mg_1, bg = M.colors.bg_2 },
-
-    -- hints
-    Comment             = { fg = M.colors.fg_2, bg = M.colors.bg_2 },
-    IndentGuide         = { fg = M.colors.mg_1, bg = M.colors.bg_2 },
-    LspInlineCompletion = { fg = M.colors.mg_1, bg = M.colors.bg_2 },
-    Biscuit             = { fg = M.colors.mg_1, bg = M.colors.bg_1 },
-
-    -- normal
-    Normal              = { fg = M.colors.fg_1, bg = M.colors.bg_2 },
-    NormalNC            = { link = "Normal" },
-
-    -- cursor
-    CursorLine          = { bg = M.colors.bg_1 },
-    Visual              = { bg = M.colors.mg_1 },
-
-    -- quickfix
-    QuickFixLine        = { ctermbg = 0 },
-    qfFileName          = { fg = M.colors.fg_1 },
-
-    -- splits
-    WinSeparator        = { fg = M.colors.mg_1, bg = "none" },
-    EndOfBuffer         = { link = "CursorLineNr" },
-    ColorColumn         = { ctermbg = 0, bg = M.colors.bg_1 },
-    VertSplit           = { ctermbg = 0, bg = "none", fg = "none" },
-
-    -- popup menu
-    Pmenu               = { fg = M.colors.fg_2, bg = M.colors.bg_2 },
-    PmenuSel            = { bg = M.colors.bg_1, fg = M.colors.fg_1, bold = true },
-    PmenuKind           = { bg = M.colors.bg_2, fg = M.colors.fg_1 },
-    PmenuExtra          = { bg = M.colors.bg_2, fg = M.colors.fg_1 },
-    PmenuMatch          = { bg = M.colors.mg_1, fg = M.colors.fg_1 },
-    PmenuKindSel        = { bg = M.colors.bg_1, bold = true },
-    PmenuMatchSel       = { link = "PmenuKindSel" },
-    PmenuExtraSel       = { link = "PmenuKindSel" },
-    PmenuThumb          = { link = "PmenuKindSel" },
-    PmenuSbar           = { bg = M.colors.bg_2 },
-    PmenuBorder         = { fg = M.colors.fg_2, bg = "none" },
-
-    -- float
-    NormalFloat         = { link = "CursorLineNr" },
-    FloatBorder         = { link = "PmenuBorder" },
-    TelescopeBorder     = { link = "PmenuBorder" },
-    TelescopeSelection  = { link = "PmenuSel" },
-
-    -- statusline
-    StatusLineHidden    = { fg = M.colors.fg_1, bg = M.colors.bg_2_b, bold = false },
-    StatusLine          = { fg = M.colors.fg_1, bg = M.colors.bg_1, bold = false },
-    StatusLineNormal    = { link = "StatusLine" },
-    TelescopeNormal     = { link = "Normal" },
-    ModeMsg             = { fg = M.colors.fg_2, bg = M.colors.bg_2, bold = false },
-    MsgArea             = { link = "ModeMsg" },
-    MsgSeparator        = { link = "ModeMsg" },
-    ErrorMsg            = { link = "ModeMsg" },
+    TelescopeNormal    = { link = "PmenuBorder" },
 }
 
 function M.setup()
     vim.g.border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-    vim.diagnostic.config({ float = { border = "single" }, })
-    vim.opt.pumborder = "single"
+    vim.diagnostic.config({ float = { border = "rounded" }, })
+    vim.opt.pumborder = "rounded"
 
     vim.pack.add({
-        "https://github.com/rebelot/kanagawa.nvim",
-        "https://github.com/vague-theme/vague.nvim.git"
+        "https://github.com/rose-pine/neovim.git"
     })
 
-    vim.o.termguicolors = true
-    cmd.colorscheme("catppuccin")
+    require("rose-pine").setup({
+        dim_inactive_windows = true,
+    })
 
-    -- for group, opts in pairs(overrides) do
-    --     vim.api.nvim_set_hl(0, group, opts)
-    -- end
+    vim.cmd("colorscheme rose-pine")
+    -- vim.cmd("colorscheme rose-pine-main")
+    -- vim.cmd("colorscheme rose-pine-moon")
+    -- vim.cmd("colorscheme rose-pine-dawn")
+    -- vim.o.termguicolors = true
+    cmd.colorscheme("rose-pine")
+
+    for group, opts in pairs(overrides) do
+        vim.api.nvim_set_hl(0, group, opts)
+    end
 end
 
 return M

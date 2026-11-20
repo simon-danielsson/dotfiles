@@ -2,8 +2,7 @@ require('options').setup()
 require('keymaps').setup()
 require('theme').setup()
 
--- vim.o.statusline = "%#StatusLineHidden# "
--- vim.o.laststatus = 0
+vim.o.laststatus = 0
 
 require('autocommands').setup()
 require('lsp').setup()

@@ -49,9 +49,9 @@ function M.setup()
         ",i:ver25-blinkwait700-blinkoff400-blinkon250,r:hor20"
 
     -- appearance
-    o.signcolumn    = 'yes:1'; opt.winborder = "rounded"
+    o.signcolumn    = 'yes:1'; opt.winborder = "none"
     o.encoding      = "utf-8"
-    opt.numberwidth = 4; opt.showmatch = true
+    opt.numberwidth = 3; opt.showmatch = true
 
     opt.list        = true
     opt.listchars   = {

@@ -37,7 +37,9 @@ export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="/Applications/MacPorts/Emacs.app/Contents/MacOS:$PATH"
 
-export PS1='$(~/dev/c/tolk/bin/tolk)'
+# export PS1='$(~/dev/c/tolk/bin/tolk)'
+
+eval "$(starship init bash)"
 
 # man page colors
 
