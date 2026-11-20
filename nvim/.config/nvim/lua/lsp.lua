@@ -47,7 +47,6 @@ function M.setup()
             c3 = 'c3',
             kl = 'kl',
             c3i = 'c3i',
-            -- gd = 'gd'
         },
     })
 
@@ -56,15 +55,6 @@ function M.setup()
     -- doesn't come with neovim out of the box
     vim.api.nvim_create_autocmd("FileType", {
         pattern = "c3",
-        callback = function(args)
-            vim.bo[args.buf].commentstring = "// %s"
-            pcall(vim.treesitter.start, args.buf, "c")
-        end,
-    })
-
-    -- special case for `.kl` (kladd)
-    vim.api.nvim_create_autocmd("FileType", {
-        pattern = "kl",
         callback = function(args)
             vim.bo[args.buf].commentstring = "// %s"
             pcall(vim.treesitter.start, args.buf, "c")
@@ -197,8 +187,14 @@ function M.setup()
 
         d = {
             cmd = { 'serve-d' },
-            filetypes = { "d", },
-            root_markers = { ".git", ".editorconfig" },
+            filetypes = { 'd' },
+            root_markers = { 'dub.json', 'dub.sdl', '.git' },
+            settings = {
+                dfmt = {
+                    alignSwitchStatements = true,
+                    braceStyle = 'otbs',
+                },
+            }
         },
 
         roslyn = {
@@ -437,8 +433,6 @@ function M.setup()
                 vim.api.nvim_win_set_cursor(0, pos)
                 cmd("normal! gg=G")
             elseif ft == "odin" then
-                cmd("normal! gg=G")
-            elseif ft == "d" then
                 cmd("normal! gg=G")
             elseif not has_lsp then
                 cmd("normal! gg=G")

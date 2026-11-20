@@ -107,15 +107,16 @@ function M.setup()
     vim.opt.pumborder = "single"
 
     vim.pack.add({
-        "https://github.com/rebelot/kanagawa.nvim"
+        "https://github.com/rebelot/kanagawa.nvim",
+        "https://github.com/vague-theme/vague.nvim.git"
     })
 
     vim.o.termguicolors = true
-    cmd.colorscheme("kanagawa-dragon")
+    cmd.colorscheme("catppuccin")
 
-    for group, opts in pairs(overrides) do
-        vim.api.nvim_set_hl(0, group, opts)
-    end
+    -- for group, opts in pairs(overrides) do
+    --     vim.api.nvim_set_hl(0, group, opts)
+    -- end
 end
 
 return M
