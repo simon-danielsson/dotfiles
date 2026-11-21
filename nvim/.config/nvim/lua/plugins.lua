@@ -7,6 +7,7 @@ vim.pack.add({
     "https://github.com/nvim-telescope/telescope.nvim.git",
     "https://github.com/stevearc/oil.nvim.git",
     "https://github.com/folke/flash.nvim.git",
+    "https://github.com/lukas-reineke/indent-blankline.nvim.git"
 })
 
 require 'nvim-web-devicons'.setup {
@@ -32,14 +33,19 @@ require('telescope').setup({
         prompt_prefix = " ",
         selection_caret = "  ",
         border = true,
-        borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
         path_display = {
             "filename_first",
         },
     }
 })
 
+require("ibl").setup({
+    scope = { enabled = false },
+})
+
 require('mini.pairs').setup()
+
 require('render-markdown').setup({
     completions = { lsp = { enabled = true } },
     overrides = {

@@ -36,7 +36,7 @@ local overrides = {
 }
 
 function M.setup()
-    vim.g.border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+    vim.g.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
     vim.diagnostic.config({ float = { border = "rounded" }, })
     vim.opt.pumborder = "rounded"
 
