@@ -7,7 +7,8 @@ vim.pack.add({
     "https://github.com/nvim-telescope/telescope.nvim.git",
     "https://github.com/stevearc/oil.nvim.git",
     "https://github.com/folke/flash.nvim.git",
-    "https://github.com/lukas-reineke/indent-blankline.nvim.git"
+    "https://github.com/lukas-reineke/indent-blankline.nvim.git",
+    "https://github.com/code-biscuits/nvim-biscuits.git"
 })
 
 require 'nvim-web-devicons'.setup {
@@ -37,6 +38,20 @@ require('telescope').setup({
         path_display = {
             "filename_first",
         },
+    }
+})
+
+require('nvim-biscuits').setup({
+    default_config = {
+        max_length = 16,
+        min_distance = 5,
+        prefix_string = ""
+    },
+
+    language_config = {
+        python = {
+            disabled = true
+        }
     }
 })
 
@@ -110,7 +125,9 @@ require("oil").setup({
         ["g."] = { "actions.toggle_hidden", mode = "n" },
         ["g\\"] = { "actions.toggle_trash", mode = "n" },
     },
-
+    win_options = {
+        winhighlight = "CursorLine:PmenuSel",
+    },
     use_default_keymaps = true,
     view_options = {
         show_hidden = true,

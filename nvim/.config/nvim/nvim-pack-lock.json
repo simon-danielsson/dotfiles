@@ -28,6 +28,10 @@
       "rev": "ff483051a47e27d84bdef47703538df1ed9f4a47",
       "src": "https://github.com/rose-pine/neovim.git"
     },
+    "nvim-biscuits": {
+      "rev": "d93dcdee3a3dfd5101785447658e744f153957db",
+      "src": "https://github.com/code-biscuits/nvim-biscuits.git"
+    },
     "nvim-web-devicons": {
       "rev": "ec309a0eaff6ea967e58c275996155ab5c16938d",
       "src": "https://github.com/nvim-tree/nvim-web-devicons.git"

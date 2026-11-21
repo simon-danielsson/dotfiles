@@ -15,23 +15,19 @@ M.colors        = {
 }
 
 local overrides = {
-
     cTodo              = { fg = M.colors.bg_2_b, bg = M.colors.code_3, bold = true },
     dTodo              = { fg = M.colors.bg_2_b, bg = M.colors.code_3, bold = true },
     csTodo             = { fg = M.colors.bg_2_b, bg = M.colors.code_3, bold = true },
 
-    Biscuit            = { link = "Comment" },
+    BiscuitColor       = { fg = "#373446" },
+
     EndOfBuffer        = { link = "Comment" },
     Normal             = { ctermbg = "none", bg = "none" },
     NormalNC           = { ctermbg = "none", bg = "none" },
     StatusLineHidden   = { fg = "#908CAA" },
     CursorLine         = { bg = "#1F1D2E" },
 
-    NormalFloat        = { link = "CursorLineNr" },
-    -- FloatBorder        = { link = "PmenuBorder" },
-    -- TelescopeBorder    = { link = "PmenuBorder" },
     TelescopeSelection = { link = "PmenuSel" },
-
     TelescopeNormal    = { link = "PmenuBorder" },
 }
 
@@ -40,19 +36,7 @@ function M.setup()
     vim.diagnostic.config({ float = { border = "rounded" }, })
     vim.opt.pumborder = "rounded"
 
-    vim.pack.add({
-        "https://github.com/rose-pine/neovim.git"
-    })
-
-    require("rose-pine").setup({
-        dim_inactive_windows = true,
-    })
-
-    vim.cmd("colorscheme rose-pine")
-    -- vim.cmd("colorscheme rose-pine-main")
-    -- vim.cmd("colorscheme rose-pine-moon")
-    -- vim.cmd("colorscheme rose-pine-dawn")
-    -- vim.o.termguicolors = true
+    vim.pack.add({ "https://github.com/rose-pine/neovim.git" })
     cmd.colorscheme("rose-pine")
 
     for group, opts in pairs(overrides) do
