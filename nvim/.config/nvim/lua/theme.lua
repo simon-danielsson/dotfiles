@@ -19,8 +19,6 @@ local overrides = {
     dTodo              = { fg = M.colors.bg_2_b, bg = M.colors.code_3, bold = true },
     csTodo             = { fg = M.colors.bg_2_b, bg = M.colors.code_3, bold = true },
 
-    BiscuitColor       = { fg = "#373446" },
-
     EndOfBuffer        = { link = "Comment" },
     Normal             = { ctermbg = "none", bg = "none" },
     NormalNC           = { ctermbg = "none", bg = "none" },
