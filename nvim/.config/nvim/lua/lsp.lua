@@ -39,6 +39,7 @@ function M.setup()
     vim.filetype.add({
         extension = {
             h = 'h',
+            d = 'd',
             odin = 'odin',
             cs = 'cs',
             el = 'el',
