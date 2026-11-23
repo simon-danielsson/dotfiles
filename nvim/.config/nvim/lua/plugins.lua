@@ -28,6 +28,25 @@ map('n', '<leader>b', t_builtin.buffers, { desc = 'Telescope buffers' })
 map('n', '<leader>d', t_builtin.diagnostics, { desc = 'Telescope diagnostics' })
 map('n', '<leader>l', t_builtin.lsp_document_symbols, { desc = 'Telescope document symbols' })
 
+local function grep_git_repo()
+    local bufdir = vim.fn.expand("%:p:h")
+    local root = vim.fn.trim(
+        vim.fn.system({ "git", "-C", bufdir, "rev-parse", "--show-toplevel" })
+    )
+
+    if vim.v.shell_error ~= 0 then
+        require("telescope.builtin").live_grep()
+        return
+    end
+
+    require("telescope.builtin").live_grep({
+        cwd = root,
+        additional_args = { "--ignore-case" },
+        prompt_title = "Grep repo (" .. vim.fs.basename(root) .. ")",
+    })
+end
+
+vim.keymap.set("n", "<leader>g", grep_git_repo, { desc = "Live grep current git repo" })
 require('telescope').setup({
     defaults = {
         prompt_prefix = " ",
@@ -127,9 +146,6 @@ require("oil").setup({
         },
     },
 })
-
-local dropbar_api = require('dropbar.api')
-vim.keymap.set('n', '<leader>g', dropbar_api.pick, { desc = 'Dropbar: pick symbol in winbar' })
 
 require('dropbar').setup({
     sources = {

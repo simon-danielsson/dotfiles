@@ -12,6 +12,11 @@ prj() {
     command prj "$@"
 }
 
+dgit() {
+    cp $HOME/.dgit.storage $HOME/notes
+    command dgit "$@"
+}
+
 alias gssh="~/dotfiles/scripts/ssh.sh"
 alias cam="~/dotfiles/scripts/camera.sh"
 

@@ -56,7 +56,8 @@ config.colors                                      = {
 -- font -----------------------------------------------------------------------
 
 config.font                                        = wezterm.font 'Maple Mono NF'
-config.font_size                                   = 18
+-- config.font                                        = wezterm.font 'Iosevka Term'
+config.font_size                                   = 17
 
 -- keybindings ----------------------------------------------------------------
 
@@ -153,8 +154,8 @@ config.keys                                        = {
 
 -- window ---------------------------------------------------------------------
 
--- config.window_background_opacity                   = 0.9
--- config.macos_window_background_blur                = 80
+config.window_background_opacity                   = 1
+config.macos_window_background_blur                = 60
 
 config.window_padding                              = {
     left = 10,
